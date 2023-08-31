@@ -1,0 +1,22 @@
+{
+    "sourceFile": "lib/Screens/splash_screen.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1693481879593,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1693481899675,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,4 @@\n-import 'package:final_project/Screens/login_screen.dart';\r\n import 'package:flutter/material.dart';\r\n \r\n import 'login_screen.dart';\r\n \r\n"
+                }
+            ],
+            "date": 1693481879593,
+            "name": "Commit-0",
+            "content": "import 'package:final_project/Screens/login_screen.dart';\r\nimport 'package:flutter/material.dart';\r\n\r\nimport 'login_screen.dart';\r\n\r\nclass SplashScreen extends StatefulWidget {\r\n  const SplashScreen({super.key});\r\n\r\n  @override\r\n  State<SplashScreen> createState() => _SplashScreenState();\r\n}\r\n\r\nclass _SplashScreenState extends State<SplashScreen> {\r\n  void navigateToHome() async {\r\n    await Future.delayed(const Duration(seconds: 3));\r\n    if (mounted) {\r\n      Navigator.push(\r\n        context,\r\n        MaterialPageRoute(builder: (context) => const LoginScreen()),\r\n      );\r\n    }\r\n  }\r\n\r\n  @override\r\n  void initState() {\r\n    super.initState();\r\n    navigateToHome();\r\n  }\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Center(\r\n        child: SizedBox(\r\n            height: MediaQuery.of(context).size.height,\r\n            width: double.infinity,\r\n            child: Image.asset(\r\n              'images/splash.jpg',\r\n              fit: BoxFit.fill,\r\n            )));\r\n  }\r\n}\r\n"
+        }
+    ]
+}
