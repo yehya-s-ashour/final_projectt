@@ -44,8 +44,8 @@ class UserClass {
   final dynamic image;
   final dynamic emailVerifiedAt;
   final String roleId;
-  final String createdAt;
-  final String updatedAt;
+  final dynamic createdAt;
+  final dynamic updatedAt;
   final Role role;
 
   UserClass({
