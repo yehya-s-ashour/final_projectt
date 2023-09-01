@@ -1,4 +1,5 @@
 import 'package:final_projectt/Screens/home.dart';
+import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
 import 'package:final_projectt/core/services/auth_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -47,6 +48,26 @@ class _LoginScreenState extends State<LoginScreen> {
         // }
       }).catchError((err) {
         showAlert(context, message: "Email is already register");
+      });
+    }
+  }
+
+  void submitLogin() {
+    if (_formKey.currentState!.validate()) {
+      AuthController.login(
+        context,
+        email: emailOrUserNameController.text,
+        password: passController.text,
+      ).then((response) async {
+        SharedPrefsController _prefs = SharedPrefsController();
+        await _prefs.setData('user', userToJson(User.fromJson(response[1])));
+        Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) {
+            return MainPage();
+          },
+        ));
+      }).catchError((err) {
+        showAlert(context, message: "there some thing error: $err");
       });
     }
   }
@@ -234,14 +255,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                     submitRegister();
                                   }
                                 } else {
-                                  if (Form.of(context).validate()) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const HomeScreen()),
-                                    );
+                                  if (_formKey.currentState!.validate()) {
+                                    submitLogin();
                                   }
+
+                                  // if (Form.of(context).validate()) {
+                                  //   Navigator.push(
+                                  //     context,
+                                  //     MaterialPageRoute(
+                                  //         builder: (context) =>
+                                  //             const HomeScreen()),
+                                  //   );
+                                  // }
                                 }
                               },
                               style: ElevatedButton.styleFrom(
