@@ -52,7 +52,6 @@ class ApiBaseHelper {
     switch (response.statusCode) {
       case 200:
       case 201:
-        print('tt');
         var body = json.decode(response.body);
         var statusCode = json.decode(response.statusCode.toString());
         return [statusCode, body];
