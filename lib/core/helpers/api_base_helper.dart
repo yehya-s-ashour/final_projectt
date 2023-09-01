@@ -52,12 +52,12 @@ class ApiBaseHelper {
     switch (response.statusCode) {
       case 200:
       case 201:
+        print('tt');
         var body = json.decode(response.body);
         var statusCode = json.decode(response.statusCode.toString());
         return [statusCode, body];
       case 400:
         throw BadRequestException(response.body);
-
       case 401:
       case 403:
         throw UnauthorisedException(response.body);

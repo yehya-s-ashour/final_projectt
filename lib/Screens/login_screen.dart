@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:final_projectt/Screens/home.dart';
+import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
 import 'package:final_projectt/core/services/auth_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
-import 'package:final_projectt/models/user_model.dart';
+import 'package:final_projectt/models/user_register_model.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -32,21 +35,17 @@ class _LoginScreenState extends State<LoginScreen> {
               password: passController.text,
               passwordConfirmation: confirmPassController.text)
           .then((response) async {
-        // if (response[0] == 200) {
         SharedPrefsController _prefs = SharedPrefsController();
         await _prefs.setData('user', userToJson(User.fromJson(response[1])));
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
-            return HomeScreen();
+            return MainPage();
           },
         ));
-        // }
-        // else if (response[0] == 400) {
-        //   showAlert(context,
-        //       message: 'This email is used before');
-        // }
-      }).catchError((err) {
-        showAlert(context, message: "Email is already register");
+      }).catchError((err) async {
+        final errorMessagae =
+            await json.decode(err.message)['errors']['email'][0].toString();
+        showAlert(context, message: "$errorMessagae");
       });
     }
   }

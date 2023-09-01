@@ -43,7 +43,7 @@ class UserClass {
   final String email;
   final dynamic image;
   final dynamic emailVerifiedAt;
-  final String roleId;
+  final int roleId;
   final String createdAt;
   final String updatedAt;
   final Role role;
@@ -66,7 +66,7 @@ class UserClass {
     String? email,
     dynamic image,
     dynamic emailVerifiedAt,
-    String? roleId,
+    int? roleId,
     String? createdAt,
     String? updatedAt,
     Role? role,
