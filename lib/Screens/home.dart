@@ -170,9 +170,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Text("#New")),
               ]),
             ),
-            SizedBox(
-              width: 0,
-            ),
             Container(
               color: boxColor,
               child: Padding(
