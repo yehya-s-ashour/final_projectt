@@ -1,0 +1,18 @@
+{
+    "sourceFile": "lib/core/widgets/custom_box.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1693751951516,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1693751951516,
+            "name": "Commit-0",
+            "content": "import 'package:final_projectt/core/util/constants/colors.dart';\r\nimport 'package:flutter/material.dart';\r\n\r\nContainer customBox(\r\n    {required Color color, required String number, required String title}) {\r\n  return Container(\r\n    margin: const EdgeInsets.symmetric(vertical: 8),\r\n    width: 181,\r\n    height: 88,\r\n    decoration: BoxDecoration(\r\n      borderRadius: BorderRadius.circular(30),\r\n      color: boxColor,\r\n      boxShadow: [\r\n        BoxShadow(\r\n          color: shadowColor, // Shadow color\r\n          spreadRadius: 5, // Spread radius\r\n          blurRadius: 7, // Blur radius\r\n          offset: const Offset(\r\n              0, 3), // Offset to control the position of the shadow\r\n        ),\r\n      ],\r\n    ),\r\n    child: Padding(\r\n      padding: const EdgeInsets.all(16.0),\r\n      child: Column(\r\n        crossAxisAlignment: CrossAxisAlignment.start,\r\n        mainAxisAlignment: MainAxisAlignment.spaceBetween,\r\n        children: [\r\n          Row(\r\n            mainAxisAlignment: MainAxisAlignment.spaceBetween,\r\n            children: [\r\n              Container(\r\n                width: 24,\r\n                height: 24,\r\n                decoration: BoxDecoration(\r\n                    color: color, borderRadius: BorderRadius.circular(12)),\r\n              ),\r\n              Text(\r\n                number,\r\n                style:\r\n                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),\r\n              ),\r\n            ],\r\n          ),\r\n          Text(\r\n            title,\r\n            style: const TextStyle(fontSize: 18, color: Colors.grey),\r\n          )\r\n        ],\r\n      ),\r\n    ),\r\n  );\r\n}\r\n"
+        }
+    ]
+}

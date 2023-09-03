@@ -1,10 +1,10 @@
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-Container CustomBox(
-    {required Color color, required String number, required String status}) {
+Container customBox(
+    {required Color color, required String number, required String title}) {
   return Container(
-    margin: EdgeInsets.symmetric(vertical: 8),
+    margin: const EdgeInsets.symmetric(vertical: 8),
     width: 181,
     height: 88,
     decoration: BoxDecoration(
@@ -15,12 +15,13 @@ Container CustomBox(
           color: shadowColor, // Shadow color
           spreadRadius: 5, // Spread radius
           blurRadius: 7, // Blur radius
-          offset: Offset(0, 3), // Offset to control the position of the shadow
+          offset: const Offset(
+              0, 3), // Offset to control the position of the shadow
         ),
       ],
     ),
     child: Padding(
-      padding: const EdgeInsets.all(12.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -36,13 +37,14 @@ Container CustomBox(
               ),
               Text(
                 number,
-                style: TextStyle(fontSize: 20),
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ],
           ),
           Text(
-            status,
-            style: TextStyle(fontSize: 24, color: Colors.grey),
+            title,
+            style: const TextStyle(fontSize: 18, color: Colors.grey),
           )
         ],
       ),

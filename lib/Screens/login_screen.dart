@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
             width: 300);
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
-            return LoginScreen();
+            return const LoginScreen();
           },
         ));
       }).catchError((err) async {
@@ -140,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                           },
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Form(
                           key: _formKey,
                           child: Column(
@@ -154,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
                                     return null;
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       hintText: 'Enter your name',
                                       hintStyle: TextStyle(
                                           color: Colors.grey,
@@ -176,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }
                                   return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     hintText: 'Enter email or username',
                                     hintStyle: TextStyle(
                                         color: Colors.grey,
@@ -190,7 +190,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderSide:
                                             BorderSide(color: Colors.grey))),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
                               TextFormField(
@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }
                                   return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     hintText: 'Password',
                                     hintStyle: TextStyle(
                                         color: Colors.grey,
@@ -216,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderSide:
                                             BorderSide(color: Colors.grey))),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
                               if (isToggled)
@@ -234,7 +234,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         }
                                         return null;
                                       },
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                           hintText: 'Confirm Password',
                                           hintStyle: TextStyle(
                                               color: Colors.grey,
@@ -248,7 +248,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                               borderSide: BorderSide(
                                                   color: Colors.grey))),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 25,
                                     ),
                                   ],
@@ -285,22 +285,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: primaryColor,
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       vertical: 16.0, horizontal: 32.0),
                                   child: Text(
                                     isToggled ? 'Sign Up' : 'Log In',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 14,
                               ),
-                              Text(
+                              const Text(
                                 'OR',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -308,7 +308,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontSize: 14,
                                 ),
                               ),
-                              SizedBox(height: 16),
+                              const SizedBox(height: 16),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -316,7 +316,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   InkWell(
                                     onTap: () {},
                                     child: Container(
-                                      padding: EdgeInsetsDirectional.symmetric(
+                                      padding:
+                                          const EdgeInsetsDirectional.symmetric(
                                         horizontal: 8,
                                         vertical: 8,
                                       ),
@@ -335,7 +336,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   InkWell(
                                     onTap: () {},
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
                                         vertical: 8,
                                       ),
@@ -354,7 +355,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   InkWell(
                                     onTap: () {},
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
                                         vertical: 8,
                                       ),
