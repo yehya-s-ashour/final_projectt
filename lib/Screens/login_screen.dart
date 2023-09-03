@@ -33,11 +33,11 @@ class _LoginScreenState extends State<LoginScreen> {
               passwordConfirmation: confirmPassController.text)
           .then((response) async {
         // if (response[0] == 200) {
-        SharedPrefsController _prefs = SharedPrefsController();
-        await _prefs.setData('user', userToJson(User.fromJson(response[1])));
+        SharedPrefsController prefs = SharedPrefsController();
+        await prefs.setData('user', userToJson(User.fromJson(response[1])));
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
-            return HomeScreen();
+            return const HomeScreen();
           },
         ));
         // }
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 width: 400,
                 height: 400,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(110),
@@ -78,14 +78,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 220),
+                margin: const EdgeInsets.only(top: 220),
                 width: 350,
                 height: 570,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(80)),
                 child: Padding(
-                  padding: EdgeInsetsDirectional.only(
+                  padding: const EdgeInsetsDirectional.only(
                     top: 60.0,
                     end: 60.0,
                     start: 60.0,
@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         },
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       Form(
                         key: _formKey,
                         child: Column(
@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                                 return null;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   hintText: 'Enter your name',
                                   hintStyle: TextStyle(
                                       color: Colors.grey,
@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                                 return null;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   hintText: 'Enter email or username',
                                   hintStyle: TextStyle(
                                       color: Colors.grey,
@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       borderSide:
                                           BorderSide(color: Colors.grey))),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             TextFormField(
@@ -177,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                                 return null;
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   hintText: 'Password',
                                   hintStyle: TextStyle(
                                       color: Colors.grey,
@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       borderSide:
                                           BorderSide(color: Colors.grey))),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             if (isToggled)
@@ -208,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       }
                                       return null;
                                     },
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                         hintText: 'Confirm Password',
                                         hintStyle: TextStyle(
                                             color: Colors.grey,
@@ -222,7 +222,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             borderSide: BorderSide(
                                                 color: Colors.grey))),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 25,
                                   ),
                                 ],
@@ -255,22 +255,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: primaryColor,
                                   borderRadius: BorderRadius.circular(20.0),
                                 ),
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 16.0, horizontal: 32.0),
                                 child: Text(
                                   isToggled ? 'Sign Up' : 'Log In',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 16,
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 14,
                             ),
-                            Text(
+                            const Text(
                               'OR',
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -278,14 +278,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontSize: 14,
                               ),
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 InkWell(
                                   onTap: () {},
                                   child: Container(
-                                    padding: EdgeInsetsDirectional.symmetric(
+                                    padding: const EdgeInsetsDirectional.symmetric(
                                       horizontal: 8,
                                       vertical: 8,
                                     ),
@@ -304,7 +304,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 InkWell(
                                   onTap: () {},
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                       horizontal: 8,
                                       vertical: 8,
                                     ),
@@ -323,7 +323,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 InkWell(
                                   onTap: () {},
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                       horizontal: 8,
                                       vertical: 8,
                                     ),

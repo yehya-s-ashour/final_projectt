@@ -5,11 +5,11 @@ void showAlert(context, {required String message, bool isError = true}) {
     content: Center(
       child: Text(
         message,
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
       ),
     ),
     backgroundColor: Colors.redAccent,
-    duration: Duration(seconds: 2),
+    duration: const Duration(seconds: 2),
     width: 200,
     elevation: 0,
     behavior: SnackBarBehavior.floating,

@@ -9,8 +9,8 @@ class AuthController {
     required String password,
     required String passwordConfirmation,
   }) async {
-    final ApiBaseHelper _helper = ApiBaseHelper();
-    final response = await _helper.post('/register', {
+    final ApiBaseHelper helper = ApiBaseHelper();
+    final response = await helper.post('/register', {
       "name": name,
       "email": email,
       "password": password,
