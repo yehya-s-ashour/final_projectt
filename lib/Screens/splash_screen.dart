@@ -20,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (containsKey) {
         await Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+          MaterialPageRoute(builder: (context) => const MainScreen()),
         );
       } else {
         await Navigator.push(

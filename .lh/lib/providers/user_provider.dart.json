@@ -1,0 +1,22 @@
+{
+    "sourceFile": "lib/providers/user_provider.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1693736777834,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1693736824273,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,8 @@\n   late ApiResponse<User> _data;\r\n \r\n   UserProvider() {\r\n     _userController = UserController();\r\n-\r\n     getUserData();\r\n   }\r\n   ApiResponse<User> get data => _data;\r\n \r\n"
+                }
+            ],
+            "date": 1693736777834,
+            "name": "Commit-0",
+            "content": "import 'package:final_projectt/core/helpers/api_response.dart';\r\nimport 'package:final_projectt/core/helpers/token_helper.dart';\r\nimport 'package:final_projectt/core/services/user_controller.dart';\r\nimport 'package:final_projectt/models/user_model.dart';\r\nimport 'package:flutter/material.dart';\r\n\r\nclass UserProvider extends ChangeNotifier {\r\n  late UserController _userController;\r\n  late ApiResponse<User> _data;\r\n\r\n  UserProvider() {\r\n    _userController = UserController();\r\n\r\n    getUserData();\r\n  }\r\n  ApiResponse<User> get data => _data;\r\n\r\n  Future<void> getUserData() async {\r\n    _data = ApiResponse.loading('Loading');\r\n    notifyListeners();\r\n    try {\r\n      final response = await _userController.getLocalUser();\r\n      _data = ApiResponse.completed(response);\r\n      notifyListeners();\r\n    } catch (e) {\r\n      _data = ApiResponse.error(e.toString());\r\n      notifyListeners();\r\n    }\r\n  }\r\n}\r\n"
+        }
+    ]
+}

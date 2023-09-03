@@ -1,0 +1,74 @@
+{
+    "sourceFile": "lib/core/widgets/custom_box.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 14,
+            "patches": [
+                {
+                    "date": 1693741146573,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1693741154607,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import 'package:final_projectt/core/util/constants/colors.dart';\r\n import 'package:flutter/material.dart';\r\n \r\n Container customBox(\r\n-    {required Color color, required String number, required String status}) {\r\n+    {required Color color, required String number, required String title}) {\r\n   return Container(\r\n     margin: EdgeInsets.symmetric(vertical: 8),\r\n     width: 181,\r\n     height: 88,\r\n"
+                },
+                {
+                    "date": 1693741173167,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,9 @@\n               ),\r\n             ],\r\n           ),\r\n           Text(\r\n-            status,\r\n+            title,\r\n             style: TextStyle(fontSize: 24, color: Colors.grey),\r\n           )\r\n         ],\r\n       ),\r\n"
+                },
+                {
+                    "date": 1693741235816,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,9 +3,9 @@\n \r\n Container customBox(\r\n     {required Color color, required String number, required String title}) {\r\n   return Container(\r\n-    margin: EdgeInsets.symmetric(vertical: 8),\r\n+    margin: const EdgeInsets.symmetric(vertical: 8),\r\n     width: 181,\r\n     height: 88,\r\n     decoration: BoxDecoration(\r\n       borderRadius: BorderRadius.circular(30),\r\n@@ -14,9 +14,10 @@\n         BoxShadow(\r\n           color: shadowColor, // Shadow color\r\n           spreadRadius: 5, // Spread radius\r\n           blurRadius: 7, // Blur radius\r\n-          offset: Offset(0, 3), // Offset to control the position of the shadow\r\n+          offset: const Offset(\r\n+              0, 3), // Offset to control the position of the shadow\r\n         ),\r\n       ],\r\n     ),\r\n     child: Padding(\r\n@@ -35,15 +36,15 @@\n                     color: color, borderRadius: BorderRadius.circular(12)),\r\n               ),\r\n               Text(\r\n                 number,\r\n-                style: TextStyle(fontSize: 20),\r\n+                style: const TextStyle(fontSize: 20),\r\n               ),\r\n             ],\r\n           ),\r\n           Text(\r\n             title,\r\n-            style: TextStyle(fontSize: 24, color: Colors.grey),\r\n+            style: const TextStyle(fontSize: 20, color: Colors.grey),\r\n           )\r\n         ],\r\n       ),\r\n     ),\r\n"
+                },
+                {
+                    "date": 1693741241807,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n                     color: color, borderRadius: BorderRadius.circular(12)),\r\n               ),\r\n               Text(\r\n                 number,\r\n-                style: const TextStyle(fontSize: 20),\r\n+                style: const TextStyle(fontSize: 16),\r\n               ),\r\n             ],\r\n           ),\r\n           Text(\r\n"
+                },
+                {
+                    "date": 1693741259711,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n                     color: color, borderRadius: BorderRadius.circular(12)),\r\n               ),\r\n               Text(\r\n                 number,\r\n-                style: const TextStyle(fontSize: 16),\r\n+                style: const TextStyle(fontSize: 18),\r\n               ),\r\n             ],\r\n           ),\r\n           Text(\r\n"
+                },
+                {
+                    "date": 1693741269481,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,9 @@\n                     color: color, borderRadius: BorderRadius.circular(12)),\r\n               ),\r\n               Text(\r\n                 number,\r\n-                style: const TextStyle(fontSize: 18),\r\n+                style: const TextStyle(fontSize: 18 , w),\r\n               ),\r\n             ],\r\n           ),\r\n           Text(\r\n"
+                },
+                {
+                    "date": 1693741280990,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -36,9 +36,10 @@\n                     color: color, borderRadius: BorderRadius.circular(12)),\r\n               ),\r\n               Text(\r\n                 number,\r\n-                style: const TextStyle(fontSize: 18 , w),\r\n+                style:\r\n+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w),\r\n               ),\r\n             ],\r\n           ),\r\n           Text(\r\n"
+                },
+                {
+                    "date": 1693741305518,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n         ),\r\n       ],\r\n     ),\r\n     child: Padding(\r\n-      padding: const EdgeInsets.all(12.0),\r\n+      padding: const EdgeInsets.all(16.0),\r\n       child: Column(\r\n         crossAxisAlignment: CrossAxisAlignment.start,\r\n         mainAxisAlignment: MainAxisAlignment.spaceBetween,\r\n         children: [\r\n"
+                },
+                {
+                    "date": 1693741726911,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,15 +37,15 @@\n               ),\r\n               Text(\r\n                 number,\r\n                 style:\r\n-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w),\r\n+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),\r\n               ),\r\n             ],\r\n           ),\r\n           Text(\r\n             title,\r\n-            style: const TextStyle(fontSize: 20, color: Colors.grey),\r\n+            style: const TextStyle(fontSize: 18, color: Colors.grey),\r\n           )\r\n         ],\r\n       ),\r\n     ),\r\n"
+                },
+                {
+                    "date": 1693741909685,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -37,9 +37,9 @@\n               ),\r\n               Text(\r\n                 number,\r\n                 style:\r\n-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w400),\r\n+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),\r\n               ),\r\n             ],\r\n           ),\r\n           Text(\r\n"
+                },
+                {
+                    "date": 1693741923473,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,53 @@\n+import 'package:final_projectt/core/util/constants/colors.dart';\r\n+import 'package:flutter/material.dart';\r\n+\r\n+Container customBox(\r\n+    {required Color color, required String number, required String title}) {\r\n+  return Container(\r\n+    margin: const EdgeInsets.symmetric(vertical: 8),\r\n+    width: 181,\r\n+    height: 88,\r\n+    decoration: BoxDecoration(\r\n+      borderRadius: BorderRadius.circular(30),\r\n+      color: boxColor,\r\n+      boxShadow: [\r\n+        BoxShadow(\r\n+          color: shadowColor, // Shadow color\r\n+          spreadRadius: 5, // Spread radius\r\n+          blurRadius: 7, // Blur radius\r\n+          offset: const Offset(\r\n+              0, 3), // Offset to control the position of the shadow\r\n+        ),\r\n+      ],\r\n+    ),\r\n+    child: Padding(\r\n+      padding: const EdgeInsets.all(16.0),\r\n+      child: Column(\r\n+        crossAxisAlignment: CrossAxisAlignment.start,\r\n+        mainAxisAlignment: MainAxisAlignment.spaceBetween,\r\n+        children: [\r\n+          Row(\r\n+            mainAxisAlignment: MainAxisAlignment.spaceBetween,\r\n+            children: [\r\n+              Container(\r\n+                width: 24,\r\n+                height: 24,\r\n+                decoration: BoxDecoration(\r\n+                    color: color, borderRadius: BorderRadius.circular(12)),\r\n+              ),\r\n+              Text(\r\n+                number,\r\n+                style:\r\n+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),\r\n+              ),\r\n+            ],\r\n+          ),\r\n+          Text(\r\n+            title,\r\n+            style: const TextStyle(fontSize: 18, color: Colors.grey ,f),\r\n+          )\r\n+        ],\r\n+      ),\r\n+    ),\r\n+  );\r\n+}\r\n"
+                },
+                {
+                    "date": 1693741929647,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,64 +43,11 @@\n             ],\r\n           ),\r\n           Text(\r\n             title,\r\n-            style: const TextStyle(fontSize: 18, color: Colors.grey ,f),\r\n+            style: const TextStyle(fontSize: 18, color: Colors.grey , fontWeight: FontWeight.w500),\r\n           )\r\n         ],\r\n       ),\r\n     ),\r\n   );\r\n }\r\n-import 'package:final_projectt/core/util/constants/colors.dart';\r\n-import 'package:flutter/material.dart';\r\n-\r\n-Container customBox(\r\n-    {required Color color, required String number, required String title}) {\r\n-  return Container(\r\n-    margin: const EdgeInsets.symmetric(vertical: 8),\r\n-    width: 181,\r\n-    height: 88,\r\n-    decoration: BoxDecoration(\r\n-      borderRadius: BorderRadius.circular(30),\r\n-      color: boxColor,\r\n-      boxShadow: [\r\n-        BoxShadow(\r\n-          color: shadowColor, // Shadow color\r\n-          spreadRadius: 5, // Spread radius\r\n-          blurRadius: 7, // Blur radius\r\n-          offset: const Offset(\r\n-              0, 3), // Offset to control the position of the shadow\r\n-        ),\r\n-      ],\r\n-    ),\r\n-    child: Padding(\r\n-      padding: const EdgeInsets.all(16.0),\r\n-      child: Column(\r\n-        crossAxisAlignment: CrossAxisAlignment.start,\r\n-        mainAxisAlignment: MainAxisAlignment.spaceBetween,\r\n-        children: [\r\n-          Row(\r\n-            mainAxisAlignment: MainAxisAlignment.spaceBetween,\r\n-            children: [\r\n-              Container(\r\n-                width: 24,\r\n-                height: 24,\r\n-                decoration: BoxDecoration(\r\n-                    color: color, borderRadius: BorderRadius.circular(12)),\r\n-              ),\r\n-              Text(\r\n-                number,\r\n-                style:\r\n-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),\r\n-              ),\r\n-            ],\r\n-          ),\r\n-          Text(\r\n-            title,\r\n-            style: const TextStyle(fontSize: 18, color: Colors.grey),\r\n-          )\r\n-        ],\r\n-      ),\r\n-    ),\r\n-  );\r\n-}\r\n"
+                },
+                {
+                    "date": 1693741936966,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -44,9 +44,9 @@\n           ),\r\n           Text(\r\n             title,\r\n             style: const TextStyle(\r\n-                fontSize: 18, color: Colors.grey, fontWeight: FontWeight.w500),\r\n+                fontSize: 18, color: Colors.grey, fontWeight: FontWeight.bold),\r\n           )\r\n         ],\r\n       ),\r\n     ),\r\n"
+                },
+                {
+                    "date": 1693741951380,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -43,9 +43,9 @@\n             ],\r\n           ),\r\n           Text(\r\n             title,\r\n-            style: const TextStyle(fontSize: 18, color: Colors.grey , fontWeight: FontWeight.w500),\r\n+            style: const TextStyle(fontSize: 18, color: Colors.grey),\r\n           )\r\n         ],\r\n       ),\r\n     ),\r\n"
+                }
+            ],
+            "date": 1693741146573,
+            "name": "Commit-0",
+            "content": "import 'package:final_projectt/core/util/constants/colors.dart';\r\nimport 'package:flutter/material.dart';\r\n\r\nContainer customBox(\r\n    {required Color color, required String number, required String status}) {\r\n  return Container(\r\n    margin: EdgeInsets.symmetric(vertical: 8),\r\n    width: 181,\r\n    height: 88,\r\n    decoration: BoxDecoration(\r\n      borderRadius: BorderRadius.circular(30),\r\n      color: boxColor,\r\n      boxShadow: [\r\n        BoxShadow(\r\n          color: shadowColor, // Shadow color\r\n          spreadRadius: 5, // Spread radius\r\n          blurRadius: 7, // Blur radius\r\n          offset: Offset(0, 3), // Offset to control the position of the shadow\r\n        ),\r\n      ],\r\n    ),\r\n    child: Padding(\r\n      padding: const EdgeInsets.all(12.0),\r\n      child: Column(\r\n        crossAxisAlignment: CrossAxisAlignment.start,\r\n        mainAxisAlignment: MainAxisAlignment.spaceBetween,\r\n        children: [\r\n          Row(\r\n            mainAxisAlignment: MainAxisAlignment.spaceBetween,\r\n            children: [\r\n              Container(\r\n                width: 24,\r\n                height: 24,\r\n                decoration: BoxDecoration(\r\n                    color: color, borderRadius: BorderRadius.circular(12)),\r\n              ),\r\n              Text(\r\n                number,\r\n                style: TextStyle(fontSize: 20),\r\n              ),\r\n            ],\r\n          ),\r\n          Text(\r\n            status,\r\n            style: TextStyle(fontSize: 24, color: Colors.grey),\r\n          )\r\n        ],\r\n      ),\r\n    ),\r\n  );\r\n}\r\n"
+        }
+    ]
+}

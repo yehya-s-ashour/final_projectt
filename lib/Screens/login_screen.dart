@@ -1,4 +1,6 @@
-import 'package:final_projectt/Screens/home.dart';
+import 'dart:convert';
+
+import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
 import 'package:final_projectt/core/services/auth_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -32,21 +34,42 @@ class _LoginScreenState extends State<LoginScreen> {
               password: passController.text,
               passwordConfirmation: confirmPassController.text)
           .then((response) async {
-        // if (response[0] == 200) {
+        showAlert(context,
+            message: "Account Created Successfully,\n Please Log In",
+            color: Colors.grey,
+            width: 300);
+        Navigator.pushReplacement(context, MaterialPageRoute(
+          builder: (context) {
+            return const LoginScreen();
+          },
+        ));
+      }).catchError((err) async {
+        final errorMessagae =
+            json.decode(err.message)['errors']['email'][0].toString();
+        showAlert(context,
+            message: errorMessagae, color: Colors.redAccent, width: 300);
+      });
+    }
+  }
+
+  void submitLogin() {
+    if (_formKey.currentState!.validate()) {
+      AuthController.login(
+        context,
+        email: emailOrUserNameController.text,
+        password: passController.text,
+      ).then((response) async {
         SharedPrefsController prefs = SharedPrefsController();
         await prefs.setData('user', userToJson(User.fromJson(response[1])));
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
-            return const HomeScreen();
+            return const MainScreen();
           },
         ));
-        // }
-        // else if (response[0] == 400) {
-        //   showAlert(context,
-        //       message: 'This email is used before');
-        // }
-      }).catchError((err) {
-        showAlert(context, message: "Email is already register");
+      }).catchError((err) async {
+        final errorMessagae = json.decode(err.message)['message'].toString();
+        showAlert(context,
+            message: errorMessagae, color: Colors.redAccent, width: 300);
       });
     }
   }
@@ -80,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Container(
                 margin: const EdgeInsets.only(top: 220),
                 width: 350,
-                height: 570,
+                height: 550,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(80)),
@@ -121,28 +144,29 @@ class _LoginScreenState extends State<LoginScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            TextFormField(
-                              controller: nameController,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter your name';
-                                }
-                                return null;
-                              },
-                              decoration: const InputDecoration(
-                                  hintText: 'Enter your name',
-                                  hintStyle: TextStyle(
-                                      color: Colors.grey,
-                                      fontFamily: 'Iphone',
-                                      fontSize: 14),
-                                  fillColor: Colors.grey,
-                                  enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey)),
-                                  focusedBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.grey))),
-                            ),
+                            if (isToggled)
+                              TextFormField(
+                                controller: nameController,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your name';
+                                  }
+                                  return null;
+                                },
+                                decoration: const InputDecoration(
+                                    hintText: 'Enter your name',
+                                    hintStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontFamily: 'Iphone',
+                                        fontSize: 14),
+                                    fillColor: Colors.grey,
+                                    enabledBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.grey)),
+                                    focusedBorder: UnderlineInputBorder(
+                                        borderSide:
+                                            BorderSide(color: Colors.grey))),
+                              ),
                             TextFormField(
                               controller: emailOrUserNameController,
                               validator: (value) {
@@ -234,13 +258,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     submitRegister();
                                   }
                                 } else {
-                                  if (Form.of(context).validate()) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const HomeScreen()),
-                                    );
+                                  if (_formKey.currentState!.validate()) {
+                                    submitLogin();
                                   }
                                 }
                               },
@@ -285,7 +304,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 InkWell(
                                   onTap: () {},
                                   child: Container(
-                                    padding: const EdgeInsetsDirectional.symmetric(
+                                    padding:
+                                        const EdgeInsetsDirectional.symmetric(
                                       horizontal: 8,
                                       vertical: 8,
                                     ),

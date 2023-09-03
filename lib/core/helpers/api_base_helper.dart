@@ -57,7 +57,6 @@ class ApiBaseHelper {
         return [statusCode, body];
       case 400:
         throw BadRequestException(response.body);
-
       case 401:
       case 403:
         throw UnauthorisedException(response.body);

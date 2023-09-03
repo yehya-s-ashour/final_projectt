@@ -1,0 +1,22 @@
+{
+    "sourceFile": "lib/core/widgets/show_alert.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1693736655772,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1693736688873,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,14 +8,15 @@\n   ScaffoldMessenger.of(context).showSnackBar(SnackBar(\r\n     content: Center(\r\n       child: Text(\r\n         message,\r\n+        textAlign: TextAlign.center,\r\n         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),\r\n       ),\r\n     ),\r\n-    backgroundColor: Colors.redAccent,\r\n+    backgroundColor: color,\r\n     duration: Duration(seconds: 2),\r\n-    width: 200,\r\n+    width: width,\r\n     elevation: 0,\r\n     behavior: SnackBarBehavior.floating,\r\n   ));\r\n }\r\n"
+                }
+            ],
+            "date": 1693736655772,
+            "name": "Commit-0",
+            "content": "import 'package:flutter/material.dart';\r\n\r\nvoid showAlert(context,\r\n    {required String message,\r\n    required Color color,\r\n    required double width,\r\n    bool isError = true}) {\r\n  ScaffoldMessenger.of(context).showSnackBar(SnackBar(\r\n    content: Center(\r\n      child: Text(\r\n        message,\r\n        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),\r\n      ),\r\n    ),\r\n    backgroundColor: Colors.redAccent,\r\n    duration: Duration(seconds: 2),\r\n    width: 200,\r\n    elevation: 0,\r\n    behavior: SnackBarBehavior.floating,\r\n  ));\r\n}\r\n"
+        }
+    ]
+}
