@@ -1,3 +1,4 @@
+import 'package:final_projectt/Screens/home.dart';
 import 'package:final_projectt/Screens/login_screen.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
@@ -13,19 +14,19 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void navigateToHome() async {
     await Future.delayed(const Duration(seconds: 2));
-    SharedPrefsController prefs = SharedPrefsController();
-    bool containsKey = await prefs.containsKey('user');
+    SharedPrefsController _prefs = SharedPrefsController();
+    bool containsKey = await _prefs.containsKey('user');
 
     if (mounted) {
       if (containsKey) {
         await Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const MainPage()),
+          MaterialPageRoute(builder: (context) => MainPage()),
         );
       } else {
         await Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
+          MaterialPageRoute(builder: (context) => LoginScreen()),
         );
       }
     }
