@@ -1,8 +1,9 @@
 import 'package:final_projectt/core/util/constants/colors.dart';
-import 'package:final_projectt/core/util/constants/configuration.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:flutter/material.dart';
+
+import '../core/widgets/custom_tag.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -34,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 50,
+              height: 60,
             ),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -71,8 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24),
+              padding: const EdgeInsets.all(8.0),
               child: TextField(
                 decoration: InputDecoration(
                   prefixIcon: const Icon(
@@ -83,29 +83,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   filled: true,
                   fillColor: boxColor,
                   hintText: "Search",
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: backGroundColor),
-                      borderRadius:
-                          BorderRadius.circular(40) // Border color when enabled
-                      ),
+                  hintStyle: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: backGroundColor),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: backGroundColor),
+                  ),
                 ),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                CustomBox(color: inboxColor, number: "9", status: "Inbox"),
-                CustomBox(color: pendingColor, number: "9", status: "Pending")
+                customBox(color: inboxColor, number: "9", title: "Inbox"),
+                customBox(color: pendingColor, number: "9", title: "Pending")
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                CustomBox(
-                    color: inProgressColor, number: "9", status: "In progress"),
-                CustomBox(
-                    color: completedColor, number: "9", status: "Completed")
+                customBox(
+                    color: inProgressColor, number: "9", title: "In progress"),
+                customBox(
+                    color: completedColor, number: "9", title: "Completed")
               ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.05,
+            ),
+            ExpansionTile(
+              textColor: const Color(0xff272727),
+              tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+              initiallyExpanded: true,
+              title: const Text(
+                'Foreign ',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              children: <Widget>[myCustomCard()],
             ),
             ExpansionTile(
               textColor: const Color(0xff272727),
@@ -113,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
               initiallyExpanded: true,
               title: const Text(
                 'Official Organization',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               children: <Widget>[myCustomCard()],
             ),
@@ -123,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
               initiallyExpanded: false,
               title: const Text(
                 'NGOs',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               children: <Widget>[myCustomCard()],
             ),
@@ -133,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
               initiallyExpanded: true,
               title: const Text(
                 'Others ',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               children: <Widget>[myCustomCard()],
             ),
@@ -141,60 +160,64 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.all(16.0),
               child: Text(
                 "Tags",
-                style: TextStyle(fontSize: 20, color: Color(0xff272727)),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             Container(
               width: double.infinity,
-              margin: EdgeInsets.all(16),
-              padding: EdgeInsets.all(16),
+              margin: const EdgeInsets.only(
+                  top: 8, bottom: 16, right: 16, left: 16),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   color: boxColor,
                   borderRadius: BorderRadiusDirectional.circular(16)),
-              child: Wrap(spacing: 16, children: [
-                TextButton(
-                    style: tagButtonStyle,
-                    onPressed: () {},
-                    child: Text("All Tags")),
-                TextButton(
-                    style: tagButtonStyle,
-                    onPressed: () {},
-                    child: Text("#Urgent")),
-                TextButton(
-                    style: tagButtonStyle,
-                    onPressed: () {},
-                    child: Text("#Egyptian Military ")),
-                TextButton(
-                    style: tagButtonStyle,
-                    onPressed: () {},
-                    child: Text("#New")),
+              child: Wrap(spacing: 12, children: [
+                customTag('All Tags'),
+                customTag('#Urgent'),
+                customTag('#Egyption Military'),
+                customTag('#New'),
               ]),
             ),
-            Container(
-              color: boxColor,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                          color: const Color(0xff6589FF),
-                          borderRadius: BorderRadiusDirectional.circular(12)),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
+            GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return const SizedBox(
+                      height: 800,
+                    );
+                  },
+                );
+              },
+              child: Container(
+                color: boxColor,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                            color: const Color(0xff6589FF),
+                            borderRadius: BorderRadiusDirectional.circular(12)),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    const Text(
-                      "New Inbox",
-                      style: TextStyle(color: Color(0xff6589FF), fontSize: 20),
-                    )
-                  ],
+                      const SizedBox(
+                        width: 8,
+                      ),
+                      const Text(
+                        "New Inbox",
+                        style: TextStyle(
+                            color: Color(0xff6589FF),
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
                 ),
               ),
             )
