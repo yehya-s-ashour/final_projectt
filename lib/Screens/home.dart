@@ -31,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         color: backGroundColor,
       ),
       child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -59,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             setState(() {
                               xoffset = 320;
                               yoffset = 90;
-                              // the next line mean: home screen should be 80% of the screen before
                               scalefactor = 0.8;
                               isdraweropen = true;
                             });
@@ -116,45 +116,64 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.05,
             ),
-            ExpansionTile(
-              textColor: const Color(0xff272727),
-              tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-              initiallyExpanded: true,
-              title: const Text(
-                'Foreign ',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Theme(
+              data:
+                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
+                textColor: const Color(0xff272727),
+                tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+                initiallyExpanded: true,
+                title: const Text(
+                  'Foreign ',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                children: <Widget>[
+                  myCustomCard(),
+                ],
               ),
-              children: <Widget>[myCustomCard()],
             ),
-            ExpansionTile(
-              textColor: const Color(0xff272727),
-              tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-              initiallyExpanded: true,
-              title: const Text(
-                'Official Organization',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Theme(
+              data:
+                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                textColor: const Color(0xff272727),
+                tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+                initiallyExpanded: true,
+                title: const Text(
+                  'Official Organization',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                children: <Widget>[myCustomCard()],
               ),
-              children: <Widget>[myCustomCard()],
             ),
-            ExpansionTile(
-              textColor: const Color(0xff272727),
-              tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-              initiallyExpanded: false,
-              title: const Text(
-                'NGOs',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Theme(
+              data:
+                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                textColor: const Color(0xff272727),
+                tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+                initiallyExpanded: false,
+                title: const Text(
+                  'NGOs',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                children: <Widget>[myCustomCard()],
               ),
-              children: <Widget>[myCustomCard()],
             ),
-            ExpansionTile(
-              textColor: const Color(0xff272727),
-              tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-              initiallyExpanded: true,
-              title: const Text(
-                'Others ',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Theme(
+              data:
+                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                textColor: const Color(0xff272727),
+                tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+                initiallyExpanded: true,
+                title: const Text(
+                  'Others ',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                children: <Widget>[myCustomCard()],
               ),
-              children: <Widget>[myCustomCard()],
             ),
             const Padding(
               padding: EdgeInsets.all(16.0),
@@ -178,48 +197,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 customTag('#New'),
               ]),
             ),
-            GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return const SizedBox(
-                      height: 800,
-                    );
-                  },
-                );
-              },
-              child: Container(
-                color: boxColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 24,
-                        height: 24,
-                        decoration: BoxDecoration(
-                            color: const Color(0xff6589FF),
-                            borderRadius: BorderRadiusDirectional.circular(12)),
-                        child: const Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      const Text(
-                        "New Inbox",
-                        style: TextStyle(
-                            color: Color(0xff6589FF),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+            SizedBox(
+              height: 60,
             )
           ],
         ),
