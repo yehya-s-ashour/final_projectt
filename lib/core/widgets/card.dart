@@ -10,6 +10,8 @@ Card myCustomCard() {
           BorderRadius.circular(16.0), // Adjust the corner radius as needed
     ),
     child: ListView.builder(
+        padding: EdgeInsets.zero,
+        physics: BouncingScrollPhysics(),
         itemCount: 1,
         shrinkWrap: true,
         itemBuilder: ((context, index) {
