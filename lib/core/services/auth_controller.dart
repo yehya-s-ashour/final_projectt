@@ -19,4 +19,18 @@ class AuthController {
 
     return (response);
   }
+
+  static Future<dynamic> login(
+    BuildContext context, {
+    required String email,
+    required String password,
+  }) async {
+    final ApiBaseHelper _helper = ApiBaseHelper();
+    final response = await _helper.post('/login', {
+      "email": email,
+      "password": password,
+    });
+
+    return (response);
+  }
 }
