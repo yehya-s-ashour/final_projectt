@@ -1,0 +1,22 @@
+{
+    "sourceFile": "lib/Screens/main_screen.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1693815222457,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1693820667695,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,8 @@\n       body: Stack(children: [\r\n         DrawerScreen(),\r\n         HomeScreen(),\r\n       ]),\r\n-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,\r\n-      // floatingActionButton: MyFab(),\r\n+ \r\n     );\r\n   }\r\n }\r\n"
+                }
+            ],
+            "date": 1693815222457,
+            "name": "Commit-0",
+            "content": "import 'package:final_projectt/core/widgets/my_fab.dart';\r\nimport 'package:flutter/material.dart';\r\n\r\nimport 'drawer_screen.dart';\r\nimport 'home.dart';\r\n\r\nclass MainPage extends StatelessWidget {\r\n  const MainPage({super.key});\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return const Scaffold(\r\n      body: Stack(children: [\r\n        DrawerScreen(),\r\n        HomeScreen(),\r\n      ]),\r\n      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,\r\n      // floatingActionButton: MyFab(),\r\n    );\r\n  }\r\n}\r\n"
+        }
+    ]
+}
