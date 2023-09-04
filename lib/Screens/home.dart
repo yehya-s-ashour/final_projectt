@@ -1,6 +1,7 @@
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
+import 'package:final_projectt/core/widgets/my_overlay.dart';
 import 'package:flutter/material.dart';
 
 import '../core/widgets/custom_tag.dart';
@@ -15,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ExpansionTileController controller = ExpansionTileController();
+
   double xoffset = 0;
   double yoffset = 0;
   double scalefactor = 1;
@@ -81,8 +83,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 });
                               },
                             ),
-                      const CircleAvatar(
-                        backgroundImage: AssetImage('images/person.jpg'),
+                      GestureDetector(
+                        onTap: () {
+                          showOverlay(context);
+                        },
+                        child: const CircleAvatar(
+                          backgroundImage: AssetImage('images/person.jpg'),
+                        ),
                       ),
                     ],
                   ),
