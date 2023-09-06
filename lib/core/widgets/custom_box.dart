@@ -2,7 +2,6 @@ import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 Container customBox({
-  required Color color,
   required String number,
   required String title,
   required double width,
