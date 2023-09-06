@@ -17,15 +17,15 @@ void showOverlay(BuildContext context) {
 
   overlayEntry = OverlayEntry(builder: (context) {
     return Positioned(
-      left: 80,
-      top: 50,
+      left: 130,
+      top: 42,
       child: AnimatedContainer(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadiusDirectional.circular(16),
         ),
-        width: 300,
-        height: 400,
+        width: 250,
+        height: 350,
         duration: const Duration(milliseconds: 500),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -46,7 +46,7 @@ void showOverlay(BuildContext context) {
             ),
             Container(
               padding: const EdgeInsets.all(8),
-              margin: const EdgeInsets.all(16),
+              // margin: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.red,
