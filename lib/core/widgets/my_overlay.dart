@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/login_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
 import 'package:final_projectt/core/services/logout_controller.dart';
@@ -7,18 +7,18 @@ import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:flutter/material.dart';
 
 late OverlayEntry overlayEntry;
+bool isen = true;
 
 void hideOverlay() {
   overlayEntry.remove();
 }
 
-void showOverlay(BuildContext context) {
+void showOverlay(BuildContext context, String name, String role) {
   OverlayState overlayState = Overlay.of(context);
-
   overlayEntry = OverlayEntry(builder: (context) {
     return Positioned(
-      left: 130,
-      top: 42,
+      left: context.locale.toString() == 'ar' ? 24 : 80,
+      top: 50,
       child: AnimatedContainer(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -35,31 +35,33 @@ void showOverlay(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                    onPressed: () {
-                      hideOverlay();
-                    },
-                    child: const Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey,
-                    ))
+                  onPressed: () {
+                    hideOverlay();
+                  },
+                  child: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.grey,
+                  ),
+                )
               ],
             ),
             Container(
               padding: const EdgeInsets.all(8),
               // margin: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.red,
-                  ),
-                  borderRadius: BorderRadius.circular(100)),
+                border: Border.all(
+                  color: Colors.red,
+                ),
+                borderRadius: BorderRadius.circular(100),
+              ),
               child: const CircleAvatar(
                 backgroundImage: AssetImage("images/person.jpg"),
                 radius: 60,
               ),
             ),
-            const Text(
-              "ahmad akram herzalla",
-              style: TextStyle(
+            Text(
+              name,
+              style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
                   decoration: TextDecoration.none),
@@ -67,8 +69,8 @@ void showOverlay(BuildContext context) {
             const SizedBox(
               height: 12,
             ),
-            const Text("admin",
-                style: TextStyle(
+            Text(role,
+                style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 14,
                     decoration: TextDecoration.none)),
@@ -76,7 +78,13 @@ void showOverlay(BuildContext context) {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  isen
+                      ? context.setLocale(const Locale('ar'))
+                      : context.setLocale(const Locale('en'));
+                  isen = !isen;
+                  hideOverlay();
+                },
                 child: const Row(
                   children: [
                     Icon(
@@ -107,7 +115,7 @@ void showOverlay(BuildContext context) {
                     SharedPrefsController prefs = SharedPrefsController();
                     await prefs.deleteData('user');
                     hideOverlay();
-
+                    // ignore: use_build_context_synchronously
                     Navigator.pushReplacement(context, MaterialPageRoute(
                       builder: (context) {
                         return const LoginScreen();

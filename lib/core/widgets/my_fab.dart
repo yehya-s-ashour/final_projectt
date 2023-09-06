@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -53,9 +54,9 @@ class _MyFabState extends State<MyFab> {
           const SizedBox(
             width: 8,
           ),
-          const Text(
-            "New Inbox",
-            style: TextStyle(
+          Text(
+            "newinbox".tr(),
+            style: const TextStyle(
                 color: Color(0xff6589FF),
                 fontSize: 20,
                 fontWeight: FontWeight.bold),

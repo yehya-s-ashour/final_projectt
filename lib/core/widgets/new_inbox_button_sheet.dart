@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/categories_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
@@ -11,8 +9,6 @@ import 'package:final_projectt/core/widgets/tags_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
 void newInboxButtonSheet(BuildContext context, Function callback) {
-  File? _selectedImage;
-
   showModalBottomSheet(
     clipBehavior: Clip.hardEdge,
     isScrollControlled: true,

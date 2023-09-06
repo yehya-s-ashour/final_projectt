@@ -38,7 +38,14 @@ Container customBox({
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
-                    color: color, borderRadius: BorderRadius.circular(12)),
+                    color: title == "Inbox" || title == "الوارد"
+                        ? inboxColor
+                        : title == "Pending" || title == "معلقة"
+                            ? pendingColor
+                            : title == "In Progress" || title == "جاري المعالجة"
+                                ? inProgressColor
+                                : completedColor,
+                    borderRadius: BorderRadius.circular(12)),
               ),
               Text(
                 number,
