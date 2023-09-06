@@ -7,6 +7,6 @@ void main() async {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(fontFamily: 'Iphone'),
-    home: SplashScreen(),
+    home: const SplashScreen(),
   ));
 }

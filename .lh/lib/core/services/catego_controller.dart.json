@@ -1,0 +1,62 @@
+{
+    "sourceFile": "lib/core/services/catego_controller.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 11,
+            "patches": [
+                {
+                    "date": 1693909835486,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1693911333297,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,3 @@\n class CategoController {\r\n-  \r\n+  Future\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1693911340764,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,3 @@\n class CategoController {\r\n-  Future\r\n+  Future<List<Ca>>\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1693911348283,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,3 +1,5 @@\n+import 'package:flutter/foundation.dart';\r\n+\r\n class CategoController {\r\n-  Future<List<Ca>>\r\n+  Future<List<Category>> getCat\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1693911363028,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,7 @@\n import 'package:flutter/foundation.dart';\r\n \r\n class CategoController {\r\n-  Future<List<Category>> getCat\r\n+  Future<List<Category>> getCatego() {\r\n+\r\n+  }\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1693911378206,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -3,5 +3,4 @@\n class CategoController {\r\n   Future<List<Category>> getCatego() {\r\n \r\n   }\r\n-}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1693911384498,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,6 @@\n import 'package:flutter/foundation.dart';\r\n \r\n-class CategoController {\r\n-  Future<List<Category>> getCatego() {\r\n \r\n+  Future<List<Category>> getCatego() async {\r\n+\r\n   }\r\n"
+                },
+                {
+                    "date": 1693911429154,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n import 'package:flutter/foundation.dart';\r\n \r\n \r\n   Future<List<Category>> getCatego() async {\r\n+      SharedPrefsController _prefs = SharedPrefsController();\r\n \r\n   }\r\n"
+                },
+                {
+                    "date": 1693911435030,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,6 +2,8 @@\n \r\n \r\n   Future<List<Category>> getCatego() async {\r\n       SharedPrefsController _prefs = SharedPrefsController();\r\n+        bool hasKey = await _prefs.containsKey('user');\r\n \r\n+\r\n   }\r\n"
+                },
+                {
+                    "date": 1693911440144,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,9 @@\n import 'package:flutter/foundation.dart';\r\n \r\n+import '../helpers/shared_prefs.dart';\r\n \r\n+\r\n   Future<List<Category>> getCatego() async {\r\n       SharedPrefsController _prefs = SharedPrefsController();\r\n         bool hasKey = await _prefs.containsKey('user');\r\n \r\n"
+                },
+                {
+                    "date": 1693911445708,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -4,6 +4,6 @@\n \r\n Future<List<Category>> getCatego() async {\r\n   SharedPrefsController prefs = SharedPrefsController();\r\n   bool hasKey = await prefs.containsKey('user');\r\n-  \r\n+  u\r\n }\r\n"
+                },
+                {
+                    "date": 1693911451656,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,9 @@\n+import 'package:flutter/foundation.dart';\r\n+\r\n+import '../helpers/shared_prefs.dart';\r\n+\r\n+Future<List<Category>> getCatego() async {\r\n+  SharedPrefsController prefs = SharedPrefsController();\r\n+  bool hasKey = await prefs.containsKey('user');\r\n+  if(hasKey){}\r\n+}\r\n"
+                }
+            ],
+            "date": 1693909835486,
+            "name": "Commit-0",
+            "content": "class CategoController {\r\n  \r\n}"
+        }
+    ]
+}

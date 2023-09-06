@@ -51,3 +51,27 @@ Container customBox(
     ),
   );
 }
+
+Container CustomWhiteBox({
+  required double width,
+  required double height,
+  required Widget child,
+}) {
+  return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+      width: width,
+      height: height,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        color: boxColor,
+        boxShadow: [
+          BoxShadow(
+            color: shadowColor,
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: child);
+}
