@@ -47,22 +47,22 @@ class MailElement {
   List<Activity>? activities;
 
   MailElement({
-      this.id,
-      this.subject,
-      this.description,
-      this.senderId,
-      this.archiveNumber,
-      this.archiveDate,
-      this.decision,
-      this.statusId,
-      this.finalDecision,
-      this.createdAt,
-      this.updatedAt,
-      this.sender,
-      this.status,
-      this.tags,
-      this.attachments,
-      this.activities,
+    this.id,
+    this.subject,
+    this.description,
+    this.senderId,
+    this.archiveNumber,
+    this.archiveDate,
+    this.decision,
+    this.statusId,
+    this.finalDecision,
+    this.createdAt,
+    this.updatedAt,
+    this.sender,
+    this.status,
+    this.tags,
+    this.attachments,
+    this.activities,
   });
 
   factory MailElement.fromJson(Map<String, dynamic> json) => MailElement(
@@ -77,14 +77,14 @@ class MailElement {
         finalDecision: json["final_decision"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
-        sender:  json['sender'] != null ? SenderInMail.fromJson(json['sender']) : null, 
-        status: json['status'] != null ?  MailStatus.fromJson(json["status"]) : null ,
-        tags: json['tags'] != null ? List<TagInMail>.from(
-            json["tags"].map((x) => TagInMail.fromJson(x))): null,
-        attachments: json['attachments']!= null ? List<Attachment>.from(
-            json["attachments"].map((x) => Attachment.fromJson(x))):null,
-        activities: json['activities']!= null ? List<Activity>.from(
-            json["activities"].map((x) => Activity.fromJson(x))) : null ,
+        sender: SenderInMail.fromJson(json['sender']),
+        status: MailStatus.fromJson(json["status"]),
+        tags: List<TagInMail>.from(
+            json["tags"].map((x) => TagInMail.fromJson(x))),
+        attachments: List<Attachment>.from(
+            json["attachments"].map((x) => Attachment.fromJson(x))),
+        activities: List<Activity>.from(
+            json["activities"].map((x) => Activity.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -298,8 +298,6 @@ class CategoryInMail {
         "updated_at": updatedAt,
       };
 }
-
- 
 
 class MailStatus {
   int id;
