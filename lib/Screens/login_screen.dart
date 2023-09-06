@@ -1,9 +1,9 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
 import 'package:final_projectt/core/services/auth_controller.dart';
-import 'package:final_projectt/core/services/logout_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/models/user_model.dart';
@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      'Log In',
+                                      'login'.tr(),
                                       style: TextStyle(
                                           color: initialLabelIndex == 0
                                               ? Colors.white
@@ -193,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      'Sign Up',
+                                      'signup'.tr(),
                                       style: TextStyle(
                                           color: initialLabelIndex == 1
                                               ? Colors.white
@@ -355,8 +355,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       vertical: 16.0, horizontal: 32.0),
                                   child: Text(
                                     initialLabelIndex == 1
-                                        ? 'Sign Up'
-                                        : 'Log In',
+                                        ? 'signup'.tr()
+                                        : 'login'.tr(),
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Colors.white,

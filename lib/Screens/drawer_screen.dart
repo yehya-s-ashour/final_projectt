@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import '../core/util/constants/colors.dart';
@@ -16,14 +17,19 @@ class _DrawerScreenState extends State<DrawerScreen> {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: double.infinity,
-      padding: const EdgeInsets.only(top: 80, left: 20, bottom: 20),
+      padding: context.locale.toString() == 'ar'
+          ? const EdgeInsets.only(top: 80, right: 20, bottom: 20)
+          : const EdgeInsets.only(top: 80, left: 20, bottom: 20),
       color: primaryColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.15),
+            margin: context.locale.toString() == 'ar'
+                ? EdgeInsets.only(
+                    right: MediaQuery.of(context).size.width * 0.15)
+                : EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.15),
             height: 100,
             width: 100,
             child: Image.asset('images/pal.png'),
@@ -65,12 +71,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
               children: [
                 TextButton(
                   onPressed: () {},
-                  child: const Text(
-                    'Terms of Service',
-                    style: TextStyle(
+                  child: Text(
+                    'terms of service'.tr(),
+                    style: const TextStyle(
                         color: Color.fromARGB(255, 179, 178, 178),
                         fontSize: 13),
-                  ),
+                  ).tr(),
                 ),
                 Container(
                   width: 1.2,
@@ -79,9 +85,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: const Text(
-                    'Usage Policy',
-                    style: TextStyle(
+                  child: Text(
+                    'usagepolicy'.tr(),
+                    style: const TextStyle(
                         color: Color.fromARGB(255, 179, 178, 178),
                         fontSize: 13),
                   ),
