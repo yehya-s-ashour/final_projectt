@@ -1,4 +1,3 @@
-
 import 'package:final_projectt/Screens/tags_screen.dart';
 import 'package:final_projectt/core/services/catego_controller.dart';
 import 'package:final_projectt/core/services/mail_controller.dart';
@@ -8,6 +7,7 @@ import 'package:final_projectt/core/helpers/api_response.dart';
 
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
+import 'package:final_projectt/core/widgets/new_inbox_button_sheet.dart';
 
 import 'package:final_projectt/models/catego_model.dart';
 import 'package:final_projectt/models/mail_model.dart';
@@ -57,313 +57,361 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     dynamic deviceHeight = MediaQuery.of(context).size.height;
     dynamic devicewidth = MediaQuery.of(context).size.width;
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 250),
-      height: deviceHeight,
-      width: devicewidth,
-      transform: Matrix4.translationValues(xoffset, yoffset, 0)
-        ..scale(scalefactor),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(isdraweropen ? 20 : 0),
-        color: backGroundColor,
-      ),
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 40,
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      isdraweropen
-                          ? IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  xoffset = 0;
-                                  yoffset = 0;
-                                  scalefactor = 1;
-                                  isdraweropen = false;
-                                  blurRadius = 10;
-                                  spreadRadius = 2.0;
-                                  dx = 0.0;
-                                  dy = 10.0;
-                                });
-                              },
-                              icon: const Icon(Icons.arrow_back_ios))
-                          : IconButton(
-                              icon: const Icon(Icons.menu),
-                              onPressed: () {
-                                setState(() {
-                                  xoffset = 320;
-                                  yoffset = 90;
-                                  scalefactor = 0.8;
-                                  isdraweropen = true;
-                                  blurRadius = 0.0;
-                                  spreadRadius = 0.0;
-                                  dx = 0.0;
-                                  dy = 0.0;
-                                });
-                              },
-                            ),
-                      GestureDetector(
-                        onTap: () {
-                          showOverlay(context, 'Ahmed', 'admin');
-                        },
-                        child: const CircleAvatar(
-                          backgroundImage: AssetImage('images/person.jpg'),
-                        ),
-                      ),
-                    ],
+    return SafeArea(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        height: deviceHeight,
+        width: devicewidth,
+        transform: Matrix4.translationValues(xoffset, yoffset, 0)
+          ..scale(scalefactor),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(isdraweropen ? 20 : 0),
+          color: backGroundColor,
+        ),
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 20,
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                        size: 24.0,
-                      ),
-                      filled: true,
-                      fillColor: boxColor,
-                      hintText: "Search",
-                      hintStyle: const TextStyle(
-                        color: Colors.grey,
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: backGroundColor),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: backGroundColor),
-                      ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        isdraweropen
+                            ? IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    xoffset = 0;
+                                    yoffset = 0;
+                                    scalefactor = 1;
+                                    isdraweropen = false;
+                                    blurRadius = 10;
+                                    spreadRadius = 2.0;
+                                    dx = 0.0;
+                                    dy = 10.0;
+                                  });
+                                },
+                                icon: const Icon(Icons.arrow_back_ios))
+                            : context.locale.toString() == 'ar'
+                                ? IconButton(
+                                    icon: const Icon(Icons.menu),
+                                    onPressed: () {
+                                      setState(() {
+                                        xoffset = -220;
+                                        yoffset = 90;
+                                        scalefactor = 0.8;
+                                        isdraweropen = true;
+                                        blurRadius = 0.0;
+                                        spreadRadius = 0.0;
+                                        dx = 0.0;
+                                        dy = 0.0;
+                                      });
+                                    },
+                                  )
+                                : IconButton(
+                                    icon: const Icon(Icons.menu),
+                                    onPressed: () {
+                                      setState(() {
+                                        xoffset = 320;
+                                        yoffset = 90;
+                                        scalefactor = 0.8;
+                                        isdraweropen = true;
+                                        blurRadius = 0.0;
+                                        spreadRadius = 0.0;
+                                        dx = 0.0;
+                                        dy = 0.0;
+                                      });
+                                    },
+                                  ),
+                        const Spacer(),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.search),
+                        ),
+                        Consumer<UserProvider>(builder: (_, userProvidor, __) {
+                          if (userProvidor.data.status == Status.LOADING) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (userProvidor.data.status == Status.COMPLETED) {
+                            print(userProvidor.data.data?.user.name);
+                            return GestureDetector(
+                              onTap: () {
+                                showOverlay(
+                                    context,
+                                    userProvidor.data.data!.user.name,
+                                    userProvidor.data.data!.user.role!.name);
+                              },
+                              child: const CircleAvatar(
+                                backgroundImage:
+                                    AssetImage('images/person.jpg'),
+                              ),
+                            );
+                          }
+                          return const Text("  no data from user provider");
+                        }),
+                      ],
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    customBox(
-                        color: inboxColor,
-                        number: "9",
-                        title: "Inbox",
-                        height: 88,
-                        width: 181),
-                    customBox(
-                        color: pendingColor,
-                        number: "9",
-                        title: "Pending",
-                        height: 88,
-                        width: 181)
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    customBox(
-                        color: inProgressColor,
-                        number: "9",
-                        title: "In progress",
-                        height: 88,
-                        width: 181),
-                    customBox(
-                        color: completedColor,
-                        number: "9",
-                        title: "Completed",
-                        height: 88,
-                        width: 181)
-                  ],
-                ),
-                SizedBox(
-                  height: deviceHeight * 0.02,
-                ),
-                FutureBuilder(
-                    future: categories,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SizedBox(
-                          height: deviceHeight * 0.4,
-                          child: ListView.separated(
+                  // Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: TextField(
+                  //     decoration: InputDecoration(
+                  //       prefixIcon: const Icon(
+                  //         Icons.search,
+                  //         color: Colors.grey,
+                  //         size: 24.0,
+                  //       ),
+                  //       filled: true,
+                  //       fillColor: boxColor,
+                  //       hintText: "Search",
+                  //       hintStyle: const TextStyle(
+                  //         color: Colors.grey,
+                  //       ),
+                  //       enabledBorder: UnderlineInputBorder(
+                  //         borderSide: BorderSide(color: backGroundColor),
+                  //         borderRadius: BorderRadius.circular(20),
+                  //       ),
+                  //       focusedBorder: UnderlineInputBorder(
+                  //         borderRadius: BorderRadius.circular(20),
+                  //         borderSide: BorderSide(color: backGroundColor),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  Consumer<StatuseProvider>(builder: (_, statuseProvider, __) {
+                    if (statuseProvider.statusedata.status == Status.LOADING) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (statuseProvider.statusedata.status ==
+                        Status.COMPLETED) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: GridView.builder(
                             shrinkWrap: true,
-                            itemCount: snapshot.data!.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 1.5,
+                              crossAxisCount:
+                                  2, // Number of columns in the grid
+                              crossAxisSpacing: 8.0, // Spacing between columns
+                              mainAxisSpacing: 8.0,
+                              // Spacing between rows
+                            ),
+                            itemCount: 4,
                             itemBuilder: (context, index) {
-                              final name = snapshot.data?[index].name;
-                              return Theme(
-                                data: Theme.of(context)
-                                    .copyWith(dividerColor: Colors.transparent),
-                                child: ExpansionTile(
-                                  // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
-                                  textColor: const Color(0xff272727),
-                                  tilePadding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  initiallyExpanded: false,
-                                  title: Text(
-                                    name!,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                              return customBox(
+                                  number: statuseProvider.statusedata.data!
+                                      .statuses![index].mailsCount!,
+                                  title: statuseProvider
+                                      .statusedata.data!.statuses![index].name!
+                                      .tr(),
+                                  height: 88,
+                                  width: 181);
+                            }),
+                      );
+                    }
+                    return Text(" no data from Statuse provider");
+                  }),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     customBox(
+                  //         color: inboxColor, number: "9", title: "inbox".tr()),
+                  //     customBox(
+                  //         color: pendingColor, number: "9", title: "pending".tr())
+                  //   ],
+                  // ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     customBox(
+                  //         color: inProgressColor,
+                  //         number: "9",
+                  //         title: "inprogress".tr()),
+                  //     customBox(
+                  //         color: completedColor,
+                  //         number: "9",
+                  //         title: "completed".tr())
+                  //   ],
+                  // ),
+                  SizedBox(
+                    height: deviceHeight * 0.02,
+                  ),
+                  FutureBuilder(
+                      future: categories,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            height: deviceHeight * 0.4,
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final name = snapshot.data?[index].name;
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                      dividerColor: Colors.transparent),
+                                  child: ExpansionTile(
+                                    // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
+                                    textColor: const Color(0xff272727),
+                                    tilePadding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    initiallyExpanded: false,
+                                    title: Text(
+                                      name!,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    children: <Widget>[
+                                      myCustomCard(),
+                                    ],
                                   ),
-                                  children: <Widget>[
-                                    myCustomCard(),
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(
-                                height: 12,
-                              );
-                            },
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(
+                                  height: 12,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          return Text(snapshot.error.toString());
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
                           ),
                         );
-                      }
-                      if (snapshot.hasError) {
-                        return Text(snapshot.error.toString());
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: primaryColor,
-                        ),
-                      );
-                    }),
-                const SizedBox(
-                  height: 12,
-                ),
-                FutureBuilder(
-                    future: mails,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return SizedBox(
-                          height: deviceHeight * 0.4,
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              final subject = snapshot.data?[index].subject;
-                              return Theme(
-                                data: Theme.of(context)
-                                    .copyWith(dividerColor: Colors.transparent),
-                                child: ExpansionTile(
-                                  // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
-                                  textColor: const Color(0xff272727),
-                                  tilePadding: const EdgeInsets.symmetric(
-                                      horizontal: 16),
-                                  initiallyExpanded: false,
-                                  title: Text(
-                                    subject!,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.amber),
+                      }),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  FutureBuilder(
+                      future: mails,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return SizedBox(
+                            height: deviceHeight * 0.4,
+                            child: ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                final subject = snapshot.data?[index].subject;
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                      dividerColor: Colors.transparent),
+                                  child: ExpansionTile(
+                                    // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
+                                    textColor: const Color(0xff272727),
+                                    tilePadding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    initiallyExpanded: false,
+                                    title: Text(
+                                      subject!,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.amber),
+                                    ),
+                                    children: <Widget>[
+                                      myCustomCard(),
+                                    ],
                                   ),
-                                  children: <Widget>[
-                                    myCustomCard(),
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(
-                                height: 12,
-                              );
-                            },
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(
+                                  height: 12,
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          return Text(snapshot.error.toString());
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
                           ),
                         );
-                      }
-                      if (snapshot.hasError) {
-                        return Text(snapshot.error.toString());
-                      }
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: primaryColor,
-                        ),
+                      }),
+                  const Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      "tags",
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TagsScreen()),
                       );
-                    }),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    "Tags",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(
+                          top: 8, bottom: 16, right: 16, left: 16),
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                          color: boxColor,
+                          borderRadius: BorderRadiusDirectional.circular(16)),
+                      child: Wrap(spacing: 12, children: [
+                        customTag('All Tags'),
+                        customTag('#Urgent'),
+                        customTag('#Egyption Military'),
+                        customTag('#New'),
+                      ]),
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const TagsScreen()),
-                    );
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(
-                        top: 8, bottom: 16, right: 16, left: 16),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                        color: boxColor,
-                        borderRadius: BorderRadiusDirectional.circular(16)),
-                    child: Wrap(spacing: 12, children: [
-                      customTag('All Tags'),
-                      customTag('#Urgent'),
-                      customTag('#Egyption Military'),
-                      customTag('#New'),
-                    ]),
-                  ),
-                ),
-                SizedBox(
-                  height: deviceHeight * 0.06,
-                )
-              ],
+                  SizedBox(
+                    height: deviceHeight * 0.06,
+                  )
+                ],
+              ),
             ),
-          ),
-          GestureDetector(
-            onTap: () {
-              showModalBottomSheet(
-                clipBehavior: Clip.hardEdge,
-                isScrollControlled: true,
-                context: context,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(25.0),
-                )),
-                builder: (BuildContext context) {
-                  return StatefulBuilder(
-                      builder: (BuildContext context, StateSetter setState) {
-                    return SizedBox(
-                      height: deviceHeight - 30,
-                    );
+            GestureDetector(
+              onTap: () {
+                newInboxButtonSheet(context, () {
+                  setState(() {
+                    xoffset = 0;
+                    yoffset = 0;
+                    scalefactor = 1;
                   });
-                },
-              ).whenComplete(() {
-                setState(() {
-                  xoffset = 0;
-                  yoffset = 0;
-                  scalefactor = 1;
                 });
-              });
-              setState(() {
-                xoffset = devicewidth * 0.12;
-                yoffset = 20;
-                scalefactor = 0.8;
-              });
-            },
-            child: MyFab(
-              blurRadius: blurRadius,
-              spreadRadius: spreadRadius,
-              dx: dx,
-              dy: dy,
+                setState(() {
+                  xoffset = MediaQuery.of(context).size.width * 0.12;
+                  yoffset = 10;
+                  scalefactor = 0.75;
+                });
+              },
+              child: MyFab(
+                blurRadius: blurRadius,
+                spreadRadius: spreadRadius,
+                dx: dx,
+                dy: dy,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
