@@ -1,12 +1,17 @@
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-Container customBox(
-    {required Color color, required String number, required String title}) {
+Container customBox({
+  required Color color,
+  required String number,
+  required String title,
+  required double width,
+  required double height,
+}) {
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 8),
-    width: 181,
-    height: 88,
+    width: width,
+    height: height,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(30),
       color: boxColor,
@@ -33,7 +38,14 @@ Container customBox(
                 width: 24,
                 height: 24,
                 decoration: BoxDecoration(
-                    color: color, borderRadius: BorderRadius.circular(12)),
+                    color: title == "Inbox" || title == "الوارد"
+                        ? inboxColor
+                        : title == "Pending" || title == "معلقة"
+                            ? pendingColor
+                            : title == "In Progress" || title == "جاري المعالجة"
+                                ? inProgressColor
+                                : completedColor,
+                    borderRadius: BorderRadius.circular(12)),
               ),
               Text(
                 number,

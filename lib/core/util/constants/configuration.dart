@@ -1,10 +1,11 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 List<Map> drawerItem = [
-  {'icon': Icons.home, 'title': 'Home Page'},
-  {'icon': Icons.person, 'title': 'Profile Page'},
-  {'icon': Icons.send, 'title': 'Senders'},
-  {'icon': Icons.settings, 'title': 'User management'},
+  {'icon': Icons.home, 'title': 'homepage'.tr()},
+  {'icon': Icons.person, 'title': 'profilepage'.tr()},
+  {'icon': Icons.send, 'title': 'senders'.tr()},
+  {'icon': Icons.settings, 'title': 'usermanagement'.tr()},
 ];
 
 

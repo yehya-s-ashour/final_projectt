@@ -1,18 +1,32 @@
+
 import 'package:final_projectt/Screens/tags_screen.dart';
 import 'package:final_projectt/core/services/catego_controller.dart';
 import 'package:final_projectt/core/services/mail_controller.dart';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:final_projectt/core/helpers/api_response.dart';
+
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
+
 import 'package:final_projectt/models/catego_model.dart';
 import 'package:final_projectt/models/mail_model.dart';
+
+import 'package:final_projectt/core/widgets/my_overlay.dart';
+import 'package:final_projectt/providers/status_provider.dart';
+import 'package:final_projectt/providers/user_provider.dart';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../core/widgets/card.dart';
 import '../core/widgets/custom_tag.dart';
 import '../core/widgets/my_fab.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -20,6 +34,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final ExpansionTileController controller = ExpansionTileController();
+
   double xoffset = 0;
   double yoffset = 0;
   double scalefactor = 1;
@@ -97,8 +112,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 });
                               },
                             ),
-                      const CircleAvatar(
-                        backgroundImage: AssetImage('images/person.jpg'),
+                      GestureDetector(
+                        onTap: () {
+                          showOverlay(context, 'Ahmed', 'admin');
+                        },
+                        child: const CircleAvatar(
+                          backgroundImage: AssetImage('images/person.jpg'),
+                        ),
                       ),
                     ],
                   ),
@@ -132,9 +152,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    customBox(color: inboxColor, number: "9", title: "Inbox"),
                     customBox(
-                        color: pendingColor, number: "9", title: "Pending")
+                        color: inboxColor,
+                        number: "9",
+                        title: "Inbox",
+                        height: 88,
+                        width: 181),
+                    customBox(
+                        color: pendingColor,
+                        number: "9",
+                        title: "Pending",
+                        height: 88,
+                        width: 181)
                   ],
                 ),
                 Row(
@@ -143,9 +172,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     customBox(
                         color: inProgressColor,
                         number: "9",
-                        title: "In progress"),
+                        title: "In progress",
+                        height: 88,
+                        width: 181),
                     customBox(
-                        color: completedColor, number: "9", title: "Completed")
+                        color: completedColor,
+                        number: "9",
+                        title: "Completed",
+                        height: 88,
+                        width: 181)
                   ],
                 ),
                 SizedBox(
