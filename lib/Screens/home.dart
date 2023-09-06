@@ -1,14 +1,25 @@
+
+import 'package:final_projectt/Screens/tags_screen.dart';
+import 'package:final_projectt/core/services/catego_controller.dart';
+import 'package:final_projectt/core/services/mail_controller.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/helpers/api_response.dart';
+
 import 'package:final_projectt/core/util/constants/colors.dart';
-import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
+
+import 'package:final_projectt/models/catego_model.dart';
+import 'package:final_projectt/models/mail_model.dart';
+
 import 'package:final_projectt/core/widgets/my_overlay.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../core/widgets/card.dart';
 import '../core/widgets/custom_tag.dart';
 import '../core/widgets/my_fab.dart';
 
@@ -32,12 +43,24 @@ class _HomeScreenState extends State<HomeScreen> {
   double spreadRadius = 2.0;
   double dx = 0.0;
   double dy = 10.0;
+  late Future<List<CategoryElement>> categories;
+  late Future<List<MailElement>> mails;
+
+  @override
+  void initState() {
+    categories = getCatego();
+    mails = getAllMails();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    dynamic deviceHeight = MediaQuery.of(context).size.height;
+    dynamic devicewidth = MediaQuery.of(context).size.width;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
+      height: deviceHeight,
+      width: devicewidth,
       transform: Matrix4.translationValues(xoffset, yoffset, 0)
         ..scale(scalefactor),
       decoration: BoxDecoration(
@@ -48,7 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
         alignment: Alignment.bottomCenter,
         children: [
           SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -162,71 +184,110 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.05,
+                  height: deviceHeight * 0.02,
                 ),
-                Theme(
-                  data: Theme.of(context)
-                      .copyWith(dividerColor: Colors.transparent),
-                  child: ExpansionTile(
-                    // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
-                    textColor: const Color(0xff272727),
-                    tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-                    initiallyExpanded: false,
-                    title: const Text(
-                      'Foreign ',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    children: <Widget>[
-                      myCustomCard(),
-                    ],
-                  ),
+                FutureBuilder(
+                    future: categories,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: deviceHeight * 0.4,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              final name = snapshot.data?[index].name;
+                              return Theme(
+                                data: Theme.of(context)
+                                    .copyWith(dividerColor: Colors.transparent),
+                                child: ExpansionTile(
+                                  // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
+                                  textColor: const Color(0xff272727),
+                                  tilePadding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  initiallyExpanded: false,
+                                  title: Text(
+                                    name!,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  children: <Widget>[
+                                    myCustomCard(),
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(
+                                height: 12,
+                              );
+                            },
+                          ),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: primaryColor,
+                        ),
+                      );
+                    }),
+                const SizedBox(
+                  height: 12,
                 ),
-                Theme(
-                  data: Theme.of(context)
-                      .copyWith(dividerColor: Colors.transparent),
-                  child: ExpansionTile(
-                    textColor: const Color(0xff272727),
-                    tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-                    initiallyExpanded: false,
-                    title: const Text(
-                      'Official Organization',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    children: <Widget>[myCustomCard()],
-                  ),
-                ),
-                Theme(
-                  data: Theme.of(context)
-                      .copyWith(dividerColor: Colors.transparent),
-                  child: ExpansionTile(
-                    textColor: const Color(0xff272727),
-                    tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-                    initiallyExpanded: false,
-                    title: const Text(
-                      'NGOs',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    children: <Widget>[myCustomCard()],
-                  ),
-                ),
-                Theme(
-                  data: Theme.of(context)
-                      .copyWith(dividerColor: Colors.transparent),
-                  child: ExpansionTile(
-                    textColor: const Color(0xff272727),
-                    tilePadding: const EdgeInsets.symmetric(horizontal: 16),
-                    initiallyExpanded: true,
-                    title: const Text(
-                      'Others ',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    children: <Widget>[myCustomCard()],
-                  ),
-                ),
+                FutureBuilder(
+                    future: mails,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          height: deviceHeight * 0.4,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              final subject = snapshot.data?[index].subject;
+                              return Theme(
+                                data: Theme.of(context)
+                                    .copyWith(dividerColor: Colors.transparent),
+                                child: ExpansionTile(
+                                  // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
+                                  textColor: const Color(0xff272727),
+                                  tilePadding: const EdgeInsets.symmetric(
+                                      horizontal: 16),
+                                  initiallyExpanded: false,
+                                  title: Text(
+                                    subject!,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.amber),
+                                  ),
+                                  children: <Widget>[
+                                    myCustomCard(),
+                                  ],
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return const SizedBox(
+                                height: 12,
+                              );
+                            },
+                          ),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(
+                          color: primaryColor,
+                        ),
+                      );
+                    }),
                 const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Text(
@@ -234,23 +295,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(
-                      top: 8, bottom: 16, right: 16, left: 16),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      color: boxColor,
-                      borderRadius: BorderRadiusDirectional.circular(16)),
-                  child: Wrap(spacing: 12, children: [
-                    customTag('All Tags'),
-                    customTag('#Urgent'),
-                    customTag('#Egyption Military'),
-                    customTag('#New'),
-                  ]),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TagsScreen()),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(
+                        top: 8, bottom: 16, right: 16, left: 16),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                        color: boxColor,
+                        borderRadius: BorderRadiusDirectional.circular(16)),
+                    child: Wrap(spacing: 12, children: [
+                      customTag('All Tags'),
+                      customTag('#Urgent'),
+                      customTag('#Egyption Military'),
+                      customTag('#New'),
+                    ]),
+                  ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.06,
+                  height: deviceHeight * 0.06,
                 )
               ],
             ),
@@ -269,7 +339,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return StatefulBuilder(
                       builder: (BuildContext context, StateSetter setState) {
                     return SizedBox(
-                      height: MediaQuery.of(context).size.height - 30,
+                      height: deviceHeight - 30,
                     );
                   });
                 },
@@ -281,7 +351,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               });
               setState(() {
-                xoffset = MediaQuery.of(context).size.width * 0.12;
+                xoffset = devicewidth * 0.12;
                 yoffset = 20;
                 scalefactor = 0.8;
               });

@@ -1,0 +1,50 @@
+{
+    "sourceFile": "lib/Screens/tags_screen.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 8,
+            "patches": [
+                {
+                    "date": 1694015599397,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694015605364,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,15 @@\n-stf\n\\ No newline at end of file\n+import 'package:flutter/material.dart';\r\n+\r\n+class TagsScreen extends StatefulWidget {\r\n+  const TagsScreen({super.key});\r\n+\r\n+  @override\r\n+  State<TagsScreen> createState() => _TagsScreenState();\r\n+}\r\n+\r\n+class _TagsScreenState extends State<TagsScreen> {\r\n+  @override\r\n+  Widget build(BuildContext context) {\r\n+    return const Placeholder();\r\n+  }\r\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694015999976,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,7 +9,7 @@\n \r\n class _TagsScreenState extends State<TagsScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n-    return const Placeholder();\r\n+    return const Scaffold();\r\n   }\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694016069328,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,7 +9,9 @@\n \r\n class _TagsScreenState extends State<TagsScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n-    return const Scaffold();\r\n+    return   Scaffold(\r\n+      backgroundColor:backGroundColor ,\r\n+    );\r\n   }\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694016106565,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,8 @@\n import 'package:flutter/material.dart';\r\n \r\n+import '../core/util/constants/colors.dart';\r\n+\r\n class TagsScreen extends StatefulWidget {\r\n   const TagsScreen({super.key});\r\n \r\n   @override\r\n@@ -9,9 +11,10 @@\n \r\n class _TagsScreenState extends State<TagsScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n-    return   Scaffold(\r\n-      backgroundColor:backGroundColor ,\r\n+    return Scaffold(\r\n+      backgroundColor: backGroundColor,\r\n+      app\r\n\\ No newline at end of file\n     );\r\n   }\r\n-}\n+}\r\n"
+                },
+                {
+                    "date": 1694016114546,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,8 @@\n   @override\r\n   Widget build(BuildContext context) {\r\n     return Scaffold(\r\n       backgroundColor: backGroundColor,\r\n-      app\r\n+      appBar: AppBar(elevation: 0,),\r\n     );\r\n   }\r\n\\ No newline at end of file\n-}\n+}\r\n"
+                },
+                {
+                    "date": 1694016122059,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,8 +13,10 @@\n   @override\r\n   Widget build(BuildContext context) {\r\n     return Scaffold(\r\n       backgroundColor: backGroundColor,\r\n-      appBar: AppBar(elevation: 0,),\r\n+      appBar: AppBar(\r\n+        elevation: 0 , \r\n+      ),\r\n\\ No newline at end of file\n     );\r\n   }\r\n-}\n+}\r\n"
+                },
+                {
+                    "date": 1694016127941,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,9 +15,9 @@\n     return Scaffold(\r\n       backgroundColor: backGroundColor,\r\n       appBar: AppBar(\r\n         elevation: 0 , \r\n-        leading: ,\r\n+        leading: I,\r\n       ),\r\n \r\n     );\r\n   }\r\n"
+                },
+                {
+                    "date": 1694016180198,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n   Widget build(BuildContext context) {\r\n     return Scaffold(\r\n       backgroundColor: backGroundColor,\r\n       appBar: AppBar(\r\n-        ba\r\n+        backgroundColor: ,\r\n         elevation: 0,\r\n         leading: Icon(\r\n           Icons.arrow_back_ios,\r\n           color: primaryColor,\r\n"
+                }
+            ],
+            "date": 1694015599396,
+            "name": "Commit-0",
+            "content": "stf"
+        }
+    ]
+}

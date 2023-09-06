@@ -3,11 +3,23 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 3,
             "patches": [
                 {
                     "date": 1693751930111,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694015817398,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,24 @@\n+import 'package:flutter/material.dart';\r\n+\r\n+InkWell customTag(String tagName) {\r\n+  return InkWell(\r\n+    onTap: () {\r\n+      Navigator.push(\r\n+                      context,\r\n+                      MaterialPageRoute(\r\n+                          builder: (context) => const TagsScreen()),\r\n+                    );\r\n+    },\r\n+    child: Container(\r\n+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),\r\n+      margin: const EdgeInsets.only(top: 8),\r\n+      decoration: BoxDecoration(\r\n+          borderRadius: BorderRadius.circular(20),\r\n+          color: const Color(0xffE6E6E6)),\r\n+      child: Text(\r\n+        tagName,\r\n+        style: const TextStyle(fontSize: 14),\r\n+      ),\r\n+    ),\r\n+  );\r\n+}\r\n"
+                },
+                {
+                    "date": 1694015830409,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,13 +2,9 @@\n \r\n InkWell customTag(String tagName) {\r\n   return InkWell(\r\n     onTap: () {\r\n-      Navigator.push(\r\n-                      context,\r\n-                      MaterialPageRoute(\r\n-                          builder: (context) => const TagsScreen()),\r\n-                    );\r\n+      \r\n     },\r\n     child: Container(\r\n       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),\r\n       margin: const EdgeInsets.only(top: 8),\r\n@@ -21,22 +17,4 @@\n       ),\r\n     ),\r\n   );\r\n }\r\n-import 'package:flutter/material.dart';\r\n-\r\n-InkWell customTag(String tagName) {\r\n-  return InkWell(\r\n-    onTap: () {},\r\n-    child: Container(\r\n-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),\r\n-      margin: const EdgeInsets.only(top: 8),\r\n-      decoration: BoxDecoration(\r\n-          borderRadius: BorderRadius.circular(20),\r\n-          color: const Color(0xffE6E6E6)),\r\n-      child: Text(\r\n-        tagName,\r\n-        style: const TextStyle(fontSize: 14),\r\n-      ),\r\n-    ),\r\n-  );\r\n-}\r\n"
+                },
+                {
+                    "date": 1694015838816,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,7 @@\n import 'package:flutter/material.dart';\r\n \r\n-InkWell customTag(String tagName) {\r\n+Container customTag(String tagName) {\r\n   return Container(\r\n     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),\r\n     margin: const EdgeInsets.only(top: 8),\r\n     decoration: BoxDecoration(\r\n"
                 }
             ],
             "date": 1693751930111,

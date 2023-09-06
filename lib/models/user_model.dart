@@ -46,7 +46,7 @@ class UserClass {
   final String roleId;
   final String createdAt;
   final String updatedAt;
-  final Role role;
+  final Role? role;
 
   UserClass({
     required this.id,
@@ -104,7 +104,7 @@ class UserClass {
         "role_id": roleId,
         "created_at": createdAt,
         "updated_at": updatedAt,
-        "role": role.toJson(),
+        "role": role!.toJson(),
       };
 }
 
