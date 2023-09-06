@@ -1,0 +1,25 @@
+{
+
+"Inbox":"الوارد",
+"Pending" :"معلقة",
+"In Progress":"جاري المعالجة",
+"Completed":"مكتمل",
+"newinbox":" بريد جديد ",
+"homepage":" الصفحة الرئيسية",
+"profilepage" :"الصفحة الشخصية",
+"senders" :"المرسلين",
+"usermanagement":"إدارةالمستخدم",
+"terms of service":"شروط الخدمة",
+"usagepolicy":"سياسة الاستخدام",
+"search":"بحث",
+"login":"تسجيل الدخول ",
+"signup":"انشاء حساب ",
+  "foreign":"مؤسسات اجنبية",
+  "officialorganization":"مؤسسات حكومية ",
+  "ngos":"مؤسسات مجتمع المدني ",
+  "others":"غيرها",
+  "tags":"علامات"
+    
+  }
+
+
