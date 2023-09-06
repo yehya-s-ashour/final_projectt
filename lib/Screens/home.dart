@@ -75,148 +75,92 @@ class _HomeScreenState extends State<HomeScreen> {
                                 });
                               },
                               icon: const Icon(Icons.arrow_back_ios))
-                          : context.locale.toString() == 'ar'
-                              ? IconButton(
-                                  icon: const Icon(Icons.menu),
-                                  onPressed: () {
-                                    setState(() {
-                                      xoffset = -220;
-                                      yoffset = 90;
-                                      scalefactor = 0.8;
-                                      isdraweropen = true;
-                                      blurRadius = 0.0;
-                                      spreadRadius = 0.0;
-                                      dx = 0.0;
-                                      dy = 0.0;
-                                    });
-                                  },
-                                )
-                              : IconButton(
-                                  icon: const Icon(Icons.menu),
-                                  onPressed: () {
-                                    setState(() {
-                                      xoffset = 320;
-                                      yoffset = 90;
-                                      scalefactor = 0.8;
-                                      isdraweropen = true;
-                                      blurRadius = 0.0;
-                                      spreadRadius = 0.0;
-                                      dx = 0.0;
-                                      dy = 0.0;
-                                    });
-                                  },
-                                ),
-                      const Spacer(),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.search),
-                      ),
-                      Consumer<UserProvider>(builder: (_, userProvidor, __) {
-                        if (userProvidor.data.status == Status.LOADING) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (userProvidor.data.status == Status.COMPLETED) {
-                          print(userProvidor.data.data?.user.name);
-                          return GestureDetector(
-                            onTap: () {
-                              showOverlay(
-                                  context,
-                                  userProvidor.data.data!.user.name,
-                                  userProvidor.data.data!.user.role.name);
-                            },
-                            child: const CircleAvatar(
-                              backgroundImage: AssetImage('images/person.jpg'),
+                          : IconButton(
+                              icon: const Icon(Icons.menu),
+                              onPressed: () {
+                                setState(() {
+                                  xoffset = 320;
+                                  yoffset = 90;
+                                  scalefactor = 0.8;
+                                  isdraweropen = true;
+                                  blurRadius = 0.0;
+                                  spreadRadius = 0.0;
+                                  dx = 0.0;
+                                  dy = 0.0;
+                                });
+                              },
                             ),
-                          );
-                        }
-                        return const Text("  no data from user provider");
-                      }),
+                      GestureDetector(
+                        onTap: () {
+                          showOverlay(context, 'Ahmed', 'admin');
+                        },
+                        child: const CircleAvatar(
+                          backgroundImage: AssetImage('images/person.jpg'),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: TextField(
-                //     decoration: InputDecoration(
-                //       prefixIcon: const Icon(
-                //         Icons.search,
-                //         color: Colors.grey,
-                //         size: 24.0,
-                //       ),
-                //       filled: true,
-                //       fillColor: boxColor,
-                //       hintText: "Search",
-                //       hintStyle: const TextStyle(
-                //         color: Colors.grey,
-                //       ),
-                //       enabledBorder: UnderlineInputBorder(
-                //         borderSide: BorderSide(color: backGroundColor),
-                //         borderRadius: BorderRadius.circular(20),
-                //       ),
-                //       focusedBorder: UnderlineInputBorder(
-                //         borderRadius: BorderRadius.circular(20),
-                //         borderSide: BorderSide(color: backGroundColor),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                Consumer<StatuseProvider>(builder: (_, statuseProvider, __) {
-                  if (statuseProvider.statusedata.status == Status.LOADING) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (statuseProvider.statusedata.status == Status.COMPLETED) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: GridView.builder(
-                          shrinkWrap: true,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 1.5,
-                            crossAxisCount: 2, // Number of columns in the grid
-                            crossAxisSpacing: 8.0, // Spacing between columns
-                            mainAxisSpacing: 8.0,
-                            // Spacing between rows
-                          ),
-                          itemCount: 4,
-                          itemBuilder: (context, index) {
-                            return customBox(
-                                number: statuseProvider.statusedata.data!
-                                    .statuses![index].mailsCount!,
-                                title: statuseProvider
-                                    .statusedata.data!.statuses![index].name!
-                                    .tr());
-                          }),
-                    );
-                  }
-                  return Text(" no data from Statuse provider");
-                }),
-
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     customBox(
-                //         color: inboxColor, number: "9", title: "inbox".tr()),
-                //     customBox(
-                //         color: pendingColor, number: "9", title: "pending".tr())
-                //   ],
-                // ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //   children: [
-                //     customBox(
-                //         color: inProgressColor,
-                //         number: "9",
-                //         title: "inprogress".tr()),
-                //     customBox(
-                //         color: completedColor,
-                //         number: "9",
-                //         title: "completed".tr())
-                //   ],
-                // ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                        size: 24.0,
+                      ),
+                      filled: true,
+                      fillColor: boxColor,
+                      hintText: "Search",
+                      hintStyle: const TextStyle(
+                        color: Colors.grey,
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: backGroundColor),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: backGroundColor),
+                      ),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    customBox(
+                        color: inboxColor,
+                        number: "9",
+                        title: "Inbox",
+                        height: 88,
+                        width: 181),
+                    customBox(
+                        color: pendingColor,
+                        number: "9",
+                        title: "Pending",
+                        height: 88,
+                        width: 181)
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    customBox(
+                        color: inProgressColor,
+                        number: "9",
+                        title: "In progress",
+                        height: 88,
+                        width: 181),
+                    customBox(
+                        color: completedColor,
+                        number: "9",
+                        title: "Completed",
+                        height: 88,
+                        width: 181)
+                  ],
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.05,
                 ),
@@ -228,10 +172,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     textColor: const Color(0xff272727),
                     tilePadding: const EdgeInsets.symmetric(horizontal: 16),
                     initiallyExpanded: false,
-                    title: Text(
-                      'foreign'.tr(),
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                    title: const Text(
+                      'Foreign ',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     children: <Widget>[
                       myCustomCard(),
@@ -245,10 +189,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     textColor: const Color(0xff272727),
                     tilePadding: const EdgeInsets.symmetric(horizontal: 16),
                     initiallyExpanded: false,
-                    title: Text(
-                      'officialorganization'.tr(),
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                    title: const Text(
+                      'Official Organization',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     children: <Widget>[myCustomCard()],
                   ),
@@ -260,10 +204,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     textColor: const Color(0xff272727),
                     tilePadding: const EdgeInsets.symmetric(horizontal: 16),
                     initiallyExpanded: false,
-                    title: Text(
-                      'ngos'.tr(),
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                    title: const Text(
+                      'NGOs',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     children: <Widget>[myCustomCard()],
                   ),
@@ -275,20 +219,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     textColor: const Color(0xff272727),
                     tilePadding: const EdgeInsets.symmetric(horizontal: 16),
                     initiallyExpanded: true,
-                    title: Text(
-                      'others'.tr(),
+                    title: const Text(
+                      'Others ',
                       style:
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     children: <Widget>[myCustomCard()],
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
-                    "tags".tr(),
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                    "Tags",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Container(

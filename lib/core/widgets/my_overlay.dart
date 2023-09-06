@@ -24,8 +24,8 @@ void showOverlay(BuildContext context, String name, String role) {
           color: Colors.white,
           borderRadius: BorderRadiusDirectional.circular(16),
         ),
-        width: 300,
-        height: 400,
+        width: 250,
+        height: 350,
         duration: const Duration(milliseconds: 500),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -47,7 +47,7 @@ void showOverlay(BuildContext context, String name, String role) {
             ),
             Container(
               padding: const EdgeInsets.all(8),
-              margin: const EdgeInsets.all(16),
+              // margin: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: Colors.red,
