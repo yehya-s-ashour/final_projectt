@@ -8,8 +8,6 @@ List<Map> drawerItem = [
   {'icon': Icons.settings, 'title': 'usermanagement'.tr()},
 ];
 
-//------------------------URLs------------------------
-const String baseUrl = 'https://palmail.gsgtt.tech/api';
 
 ///-----------tag button style-----------
 ButtonStyle tagButtonStyle = ButtonStyle(
