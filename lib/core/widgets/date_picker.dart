@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/core/widgets/custum_textfield.dart';
+import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomDatePicker extends StatefulWidget {
   const CustomDatePicker({super.key});
@@ -15,6 +17,7 @@ class CustomDatePicker extends StatefulWidget {
 class _CustomDatePickerState extends State<CustomDatePicker> {
   DateTime date = DateTime.now();
   bool isDatePickerOpened = false;
+  TextEditingController archiveNumber = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
         width: 378,
         height: 480,
         child: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
           child: Column(
             children: [
               Theme(
@@ -37,6 +41,20 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                   dividerColor: Colors.transparent,
                 ),
                 child: ExpansionTile(
+                  trailing: AnimatedContainer(
+                    duration: Duration(milliseconds: 400),
+                    curve: Curves.linear,
+                    width: isDatePickerOpened ? 35 : 20,
+                    child: Center(
+                      child: Icon(
+                        !isDatePickerOpened
+                            ? Icons.arrow_forward_ios_rounded
+                            : Icons.keyboard_arrow_down_rounded,
+                        size: !isDatePickerOpened ? 22 : 38,
+                        color: !isDatePickerOpened ? Colors.grey : primaryColor,
+                      ),
+                    ),
+                  ),
                   onExpansionChanged: (value) {
                     setState(() {
                       isDatePickerOpened = value;
@@ -50,35 +68,41 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                     color: Colors.red,
                     size: 23,
                   ),
-                  title: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Date',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Iphone',
-                            fontSize: 22),
-                      ),
-                      Text(
-                        '$todayName, $month $today, $year',
-                        style: TextStyle(
-                            color: primaryColor,
-                            fontFamily: 'Iphone',
-                            fontSize: 16),
-                      ),
-                    ],
+                  childrenPadding: EdgeInsets.zero,
+                  title: SizedBox(
+                    width: 100,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Date',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Iphone',
+                              fontSize: 19),
+                        ),
+                        Text(
+                          '$todayName, $month $today, $year',
+                          style: TextStyle(
+                              color: primaryColor,
+                              fontFamily: 'Iphone',
+                              fontSize: 16),
+                        ),
+                      ],
+                    ),
                   ),
                   //
                   children: <Widget>[
                     CalendarDatePicker(
                       initialDate: date,
-                      firstDate: DateTime(2023, 1, 1),
-                      lastDate: DateTime(2023, 12, 31),
+                      firstDate: DateTime(1900, 1, 1),
+                      lastDate: DateTime(2100, 1, 1),
                       onDateChanged: (DateTime newdate) {
                         setState(() {
                           date = newdate;
+                          Provider.of<NewInboxProvider>(context, listen: false)
+                              .setDate(newdate);
                         });
                       },
                     ),
@@ -92,6 +116,11 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                 color: Colors.grey.shade300,
               ),
               CustomTextField(
+                onChanged: (value) {
+                  Provider.of<NewInboxProvider>(context, listen: false)
+                      .setArchiveNumber(value);
+                },
+                controller: archiveNumber,
                 validationMessage: "Please enter an archive number",
                 hintText: "Archive number",
                 hintTextColor: Colors.black,

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:final_projectt/Screens/sender_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../core/util/constants/colors.dart';
@@ -57,7 +58,17 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             width: 10,
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              switch (e["title"]) {
+                                case "senders":
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return SendersScreen();
+                                    },
+                                  ));
+                                  break;
+                              }
+                            },
                             child: Text(
                               "${e['title']}".tr(),
                               style: const TextStyle(

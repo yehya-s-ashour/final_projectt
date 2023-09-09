@@ -1,101 +1,207 @@
+import 'package:final_projectt/core/services/catego_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
+import 'package:final_projectt/models/catego_model.dart';
 import 'package:flutter/material.dart';
 
-void categoriesBottomSheet(BuildContext context) {
-  int itemCount = 4;
-  showModalBottomSheet(
-    clipBehavior: Clip.hardEdge,
-    isScrollControlled: true,
-    context: context,
-    shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-      top: Radius.circular(15.0),
-    )),
-    builder: (BuildContext context) {
-      return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height - 150,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsetsDirectional.only(
-                    top: 15.0, start: 8, end: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: primaryColor,
-                      ),
-                    ),
-                    Center(
-                      child: Text(
-                        'Category',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 23,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: Colors.transparent,
-                      ),
-                    ),
-                  ],
+class categoriesBottomSheet extends StatefulWidget {
+  const categoriesBottomSheet({super.key});
+
+  @override
+  State<categoriesBottomSheet> createState() => _categoriesBottomSheetState();
+}
+
+class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
+  late Future<List<CategoryElement>> categories;
+  int selectedIndex = 0;
+  late CategoryElement selectedCategory = CategoryElement(
+      id: 0,
+      name: 'Other',
+      createdAt: '',
+      updatedAt: '',
+      sendersCount: '',
+      senders: []);
+
+  @override
+  void initState() {
+    categories = getCatego();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height - 150,
+      child: Column(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsetsDirectional.only(top: 15.0, start: 8, end: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context, selectedCategory);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: primaryColor,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsetsDirectional.only(top: 5, start: 5, end: 5),
-                child: CustomWhiteBox(
-                  width: 378,
-                  height: 220,
-                  child: SizedBox(
-                    height: 500,
-                    child: ListView.builder(
-                      padding: EdgeInsetsDirectional.only(top: 5),
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Sincer Rose',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: 10),
-                                width: MediaQuery.sizeOf(context).width,
-                                height: 1,
-                                color: itemCount - 1 == index
-                                    ? Colors.transparent
-                                    : Colors.grey.shade300,
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                      itemCount: 4,
+                Center(
+                  child: Text(
+                    'Category',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 23,
                     ),
                   ),
                 ),
-              ),
-            ],
+                Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: Colors.transparent,
+                ),
+              ],
+            ),
           ),
-        );
-      });
-    },
-  );
+          FutureBuilder(
+              future: categories,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Padding(
+                    padding:
+                        EdgeInsetsDirectional.only(top: 5, start: 5, end: 5),
+                    child: CustomWhiteBox(
+                      width: 378,
+                      height: (snapshot.data!.length - 1) * 55,
+                      child: SizedBox(
+                        height: 500,
+                        child: ListView.builder(
+                          padding: EdgeInsetsDirectional.only(top: 5),
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                index == 0
+                                    ? ListTile(
+                                        onTap: () {
+                                          setState(() {
+                                            selectedIndex = index;
+                                            selectedCategory =
+                                                snapshot.data![index];
+                                          });
+                                        },
+                                        title: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  'Other',
+                                                  style:
+                                                      TextStyle(fontSize: 20),
+                                                ),
+                                                Spacer(),
+                                                selectedIndex == index
+                                                    ? Icon(
+                                                        Icons.check,
+                                                        color: primaryColor,
+                                                      )
+                                                    : SizedBox(),
+                                                SizedBox(
+                                                  width: 15,
+                                                )
+                                              ],
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(top: 10),
+                                              width: MediaQuery.sizeOf(context)
+                                                  .width,
+                                              height: 1,
+                                              color:
+                                                  snapshot.data!.length - 1 ==
+                                                          index
+                                                      ? Colors.transparent
+                                                      : Colors.grey.shade300,
+                                            )
+                                          ],
+                                        ),
+                                      )
+                                    : snapshot.data![index].name == 'Other'
+                                        ? SizedBox()
+                                        : ListTile(
+                                            onTap: () {
+                                              setState(() {
+                                                selectedIndex = index;
+                                                selectedCategory =
+                                                    snapshot.data![index];
+                                              });
+                                            },
+                                            title: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      '${snapshot.data![index].name}',
+                                                      style: TextStyle(
+                                                          fontSize: 20),
+                                                    ),
+                                                    Spacer(),
+                                                    selectedIndex == index
+                                                        ? Icon(
+                                                            Icons.check,
+                                                            color: primaryColor,
+                                                          )
+                                                        : SizedBox(),
+                                                    SizedBox(
+                                                      width: 15,
+                                                    )
+                                                  ],
+                                                ),
+                                                Container(
+                                                  margin:
+                                                      EdgeInsets.only(top: 10),
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                          .width,
+                                                  height: 1,
+                                                  color: snapshot.data!.length -
+                                                              1 ==
+                                                          index
+                                                      ? Colors.transparent
+                                                      : Colors.grey.shade300,
+                                                )
+                                              ],
+                                            ),
+                                          )
+                              ],
+                            );
+                          },
+                          itemCount: snapshot.data!.length,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: primaryColor,
+                  ),
+                );
+              }),
+        ],
+      ),
+    );
+  }
 }
