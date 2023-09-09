@@ -7,7 +7,7 @@ Padding CustomTextField(
     required Color hintTextColor,
     required bool isPrefixIcon,
     required bool isSuffixIcon,
-    required bool isUnderlinedBorder,
+    required bool isUnderlinedBorderEnabled,
     Widget? prefixIcon,
     Widget? suffixIcon,
     Function(String)? onChanged}) {
@@ -28,6 +28,7 @@ Padding CustomTextField(
       decoration: InputDecoration(
         // Increase the left padding to make room for the suffix icon
         contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+
         border: InputBorder.none,
         prefixIcon: isPrefixIcon ? prefixIcon : null,
         hintText: hintText,
@@ -38,9 +39,15 @@ Padding CustomTextField(
           fontSize: 19,
           fontWeight: FontWeight.w500,
         ),
-        enabledBorder: isUnderlinedBorder
+        enabledBorder: isUnderlinedBorderEnabled
             ? UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade300))
+            : null,
+        errorBorder: isUnderlinedBorderEnabled
+            ? const UnderlineInputBorder(
+                borderSide: BorderSide(
+                color: Colors.redAccent,
+              ))
             : null,
       ),
     ),

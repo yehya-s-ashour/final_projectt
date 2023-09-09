@@ -7,11 +7,12 @@ class NewInboxProvider extends ChangeNotifier {
   List<Map<String, dynamic>>? activites = [];
 
   late String archiveNumber;
-  late DateTime date;
+  late DateTime date = DateTime.now();
   String? senderName = '';
   String? senderMobile = '';
   String? titleOfMail = '';
   String? description = '';
+  bool isDatePickerOpened = false;
 
   clearImages() {
     if (imagesFiles.isNotEmpty) {
@@ -39,6 +40,11 @@ class NewInboxProvider extends ChangeNotifier {
 
   setArchiveNumber(String archiveNumber) {
     this.archiveNumber = archiveNumber;
+    notifyListeners();
+  }
+
+  setIsDatePickerOpened(bool isDatePickerOpened) {
+    this.isDatePickerOpened = isDatePickerOpened;
     notifyListeners();
   }
 

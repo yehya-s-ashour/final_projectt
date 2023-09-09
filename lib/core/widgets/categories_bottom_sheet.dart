@@ -15,10 +15,10 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
   late Future<List<CategoryElement>> categories;
   int selectedIndex = 0;
   late CategoryElement selectedCategory = CategoryElement(
-      id: 0,
+      id: 1,
       name: 'Other',
-      createdAt: '',
-      updatedAt: '',
+      createdAt: DateTime.now().toString(),
+      updatedAt: DateTime.now().toString(),
       sendersCount: '',
       senders: []);
 
@@ -74,7 +74,7 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
                         EdgeInsetsDirectional.only(top: 5, start: 5, end: 5),
                     child: CustomWhiteBox(
                       width: 378,
-                      height: (snapshot.data!.length - 1) * 55,
+                      height: (snapshot.data!.length) * 55,
                       child: SizedBox(
                         height: 500,
                         child: ListView.builder(
@@ -83,105 +83,48 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                index == 0
-                                    ? ListTile(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedIndex = index;
-                                            selectedCategory =
-                                                snapshot.data![index];
-                                          });
-                                        },
-                                        title: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  'Other',
-                                                  style:
-                                                      TextStyle(fontSize: 20),
-                                                ),
-                                                Spacer(),
-                                                selectedIndex == index
-                                                    ? Icon(
-                                                        Icons.check,
-                                                        color: primaryColor,
-                                                      )
-                                                    : SizedBox(),
-                                                SizedBox(
-                                                  width: 15,
+                                ListTile(
+                                  onTap: () {
+                                    setState(() {
+                                      selectedIndex = index;
+                                      selectedCategory = snapshot.data![index];
+                                    });
+                                  },
+                                  title: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            '${snapshot.data![index].name}',
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                          Spacer(),
+                                          selectedIndex == index
+                                              ? Icon(
+                                                  Icons.check,
+                                                  color: primaryColor,
                                                 )
-                                              ],
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: 10),
-                                              width: MediaQuery.sizeOf(context)
-                                                  .width,
-                                              height: 1,
-                                              color:
-                                                  snapshot.data!.length - 1 ==
-                                                          index
-                                                      ? Colors.transparent
-                                                      : Colors.grey.shade300,
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    : snapshot.data![index].name == 'Other'
-                                        ? SizedBox()
-                                        : ListTile(
-                                            onTap: () {
-                                              setState(() {
-                                                selectedIndex = index;
-                                                selectedCategory =
-                                                    snapshot.data![index];
-                                              });
-                                            },
-                                            title: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '${snapshot.data![index].name}',
-                                                      style: TextStyle(
-                                                          fontSize: 20),
-                                                    ),
-                                                    Spacer(),
-                                                    selectedIndex == index
-                                                        ? Icon(
-                                                            Icons.check,
-                                                            color: primaryColor,
-                                                          )
-                                                        : SizedBox(),
-                                                    SizedBox(
-                                                      width: 15,
-                                                    )
-                                                  ],
-                                                ),
-                                                Container(
-                                                  margin:
-                                                      EdgeInsets.only(top: 10),
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
-                                                          .width,
-                                                  height: 1,
-                                                  color: snapshot.data!.length -
-                                                              1 ==
-                                                          index
-                                                      ? Colors.transparent
-                                                      : Colors.grey.shade300,
-                                                )
-                                              ],
-                                            ),
+                                              : SizedBox(),
+                                          SizedBox(
+                                            width: 15,
                                           )
+                                        ],
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(top: 10),
+                                        width: MediaQuery.sizeOf(context).width,
+                                        height: 1,
+                                        color:
+                                            snapshot.data!.length - 1 == index
+                                                ? Colors.transparent
+                                                : Colors.grey.shade300,
+                                      )
+                                    ],
+                                  ),
+                                )
                               ],
                             );
                           },
