@@ -7,7 +7,6 @@ import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:flutter/material.dart';
 
 late OverlayEntry overlayEntry;
-bool isen = true;
 
 void hideOverlay() {
   overlayEntry.remove();
@@ -17,14 +16,14 @@ void showOverlay(BuildContext context, String name, String role) {
   OverlayState overlayState = Overlay.of(context);
   overlayEntry = OverlayEntry(builder: (context) {
     return Positioned(
-      left: context.locale.toString() == 'ar' ? 24 : 80,
+      left: context.locale.toString() == 'ar' ? 16 : 148,
       top: 50,
       child: AnimatedContainer(
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadiusDirectional.circular(16),
         ),
-        width: 250,
+        width: 230,
         height: 350,
         duration: const Duration(milliseconds: 500),
         child: Column(
@@ -46,11 +45,11 @@ void showOverlay(BuildContext context, String name, String role) {
               ],
             ),
             Container(
-              padding: const EdgeInsets.all(8),
-              // margin: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(4),
+              margin: const EdgeInsets.only(bottom: 8),
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: Colors.red,
+                  color: const Color.fromARGB(255, 223, 130, 123),
                 ),
                 borderRadius: BorderRadius.circular(100),
               ),
@@ -79,24 +78,23 @@ void showOverlay(BuildContext context, String name, String role) {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextButton(
                 onPressed: () {
-                  isen
+                  context.locale.toString() == "en"
                       ? context.setLocale(const Locale('ar'))
                       : context.setLocale(const Locale('en'));
-                  isen = !isen;
                   hideOverlay();
                 },
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.language,
                       color: Colors.grey,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     Text(
-                      'Language',
-                      style: TextStyle(
+                      'Language'.tr(),
+                      style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 14,
                           decoration: TextDecoration.none),
@@ -130,18 +128,18 @@ void showOverlay(BuildContext context, String name, String role) {
                         width: 300);
                   });
                 },
-                child: const Row(
+                child: Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.login_outlined,
                       color: Colors.grey,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 16,
                     ),
                     Text(
-                      'Logout',
-                      style: TextStyle(
+                      'Logout'.tr(),
+                      style: const TextStyle(
                           color: Colors.grey,
                           fontSize: 14,
                           decoration: TextDecoration.none),

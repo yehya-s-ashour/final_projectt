@@ -1,3 +1,4 @@
+import 'package:final_projectt/Screens/search_screen.dart';
 import 'package:final_projectt/Screens/tags_screen.dart';
 import 'package:final_projectt/core/services/catego_controller.dart';
 import 'package:final_projectt/core/services/mail_controller.dart';
@@ -133,7 +134,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                         const Spacer(),
                         IconButton(
-                          onPressed: () {},
+                          ///---------------------
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        const SearchScreen(),
+                                transitionsBuilder: (context, animation,
+                                    secondaryAnimation, child) {
+                                  const begin = Offset(1.0, 0.0);
+                                  const end = Offset.zero;
+                                  const curve = Curves.easeInOut;
+                                  var tween = Tween(begin: begin, end: end)
+                                      .chain(CurveTween(curve: curve));
+                                  var offsetAnimation = animation.drive(tween);
+
+                                  return SlideTransition(
+                                    position: offsetAnimation,
+                                    child: child,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+
                           icon: const Icon(Icons.search),
                         ),
                         Consumer<UserProvider>(builder: (_, userProvidor, __) {
@@ -143,6 +169,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }
                           if (userProvidor.data.status == Status.COMPLETED) {
+
+                            // print(userProvidor.data.data?.user.name);
+
                             return GestureDetector(
                               onTap: () {
                                 showOverlay(
@@ -161,32 +190,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  // Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: TextField(
-                  //     decoration: InputDecoration(
-                  //       prefixIcon: const Icon(
-                  //         Icons.search,
-                  //         color: Colors.grey,
-                  //         size: 24.0,
-                  //       ),
-                  //       filled: true,
-                  //       fillColor: boxColor,
-                  //       hintText: "Search",
-                  //       hintStyle: const TextStyle(
-                  //         color: Colors.grey,
-                  //       ),
-                  //       enabledBorder: UnderlineInputBorder(
-                  //         borderSide: BorderSide(color: backGroundColor),
-                  //         borderRadius: BorderRadius.circular(20),
-                  //       ),
-                  //       focusedBorder: UnderlineInputBorder(
-                  //         borderRadius: BorderRadius.circular(20),
-                  //         borderSide: BorderSide(color: backGroundColor),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                   Consumer<StatuseProvider>(builder: (_, statuseProvider, __) {
                     if (statuseProvider.statusedata.status == Status.LOADING) {
                       return const Center(
@@ -221,30 +224,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             }),
                       );
                     }
-                    return Text(" no data from Statuse provider");
+                    return const Text(" no data from Statuse provider");
                   }),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-                  //     customBox(
-                  //         color: inboxColor, number: "9", title: "inbox".tr()),
-                  //     customBox(
-                  //         color: pendingColor, number: "9", title: "pending".tr())
-                  //   ],
-                  // ),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-                  //     customBox(
-                  //         color: inProgressColor,
-                  //         number: "9",
-                  //         title: "inprogress".tr()),
-                  //     customBox(
-                  //         color: completedColor,
-                  //         number: "9",
-                  //         title: "completed".tr())
-                  //   ],
-                  // ),
                   SizedBox(
                     height: deviceHeight * 0.02,
                   ),
@@ -351,11 +332,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         );
                       }),
                   const Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(16.0),
                     child: Text(
                       "tags",
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                   GestureDetector(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'dart:io';
 import 'package:final_projectt/core/util/constants/configuration.dart';
 import 'package:http/http.dart' as http;
@@ -6,11 +7,16 @@ import '../util/constants/end_points.dart';
 import 'app_exception.dart';
 
 class ApiBaseHelper {
-  Future<dynamic> get(String url, Map<String, String> header) async {
+  Future<dynamic> get(
+    String url,
+    Map<String, String> header,
+  ) async {
     var responseJson;
     try {
-      final response =
-          await http.get(Uri.parse(baseUrl + url), headers: header);
+      final response = await http.get(
+        Uri.parse(baseUrl + url),
+        headers: header,
+      );
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
