@@ -13,6 +13,7 @@ import 'package:final_projectt/models/catego_model.dart';
 import 'package:final_projectt/models/mail_model.dart';
 
 import 'package:final_projectt/core/widgets/my_overlay.dart';
+import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
 
@@ -142,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }
                           if (userProvidor.data.status == Status.COMPLETED) {
-                            print(userProvidor.data.data?.user.name);
                             return GestureDetector(
                               onTap: () {
                                 showOverlay(
@@ -390,13 +390,34 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             GestureDetector(
               onTap: () {
-                newInboxButtonSheet(context, () {
-                  setState(() {
-                    xoffset = 0;
-                    yoffset = 0;
-                    scalefactor = 1;
-                  });
-                });
+                showModalBottomSheet(
+                  clipBehavior: Clip.hardEdge,
+                  isScrollControlled: true,
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(15.0),
+                  )),
+                  builder: (BuildContext context) {
+                    return NewInboxBottomSheet();
+                  },
+                ).whenComplete(
+                  () {
+                    setState(() {
+                      Provider.of<NewInboxProvider>(context, listen: false)
+                          .clearImages();
+                      Provider.of<NewInboxProvider>(context, listen: false)
+                          .senderName = '';
+                      Provider.of<NewInboxProvider>(context, listen: false)
+                          .senderMobile = '';
+                      Provider.of<NewInboxProvider>(context, listen: false)
+                          .activites = [];
+                      xoffset = 0;
+                      yoffset = 0;
+                      scalefactor = 1;
+                    });
+                  },
+                );
                 setState(() {
                   xoffset = MediaQuery.of(context).size.width * 0.12;
                   yoffset = 10;
