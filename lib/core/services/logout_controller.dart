@@ -6,11 +6,8 @@ Future<dynamic> logout(
   BuildContext context,
 ) async {
   final ApiBaseHelper _helper = ApiBaseHelper();
-  print("--------------------------------------111");
   final response = await _helper
       .post('/logout', {}, {'Authorization': 'Bearer ${await getToken()}'});
-  print("--------------------------------------222");
-  print(response);
 
   return (response);
 }

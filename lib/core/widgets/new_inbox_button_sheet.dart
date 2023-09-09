@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
+import 'package:final_projectt/core/widgets/activites_expansion_tile.dart';
 import 'package:final_projectt/core/widgets/categories_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/core/widgets/custum_textfield.dart';
@@ -6,162 +10,251 @@ import 'package:final_projectt/core/widgets/date_picker.dart';
 import 'package:final_projectt/core/widgets/senders_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/status_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/tags_bottom_sheet.dart';
+import 'package:final_projectt/models/catego_model.dart';
+import 'package:final_projectt/models/sender_model.dart';
+import 'package:final_projectt/models/status_model.dart';
+import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void newInboxButtonSheet(BuildContext context, Function callback) {
-  showModalBottomSheet(
-    clipBehavior: Clip.hardEdge,
-    isScrollControlled: true,
-    context: context,
-    shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-      top: Radius.circular(15.0),
-    )),
-    builder: (BuildContext context) {
-      return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-        return Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height - 55,
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              child: Column(
+class NewInboxBottomSheet extends StatefulWidget {
+  @override
+  State<NewInboxBottomSheet> createState() => _NewInboxBottomSheetState();
+}
+
+class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
+  TextEditingController senderNameCont = TextEditingController();
+  TextEditingController senderMobileCont = TextEditingController();
+  TextEditingController mailTitleCont = TextEditingController();
+  TextEditingController mailDescriptionCont = TextEditingController();
+  late final SingleSender? selectedSender;
+  TextEditingController decisionCont = TextEditingController();
+  TextEditingController activityTextFieldController = TextEditingController();
+
+  late String category = 'Other';
+  late Status selectedStatus = Status(
+      id: 0,
+      name: 'Inbox',
+      color: '0xfffa3a57',
+      createdAt: '',
+      updatedAt: '',
+      mailsCount: '');
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height - 55,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        TextButton(
-                          style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              minimumSize: Size(50, 30),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              alignment: Alignment.centerLeft),
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text(
-                            'Cancel',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        const Text(
-                          'New Inbox',
-                          style:
-                              TextStyle(fontSize: 20, color: Color(0xFF272727)),
-                        ),
-                        TextButton(
-                          onPressed: () {},
-                          child: const Text('Done',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      ],
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        minimumSize: Size(50, 30),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        alignment: Alignment.centerLeft),
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
+                  const Text(
+                    'New Inbox',
+                    style: TextStyle(fontSize: 20, color: Color(0xFF272727)),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // newInbox(
+                      //     title: mailTitleCont.text,
+                      //     senderId: selectedSender!.id,
+                      //     statusId: selectedStatus.id!,
+                      //     archiveNumber: Provider.of<NewInboxProvider>(context,
+                      //             listen: false)
+                      //         .archiveNumber,
+                      //     archiveDate: Provider.of<NewInboxProvider>(context,
+                      //             listen: false)
+                      //         .date);
+                      // Navigator.pop(context);
+                      createMail(
+                        statusId: '1',
+                        decision: "not yet",
+                        senderId: '81',
+                        finalDecision: "",
+                        activities: [],
+                        tags: [1],
+                        subject: 'test create email',
+                        description: "I hate my self",
+                        archiveNumber: '2000',
+                        archiveDate: DateTime.now().toString(),
+                      );
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Done', style: TextStyle(fontSize: 20)),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                physics: BouncingScrollPhysics(),
+                children: [
                   Form(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CustomWhiteBox(
-                          width: 378,
-                          height: 175,
-                          child: Column(
-                            children: [
-                              CustomTextField(
-                                validationMessage: "Please enter a sender name",
-                                hintText: "Sender",
-                                hintTextColor: Colors.grey,
-                                isPrefixIcon: true,
-                                isSuffixIcon: true,
-                                isUnderlinedBorder: true,
-                                prefixIcon: Icon(
-                                  Icons.person_3_outlined,
-                                  size: 23,
-                                ),
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    SendersBottomSheet(context);
-                                  },
-                                  icon: Icon(
-                                    Icons.info_outline,
-                                    color: Color(0xff6589FF),
-                                    size: 27,
-                                  ),
-                                ),
-                              ),
-                              CustomTextField(
-                                validationMessage:
-                                    "Please enter a mobile number",
-                                hintText: "Mobile",
-                                hintTextColor: Colors.grey,
-                                isPrefixIcon: true,
-                                isSuffixIcon: false,
-                                isUnderlinedBorder: true,
-                                prefixIcon: Icon(
-                                  Icons.phone_android_rounded,
-                                  size: 23,
-                                ),
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    SendersBottomSheet(context);
-                                  },
-                                  icon: Icon(
-                                    Icons.info_outline,
-                                    color: Color(0xff6589FF),
-                                    size: 27,
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  categoriesBottomSheet(context);
-                                },
-                                child: const Padding(
-                                  padding: EdgeInsetsDirectional.only(
-                                    start: 30.0,
-                                    end: 20.0,
-                                    top: 20,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        'Category',
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontFamily: 'Iphone',
-                                            fontSize: 22),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            'other',
-                                            style: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 20,
+                        AnimatedContainer(
+                          duration: Duration(milliseconds: 500),
+                          width: 400,
+                          height: senderMobileCont.text.isEmpty ? 140 : 200,
+                          child: CustomWhiteBox(
+                            width: 400,
+                            height: 200,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  CustomTextField(
+                                    controller: senderNameCont,
+                                    validationMessage:
+                                        "Please enter a sender name",
+                                    hintText: "Sender",
+                                    hintTextColor: Colors.grey,
+                                    isPrefixIcon: true,
+                                    isSuffixIcon: true,
+                                    isUnderlinedBorder: true,
+                                    prefixIcon: Icon(
+                                      Icons.person_3_outlined,
+                                      size: 23,
+                                    ),
+                                    suffixIcon: IconButton(
+                                      onPressed: () async {
+                                        selectedSender =
+                                            await showModalBottomSheet<
+                                                SingleSender>(
+                                          clipBehavior: Clip.hardEdge,
+                                          isScrollControlled: true,
+                                          context: context,
+                                          shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(15.0),
                                             ),
                                           ),
-                                          Icon(
-                                            Icons.arrow_forward_ios_rounded,
-                                            color: Colors.grey,
-                                            size: 22,
+                                          builder: (BuildContext context) {
+                                            return SendersBottomSheet();
+                                          },
+                                        );
+                                        setState(() {
+                                          if (selectedSender != null) {
+                                            senderNameCont.text =
+                                                selectedSender!.name;
+                                            senderMobileCont.text =
+                                                selectedSender!.mobile;
+                                          }
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.info_outline,
+                                        color: Color(0xff6589FF),
+                                        size: 27,
+                                      ),
+                                    ),
+                                  ),
+                                  senderMobileCont.text.isEmpty
+                                      ? SizedBox()
+                                      : CustomTextField(
+                                          controller: senderMobileCont,
+                                          validationMessage:
+                                              "Please enter a mobile number",
+                                          hintText: "Mobile",
+                                          hintTextColor: Colors.grey,
+                                          isPrefixIcon: true,
+                                          isSuffixIcon: false,
+                                          isUnderlinedBorder: true,
+                                          prefixIcon: Icon(
+                                            Icons.phone_android_rounded,
+                                            size: 23,
+                                          ),
+                                        ),
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final selectedCategory =
+                                          await showModalBottomSheet<
+                                              CategoryElement>(
+                                        clipBehavior: Clip.hardEdge,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(15.0),
+                                          ),
+                                        ),
+                                        builder: (BuildContext context) {
+                                          return categoriesBottomSheet();
+                                        },
+                                      );
+                                      setState(() {
+                                        if (selectedCategory != null) {
+                                          category = selectedCategory.name;
+                                        }
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.only(
+                                        start: 30.0,
+                                        end: 20.0,
+                                        top: 20,
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'Category',
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontFamily: 'Iphone',
+                                                fontSize: 20),
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                '$category',
+                                                style: TextStyle(
+                                                  color: Colors.grey,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.arrow_forward_ios_rounded,
+                                                color: Colors.grey,
+                                                size: 22,
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         CustomWhiteBox(
                           width: 378,
-                          height: 120,
+                          height: 128,
                           child: Column(
                             children: [
                               CustomTextField(
+                                controller: mailTitleCont,
                                 validationMessage:
                                     "Please enter a title of mail",
                                 hintText: "Title of mail",
@@ -171,6 +264,7 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                                 isUnderlinedBorder: true,
                               ),
                               CustomTextField(
+                                controller: mailDescriptionCont,
                                 validationMessage: "Please enter a description",
                                 hintText: "Description",
                                 hintTextColor: Colors.grey,
@@ -184,10 +278,24 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                         CustomDatePicker(),
                         GestureDetector(
                           onTap: () {
-                            tagssBottomSheet(context);
+                            showModalBottomSheet(
+                                clipBehavior: Clip.hardEdge,
+                                isScrollControlled: true,
+                                context: context,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(15.0),
+                                )),
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(builder:
+                                      (BuildContext context,
+                                          StateSetter setState) {
+                                    return TagsBottomSheet();
+                                  });
+                                });
                           },
                           child: CustomWhiteBox(
-                            width: 387,
+                            width: 378,
                             height: 56,
                             child: const Padding(
                               padding: EdgeInsetsDirectional.only(
@@ -212,7 +320,7 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                                         style: TextStyle(
                                             color: Colors.black,
                                             fontFamily: 'Iphone',
-                                            fontSize: 22),
+                                            fontSize: 20),
                                       ),
                                     ],
                                   ),
@@ -227,11 +335,29 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            statusBottomSheet(context);
+                          onTap: () async {
+                            final selectedStatus =
+                                await showModalBottomSheet<Status>(
+                              clipBehavior: Clip.hardEdge,
+                              isScrollControlled: true,
+                              context: context,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(15.0),
+                                ),
+                              ),
+                              builder: (BuildContext context) {
+                                return StatusesBottomSheet();
+                              },
+                            );
+                            setState(() {
+                              if (selectedStatus != null) {
+                                this.selectedStatus = selectedStatus;
+                              }
+                            });
                           },
                           child: CustomWhiteBox(
-                            width: 387,
+                            width: 378,
                             height: 56,
                             child: Padding(
                               padding: EdgeInsetsDirectional.only(
@@ -244,9 +370,16 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(Icons.tag),
                                       SizedBox(
-                                        width: 12,
+                                        width: 25,
+                                        height: 25,
+                                        child: Image.asset(
+                                          'images/Tag.png',
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 15,
                                       ),
                                       SizedBox(
                                         width: 250,
@@ -254,23 +387,30 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                                         child: ListView.separated(
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, index) {
+                                            final statusText =
+                                                selectedStatus.name;
+                                            final textLength =
+                                                statusText!.length;
+                                            final statusWidth =
+                                                40.0 + (textLength * 7.0);
                                             return Container(
                                               alignment: Alignment.center,
-                                              width: 75,
+                                              width: statusWidth,
                                               decoration: BoxDecoration(
-                                                color: Colors.red,
+                                                color: Color(int.parse(
+                                                    selectedStatus.color!)),
                                                 borderRadius:
                                                     BorderRadius.circular(30),
                                               ),
                                               child: Text(
-                                                'Inbox',
+                                                '${selectedStatus.name}',
                                                 style: TextStyle(
                                                     fontSize: 18,
                                                     color: Colors.white),
                                               ),
                                             );
                                           },
-                                          itemCount: 2,
+                                          itemCount: 1,
                                           separatorBuilder: (context, index) {
                                             return SizedBox(
                                               width: 10,
@@ -292,7 +432,7 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                         ),
                         CustomWhiteBox(
                           width: 378,
-                          height: 105,
+                          height: 110,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -305,12 +445,13 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                                 child: Text(
                                   'Descision',
                                   style: TextStyle(
-                                    fontSize: 23,
+                                    fontSize: 20,
                                     color: Colors.black,
                                   ),
                                 ),
                               ),
                               CustomTextField(
+                                  controller: decisionCont,
                                   validationMessage: 'Please enter a decision',
                                   hintText: 'Add Decision ...',
                                   hintTextColor: Colors.grey,
@@ -321,71 +462,204 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {},
-                          child: CustomWhiteBox(
-                            width: 387,
-                            height: 56,
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.only(
-                                start: 20.0,
-                                end: 20.0,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
+                          onTap: () {
+                            Provider.of<NewInboxProvider>(context,
+                                    listen: false)
+                                .getImagesFromGallery();
+                          },
+                          child: AnimatedContainer(
+                            height: Provider.of<NewInboxProvider>(context)
+                                        .imagesFiles
+                                        .length >
+                                    0
+                                ? 95 +
+                                    ((Provider.of<NewInboxProvider>(context)
+                                            .imagesFiles
+                                            .length) *
+                                        55)
+                                : 75.0,
+                            duration: Duration(milliseconds: 300),
+                            child: CustomWhiteBox(
+                              width: 378,
+                              height: 120,
+                              child: SingleChildScrollView(
+                                physics: NeverScrollableScrollPhysics(),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.only(
+                                    top: 20,
+                                    start: 20.0,
+                                    end: 20.0,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Icon(
-                                        Icons.image,
-                                        color: Colors.blueGrey,
-                                        size: 23,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Icon(
+                                                Icons.image,
+                                                color: Colors.blueGrey,
+                                                size: 23,
+                                              ),
+                                              SizedBox(
+                                                width: 12,
+                                              ),
+                                              Text(
+                                                'Add image',
+                                                style: TextStyle(
+                                                    color: primaryColor,
+                                                    fontFamily: 'Iphone',
+                                                    fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                          Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            color: Colors.grey,
+                                            size: 22,
+                                          ),
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: 12,
-                                      ),
-                                      Text(
-                                        'Add image',
-                                        style: TextStyle(
-                                            color: primaryColor,
-                                            fontFamily: 'Iphone',
-                                            fontSize: 22),
-                                      ),
+                                      Provider.of<NewInboxProvider>(context)
+                                              .imagesFiles
+                                              .isNotEmpty
+                                          ? SizedBox(
+                                              height: Provider.of<
+                                                              NewInboxProvider>(
+                                                          context)
+                                                      .imagesFiles
+                                                      .isNotEmpty
+                                                  ? 55 +
+                                                      ((Provider.of<NewInboxProvider>(
+                                                                  context)
+                                                              .imagesFiles
+                                                              .length) *
+                                                          57)
+                                                  : 50.0,
+                                              child: ListView.builder(
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                itemCount: Provider.of<
+                                                            NewInboxProvider>(
+                                                        context)
+                                                    .imagesFiles
+                                                    .length,
+                                                itemBuilder: (context, index) {
+                                                  return ListTile(
+                                                    onTap: () {
+                                                      showDialog(
+                                                        barrierDismissible:
+                                                            true,
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return Align(
+                                                            alignment: Alignment
+                                                                .center,
+                                                            child:
+                                                                SingleChildScrollView(
+                                                              child:
+                                                                  AlertDialog(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      titlePadding:
+                                                                          EdgeInsets
+                                                                              .zero,
+                                                                      title:
+                                                                          Container(
+                                                                        width:
+                                                                            200,
+                                                                        height:
+                                                                            250,
+                                                                        decoration: BoxDecoration(
+                                                                            borderRadius: BorderRadius.circular(30),
+                                                                            image: DecorationImage(
+                                                                                fit: BoxFit.cover,
+                                                                                image: FileImage(
+                                                                                  File(Provider.of<NewInboxProvider>(context).imagesFiles[index]!.path),
+                                                                                ))),
+                                                                      )),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    title: Row(
+                                                      children: [
+                                                        IconButton(
+                                                            onPressed: () {
+                                                              Provider.of<NewInboxProvider>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .imagesFiles
+                                                                  .removeAt(
+                                                                      index);
+                                                              setState(() {});
+                                                            },
+                                                            icon: Icon(
+                                                              Icons
+                                                                  .delete_outline_rounded,
+                                                              color: Colors.red,
+                                                            )),
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.all(7),
+                                                          width: 38,
+                                                          height: 40,
+                                                          decoration: BoxDecoration(
+                                                              border: Border.all(
+                                                                  color: Colors
+                                                                      .black),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          11),
+                                                              image: DecorationImage(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  image: FileImage(File(Provider.of<
+                                                                              NewInboxProvider>(
+                                                                          context)
+                                                                      .imagesFiles[
+                                                                          index]!
+                                                                      .path)))),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            )
+                                          : SizedBox()
                                     ],
                                   ),
-                                  Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    color: Colors.grey,
-                                    size: 22,
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        Theme(
-                          data: Theme.of(context)
-                              .copyWith(dividerColor: Colors.transparent),
-                          child: const ExpansionTile(
-                            textColor: Color(0xff272727),
-                            tilePadding: EdgeInsets.symmetric(horizontal: 30),
-                            initiallyExpanded: false,
-                            title: Text(
-                              'Activity',
-                              style: TextStyle(
-                                fontSize: 23,
-                              ),
-                            ),
-                            children: <Widget>[],
-                          ),
-                        ),
+                        ActivitesExpansionTile(),
                         Padding(
                           padding: const EdgeInsetsDirectional.only(
                               start: 20.0, end: 20.0, bottom: 20),
                           child: TextField(
+                            controller: activityTextFieldController,
                             decoration: InputDecoration(
                               suffixIcon: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {
+                                      Provider.of<NewInboxProvider>(context,
+                                              listen: false)
+                                          .addActivity(
+                                              activityTextFieldController.text);
+                                      activityTextFieldController.clear();
+                                    });
+                                  },
                                   icon: Icon(
                                     Icons.send,
                                     color: primaryColor,
@@ -397,7 +671,7 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                               contentPadding: EdgeInsets.all(15),
                               hintText: "Add new activity ...",
                               hintStyle: const TextStyle(
-                                  color: Colors.grey, fontSize: 19),
+                                  color: Colors.grey, fontSize: 17),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: backGroundColor),
                                 borderRadius: BorderRadius.circular(30),
@@ -411,17 +685,13 @@ void newInboxButtonSheet(BuildContext context, Function callback) {
                         ),
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
-          ),
-        );
-      });
-    },
-  ).whenComplete(
-    () {
-      callback();
-    },
-  );
+          ],
+        ),
+      ),
+    );
+  }
 }

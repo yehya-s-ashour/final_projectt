@@ -18,7 +18,7 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> post(String url, Map<String, String> body,
+  Future<dynamic> post(String url, Map<String, dynamic> body,
       [Map<String, String>? header]) async {
     var responseJson;
     try {
