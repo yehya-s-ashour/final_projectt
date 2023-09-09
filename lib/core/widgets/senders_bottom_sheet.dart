@@ -90,8 +90,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
             ),
             Expanded(
               child: Padding(
-                padding:
-                    const EdgeInsetsDirectional.only(top: 10.0, bottom: 30),
+                padding: const EdgeInsetsDirectional.only(top: 10.0),
                 child: FutureBuilder(
                   future: senders,
                   builder: (context, snapshot) {
