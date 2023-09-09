@@ -3,7 +3,6 @@ import 'package:image_picker/image_picker.dart';
 
 class NewInboxProvider extends ChangeNotifier {
   List<XFile?> imagesFiles = [];
-
   List<Map<String, dynamic>>? activites = [];
 
   late String archiveNumber;

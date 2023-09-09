@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:final_projectt/Screens/home.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
@@ -41,7 +42,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
   late String category = 'Other';
 
   bool isValidationShown = false;
-  late Status selectedStatus = Status(
+  late SingleStatus selectedStatus = SingleStatus(
       id: 1,
       name: 'Inbox',
       color: '0xfffa3a57',
@@ -147,12 +148,12 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         AnimatedContainer(
                           duration: Duration(milliseconds: 500),
                           width: 400,
-                          height: senderMobileCont.text.isEmpty
+                          height: senderNameCont.text.isEmpty
                               ? (!isValidationShown ? 140 : 155)
-                              : 200,
+                              : 230,
                           child: CustomWhiteBox(
                             width: 400,
-                            height: 200,
+                            height: 230,
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
@@ -446,7 +447,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         GestureDetector(
                           onTap: () async {
                             final selectedStatus =
-                                await showModalBottomSheet<Status>(
+                                await showModalBottomSheet<SingleStatus>(
                               clipBehavior: Clip.hardEdge,
                               isScrollControlled: true,
                               context: context,
@@ -541,7 +542,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         ),
                         CustomWhiteBox(
                           width: 378,
-                          height: 105,
+                          height: 110,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

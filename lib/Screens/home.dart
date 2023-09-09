@@ -5,6 +5,7 @@ import 'package:final_projectt/core/services/mail_controller.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/helpers/api_response.dart';
+import 'package:final_projectt/core/services/status_controller.dart';
 
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
@@ -14,6 +15,7 @@ import 'package:final_projectt/models/catego_model.dart';
 import 'package:final_projectt/models/mail_model.dart';
 
 import 'package:final_projectt/core/widgets/my_overlay.dart';
+import 'package:final_projectt/models/status_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
@@ -47,11 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
   double dy = 10.0;
   late Future<List<CategoryElement>> categories;
   late Future<List<MailElement>> mails;
-
+  late Future<StatusesesModel> statuses;
   @override
   void initState() {
     categories = getCatego();
     mails = getAllMails();
+    statuses = StatusController().fetchStatuse();
     super.initState();
   }
 
@@ -169,7 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }
                           if (userProvidor.data.status == Status.COMPLETED) {
-
                             // print(userProvidor.data.data?.user.name);
 
                             return GestureDetector(
@@ -190,42 +192,47 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  Consumer<StatuseProvider>(builder: (_, statuseProvider, __) {
-                    if (statuseProvider.statusedata.status == Status.LOADING) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    if (statuseProvider.statusedata.status ==
-                        Status.COMPLETED) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: GridView.builder(
-                            shrinkWrap: true,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 1.5,
-                              crossAxisCount:
-                                  2, // Number of columns in the grid
-                              crossAxisSpacing: 8.0, // Spacing between columns
-                              mainAxisSpacing: 8.0,
-                              // Spacing between rows
-                            ),
-                            itemCount: 4,
-                            itemBuilder: (context, index) {
-                              return customBox(
-                                  number: statuseProvider.statusedata.data!
-                                      .statuses![index].mailsCount!,
-                                  title: statuseProvider
-                                      .statusedata.data!.statuses![index].name!
-                                      .tr(),
-                                  height: 88,
-                                  width: 181);
-                            }),
-                      );
-                    }
-                    return const Text(" no data from Statuse provider");
-                  }),
+                  FutureBuilder(
+                      future: statuses,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: GridView.builder(
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 1.5,
+                                  crossAxisCount:
+                                      2, // Number of columns in the grid
+                                  crossAxisSpacing:
+                                      8.0, // Spacing between columns
+                                  mainAxisSpacing: 8.0,
+                                  // Spacing between rows
+                                ),
+                                itemCount: 4,
+                                itemBuilder: (context, index) {
+                                  return customBox(
+                                      number: snapshot
+                                          .data!.statuses![index].mailsCount!,
+                                      title: snapshot
+                                          .data!.statuses![index].name!
+                                          .tr(),
+                                      height: 88,
+                                      width: 181);
+                                }),
+                          );
+                        }
+                        if (snapshot.hasError) {
+                          return Text(snapshot.error.toString());
+                        }
+                        return Center(
+                          child: CircularProgressIndicator(
+                            color: primaryColor,
+                          ),
+                        );
+                      }),
                   SizedBox(
                     height: deviceHeight * 0.02,
                   ),
