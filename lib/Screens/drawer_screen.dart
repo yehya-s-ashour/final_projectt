@@ -12,6 +12,12 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
+  List<Map> drawerItem = [
+    {'icon': Icons.home, 'title': 'homepage'},
+    {'icon': Icons.person, 'title': 'profilepage'},
+    {'icon': Icons.send, 'title': 'senders'},
+    {'icon': Icons.settings, 'title': 'usermanagement'},
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -53,7 +59,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           TextButton(
                             onPressed: () {},
                             child: Text(
-                              e['title'],
+                              "${e['title']}".tr(),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,

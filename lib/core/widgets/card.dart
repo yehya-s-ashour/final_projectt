@@ -34,7 +34,7 @@ Card myCustomCard() {
                         const SizedBox(
                           width: 4,
                         ),
-                        Text("Organization Name",
+                        const Text("Organization Name",
                             style: TextStyle(fontSize: 18)),
                         Spacer(),
                         Text("Today, 11:00 AM",
