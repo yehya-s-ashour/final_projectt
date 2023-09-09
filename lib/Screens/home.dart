@@ -412,6 +412,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           .senderMobile = '';
                       Provider.of<NewInboxProvider>(context, listen: false)
                           .activites = [];
+                      Provider.of<NewInboxProvider>(context, listen: false)
+                          .isDatePickerOpened = false;
                       xoffset = 0;
                       yoffset = 0;
                       scalefactor = 1;

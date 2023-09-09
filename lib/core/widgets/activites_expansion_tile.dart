@@ -117,19 +117,12 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              SizedBox(
-                                width: 65,
-                              ),
-                              Text(
-                                '${Provider.of<NewInboxProvider>(context).activites![index]}',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontFamily: 'Iphone',
-                                ),
-                              ),
-                            ],
+                          Text(
+                            '${Provider.of<NewInboxProvider>(context).activites![index]['body']}',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'Iphone',
+                            ),
                           ),
                         ],
                       ),

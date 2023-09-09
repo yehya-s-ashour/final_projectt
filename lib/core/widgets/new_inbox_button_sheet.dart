@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
+import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/activites_expansion_tile.dart';
 import 'package:final_projectt/core/widgets/categories_bottom_sheet.dart';
@@ -8,11 +10,13 @@ import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/core/widgets/custum_textfield.dart';
 import 'package:final_projectt/core/widgets/date_picker.dart';
 import 'package:final_projectt/core/widgets/senders_bottom_sheet.dart';
+import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/core/widgets/status_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/tags_bottom_sheet.dart';
 import 'package:final_projectt/models/catego_model.dart';
 import 'package:final_projectt/models/sender_model.dart';
 import 'package:final_projectt/models/status_model.dart';
+import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,18 +31,33 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
   TextEditingController senderMobileCont = TextEditingController();
   TextEditingController mailTitleCont = TextEditingController();
   TextEditingController mailDescriptionCont = TextEditingController();
+  TextEditingController archiveNumber = TextEditingController();
+
   late final SingleSender? selectedSender;
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
-
+  late User user;
+  final _formKey = GlobalKey<FormState>();
   late String category = 'Other';
+
+  bool isValidationShown = false;
   late Status selectedStatus = Status(
-      id: 0,
+      id: 1,
       name: 'Inbox',
       color: '0xfffa3a57',
-      createdAt: '',
-      updatedAt: '',
+      createdAt: DateTime.now().toString(),
+      updatedAt: DateTime.now().toString(),
       mailsCount: '');
+
+  getUser() async {
+    user = await UserController().getLocalUser();
+  }
+
+  @override
+  void initState() {
+    getUser();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,30 +91,43 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // newInbox(
-                      //     title: mailTitleCont.text,
-                      //     senderId: selectedSender!.id,
-                      //     statusId: selectedStatus.id!,
-                      //     archiveNumber: Provider.of<NewInboxProvider>(context,
-                      //             listen: false)
-                      //         .archiveNumber,
-                      //     archiveDate: Provider.of<NewInboxProvider>(context,
-                      //             listen: false)
-                      //         .date);
-                      // Navigator.pop(context);
-                      createMail(
-                        statusId: '1',
-                        decision: "not yet",
-                        senderId: '81',
-                        finalDecision: "",
-                        activities: [],
-                        tags: [1],
-                        subject: 'test create email',
-                        description: "I hate my self",
-                        archiveNumber: '2000',
-                        archiveDate: DateTime.now().toString(),
-                      );
-                      Navigator.pop(context);
+                      setState(() {
+                        if (_formKey.currentState!.validate()) {
+                          newInbox(
+                            statusId: '${selectedStatus.id}',
+                            decision: decisionCont.text,
+                            senderId: '${selectedSender!.id}',
+                            finalDecision: decisionCont.text,
+                            activities: Provider.of<NewInboxProvider>(context,
+                                    listen: false)
+                                .activites,
+                            tags: [1],
+                            subject: mailTitleCont.text,
+                            description: mailDescriptionCont.text,
+                            archiveNumber: Provider.of<NewInboxProvider>(
+                                    context,
+                                    listen: false)
+                                .archiveNumber,
+                            archiveDate: Provider.of<NewInboxProvider>(context,
+                                    listen: false)
+                                .date
+                                .toString(),
+                          );
+                          showAlert(context,
+                              message: 'Mail Created Successfully',
+                              color: primaryColor.withOpacity(0.8),
+                              width: 230);
+                          Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (context) {
+                              return MainPage();
+                            },
+                          ));
+                        } else {
+                          setState(() {
+                            isValidationShown = true;
+                          });
+                        }
+                      });
                     },
                     child: const Text('Done', style: TextStyle(fontSize: 20)),
                   ),
@@ -107,6 +139,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                 physics: BouncingScrollPhysics(),
                 children: [
                   Form(
+                    key: _formKey,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -114,7 +147,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         AnimatedContainer(
                           duration: Duration(milliseconds: 500),
                           width: 400,
-                          height: senderMobileCont.text.isEmpty ? 140 : 200,
+                          height: senderMobileCont.text.isEmpty
+                              ? (!isValidationShown ? 140 : 155)
+                              : 200,
                           child: CustomWhiteBox(
                             width: 400,
                             height: 200,
@@ -129,7 +164,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                     hintTextColor: Colors.grey,
                                     isPrefixIcon: true,
                                     isSuffixIcon: true,
-                                    isUnderlinedBorder: true,
+                                    isUnderlinedBorderEnabled: true,
                                     prefixIcon: Icon(
                                       Icons.person_3_outlined,
                                       size: 23,
@@ -167,7 +202,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       ),
                                     ),
                                   ),
-                                  senderMobileCont.text.isEmpty
+                                  senderNameCont.text.isEmpty
                                       ? SizedBox()
                                       : CustomTextField(
                                           controller: senderMobileCont,
@@ -177,7 +212,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                           hintTextColor: Colors.grey,
                                           isPrefixIcon: true,
                                           isSuffixIcon: false,
-                                          isUnderlinedBorder: true,
+                                          isUnderlinedBorderEnabled: true,
                                           prefixIcon: Icon(
                                             Icons.phone_android_rounded,
                                             size: 23,
@@ -248,34 +283,108 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             ),
                           ),
                         ),
-                        CustomWhiteBox(
-                          width: 378,
-                          height: 128,
-                          child: Column(
-                            children: [
-                              CustomTextField(
-                                controller: mailTitleCont,
-                                validationMessage:
-                                    "Please enter a title of mail",
-                                hintText: "Title of mail",
-                                hintTextColor: Colors.grey,
-                                isPrefixIcon: false,
-                                isSuffixIcon: false,
-                                isUnderlinedBorder: true,
+                        AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          width: 400,
+                          height: isValidationShown ? 155 : 135,
+                          child: CustomWhiteBox(
+                            width: 378,
+                            height: 155,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  CustomTextField(
+                                    controller: mailTitleCont,
+                                    validationMessage:
+                                        "Please enter a title of mail",
+                                    hintText: "Title of mail",
+                                    hintTextColor: Colors.grey,
+                                    isPrefixIcon: false,
+                                    isSuffixIcon: false,
+                                    isUnderlinedBorderEnabled: true,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.only(
+                                        start: 10.0, end: 10.0),
+                                    child: TextFormField(
+                                      controller: mailDescriptionCont,
+                                      decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 20, horizontal: 35),
+                                        border: InputBorder.none,
+                                        hintText: 'Description',
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey,
+                                          fontFamily: 'Iphone',
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              CustomTextField(
-                                controller: mailDescriptionCont,
-                                validationMessage: "Please enter a description",
-                                hintText: "Description",
-                                hintTextColor: Colors.grey,
-                                isPrefixIcon: false,
-                                isSuffixIcon: false,
-                                isUnderlinedBorder: false,
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                        CustomDatePicker(),
+                        AnimatedContainer(
+                          height: Provider.of<NewInboxProvider>(context)
+                                  .isDatePickerOpened
+                              ? 515.0
+                              : (isValidationShown ? 165 : 130),
+                          duration: Duration(milliseconds: 300),
+                          child: CustomWhiteBox(
+                            width: 378,
+                            height: 480,
+                            child: SingleChildScrollView(
+                                physics: NeverScrollableScrollPhysics(),
+                                child: Column(
+                                  children: [
+                                    CustomDatePicker(),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.only(
+                                          start: 10.0, end: 10.0),
+                                      child: TextFormField(
+                                        onChanged: (value) {
+                                          Provider.of<NewInboxProvider>(context,
+                                                  listen: false)
+                                              .setArchiveNumber(value);
+                                        },
+                                        controller: archiveNumber,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return "Please enter an archive number";
+                                          }
+                                          return null;
+                                        },
+                                        decoration: const InputDecoration(
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 20,
+                                                    horizontal: 35),
+                                            border: InputBorder.none,
+                                            prefixIcon: Icon(
+                                              Icons.folder_zip_outlined,
+                                              color: Colors.blueGrey,
+                                              size: 23,
+                                            ),
+                                            hintText: "Archive number",
+                                            hintStyle: TextStyle(
+                                              color: Colors.black,
+                                              fontFamily: 'Iphone',
+                                              fontSize: 19,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                            errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
+                                              color: Colors.redAccent,
+                                            ))),
+                                      ),
+                                    ),
+                                  ],
+                                )),
+                          ),
+                        ),
                         GestureDetector(
                           onTap: () {
                             showModalBottomSheet(
@@ -432,7 +541,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         ),
                         CustomWhiteBox(
                           width: 378,
-                          height: 110,
+                          height: 105,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -450,14 +559,30 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                   ),
                                 ),
                               ),
-                              CustomTextField(
-                                  controller: decisionCont,
-                                  validationMessage: 'Please enter a decision',
-                                  hintText: 'Add Decision ...',
-                                  hintTextColor: Colors.grey,
-                                  isPrefixIcon: false,
-                                  isSuffixIcon: false,
-                                  isUnderlinedBorder: false)
+                              Padding(
+                                padding: const EdgeInsetsDirectional.only(
+                                    start: 10.0, end: 10.0),
+                                child: TextFormField(
+                                  onChanged: (value) {
+                                    Provider.of<NewInboxProvider>(context,
+                                            listen: false)
+                                        .setArchiveNumber(value);
+                                  },
+                                  controller: archiveNumber,
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 20, horizontal: 40),
+                                    border: InputBorder.none,
+                                    hintText: "Add Decsision ...",
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: 'Iphone',
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -656,7 +781,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       Provider.of<NewInboxProvider>(context,
                                               listen: false)
                                           .addActivity(
-                                              activityTextFieldController.text);
+                                              activityTextFieldController.text,
+                                              user.user.id.toString());
                                       activityTextFieldController.clear();
                                     });
                                   },

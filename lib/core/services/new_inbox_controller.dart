@@ -36,7 +36,7 @@ Future<void> createTag(String tagName) async {
   );
 }
 
-Future<void> createMail({
+Future<void> newInbox({
   required String subject,
   required String archiveNumber,
   required String archiveDate,

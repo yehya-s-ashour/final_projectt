@@ -6,17 +6,19 @@ void showAlert(context,
     required double width,
     bool isError = true}) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Center(
-      child: Text(
-        message,
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+    content: SizedBox(
+      child: Center(
+        child: Text(
+          message,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+        ),
       ),
     ),
     backgroundColor: color,
     duration: Duration(seconds: 2),
     width: width,
-    elevation: 0,
+    elevation: 6,
     behavior: SnackBarBehavior.floating,
   ));
 }
