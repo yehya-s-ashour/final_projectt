@@ -2,19 +2,17 @@ import 'dart:convert';
 
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
-import 'package:final_projectt/core/widgets/custum_textfield.dart';
+import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomDatePicker extends StatefulWidget {
-  const CustomDatePicker({super.key});
-
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
 }
 
 class _CustomDatePickerState extends State<CustomDatePicker> {
   DateTime date = DateTime.now();
-  bool isDatePickerOpened = false;
 
   @override
   Widget build(BuildContext context) {
@@ -23,91 +21,97 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
     dynamic month = getMonth(date);
     dynamic todayName = getDay(date);
 
-    return AnimatedContainer(
-      height: isDatePickerOpened ? 480.0 : 135.0,
-      duration: Duration(milliseconds: 300),
-      child: CustomWhiteBox(
-        width: 378,
-        height: 480,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Theme(
-                data: Theme.of(context).copyWith(
-                  dividerColor: Colors.transparent,
-                ),
-                child: ExpansionTile(
-                  onExpansionChanged: (value) {
-                    setState(() {
-                      isDatePickerOpened = value;
-                    });
-                  },
-                  textColor: Color(0xff272727),
-                  tilePadding: EdgeInsets.symmetric(horizontal: 22),
-                  initiallyExpanded: false,
-                  leading: Icon(
-                    Icons.calendar_month_rounded,
-                    color: Colors.red,
-                    size: 23,
-                  ),
-                  title: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Date',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: 'Iphone',
-                            fontSize: 22),
-                      ),
-                      Text(
-                        '$todayName, $month $today, $year',
-                        style: TextStyle(
-                            color: primaryColor,
-                            fontFamily: 'Iphone',
-                            fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  //
-                  children: <Widget>[
-                    CalendarDatePicker(
-                      initialDate: date,
-                      firstDate: DateTime(2023, 1, 1),
-                      lastDate: DateTime(2023, 12, 31),
-                      onDateChanged: (DateTime newdate) {
-                        setState(() {
-                          date = newdate;
-                        });
-                      },
-                    ),
-                  ],
+    return Column(
+      children: [
+        Theme(
+          data: Theme.of(context).copyWith(
+            dividerColor: Colors.transparent,
+          ),
+          child: ExpansionTile(
+            trailing: AnimatedContainer(
+              duration: Duration(milliseconds: 400),
+              curve: Curves.linear,
+              width: Provider.of<NewInboxProvider>(context).isDatePickerOpened
+                  ? 35
+                  : 20,
+              child: Center(
+                child: Icon(
+                  !Provider.of<NewInboxProvider>(context).isDatePickerOpened
+                      ? Icons.arrow_forward_ios_rounded
+                      : Icons.keyboard_arrow_down_rounded,
+                  size:
+                      !Provider.of<NewInboxProvider>(context).isDatePickerOpened
+                          ? 22
+                          : 38,
+                  color:
+                      !Provider.of<NewInboxProvider>(context).isDatePickerOpened
+                          ? Colors.grey
+                          : primaryColor,
                 ),
               ),
-              Container(
-                margin: EdgeInsetsDirectional.only(start: 10, end: 10),
-                width: MediaQuery.sizeOf(context).width,
-                height: 1,
-                color: Colors.grey.shade300,
+            ),
+            onExpansionChanged: (value) {
+              setState(() {
+                Provider.of<NewInboxProvider>(context, listen: false)
+                    .setIsDatePickerOpened(value);
+              });
+            },
+            textColor: Color(0xff272727),
+            tilePadding: EdgeInsets.symmetric(horizontal: 22),
+            initiallyExpanded: false,
+            leading: Icon(
+              Icons.calendar_month_rounded,
+              color: Colors.red,
+              size: 23,
+            ),
+            childrenPadding: EdgeInsets.zero,
+            title: SizedBox(
+              width: 100,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Date',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Iphone',
+                        fontSize: 19),
+                  ),
+                  Text(
+                    '$todayName, $month $today, $year',
+                    style: TextStyle(
+                        color: primaryColor,
+                        fontFamily: 'Iphone',
+                        fontSize: 16),
+                  ),
+                ],
               ),
-              CustomTextField(
-                validationMessage: "Please enter an archive number",
-                hintText: "Archive number",
-                hintTextColor: Colors.black,
-                isPrefixIcon: true,
-                isSuffixIcon: false,
-                isUnderlinedBorder: false,
-                prefixIcon: Icon(
-                  Icons.folder_zip_outlined,
-                  color: Colors.blueGrey,
-                  size: 23,
-                ),
+            ),
+            //
+            children: <Widget>[
+              CalendarDatePicker(
+                initialDate: date,
+                firstDate: DateTime(1900, 1, 1),
+                lastDate: DateTime(2100, 1, 1),
+                onDateChanged: (DateTime newdate) {
+                  setState(() {
+                    date = newdate;
+                    Provider.of<NewInboxProvider>(context, listen: false)
+                        .setDate(newdate);
+                  });
+                },
               ),
             ],
           ),
         ),
-      ),
+        Container(
+          margin: EdgeInsetsDirectional.only(start: 10, end: 10),
+          width: MediaQuery.sizeOf(context).width,
+          height: 1,
+          color: Colors.grey.shade300,
+        ),
+      ],
     );
   }
 }

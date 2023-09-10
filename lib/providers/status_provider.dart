@@ -13,7 +13,9 @@ class StatuseProvider extends ChangeNotifier {
     _statusController = StatusController();
     getStatuseData();
   }
+
   ApiResponse<StatusesesModel> get statusedata => _dataStatuse;
+
   Future<void> getStatuseData() async {
     _dataStatuse = ApiResponse.loading('Loading');
     notifyListeners();

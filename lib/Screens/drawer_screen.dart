@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:final_projectt/Screens/sender_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../core/util/constants/colors.dart';
@@ -12,6 +13,12 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
+  List<Map> drawerItem = [
+    {'icon': Icons.home, 'title': 'homepage'},
+    {'icon': Icons.person, 'title': 'profilepage'},
+    {'icon': Icons.send, 'title': 'senders'},
+    {'icon': Icons.settings, 'title': 'usermanagement'},
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -51,9 +58,19 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             width: 10,
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              switch (e["title"]) {
+                                case "senders":
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return SendersScreen();
+                                    },
+                                  ));
+                                  break;
+                              }
+                            },
                             child: Text(
-                              e['title'],
+                              "${e['title']}".tr(),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,

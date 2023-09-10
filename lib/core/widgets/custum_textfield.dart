@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 
-Padding CustomTextField({
-  required String validationMessage,
-  required String hintText,
-  required Color hintTextColor,
-  required bool isPrefixIcon,
-  required bool isSuffixIcon,
-  required bool isUnderlinedBorder,
-  Widget? prefixIcon,
-  Widget? suffixIcon,
-}) {
+Padding CustomTextField(
+    {required String validationMessage,
+    required TextEditingController controller,
+    required String hintText,
+    required Color hintTextColor,
+    required bool isPrefixIcon,
+    required bool isSuffixIcon,
+    required bool isUnderlinedBorderEnabled,
+    Widget? prefixIcon,
+    Widget? suffixIcon,
+    Function(String)? onChanged}) {
   return Padding(
     padding: const EdgeInsetsDirectional.only(
       start: 10.0,
       end: 10.0,
     ),
     child: TextFormField(
+      onChanged: onChanged,
+      controller: controller,
       validator: (value) {
         if (value == null || value.isEmpty) {
           return validationMessage;
@@ -25,6 +28,7 @@ Padding CustomTextField({
       decoration: InputDecoration(
         // Increase the left padding to make room for the suffix icon
         contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+
         border: InputBorder.none,
         prefixIcon: isPrefixIcon ? prefixIcon : null,
         hintText: hintText,
@@ -35,9 +39,15 @@ Padding CustomTextField({
           fontSize: 19,
           fontWeight: FontWeight.w500,
         ),
-        enabledBorder: isUnderlinedBorder
+        enabledBorder: isUnderlinedBorderEnabled
             ? UnderlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade300))
+            : null,
+        errorBorder: isUnderlinedBorderEnabled
+            ? const UnderlineInputBorder(
+                borderSide: BorderSide(
+                color: Colors.redAccent,
+              ))
             : null,
       ),
     ),

@@ -18,7 +18,9 @@
   "officialorganization":"Official Organization",
   "ngos":"NGOs",
   "others":"Others",
-  "tags":"Tags"
+  "tags":"Tags",
+  "Language":"Language",
+  "Logout":"Logout"
 
       
     }
