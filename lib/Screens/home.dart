@@ -48,12 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
   double dx = 0.0;
   double dy = 10.0;
   late Future<List<CategoryElement>> categories;
-  late Future<List<MailElement>> mails;
+  // late Future<List<MailElement>> mails;
+  late Future<MailsModel> mails;
   late Future<StatusesesModel> statuses;
   @override
   void initState() {
     categories = getCatego();
-    mails = getAllMails();
+    // mails = getAllMails();
+    mails = getMails();
     statuses = StatusController().fetchStatuse();
     super.initState();
   }
@@ -296,9 +298,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: deviceHeight * 0.4,
                             child: ListView.separated(
                               shrinkWrap: true,
-                              itemCount: snapshot.data!.length,
+                              itemCount: snapshot.data!.mails.length,
                               itemBuilder: (context, index) {
-                                final subject = snapshot.data?[index].subject;
+                                final subject =
+                                    snapshot.data!.mails[index].subject;
                                 return Theme(
                                   data: Theme.of(context).copyWith(
                                       dividerColor: Colors.transparent),
@@ -309,7 +312,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         horizontal: 16),
                                     initiallyExpanded: false,
                                     title: Text(
-                                      subject!,
+                                      subject,
                                       style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -338,6 +341,56 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       }),
+                  // FutureBuilder(
+                  //     future: mails,
+                  //     builder: (context, snapshot) {
+                  //       if (snapshot.hasData) {
+                  //         return SizedBox(
+                  //           height: deviceHeight * 0.4,
+                  //           child: ListView.separated(
+                  //             shrinkWrap: true,
+                  //             itemCount: snapshot.data!.length,
+                  //             itemBuilder: (context, index) {
+                  //               final subject = snapshot.data?[index].subject;
+                  //               return Theme(
+                  //                 data: Theme.of(context).copyWith(
+                  //                     dividerColor: Colors.transparent),
+                  //                 child: ExpansionTile(
+                  //                   // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
+                  //                   textColor: const Color(0xff272727),
+                  //                   tilePadding: const EdgeInsets.symmetric(
+                  //                       horizontal: 16),
+                  //                   initiallyExpanded: false,
+                  //                   title: Text(
+                  //                     subject!,
+                  //                     style: const TextStyle(
+                  //                         fontSize: 18,
+                  //                         fontWeight: FontWeight.bold,
+                  //                         color: Colors.amber),
+                  //                   ),
+                  //                   children: <Widget>[
+                  //                     myCustomCard(),
+                  //                   ],
+                  //                 ),
+                  //               );
+                  //             },
+                  //             separatorBuilder: (context, index) {
+                  //               return const SizedBox(
+                  //                 height: 12,
+                  //               );
+                  //             },
+                  //           ),
+                  //         );
+                  //       }
+                  //       if (snapshot.hasError) {
+                  //         return Text(snapshot.error.toString());
+                  //       }
+                  //       return Center(
+                  //         child: CircularProgressIndicator(
+                  //           color: primaryColor,
+                  //         ),
+                  //       );
+                  //     }),
                   const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Text(

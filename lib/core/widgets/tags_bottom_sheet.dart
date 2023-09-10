@@ -161,6 +161,95 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
               );
             },
           ),
+// FutureBuilder(
+//                       future: tags,
+//                       builder: (context, snapshot) {
+//                         if (snapshot.hasData) {
+//                           List<TagElement> tagsListForScreen = snapshot.data!;
+//                           return GestureDetector(
+//                             onTap: () {
+//                               Navigator.push(
+//                                 context,
+//                                 MaterialPageRoute(
+//                                     builder: (context) => TagsScreen(
+//                                           tagsList: tagsListForScreen,
+//                                         )),
+//                               ).then((value) {
+//                                 if (value == true) {
+//                                   setState(() {
+//                                     categories = getCatego();
+//                                     mails = getMails();
+//                                     tags = getAllTags();
+//                                   });
+//                                 }
+//                               });
+//                             },
+//                             child: CustomWhiteBox(
+//                               width: devicewidth * 0.9,
+//                               height: (snapshot.data!.length / 2).round() * 52,
+//                               child: Padding(
+//                                 padding: const EdgeInsetsDirectional.only(
+//                                     start: 15.0, top: 15),
+//                                 child: Wrap(
+//                                   spacing: 10.0,
+//                                   runSpacing: 10.0,
+//                                   children: snapshot.data!.map((tag) {
+//                                     final tagText = tag.name;
+//                                     final textLength = tagText.length;
+//                                     final tagWidth = 40.0 + (textLength * 7.0);
+//                                     return GestureDetector(
+//                                       onTap: () {
+//                                         // Navigator.push(
+//                                         //   context,
+//                                         //   MaterialPageRoute(
+//                                         //       builder: (context) => TagsScreen(
+//                                         //             tagsList: tagsListForScreen,
+//                                         //           )),
+//                                         // ).then((value) {
+//                                         //   if (value == true) {
+//                                         //     setState(() {
+//                                         //       categories = getCatego();
+//                                         //       mails = getMails();
+//                                         //       tags = getAllTags();
+//                                         //     });
+//                                         //   }
+//                                         // });
+//                                       },
+//                                       child: Container(
+//                                         alignment: Alignment.center,
+//                                         width: tagWidth,
+//                                         height: 32,
+//                                         decoration: BoxDecoration(
+//                                           color: const Color.fromARGB(
+//                                               255, 208, 207, 207),
+//                                           borderRadius:
+//                                               BorderRadius.circular(30),
+//                                         ),
+//                                         child: Text(
+//                                           '# $tagText',
+//                                           style: const TextStyle(
+//                                             fontSize: 14,
+//                                             color: Colors.black,
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     );
+//                                   }).toList(),
+
+// ),
+//                               ),
+//                             ),
+//                           );
+//                         }
+//                         if (snapshot.hasError) {
+//                           return Text(snapshot.error.toString());
+//                         }
+//                         return Center(
+//                           child: CircularProgressIndicator(
+//                             color: primaryColor,
+//                           ),
+//                         );
+//                       }),
         ],
       ),
     );
