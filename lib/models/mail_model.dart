@@ -1,34 +1,27 @@
-// To parse this JSON data, do
-//
-//     final mail = mailFromJson(jsonString);
+class MailsModel {
+  List<Mails>? mails;
 
-import 'dart:convert';
+  MailsModel({this.mails});
 
-import 'package:final_projectt/models/pivot_model.dart';
-import 'package:final_projectt/models/user_model.dart';
+  MailsModel.fromJson(Map<String, dynamic> json) {
+    if (json['mails'] != null) {
+      mails = <Mails>[];
+      json['mails'].forEach((v) {
+        mails!.add(new Mails.fromJson(v));
+      });
+    }
+  }
 
-Mail mailFromJson(String str) => Mail.fromJson(json.decode(str));
-
-String mailToJson(Mail data) => json.encode(data.toJson());
-
-class Mail {
-  List<MailElement> mails;
-
-  Mail({
-    required this.mails,
-  });
-
-  factory Mail.fromJson(Map<String, dynamic> json) => Mail(
-        mails: List<MailElement>.from(
-            json["mails"].map((x) => MailElement.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "mails": List<dynamic>.from(mails.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.mails != null) {
+      data['mails'] = this.mails!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class MailElement {
+class Mails {
   int? id;
   String? subject;
   String? description;
@@ -40,285 +33,377 @@ class MailElement {
   String? finalDecision;
   String? createdAt;
   String? updatedAt;
-  SenderInMail? sender;
-  MailStatus? status;
-  List<TagInMail>? tags;
-  List<Attachment>? attachments;
-  List<Activity>? activities;
+  Sender? sender;
+  SingleStatus? status;
+  List<Attachments>? attachments;
+  List<Activities>? activities;
+  List<Tags>? tags;
 
-  MailElement({
-    this.id,
-    this.subject,
-    this.description,
-    this.senderId,
-    this.archiveNumber,
-    this.archiveDate,
-    this.decision,
-    this.statusId,
-    this.finalDecision,
-    this.createdAt,
-    this.updatedAt,
-    this.sender,
-    this.status,
-    this.tags,
-    this.attachments,
-    this.activities,
-  });
+  Mails(
+      {this.id,
+      this.subject,
+      this.description,
+      this.senderId,
+      this.archiveNumber,
+      this.archiveDate,
+      this.decision,
+      this.statusId,
+      this.finalDecision,
+      this.createdAt,
+      this.updatedAt,
+      this.sender,
+      this.status,
+      this.attachments,
+      this.activities,
+      this.tags});
 
-  factory MailElement.fromJson(Map<String, dynamic> json) => MailElement(
-        id: json["id"],
-        subject: json["subject"],
-        description: json["description"],
-        senderId: json["sender_id"],
-        archiveNumber: json["archive_number"],
-        archiveDate: json["archive_date"],
-        decision: json["decision"],
-        statusId: json["status_id"],
-        finalDecision: json["final_decision"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        sender: SenderInMail.fromJson(json['sender']),
-        status: MailStatus.fromJson(json["status"]),
-        tags: List<TagInMail>.from(
-            json["tags"].map((x) => TagInMail.fromJson(x))),
-        attachments: List<Attachment>.from(
-            json["attachments"].map((x) => Attachment.fromJson(x))),
-        activities: List<Activity>.from(
-            json["activities"].map((x) => Activity.fromJson(x))),
-      );
+  Mails.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    subject = json['subject'];
+    description = json['description'];
+    senderId = json['sender_id'];
+    archiveNumber = json['archive_number'];
+    archiveDate = json['archive_date'];
+    decision = json['decision'];
+    statusId = json['status_id'];
+    finalDecision = json['final_decision'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    sender =
+        json['sender'] != null ? new Sender.fromJson(json['sender']) : null;
+    status = json['status'] != null
+        ? new SingleStatus.fromJson(json['status'])
+        : null;
+    if (json['attachments'] != null) {
+      attachments = <Attachments>[];
+      json['attachments'].forEach((v) {
+        attachments!.add(new Attachments.fromJson(v));
+      });
+    }
+    if (json['activities'] != null) {
+      activities = <Activities>[];
+      json['activities'].forEach((v) {
+        activities!.add(new Activities.fromJson(v));
+      });
+    }
+    if (json['tags'] != null) {
+      tags = <Tags>[];
+      json['tags'].forEach((v) {
+        tags!.add(new Tags.fromJson(v));
+      });
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "subject": subject,
-        "description": description,
-        "sender_id": senderId,
-        "archive_number": archiveNumber,
-        "archive_date": archiveDate,
-        "decision": decision,
-        "status_id": statusId,
-        "final_decision": finalDecision,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "sender": sender?.toJson(),
-        "status": status?.toJson(),
-        "tags": List<dynamic>.from(tags!.map((x) => x.toJson())),
-        "attachments": List<dynamic>.from(attachments!.map((x) => x.toJson())),
-        "activities": List<dynamic>.from(activities!.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['subject'] = this.subject;
+    data['description'] = this.description;
+    data['sender_id'] = this.senderId;
+    data['archive_number'] = this.archiveNumber;
+    data['archive_date'] = this.archiveDate;
+    data['decision'] = this.decision;
+    data['status_id'] = this.statusId;
+    data['final_decision'] = this.finalDecision;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.sender != null) {
+      data['sender'] = this.sender!.toJson();
+    }
+    if (this.status != null) {
+      data['status'] = this.status!.toJson();
+    }
+    if (this.attachments != null) {
+      data['attachments'] = this.attachments!.map((v) => v.toJson()).toList();
+    }
+    if (this.activities != null) {
+      data['activities'] = this.activities!.map((v) => v.toJson()).toList();
+    }
+    if (this.tags != null) {
+      data['tags'] = this.tags!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class Activity {
-  int id;
-  String body;
-  String userId;
-  String mailId;
-  dynamic sendNumber;
-  dynamic sendDate;
-  dynamic sendDestination;
-  String createdAt;
-  String updatedAt;
-  User user;
-
-  Activity({
-    required this.id,
-    required this.body,
-    required this.userId,
-    required this.mailId,
-    required this.sendNumber,
-    required this.sendDate,
-    required this.sendDestination,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.user,
-  });
-
-  factory Activity.fromJson(Map<String, dynamic> json) => Activity(
-        id: json["id"],
-        body: json["body"],
-        userId: json["user_id"],
-        mailId: json["mail_id"],
-        sendNumber: json["send_number"],
-        sendDate: json["send_date"],
-        sendDestination: json["send_destination"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        user: User.fromJson(json["user"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "body": body,
-        "user_id": userId,
-        "mail_id": mailId,
-        "send_number": sendNumber,
-        "send_date": sendDate,
-        "send_destination": sendDestination,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "user": user.toJson(),
-      };
-}
-
-class Attachment {
-  int id;
-  String title;
-  String image;
-  String mailId;
-  String createdAt;
-  String updatedAt;
-
-  Attachment({
-    required this.id,
-    required this.title,
-    required this.image,
-    required this.mailId,
-    required this.createdAt,
-    required this.updatedAt,
-  });
-
-  factory Attachment.fromJson(Map<String, dynamic> json) => Attachment(
-        id: json["id"],
-        title: json["title"],
-        image: json["image"],
-        mailId: json["mail_id"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "image": image,
-        "mail_id": mailId,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-      };
-}
-
-class SenderInMail {
-  int id;
-  String name;
-  String mobile;
+class Sender {
+  int? id;
+  String? name;
+  String? mobile;
   String? address;
-  String categoryId;
-  String createdAt;
-  String updatedAt;
-  CategoryInMail category;
+  String? categoryId;
+  String? createdAt;
+  String? updatedAt;
+  Category? category;
 
-  SenderInMail({
-    required this.id,
-    required this.name,
-    required this.mobile,
-    required this.address,
-    required this.categoryId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.category,
-  });
+  Sender(
+      {this.id,
+      this.name,
+      this.mobile,
+      this.address,
+      this.categoryId,
+      this.createdAt,
+      this.updatedAt,
+      this.category});
 
-  factory SenderInMail.fromJson(Map<String, dynamic> json) => SenderInMail(
-        id: json["id"],
-        name: json["name"],
-        mobile: json["mobile"],
-        address: json["address"],
-        categoryId: json["category_id"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        category: CategoryInMail.fromJson(json["category"]),
-      );
+  Sender.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    mobile = json['mobile'];
+    address = json['address'];
+    categoryId = json['category_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    category = json['category'] != null
+        ? new Category.fromJson(json['category'])
+        : null;
+  }
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "mobile": mobile,
-        "address": address,
-        "category_id": categoryId,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "category": category.toJson(),
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['mobile'] = this.mobile;
+    data['address'] = this.address;
+    data['category_id'] = this.categoryId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.category != null) {
+      data['category'] = this.category!.toJson();
+    }
+    return data;
+  }
 }
 
-class TagInMail {
-  int id;
-  String name;
-  String createdAt;
-  String updatedAt;
+class Category {
+  int? id;
+  String? name;
+  String? createdAt;
+  String? updatedAt;
+
+  Category({this.id, this.name, this.createdAt, this.updatedAt});
+
+  Category.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class SingleStatus {
+  int? id;
+  String? name;
+  String? color;
+
+  SingleStatus({this.id, this.name, this.color});
+
+  SingleStatus.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    color = json['color'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['color'] = this.color;
+    return data;
+  }
+}
+
+class Attachments {
+  int? id;
+  String? title;
+  String? image;
+  String? mailId;
+  String? createdAt;
+  String? updatedAt;
+
+  Attachments(
+      {this.id,
+      this.title,
+      this.image,
+      this.mailId,
+      this.createdAt,
+      this.updatedAt});
+
+  Attachments.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    image = json['image'];
+    mailId = json['mail_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['image'] = this.image;
+    data['mail_id'] = this.mailId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class Activities {
+  int? id;
+  String? body;
+  String? userId;
+  String? mailId;
+  String? sendNumber;
+  Null? sendDate;
+  Null? sendDestination;
+  String? createdAt;
+  String? updatedAt;
+  User? user;
+
+  Activities(
+      {this.id,
+      this.body,
+      this.userId,
+      this.mailId,
+      this.sendNumber,
+      this.sendDate,
+      this.sendDestination,
+      this.createdAt,
+      this.updatedAt,
+      this.user});
+
+  Activities.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    body = json['body'];
+    userId = json['user_id'];
+    mailId = json['mail_id'];
+    sendNumber = json['send_number'];
+    sendDate = json['send_date'];
+    sendDestination = json['send_destination'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['body'] = this.body;
+    data['user_id'] = this.userId;
+    data['mail_id'] = this.mailId;
+    data['send_number'] = this.sendNumber;
+    data['send_date'] = this.sendDate;
+    data['send_destination'] = this.sendDestination;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    return data;
+  }
+}
+
+class User {
+  int? id;
+  String? name;
+  String? email;
+  String? image;
+  String? emailVerifiedAt;
+  String? roleId;
+  String? createdAt;
+  String? updatedAt;
+
+  User(
+      {this.id,
+      this.name,
+      this.email,
+      this.image,
+      this.emailVerifiedAt,
+      this.roleId,
+      this.createdAt,
+      this.updatedAt});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    email = json['email'];
+    image = json['image'];
+    emailVerifiedAt = json['email_verified_at'];
+    roleId = json['role_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['image'] = this.image;
+    data['email_verified_at'] = this.emailVerifiedAt;
+    data['role_id'] = this.roleId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class Tags {
+  int? id;
+  String? name;
+  String? createdAt;
+  String? updatedAt;
   Pivot? pivot;
 
-  TagInMail({
-    required this.id,
-    required this.name,
-    required this.createdAt,
-    required this.updatedAt,
-    this.pivot,
-  });
+  Tags({this.id, this.name, this.createdAt, this.updatedAt, this.pivot});
 
-  factory TagInMail.fromJson(Map<String, dynamic> json) => TagInMail(
-        id: json["id"],
-        name: json["name"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        pivot: json["pivot"] == null ? null : Pivot.fromJson(json["pivot"]),
-      );
+  Tags.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+  }
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "pivot": pivot?.toJson(),
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.pivot != null) {
+      data['pivot'] = this.pivot!.toJson();
+    }
+    return data;
+  }
 }
 
-class CategoryInMail {
-  int id;
-  String name;
-  String createdAt;
-  String updatedAt;
+class Pivot {
+  String? mailId;
+  String? tagId;
 
-  CategoryInMail({
-    required this.id,
-    required this.name,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+  Pivot({this.mailId, this.tagId});
 
-  factory CategoryInMail.fromJson(Map<String, dynamic> json) => CategoryInMail(
-        id: json["id"],
-        name: json["name"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-      );
+  Pivot.fromJson(Map<String, dynamic> json) {
+    mailId = json['mail_id'];
+    tagId = json['tag_id'];
+  }
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-      };
-}
-
-class MailStatus {
-  int id;
-  String name;
-  String color;
-
-  MailStatus({
-    required this.id,
-    required this.name,
-    required this.color,
-  });
-
-  factory MailStatus.fromJson(Map<String, dynamic> json) => MailStatus(
-        id: json["id"],
-        name: json["name"],
-        color: json["color"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "color": color,
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['mail_id'] = this.mailId;
+    data['tag_id'] = this.tagId;
+    return data;
+  }
 }
