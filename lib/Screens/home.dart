@@ -181,7 +181,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }
                           if (userProvidor.data.status == Status.COMPLETED) {
-
                             return GestureDetector(
                               onTap: () {
                                 showOverlay(
@@ -200,9 +199,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-
-                  
-
                   FutureBuilder(
                       future: statuses,
                       builder: (context, snapshot) {
@@ -211,6 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: GridView.builder(
+                                physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
@@ -244,7 +241,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       }),
-
                   SizedBox(
                     height: deviceHeight * 0.02,
                   ),
@@ -420,7 +416,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       }),
-
                   SizedBox(
                     height: deviceHeight * 0.08,
                   ),
