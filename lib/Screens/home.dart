@@ -203,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+
                   Consumer<StatuseProvider>(builder: (_, statuseProvider, __) {
                     if (statuseProvider.statusedata.status == Status.LOADING) {
                       return const Center(
