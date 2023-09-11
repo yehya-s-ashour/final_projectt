@@ -35,7 +35,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
   TextEditingController mailDescriptionCont = TextEditingController();
   TextEditingController archiveNumber = TextEditingController();
 
-  late final SingleSender? selectedSender;
+  SingleSender? selectedSender;
+
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
   late User user;
@@ -94,6 +95,21 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                   TextButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        // showDialog(
+                        //   barrierDismissible: false,
+                        //   context: context,
+                        //   builder: (context) {
+                        //     return Align(
+                        //       alignment: Alignment.center,
+                        //       child: AlertDialog(
+                        //           backgroundColor: Colors.transparent,
+                        //           titlePadding: EdgeInsets.zero,
+                        //           title:
+                        //               Image.asset('images/loading-icon.gif')),
+                        //     );
+                        //   },
+                        // );
+
                         await newInbox(
                           statusId: '${selectedStatus.id}',
                           decision: decisionCont.text,
@@ -148,11 +164,12 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AnimatedContainer(
-                          duration: Duration(milliseconds: 500),
+                          duration: Duration(milliseconds: 300),
                           width: 400,
                           height: senderNameCont.text.isEmpty
                               ? (!isValidationShown ? 140 : 155)
-                              : 230,
+                              : 220,
+
                           child: CustomWhiteBox(
                             width: 400,
                             height: 230,
@@ -174,6 +191,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                     ),
                                     suffixIcon: IconButton(
                                       onPressed: () async {
+                                        selectedSender = null;
+
                                         selectedSender =
                                             await showModalBottomSheet<
                                                 SingleSender>(

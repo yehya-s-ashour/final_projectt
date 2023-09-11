@@ -9,48 +9,68 @@ Widget myCustomCard(Mails mail) {
   DateTime dateTime = DateTime.parse(dateTimeString);
   String formattedDate = DateFormat('yyyy  MMM  dd').format(dateTime);
 
-  Text getTags(List<Tags>? tags) {
-    String tag = '';
-    if (tags != []) {
-      for (int i = 0; i < tags!.length; i++) {
-        tag = '#${tags[i].name}';
-      }
-      return Text(
-        tag,
-        style: const TextStyle(
-            fontSize: 14,
-            color: Color(0xff6589FF),
-            fontWeight: FontWeight.w400),
+  Widget getTags(List<Tags>? tags) {
+    if (tags != null && tags.isNotEmpty) {
+      return SizedBox(
+        height: 20,
+        child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              String? tag = '#${tags[index].name}';
+              return Text(
+                tag,
+                style: const TextStyle(
+                    fontSize: 14,
+                    color: Color(0xff6589FF),
+                    fontWeight: FontWeight.w400),
+              );
+            },
+            separatorBuilder: ((context, index) {
+              return const SizedBox(
+                width: 5,
+              );
+            }),
+            itemCount: tags.length),
       );
     }
-    return const Text('');
+    return const SizedBox.shrink();
   }
 
   Widget getAttachments(List<Attachments>? attach) {
-    String? path;
-    if (attach != []) {
-      for (int i = 0; i < attach!.length; i++) {
-        path = '${attach[i].image}';
-      }
-      return GestureDetector(
-        onTap: () {},
-        child: Container(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: path != null
-              ? Image.network(
-                  'https://palmail.gsgtt.tech/storage/$path',
-                  fit: BoxFit.fill,
-                )
-              : const Text(''),
-        ),
+    if (attach != [] && attach!.isNotEmpty) {
+      return SizedBox(
+        height: 50,
+        child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: attach.length,
+            separatorBuilder: (context, index) {
+              return const SizedBox(
+                width: 10,
+              );
+            },
+            itemBuilder: (context, index) {
+              String? path = attach[index].image;
+              return GestureDetector(
+                onTap: () {},
+                child: Container(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: path != null
+                      ? Image.network(
+                          'https://palmail.gsgtt.tech/storage/$path',
+                          fit: BoxFit.fill,
+                        )
+                      : const Text(''),
+                ),
+              );
+            }),
       );
     }
-    return const Text('');
+    return const SizedBox.shrink();
   }
 
   return GestureDetector(
