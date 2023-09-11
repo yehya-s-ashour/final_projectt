@@ -22,7 +22,6 @@ import 'package:final_projectt/models/tags_model.dart';
 import 'package:final_projectt/models/status_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 
-import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
 
 import 'package:flutter/material.dart';
@@ -181,7 +180,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }
                           if (userProvidor.data.status == Status.COMPLETED) {
-
                             return GestureDetector(
                               onTap: () {
                                 showOverlay(
@@ -200,9 +198,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-
-                  
-
                   FutureBuilder(
                       future: statuses,
                       builder: (context, snapshot) {
@@ -211,6 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: GridView.builder(
+                                physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
@@ -244,7 +240,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       }),
-
                   SizedBox(
                     height: deviceHeight * 0.02,
                   ),
@@ -420,7 +415,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       }),
-
                   SizedBox(
                     height: deviceHeight * 0.08,
                   ),
