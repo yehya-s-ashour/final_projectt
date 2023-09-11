@@ -274,7 +274,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     return const Text("  no data from user provider ");
                   }),
-
                   SizedBox(
                     height: deviceHeight * 0.02,
                   ),
@@ -482,6 +481,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .activites = [];
                       Provider.of<NewInboxProvider>(context, listen: false)
                           .isDatePickerOpened = false;
+                      tags = getAllTags();
                       xoffset = 0;
                       yoffset = 0;
                       scalefactor = 1;

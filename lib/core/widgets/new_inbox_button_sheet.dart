@@ -17,6 +17,7 @@ import 'package:final_projectt/core/widgets/tags_bottom_sheet.dart';
 import 'package:final_projectt/models/catego_model.dart';
 import 'package:final_projectt/models/sender_model.dart';
 import 'package:final_projectt/models/status_model.dart';
+import 'package:final_projectt/models/tags_model.dart';
 import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
@@ -36,6 +37,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
   TextEditingController archiveNumber = TextEditingController();
 
   SingleSender? selectedSender;
+  List<TagElement>? selectedTags = [];
 
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
@@ -110,7 +112,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         //   },
                         // );
 
-                        await newInbox(
+                        final createMailResponse = await newInbox(
                           statusId: '${selectedStatus.id}',
                           decision: decisionCont.text,
                           senderId: '${selectedSender!.id}',
@@ -118,7 +120,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           activities: Provider.of<NewInboxProvider>(context,
                                   listen: false)
                               .activites,
-                          tags: [1],
+                          tags: selectedTags!.map((tag) => tag.id).toList(),
                           subject: mailTitleCont.text,
                           description: mailDescriptionCont.text,
                           archiveNumber: Provider.of<NewInboxProvider>(context,
@@ -129,10 +131,14 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               .date
                               .toString(),
                         );
+                        uploadImages(context, createMailResponse.mail!.id!);
                         showAlert(context,
                             message: 'Mail Created Successfully',
                             color: primaryColor.withOpacity(0.8),
                             width: 230);
+
+                        selectedTags = [];
+
                         final updateData = Provider.of<StatuseProvider>(context,
                             listen: false);
                         updateData.updatestutas();
@@ -169,7 +175,6 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           height: senderNameCont.text.isEmpty
                               ? (!isValidationShown ? 140 : 155)
                               : 220,
-
                           child: CustomWhiteBox(
                             width: 400,
                             height: 230,
@@ -408,22 +413,29 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           ),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            showModalBottomSheet(
-                                clipBehavior: Clip.hardEdge,
-                                isScrollControlled: true,
-                                context: context,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                  top: Radius.circular(15.0),
-                                )),
-                                builder: (BuildContext context) {
-                                  return StatefulBuilder(builder:
-                                      (BuildContext context,
-                                          StateSetter setState) {
-                                    return TagsBottomSheet();
-                                  });
-                                });
+                          onTap: () async {
+                            final selectedTags =
+                                await showModalBottomSheet<List<TagElement>>(
+                                    clipBehavior: Clip.hardEdge,
+                                    isScrollControlled: true,
+                                    context: context,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(15.0),
+                                    )),
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(builder:
+                                          (BuildContext context,
+                                              StateSetter setState) {
+                                        return TagsBottomSheet(
+                                            selectedTags: this.selectedTags!);
+                                      });
+                                    });
+                            setState(() {
+                              if (selectedTags != null) {
+                                this.selectedTags = selectedTags;
+                              }
+                            });
                           },
                           child: CustomWhiteBox(
                             width: 378,
@@ -590,7 +602,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                             listen: false)
                                         .setArchiveNumber(value);
                                   },
-                                  controller: archiveNumber,
+                                  controller: decisionCont,
                                   decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 40),
@@ -776,6 +788,14 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                                           index]!
                                                                       .path)))),
                                                         ),
+                                                        Text(
+                                                          '${Provider.of<NewInboxProvider>(context).imagesFiles[index]!.name}',
+                                                          maxLines: 1,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: TextStyle(
+                                                              fontSize: 17),
+                                                        )
                                                       ],
                                                     ),
                                                   );

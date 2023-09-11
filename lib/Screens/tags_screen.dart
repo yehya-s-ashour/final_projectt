@@ -119,7 +119,7 @@ class _TagsScreenState extends State<TagsScreen> {
       ),
       body: CustomWhiteBox(
           width: 378,
-          height: (widget.tagsList.length / 2).round() * 52,
+          height: (widget.tagsList.length / 3).round() * 52,
           child: Padding(
             padding: const EdgeInsetsDirectional.only(start: 15.0, top: 15),
             child: Wrap(

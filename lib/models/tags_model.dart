@@ -73,7 +73,7 @@ class SenderInTags {
       };
 }
 
-class Mail {
+class TagMail {
   int id;
   String subject;
   String? description;
@@ -92,7 +92,7 @@ class Mail {
   List<dynamic> attachments;
   List<Activity> activities;
 
-  Mail({
+  TagMail({
     required this.id,
     required this.subject,
     required this.description,
@@ -112,7 +112,7 @@ class Mail {
     required this.activities,
   });
 
-  factory Mail.fromJson(Map<String, dynamic> json) => Mail(
+  factory TagMail.fromJson(Map<String, dynamic> json) => TagMail(
         id: json["id"],
         subject: json["subject"],
         description: json["description"],
@@ -160,7 +160,7 @@ class TagElement {
   String name;
   String createdAt;
   String updatedAt;
-  List<Mail>? mails;
+  List<TagMail>? mails;
   Pivot? pivot;
 
   TagElement({
@@ -179,7 +179,8 @@ class TagElement {
         updatedAt: json["updated_at"],
         mails: json["mails"] == null
             ? []
-            : List<Mail>.from(json["mails"]!.map((x) => Mail.fromJson(x))),
+            : List<TagMail>.from(
+                json["mails"]!.map((x) => TagMail.fromJson(x))),
         pivot: json["pivot"] == null ? null : Pivot.fromJson(json["pivot"]),
       );
 
