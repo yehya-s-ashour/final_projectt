@@ -8,8 +8,10 @@ import 'package:final_projectt/core/services/mail_controller.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/helpers/api_response.dart';
+import 'package:final_projectt/core/services/status_controller.dart';
 
 import 'package:final_projectt/core/util/constants/colors.dart';
+import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/core/widgets/new_inbox_button_sheet.dart';
 
@@ -17,15 +19,19 @@ import 'package:final_projectt/models/catego_model.dart';
 import 'package:final_projectt/models/mail_model.dart';
 
 import 'package:final_projectt/core/widgets/my_overlay.dart';
+
+import 'package:final_projectt/models/tags_model.dart';
+
+import 'package:final_projectt/models/status_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
+
 import 'package:final_projectt/providers/user_provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../core/widgets/card.dart';
-import '../core/widgets/custom_tag.dart';
+import '../core/services/tags_controller.dart';
 import '../core/widgets/my_fab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -49,13 +55,19 @@ class _HomeScreenState extends State<HomeScreen> {
   double dx = 0.0;
   double dy = 10.0;
   late Future<List<CategoryElement>> categories;
-  late Future<List<MailElement>> mails;
-  // late Future<StatusesesModel> statuses;
+
+  late Future<MailsModel> mails;
+  late Future<MailsModel> mailsOfSingleCatego;
+  late Future<List<TagElement>> tags;
+  List<CategoryElement>? categoData;
+  MailsModel? singleMails;
+  late Future<StatusesesModel> statuses;
   @override
   void initState() {
     categories = getCatego();
-    mails = getAllMails();
-    // statuses = StatusController().fetchStatuse();
+    mails = getMails();
+    tags = getAllTags();
+    statuses = StatusController().fetchStatuse();
     super.initState();
   }
 
@@ -173,8 +185,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             );
                           }
                           if (userProvidor.data.status == Status.COMPLETED) {
-                            // print(userProvidor.data.data?.user.name);
-
                             return GestureDetector(
                               onTap: () {
                                 showOverlay(
@@ -263,51 +273,76 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     return const Text("  no data from user provider ");
                   }),
+
                   SizedBox(
                     height: deviceHeight * 0.02,
                   ),
                   FutureBuilder(
                       future: categories,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return SizedBox(
-                            height: deviceHeight * 0.4,
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                final name = snapshot.data?[index].name;
-                                return Theme(
-                                  data: Theme.of(context).copyWith(
-                                      dividerColor: Colors.transparent),
-                                  child: ExpansionTile(
-                                    // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
-                                    textColor: const Color(0xff272727),
-                                    tilePadding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    initiallyExpanded: false,
-                                    title: Text(
-                                      name!,
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    children: <Widget>[
-                                      myCustomCard(),
-                                    ],
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(
-                                  height: 12,
-                                );
-                              },
-                            ),
+                      builder: (context, AsyncSnapshot firstSnapshot) {
+                        if (firstSnapshot.hasData) {
+                          categoData = firstSnapshot.data;
+                          return Column(
+                            children: categoData!.map((e) {
+                              return FutureBuilder(
+                                  future: getMailsOfSingleCatego(e.id),
+                                  builder:
+                                      (context, AsyncSnapshot secondSnapshot) {
+                                    if (secondSnapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const CircularProgressIndicator();
+                                    } else if (secondSnapshot.hasError) {
+                                      return Text(
+                                          'Error: ${secondSnapshot.error}');
+                                    } else {
+                                      singleMails = secondSnapshot.data;
+                                      return Column(
+                                        children: categoData!.map((catego) {
+                                          String nameOfCatego = catego.name;
+                                          int idOfCatego = catego.id;
+                                          if (idOfCatego == e.id) {
+                                            return Theme(
+                                              data: Theme.of(context).copyWith(
+                                                  dividerColor:
+                                                      Colors.transparent),
+                                              child: ExpansionTile(
+                                                childrenPadding:
+                                                    const EdgeInsetsDirectional
+                                                            .only(
+                                                        top: 16, bottom: 16),
+                                                textColor:
+                                                    const Color(0xff272727),
+                                                tilePadding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 16),
+                                                initiallyExpanded: false,
+                                                title: Text(
+                                                  nameOfCatego,
+                                                  style: const TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                children: singleMails!.mails!
+                                                    .map((mail) {
+                                                  return myCustomCard(mail);
+                                                }).toList(),
+                                              ),
+                                            );
+                                          }
+                                          return SizedBox(
+                                            height:
+                                                deviceHeight * 0.0000000000001,
+                                          );
+                                        }).toList(),
+                                      );
+                                    }
+                                  });
+                            }).toList(),
                           );
                         }
-                        if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
+                        if (firstSnapshot.hasError) {
+                          return Text(firstSnapshot.error.toString());
                         }
                         return Center(
                           child: CircularProgressIndicator(
@@ -318,44 +353,90 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(
                     height: 12,
                   ),
+                  const Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      "Tags",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
                   FutureBuilder(
-                      future: mails,
+                      future: tags,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          return SizedBox(
-                            height: deviceHeight * 0.4,
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {
-                                final subject = snapshot.data?[index].subject;
-                                return Theme(
-                                  data: Theme.of(context).copyWith(
-                                      dividerColor: Colors.transparent),
-                                  child: ExpansionTile(
-                                    // childrenPadding: EdgeInsetsDirectional.only(bottom: 15),
-                                    textColor: const Color(0xff272727),
-                                    tilePadding: const EdgeInsets.symmetric(
-                                        horizontal: 16),
-                                    initiallyExpanded: false,
-                                    title: Text(
-                                      subject!,
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.amber),
-                                    ),
-                                    children: <Widget>[
-                                      myCustomCard(),
-                                    ],
-                                  ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(
-                                  height: 12,
-                                );
-                              },
+                          List<TagElement> tagsListForScreen = snapshot.data!;
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TagsScreen(
+                                          tagsList: tagsListForScreen,
+                                        )),
+                              ).then((value) {
+                                if (value == true) {
+                                  setState(() {
+                                    categories = getCatego();
+                                    mails = getMails();
+                                    tags = getAllTags();
+                                  });
+                                }
+                              });
+                            },
+                            child: CustomWhiteBox(
+                              width: devicewidth * 0.9,
+                              height: (snapshot.data!.length / 2).round() * 52,
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.only(
+                                    start: 15.0, top: 15),
+                                child: Wrap(
+                                  spacing: 10.0,
+                                  runSpacing: 10.0,
+                                  children: snapshot.data!.map((tag) {
+                                    final tagText = tag.name;
+                                    final textLength = tagText.length;
+                                    final tagWidth = 40.0 + (textLength * 7.0);
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => TagsScreen(
+                                                    tagsList: tagsListForScreen,
+                                                  )),
+                                        ).then((value) {
+                                          if (value == true) {
+                                            setState(() {
+                                              categories = getCatego();
+                                              mails = getMails();
+                                              tags = getAllTags();
+                                            });
+                                          }
+                                        });
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        width: tagWidth,
+                                        height: 32,
+                                        decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                              255, 208, 207, 207),
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
+                                        child: Text(
+                                          '# $tagText',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
                             ),
                           );
                         }
@@ -368,41 +449,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       }),
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      "tags",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const TagsScreen()),
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.only(
-                          top: 8, bottom: 16, right: 16, left: 16),
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                          color: boxColor,
-                          borderRadius: BorderRadiusDirectional.circular(16)),
-                      child: Wrap(spacing: 12, children: [
-                        customTag('All Tags'),
-                        customTag('#Urgent'),
-                        customTag('#Egyption Military'),
-                        customTag('#New'),
-                      ]),
-                    ),
-                  ),
                   SizedBox(
-                    height: deviceHeight * 0.06,
-                  )
+                    height: deviceHeight * 0.08,
+                  ),
                 ],
               ),
             ),

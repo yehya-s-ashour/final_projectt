@@ -20,8 +20,28 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
   @override
   void initState() {
     senders = getSenders();
-
+    gett();
     super.initState();
+  }
+
+  void gett() {
+    final Map<int, String> myMap = {
+      1: 'Apple',
+      2: 'Banana',
+      3: 'Bana',
+      4: 'Date',
+      5: 'Ba',
+    };
+
+    final searchTerm = 'Ba'; // Substring to search for
+
+    final results = myMap.entries
+        .where((entry) => entry.value.contains(searchTerm))
+        .toList();
+
+    results.forEach((entry) {
+      print('Key: ${entry.key}, Value: ${entry.value}');
+    });
   }
 
   @override

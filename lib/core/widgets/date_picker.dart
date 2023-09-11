@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:final_projectt/core/util/constants/colors.dart';
-import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
