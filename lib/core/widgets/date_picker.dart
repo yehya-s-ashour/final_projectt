@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 class CustomDatePicker extends StatefulWidget {
   final bool? isLined;
   CustomDatePicker({this.isLined = true});
+
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
 }
@@ -114,6 +115,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                 color: Colors.grey.shade300,
               )
             : SizedBox(),
+
       ],
     );
   }

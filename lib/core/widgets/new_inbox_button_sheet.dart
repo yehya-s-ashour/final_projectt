@@ -36,6 +36,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
   TextEditingController archiveNumber = TextEditingController();
 
   SingleSender? selectedSender;
+
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
   late User user;
@@ -168,6 +169,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           height: senderNameCont.text.isEmpty
                               ? (!isValidationShown ? 140 : 155)
                               : 220,
+
                           child: CustomWhiteBox(
                             width: 400,
                             height: 230,
@@ -190,6 +192,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                     suffixIcon: IconButton(
                                       onPressed: () async {
                                         selectedSender = null;
+
                                         selectedSender =
                                             await showModalBottomSheet<
                                                 SingleSender>(
