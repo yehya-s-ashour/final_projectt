@@ -1,0 +1,18 @@
+{
+    "sourceFile": "lib/core/helpers/api_base_helper.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1693913706255,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1693913706255,
+            "name": "Commit-0",
+            "content": "import 'dart:convert';\r\nimport 'dart:io';\r\nimport 'package:final_projectt/core/util/constants/configuration.dart';\r\nimport 'package:http/http.dart' as http;\r\nimport '../util/constants/end_points.dart';\r\nimport 'app_exception.dart';\r\n\r\nclass ApiBaseHelper {\r\n  Future<dynamic> get(String url, Map<String, String> header) async {\r\n    var responseJson;\r\n    try {\r\n      final response =\r\n          await http.get(Uri.parse(baseUrl + url), headers: header);\r\n      responseJson = _returnResponse(response);\r\n    } on SocketException {\r\n      throw FetchDataException('No Internet connection');\r\n    }\r\n    return responseJson;\r\n  }\r\n\r\n  Future<dynamic> post(String url, Map<String, String> body,\r\n      [Map<String, String>? header]) async {\r\n    var responseJson;\r\n    try {\r\n      final response = await http.post(\r\n        Uri.parse(baseUrl + url),\r\n        headers: header,\r\n        body: body,\r\n      );\r\n\r\n      responseJson = _returnResponse(response);\r\n    } on SocketException {\r\n      throw FetchDataException('No Internet connection');\r\n    }\r\n    return responseJson;\r\n  }\r\n\r\n  Future<dynamic> put(String url, Map<String, dynamic> body) async {\r\n    var responseJson;\r\n    try {\r\n      final response = await http.put(\r\n        Uri.parse(baseUrl + url),\r\n        body: body,\r\n      );\r\n      responseJson = _returnResponse(response);\r\n    } on SocketException {\r\n      throw FetchDataException('No Internet connection');\r\n    }\r\n    return responseJson;\r\n  }\r\n\r\n  dynamic _returnResponse(http.Response response) {\r\n    switch (response.statusCode) {\r\n      case 200:\r\n      case 201:\r\n        var body = json.decode(response.body);\r\n        var statusCode = json.decode(response.statusCode.toString());\r\n        return [statusCode, body];\r\n      case 400:\r\n        throw BadRequestException(response.body);\r\n      case 401:\r\n      case 403:\r\n        throw UnauthorisedException(response.body);\r\n      case 500:\r\n      default:\r\n        throw FetchDataException(\r\n            'Error occurred while Communication with Server with StatusCode : ${response.statusCode}');\r\n    }\r\n  }\r\n}\r\n"
+        }
+    ]
+}

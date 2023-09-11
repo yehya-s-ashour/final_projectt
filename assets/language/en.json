@@ -1,0 +1,26 @@
+{
+
+  "Inbox":"Inbox",
+  "Pending" :"Pending",
+  "In Progress":"In Progress",
+  "Completed":"Completed",
+  "newinbox":"New inbox",
+  "homepage":"Home page",
+  "profilepage" :"Profile page ",
+  "senders" :"Senders",
+  "usermanagement":"User management",
+  "terms of service ":"Terms of service ",
+  "usagepolicy":"Usage policy ",
+  "search":"Search",
+  "login":"Login  ",
+  "signup":" SignUp ",
+  "foreign":"Foregin",
+  "officialorganization":"Official Organization",
+  "ngos":"NGOs",
+  "others":"Others",
+  "tags":"Tags",
+  "Language":"Language",
+  "Logout":"Logout"
+
+      
+    }

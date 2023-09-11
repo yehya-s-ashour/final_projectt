@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
 import 'package:final_projectt/core/services/auth_controller.dart';
@@ -8,7 +9,6 @@ import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -18,7 +18,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool isToggled = false;
   int initialLabelIndex = 0;
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
@@ -38,9 +37,10 @@ class _LoginScreenState extends State<LoginScreen> {
             message: "Account Created Successfully,\n Please Log In",
             color: Colors.grey,
             width: 300);
+        _formKey.currentState!.reset();
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
-            return LoginScreen();
+            return const LoginScreen();
           },
         ));
       }).catchError((err) async {
@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   margin: const EdgeInsets.only(top: 220),
                   width: 350,
-                  height: isToggled ? 570 : 470,
+                  height: initialLabelIndex == 1 ? 570 : 470,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(80)),
@@ -117,35 +117,101 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: Column(
                       children: [
-                        ToggleSwitch(
-                          fontSize: 16,
-                          minWidth: 100.0,
-                          cornerRadius: 20.0,
-                          activeBgColors: [
-                            [Colors.blue[800]!],
-                            [Colors.blue[800]!]
-                          ],
-                          activeFgColor: Colors.white,
-                          inactiveBgColor:
-                              const Color.fromARGB(255, 234, 232, 232),
-                          inactiveFgColor: Colors.blue[800]!,
-                          initialLabelIndex: initialLabelIndex,
-                          totalSwitches: 2,
-                          labels: const ['Log In', 'Sign Up'],
-                          radiusStyle: true,
-                          onToggle: (index) {
-                            setState(() {
-                              isToggled = !isToggled;
-                              initialLabelIndex = index!;
-                            });
-                          },
+                        // ToggleSwitch(
+                        //   fontSize: 16,
+                        //   minWidth: 100.0,
+                        //   cornerRadius: 20.0,
+                        //   activeBgColors: [
+                        //     [Colors.blue[800]!],
+                        //     [Colors.blue[800]!]
+                        //   ],
+                        //   activeFgColor: Colors.white,
+                        //   inactiveBgColor:
+                        //       const Color.fromARGB(255, 234, 232, 232),
+                        //   inactiveFgColor: Colors.blue[800]!,
+                        //   initialLabelIndex: initialLabelIndex,
+                        //   totalSwitches: 2,
+                        //   labels: const ['Log In', 'Sign Up'],
+                        //   radiusStyle: true,
+                        //   onToggle: (index) {
+                        //     setState(() {
+                        //       // isToggled = !isToggled;
+                        //       initialLabelIndex = index!;
+                        //     });
+                        //   },
+                        // ),
+                        Container(
+                          height: 40,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey.shade300),
+                            borderRadius: BorderRadius.circular(22),
+                          ),
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    initialLabelIndex = 0;
+                                  });
+                                },
+                                child: Container(
+                                  height: 45,
+                                  width: 99,
+                                  decoration: BoxDecoration(
+                                    color: initialLabelIndex == 0
+                                        ? primaryColor
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(22),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'login'.tr(),
+                                      style: TextStyle(
+                                          color: initialLabelIndex == 0
+                                              ? Colors.white
+                                              : primaryColor,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    initialLabelIndex = 1;
+                                  });
+                                },
+                                child: Container(
+                                  height: 45,
+                                  width: 99,
+                                  decoration: BoxDecoration(
+                                    color: initialLabelIndex == 1
+                                        ? primaryColor
+                                        : Colors.white,
+                                    borderRadius: BorderRadius.circular(22),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'signup'.tr(),
+                                      style: TextStyle(
+                                          color: initialLabelIndex == 1
+                                              ? Colors.white
+                                              : primaryColor,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         Form(
                           key: _formKey,
                           child: Column(
                             children: [
-                              if (isToggled)
+                              if (initialLabelIndex == 1)
                                 TextFormField(
                                   controller: nameController,
                                   validator: (value) {
@@ -154,7 +220,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     }
                                     return null;
                                   },
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       hintText: 'Enter your name',
                                       hintStyle: TextStyle(
                                           color: Colors.grey,
@@ -176,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }
                                   return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     hintText: 'Enter email or username',
                                     hintStyle: TextStyle(
                                         color: Colors.grey,
@@ -190,7 +256,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderSide:
                                             BorderSide(color: Colors.grey))),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
                               TextFormField(
@@ -202,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   }
                                   return null;
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     hintText: 'Password',
                                     hintStyle: TextStyle(
                                         color: Colors.grey,
@@ -216,10 +282,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                         borderSide:
                                             BorderSide(color: Colors.grey))),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 15,
                               ),
-                              if (isToggled)
+                              if (initialLabelIndex == 1)
                                 Column(
                                   children: [
                                     TextFormField(
@@ -234,7 +300,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         }
                                         return null;
                                       },
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                           hintText: 'Confirm Password',
                                           hintStyle: TextStyle(
                                               color: Colors.grey,
@@ -248,14 +314,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                               borderSide: BorderSide(
                                                   color: Colors.grey))),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 25,
                                     ),
                                   ],
                                 ),
                               TextButton(
                                 onPressed: () {
-                                  if (isToggled) {
+                                  if (initialLabelIndex == 1) {
                                     if (_formKey.currentState!.validate()) {
                                       submitRegister();
                                     }
@@ -285,22 +351,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                     color: primaryColor,
                                     borderRadius: BorderRadius.circular(20.0),
                                   ),
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       vertical: 16.0, horizontal: 32.0),
                                   child: Text(
-                                    isToggled ? 'Sign Up' : 'Log In',
+                                    initialLabelIndex == 1
+                                        ? 'signup'.tr()
+                                        : 'login'.tr(),
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
                                     ),
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 14,
                               ),
-                              Text(
+                              const Text(
                                 'OR',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -308,7 +376,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontSize: 14,
                                 ),
                               ),
-                              SizedBox(height: 16),
+                              const SizedBox(height: 16),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -316,7 +384,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   InkWell(
                                     onTap: () {},
                                     child: Container(
-                                      padding: EdgeInsetsDirectional.symmetric(
+                                      padding:
+                                          const EdgeInsetsDirectional.symmetric(
                                         horizontal: 8,
                                         vertical: 8,
                                       ),
@@ -335,7 +404,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   InkWell(
                                     onTap: () {},
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
                                         vertical: 8,
                                       ),
@@ -354,7 +423,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   InkWell(
                                     onTap: () {},
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
                                         vertical: 8,
                                       ),

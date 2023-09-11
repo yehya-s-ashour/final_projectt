@@ -1,0 +1,18 @@
+{
+    "sourceFile": "lib/core/util/constants/configuration.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1693912168193,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1693912168193,
+            "name": "Commit-0",
+            "content": "import 'package:flutter/material.dart';\r\n\r\nList<Map> drawerItem = [\r\n  {'icon': Icons.home, 'title': 'Home Page'},\r\n  {'icon': Icons.person, 'title': 'Profile Page'},\r\n  {'icon': Icons.send, 'title': 'Senders'},\r\n  {'icon': Icons.settings, 'title': 'User management'},\r\n];\r\n\r\n\r\n///-----------tag button style-----------\r\nButtonStyle tagButtonStyle = ButtonStyle(\r\n  backgroundColor: const MaterialStatePropertyAll(Color(0xffE6E6E6)),\r\n  textStyle: const MaterialStatePropertyAll(\r\n      TextStyle(fontSize: 14, color: Color(0xff7C7C7C))),\r\n  shape: MaterialStateProperty.all<RoundedRectangleBorder>(\r\n    RoundedRectangleBorder(\r\n      borderRadius:\r\n          BorderRadius.circular(16.0), // Adjust the border radius as needed\r\n    ),\r\n  ),\r\n);\r\n"
+        }
+    ]
+}

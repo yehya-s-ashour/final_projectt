@@ -1,3 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:final_projectt/Screens/sender_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../core/util/constants/colors.dart';
@@ -11,19 +13,30 @@ class DrawerScreen extends StatefulWidget {
 }
 
 class _DrawerScreenState extends State<DrawerScreen> {
+  List<Map> drawerItem = [
+    {'icon': Icons.home, 'title': 'homepage'},
+    {'icon': Icons.person, 'title': 'profilepage'},
+    {'icon': Icons.send, 'title': 'senders'},
+    {'icon': Icons.settings, 'title': 'usermanagement'},
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: double.infinity,
-      padding: const EdgeInsets.only(top: 80, left: 20, bottom: 20),
+      padding: context.locale.toString() == 'ar'
+          ? const EdgeInsets.only(top: 80, right: 20, bottom: 20)
+          : const EdgeInsets.only(top: 80, left: 20, bottom: 20),
       color: primaryColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.15),
+            margin: context.locale.toString() == 'ar'
+                ? EdgeInsets.only(
+                    right: MediaQuery.of(context).size.width * 0.15)
+                : EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.15),
             height: 100,
             width: 100,
             child: Image.asset('images/pal.png'),
@@ -45,9 +58,19 @@ class _DrawerScreenState extends State<DrawerScreen> {
                             width: 10,
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              switch (e["title"]) {
+                                case "senders":
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return SendersScreen();
+                                    },
+                                  ));
+                                  break;
+                              }
+                            },
                             child: Text(
-                              e['title'],
+                              "${e['title']}".tr(),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -65,12 +88,12 @@ class _DrawerScreenState extends State<DrawerScreen> {
               children: [
                 TextButton(
                   onPressed: () {},
-                  child: const Text(
-                    'Terms of Service',
-                    style: TextStyle(
+                  child: Text(
+                    'terms of service'.tr(),
+                    style: const TextStyle(
                         color: Color.fromARGB(255, 179, 178, 178),
                         fontSize: 13),
-                  ),
+                  ).tr(),
                 ),
                 Container(
                   width: 1.2,
@@ -79,9 +102,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 ),
                 TextButton(
                   onPressed: () {},
-                  child: const Text(
-                    'Usage Policy',
-                    style: TextStyle(
+                  child: Text(
+                    'usagepolicy'.tr(),
+                    style: const TextStyle(
                         color: Color.fromARGB(255, 179, 178, 178),
                         fontSize: 13),
                   ),

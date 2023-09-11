@@ -40,6 +40,12 @@ class SharedPrefsController {
     return null;
   }
 
+  Future<bool?> deleteData(String key) async {
+    await _checkInstance();
+
+    return _prefs?.remove(key);
+  }
+
   Future<dynamic> getData(String key) async {
     await _checkInstance();
 
