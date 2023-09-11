@@ -1,8 +1,6 @@
 import 'package:final_projectt/core/helpers/api_response.dart';
 import 'package:final_projectt/core/services/status_controller.dart';
-
 import 'package:final_projectt/models/status_model.dart';
-
 import 'package:flutter/material.dart';
 
 class StatuseProvider extends ChangeNotifier {
@@ -13,9 +11,11 @@ class StatuseProvider extends ChangeNotifier {
     _statusController = StatusController();
     getStatuseData();
   }
+  void updatestutas() {
+    getStatuseData();
+  }
 
   ApiResponse<StatusesesModel> get statusedata => _dataStatuse;
-
   Future<void> getStatuseData() async {
     _dataStatuse = ApiResponse.loading('Loading');
     notifyListeners();
