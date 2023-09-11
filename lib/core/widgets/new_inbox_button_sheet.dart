@@ -19,6 +19,7 @@ import 'package:final_projectt/models/sender_model.dart';
 import 'package:final_projectt/models/status_model.dart';
 import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
+import 'package:final_projectt/providers/status_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -91,44 +92,45 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                     style: TextStyle(fontSize: 20, color: Color(0xFF272727)),
                   ),
                   TextButton(
-                    onPressed: () {
-                      setState(() {
-                        if (_formKey.currentState!.validate()) {
-                          newInbox(
-                            statusId: '${selectedStatus.id}',
-                            decision: decisionCont.text,
-                            senderId: '${selectedSender!.id}',
-                            finalDecision: decisionCont.text,
-                            activities: Provider.of<NewInboxProvider>(context,
-                                    listen: false)
-                                .activites,
-                            tags: [1],
-                            subject: mailTitleCont.text,
-                            description: mailDescriptionCont.text,
-                            archiveNumber: Provider.of<NewInboxProvider>(
-                                    context,
-                                    listen: false)
-                                .archiveNumber,
-                            archiveDate: Provider.of<NewInboxProvider>(context,
-                                    listen: false)
-                                .date
-                                .toString(),
-                          );
-                          showAlert(context,
-                              message: 'Mail Created Successfully',
-                              color: primaryColor.withOpacity(0.8),
-                              width: 230);
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                            builder: (context) {
-                              return MainPage();
-                            },
-                          ));
-                        } else {
-                          setState(() {
-                            isValidationShown = true;
-                          });
-                        }
-                      });
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        await newInbox(
+                          statusId: '${selectedStatus.id}',
+                          decision: decisionCont.text,
+                          senderId: '${selectedSender!.id}',
+                          finalDecision: decisionCont.text,
+                          activities: Provider.of<NewInboxProvider>(context,
+                                  listen: false)
+                              .activites,
+                          tags: [1],
+                          subject: mailTitleCont.text,
+                          description: mailDescriptionCont.text,
+                          archiveNumber: Provider.of<NewInboxProvider>(context,
+                                  listen: false)
+                              .archiveNumber,
+                          archiveDate: Provider.of<NewInboxProvider>(context,
+                                  listen: false)
+                              .date
+                              .toString(),
+                        );
+                        showAlert(context,
+                            message: 'Mail Created Successfully',
+                            color: primaryColor.withOpacity(0.8),
+                            width: 230);
+                        final updateData = Provider.of<StatuseProvider>(context,
+                            listen: false);
+                        updateData.updatestutas();
+
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                          builder: (context) {
+                            return MainPage();
+                          },
+                        ));
+                      } else {
+                        setState(() {
+                          isValidationShown = true;
+                        });
+                      }
                     },
                     child: const Text('Done', style: TextStyle(fontSize: 20)),
                   ),

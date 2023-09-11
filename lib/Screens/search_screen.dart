@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/search_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
+import 'package:final_projectt/core/widgets/filter_bottom_sheet.dart';
 import 'package:final_projectt/models/search_model.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +53,8 @@ class _SearchScreenState extends State<SearchScreen> {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const MainPage()));
             },
             icon: const Icon(
               Icons.arrow_back_ios,
@@ -112,7 +115,13 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             IconButton(
                 onPressed: () {
-                  // show
+                  showModalBottomSheet(
+                      clipBehavior: Clip.hardEdge,
+                      isScrollControlled: true,
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const FilterBottomSheet();
+                      });
                 },
                 icon: const Icon(
                   Icons.filter_alt_outlined,
