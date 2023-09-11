@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:final_projectt/Screens/search_screen.dart';
+import 'package:final_projectt/Screens/status_screen.dart';
 import 'package:final_projectt/Screens/tags_screen.dart';
 import 'package:final_projectt/core/services/catego_controller.dart';
 import 'package:final_projectt/core/services/mail_controller.dart';
@@ -21,8 +24,8 @@ import 'package:final_projectt/models/tags_model.dart';
 
 import 'package:final_projectt/models/status_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
-
 import 'package:final_projectt/providers/status_provider.dart';
+
 import 'package:final_projectt/providers/user_provider.dart';
 
 import 'package:flutter/material.dart';
@@ -52,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
   double dx = 0.0;
   double dy = 10.0;
   late Future<List<CategoryElement>> categories;
+
   late Future<MailsModel> mails;
   late Future<MailsModel> mailsOfSingleCatego;
   late Future<List<TagElement>> tags;
@@ -148,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         IconButton(
                           ///---------------------
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
                               PageRouteBuilder(
                                 pageBuilder:
@@ -194,53 +198,84 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             );
                           }
-                          return const Text("  no data from user provider");
+                          return const Text("  no data from user provider ");
                         }),
                       ],
                     ),
                   ),
-                  FutureBuilder(
-                      future: statuses,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: GridView.builder(
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 1.5,
-                                  crossAxisCount:
-                                      2, // Number of columns in the grid
-                                  crossAxisSpacing:
-                                      8.0, // Spacing between columns
-                                  mainAxisSpacing: 8.0,
-                                  // Spacing between rows
-                                ),
-                                itemCount: 4,
-                                itemBuilder: (context, index) {
-                                  return customBox(
-                                      number: snapshot
-                                          .data!.statuses![index].mailsCount!,
-                                      title: snapshot
-                                          .data!.statuses![index].name!
-                                          .tr(),
-                                      height: 88,
-                                      width: 181);
-                                }),
-                          );
-                        }
-                        if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
-                        }
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: primaryColor,
-                          ),
-                        );
-                      }),
+
+                  Consumer<StatuseProvider>(builder: (_, statuseProvider, __) {
+                    if (statuseProvider.statusedata.status == Status.LOADING) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (statuseProvider.statusedata.status ==
+                        Status.COMPLETED) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 1.5,
+                              crossAxisCount:
+                                  2, // Number of columns in the grid
+                              crossAxisSpacing: 8.0, // Spacing between columns
+                              mainAxisSpacing: 8.0,
+                              // Spacing between rows
+                            ),
+                            itemCount: 4,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          StatusScreen(
+                                              nameOfStatus: statuseProvider
+                                                  .statusedata
+                                                  .data!
+                                                  .statuses![index]
+                                                  .name!),
+                                      transitionsBuilder: (context, animation,
+                                          secondaryAnimation, child) {
+                                        const begin = Offset(1.0, 0.0);
+                                        const end = Offset.zero;
+                                        const curve = Curves.easeInOut;
+                                        var tween = Tween(
+                                                begin: begin, end: end)
+                                            .chain(CurveTween(curve: curve));
+                                        var offsetAnimation =
+                                            animation.drive(tween);
+
+                                        return SlideTransition(
+                                          position: offsetAnimation,
+                                          child: child,
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: customBox(
+                                    number: statuseProvider.statusedata.data!
+                                        .statuses![index].mailsCount!,
+                                    title: statuseProvider.statusedata.data!
+                                        .statuses![index].name!
+                                        .tr(),
+                                    height: 88,
+                                    width: 181),
+                              );
+                            }),
+                      );
+                    }
+
+                    return const Text("  no data from user provider ");
+                  }),
+
                   SizedBox(
                     height: deviceHeight * 0.02,
                   ),
