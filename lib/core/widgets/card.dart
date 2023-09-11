@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../models/mail_model.dart';
 
-Widget myCustomCard(Mails mail) {
+Widget myCustomCard(Mail mail) {
   String dateTimeString = mail.archiveDate!;
   DateTime dateTime = DateTime.parse(dateTimeString);
   String formattedDate = DateFormat('yyyy  MMM  dd').format(dateTime);

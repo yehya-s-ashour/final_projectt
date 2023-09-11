@@ -1,13 +1,13 @@
 class MailsModel {
-  List<Mails>? mails;
+  List<Mail>? mails;
 
   MailsModel({this.mails});
 
   MailsModel.fromJson(Map<String, dynamic> json) {
     if (json['mails'] != null) {
-      mails = <Mails>[];
+      mails = <Mail>[];
       json['mails'].forEach((v) {
-        mails!.add(Mails.fromJson(v));
+        mails!.add(new Mail.fromJson(v));
       });
     }
   }
@@ -21,7 +21,28 @@ class MailsModel {
   }
 }
 
-class Mails {
+class MailModel {
+  String? message;
+  Mail? mail;
+
+  MailModel({this.message, this.mail});
+
+  MailModel.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    mail = json['mail'] != null ? new Mail.fromJson(json['mail']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['message'] = this.message;
+    if (this.mail != null) {
+      data['mail'] = this.mail!.toJson();
+    }
+    return data;
+  }
+}
+
+class Mail {
   int? id;
   String? subject;
   String? description;
@@ -39,7 +60,7 @@ class Mails {
   List<Activities>? activities;
   List<Tags>? tags;
 
-  Mails(
+  Mail(
       {this.id,
       this.subject,
       this.description,
@@ -57,7 +78,7 @@ class Mails {
       this.activities,
       this.tags});
 
-  Mails.fromJson(Map<String, dynamic> json) {
+  Mail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     subject = json['subject'];
     description = json['description'];

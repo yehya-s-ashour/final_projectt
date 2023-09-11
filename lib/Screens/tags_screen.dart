@@ -123,6 +123,7 @@ class _TagsScreenState extends State<TagsScreen> {
           ),
         ),
       ),
+
       body: SingleChildScrollView(
         child: Column(
           children: [
