@@ -13,9 +13,9 @@ class MailsModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.mails != null) {
-      data['mails'] = this.mails!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (mails != null) {
+      data['mails'] = mails!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -90,58 +90,56 @@ class Mail {
     finalDecision = json['final_decision'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    sender =
-        json['sender'] != null ? new Sender.fromJson(json['sender']) : null;
-    status = json['status'] != null
-        ? new SingleStatus.fromJson(json['status'])
-        : null;
+    sender = json['sender'] != null ? Sender.fromJson(json['sender']) : null;
+    status =
+        json['status'] != null ? SingleStatus.fromJson(json['status']) : null;
     if (json['attachments'] != null) {
       attachments = <Attachments>[];
       json['attachments'].forEach((v) {
-        attachments!.add(new Attachments.fromJson(v));
+        attachments!.add(Attachments.fromJson(v));
       });
     }
     if (json['activities'] != null) {
       activities = <Activities>[];
       json['activities'].forEach((v) {
-        activities!.add(new Activities.fromJson(v));
+        activities!.add(Activities.fromJson(v));
       });
     }
     if (json['tags'] != null) {
       tags = <Tags>[];
       json['tags'].forEach((v) {
-        tags!.add(new Tags.fromJson(v));
+        tags!.add(Tags.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['subject'] = this.subject;
-    data['description'] = this.description;
-    data['sender_id'] = this.senderId;
-    data['archive_number'] = this.archiveNumber;
-    data['archive_date'] = this.archiveDate;
-    data['decision'] = this.decision;
-    data['status_id'] = this.statusId;
-    data['final_decision'] = this.finalDecision;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.sender != null) {
-      data['sender'] = this.sender!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['subject'] = subject;
+    data['description'] = description;
+    data['sender_id'] = senderId;
+    data['archive_number'] = archiveNumber;
+    data['archive_date'] = archiveDate;
+    data['decision'] = decision;
+    data['status_id'] = statusId;
+    data['final_decision'] = finalDecision;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (sender != null) {
+      data['sender'] = sender!.toJson();
     }
-    if (this.status != null) {
-      data['status'] = this.status!.toJson();
+    if (status != null) {
+      data['status'] = status!.toJson();
     }
-    if (this.attachments != null) {
-      data['attachments'] = this.attachments!.map((v) => v.toJson()).toList();
+    if (attachments != null) {
+      data['attachments'] = attachments!.map((v) => v.toJson()).toList();
     }
-    if (this.activities != null) {
-      data['activities'] = this.activities!.map((v) => v.toJson()).toList();
+    if (activities != null) {
+      data['activities'] = activities!.map((v) => v.toJson()).toList();
     }
-    if (this.tags != null) {
-      data['tags'] = this.tags!.map((v) => v.toJson()).toList();
+    if (tags != null) {
+      data['tags'] = tags!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -175,22 +173,21 @@ class Sender {
     categoryId = json['category_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    category = json['category'] != null
-        ? new Category.fromJson(json['category'])
-        : null;
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['mobile'] = this.mobile;
-    data['address'] = this.address;
-    data['category_id'] = this.categoryId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.category != null) {
-      data['category'] = this.category!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['mobile'] = mobile;
+    data['address'] = address;
+    data['category_id'] = categoryId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (category != null) {
+      data['category'] = category!.toJson();
     }
     return data;
   }
@@ -212,11 +209,11 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -235,10 +232,10 @@ class SingleStatus {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['color'] = this.color;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['color'] = color;
     return data;
   }
 }
@@ -269,13 +266,13 @@ class Attachments {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['image'] = this.image;
-    data['mail_id'] = this.mailId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['image'] = image;
+    data['mail_id'] = mailId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -286,11 +283,11 @@ class Activities {
   String? userId;
   String? mailId;
   String? sendNumber;
-  Null? sendDate;
-  Null? sendDestination;
+  Null sendDate;
+  Null sendDestination;
   String? createdAt;
   String? updatedAt;
-  MailUser? user;
+  UserInMail? user;
 
   Activities(
       {this.id,
@@ -314,28 +311,28 @@ class Activities {
     sendDestination = json['send_destination'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    user = json['user'] != null ? new MailUser.fromJson(json['user']) : null;
+    user = json['user'] != null ? UserInMail.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['body'] = this.body;
-    data['user_id'] = this.userId;
-    data['mail_id'] = this.mailId;
-    data['send_number'] = this.sendNumber;
-    data['send_date'] = this.sendDate;
-    data['send_destination'] = this.sendDestination;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['body'] = body;
+    data['user_id'] = userId;
+    data['mail_id'] = mailId;
+    data['send_number'] = sendNumber;
+    data['send_date'] = sendDate;
+    data['send_destination'] = sendDestination;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }
 }
 
-class MailUser {
+class UserInMail {
   int? id;
   String? name;
   String? email;
@@ -345,7 +342,7 @@ class MailUser {
   String? createdAt;
   String? updatedAt;
 
-  MailUser(
+  UserInMail(
       {this.id,
       this.name,
       this.email,
@@ -355,7 +352,7 @@ class MailUser {
       this.createdAt,
       this.updatedAt});
 
-  MailUser.fromJson(Map<String, dynamic> json) {
+  UserInMail.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
@@ -367,15 +364,15 @@ class MailUser {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['image'] = this.image;
-    data['email_verified_at'] = this.emailVerifiedAt;
-    data['role_id'] = this.roleId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['image'] = image;
+    data['email_verified_at'] = emailVerifiedAt;
+    data['role_id'] = roleId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }
@@ -394,17 +391,17 @@ class Tags {
     name = json['name'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+    pivot = json['pivot'] != null ? Pivot.fromJson(json['pivot']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    if (this.pivot != null) {
-      data['pivot'] = this.pivot!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (pivot != null) {
+      data['pivot'] = pivot!.toJson();
     }
     return data;
   }
@@ -422,9 +419,9 @@ class Pivot {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['mail_id'] = this.mailId;
-    data['tag_id'] = this.tagId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['mail_id'] = mailId;
+    data['tag_id'] = tagId;
     return data;
   }
 }
