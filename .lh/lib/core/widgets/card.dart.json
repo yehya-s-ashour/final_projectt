@@ -1,0 +1,90 @@
+{
+    "sourceFile": "lib/core/widgets/card.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 18,
+            "patches": [
+                {
+                    "date": 1694425112239,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694425662125,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,25 +32,9 @@\n       for (int i = 0; i < attach!.length; i++) {\r\n         path = '${attach[i].image}';\r\n         print(path);\r\n       }\r\n-      return GestureDetector(\r\n-        onTap: () {},\r\n-        child: Container(\r\n-          clipBehavior: Clip.antiAliasWithSaveLayer,\r\n-          height: 50,\r\n-          width: 50,\r\n-          decoration: BoxDecoration(\r\n-            borderRadius: BorderRadius.circular(10),\r\n-          ),\r\n-          child: path != null\r\n-              ? Image.network(\r\n-                  'https://palmail.gsgtt.tech/storage/$path',\r\n-                  fit: BoxFit.fill,\r\n-                )\r\n-              : const Text(''),\r\n-        ),\r\n-      );\r\n+      \r\n     }\r\n     return const Text('');\r\n   }\r\n \r\n"
+                },
+                {
+                    "date": 1694425670468,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,8 +31,25 @@\n     if (attach != []) {\r\n       for (int i = 0; i < attach!.length; i++) {\r\n         path = '${attach[i].image}';\r\n         print(path);\r\n+        return GestureDetector(\r\n+        onTap: () {},\r\n+        child: Container(\r\n+          clipBehavior: Clip.antiAliasWithSaveLayer,\r\n+          height: 50,\r\n+          width: 50,\r\n+          decoration: BoxDecoration(\r\n+            borderRadius: BorderRadius.circular(10),\r\n+          ),\r\n+          child: path \r\n+              ? Image.network(\r\n+                  'https://palmail.gsgtt.tech/storage/$path',\r\n+                  fit: BoxFit.fill,\r\n+                )\r\n+              : const Text(''),\r\n+        ),\r\n+      );\r\n       }\r\n       \r\n     }\r\n     return const Text('');\r\n"
+                },
+                {
+                    "date": 1694425865000,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,25 +31,9 @@\n     if (attach != []) {\r\n       for (int i = 0; i < attach!.length; i++) {\r\n         path = '${attach[i].image}';\r\n         print(path);\r\n-        return GestureDetector(\r\n-        onTap: () {},\r\n-        child: Container(\r\n-          clipBehavior: Clip.antiAliasWithSaveLayer,\r\n-          height: 50,\r\n-          width: 50,\r\n-          decoration: BoxDecoration(\r\n-            borderRadius: BorderRadius.circular(10),\r\n-          ),\r\n-          child: path \r\n-              ? Image.network(\r\n-                  'https://palmail.gsgtt.tech/storage/$path',\r\n-                  fit: BoxFit.fill,\r\n-                )\r\n-              : const Text(''),\r\n-        ),\r\n-      );\r\n+        \r\n       }\r\n       \r\n     }\r\n     return const Text('');\r\n"
+                },
+                {
+                    "date": 1694425936592,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,14 +28,9 @@\n \r\n   Widget getAttachments(List<Attachments>? attach) {\r\n     String? path;\r\n     if (attach != []) {\r\n-      for (int i = 0; i < attach!.length; i++) {\r\n-        path = '${attach[i].image}';\r\n-        print(path);\r\n-        \r\n-      }\r\n-      \r\n+       \r\n     }\r\n     return const Text('');\r\n   }\r\n \r\n"
+                },
+                {
+                    "date": 1694425944333,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n \r\n   Widget getAttachments(List<Attachments>? attach) {\r\n     String? path;\r\n     if (attach != []) {\r\n-       \r\n+       return List\r\n     }\r\n     return const Text('');\r\n   }\r\n \r\n"
+                },
+                {
+                    "date": 1694425949917,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,9 @@\n \r\n   Widget getAttachments(List<Attachments>? attach) {\r\n     String? path;\r\n     if (attach != []) {\r\n-       return List\r\n+      return ListView.builder(itemBuilder: itemBuilder);\r\n     }\r\n     return const Text('');\r\n   }\r\n \r\n"
+                },
+                {
+                    "date": 1694425955547,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -28,9 +28,10 @@\n \r\n   Widget getAttachments(List<Attachments>? attach) {\r\n     String? path;\r\n     if (attach != []) {\r\n-      return ListView.builder(itemBuilder: itemBuilder);\r\n+      return ListView.builder(\r\n+        itemBuilder: );\r\n     }\r\n     return const Text('');\r\n   }\r\n \r\n"
+                },
+                {
+                    "date": 1694425964442,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,9 +29,11 @@\n   Widget getAttachments(List<Attachments>? attach) {\r\n     String? path;\r\n     if (attach != []) {\r\n       return ListView.builder(\r\n-        itemBuilder: );\r\n+        itemCount: attach.length,\r\n+        itemBuilder: \r\n+        );\r\n     }\r\n     return const Text('');\r\n   }\r\n \r\n"
+                },
+                {
+                    "date": 1694425972058,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,10 +29,10 @@\n   Widget getAttachments(List<Attachments>? attach) {\r\n     String? path;\r\n     if (attach != []) {\r\n       return ListView.builder(\r\n-        itemCount: attach.length,\r\n-        itemBuilder: \r\n+        itemCount: attach!.length,\r\n+        itemBuilder: ()\r\n         );\r\n     }\r\n     return const Text('');\r\n   }\r\n"
+                },
+                {
+                    "date": 1694425980541,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,11 @@\n     String? path;\r\n     if (attach != []) {\r\n       return ListView.builder(\r\n         itemCount: attach!.length,\r\n-        itemBuilder: ()\r\n+        itemBuilder: (context , index ){\r\n+          \r\n+        }\r\n         );\r\n     }\r\n     return const Text('');\r\n   }\r\n"
+                },
+                {
+                    "date": 1694425991959,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -29,13 +29,12 @@\n   Widget getAttachments(List<Attachments>? attach) {\r\n     String? path;\r\n     if (attach != []) {\r\n       return ListView.builder(\r\n-        itemCount: attach!.length,\r\n-        itemBuilder: (context , index ){\r\n-          \r\n-        }\r\n-        );\r\n+          itemCount: attach!.length,\r\n+          itemBuilder: (context, index) {\r\n+            return ; \r\n+          });\r\n     }\r\n     return const Text('');\r\n   }\r\n \r\n"
+                },
+                {
+                    "date": 1694426009758,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,11 @@\n     if (attach != []) {\r\n       return ListView.builder(\r\n           itemCount: attach!.length,\r\n           itemBuilder: (context, index) {\r\n-            return ; \r\n+            return GestureDetector(\r\n+              on\r\n+            ); \r\n           });\r\n     }\r\n     return const Text('');\r\n   }\r\n"
+                },
+                {
+                    "date": 1694426016811,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -32,10 +32,11 @@\n       return ListView.builder(\r\n           itemCount: attach!.length,\r\n           itemBuilder: (context, index) {\r\n             return GestureDetector(\r\n-              on\r\n-            ); \r\n+              onTap: () {},\r\n+              \r\n+            );\r\n           });\r\n     }\r\n     return const Text('');\r\n   }\r\n"
+                },
+                {
+                    "date": 1694426022274,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,9 @@\n           itemCount: attach!.length,\r\n           itemBuilder: (context, index) {\r\n             return GestureDetector(\r\n               onTap: () {},\r\n-              \r\n+              child: Container(),\r\n             );\r\n           });\r\n     }\r\n     return const Text('');\r\n"
+                },
+                {
+                    "date": 1694426030647,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -33,9 +33,13 @@\n           itemCount: attach!.length,\r\n           itemBuilder: (context, index) {\r\n             return GestureDetector(\r\n               onTap: () {},\r\n-              child: Container(),\r\n+              child: Container(\r\n+                  clipBehavior: Clip.antiAliasWithSaveLayer,\r\n+          height: 50,\r\n+          width: 50,\r\n+              ),\r\n             );\r\n           });\r\n     }\r\n     return const Text('');\r\n"
+                },
+                {
+                    "date": 1694426037186,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -34,11 +34,14 @@\n           itemBuilder: (context, index) {\r\n             return GestureDetector(\r\n               onTap: () {},\r\n               child: Container(\r\n-                  clipBehavior: Clip.antiAliasWithSaveLayer,\r\n-          height: 50,\r\n-          width: 50,\r\n+                clipBehavior: Clip.antiAliasWithSaveLayer,\r\n+                height: 50,\r\n+                width: 50,\r\n+                decoration: BoxDecoration(\r\n+            borderRadius: BorderRadius.circular(10),\r\n+          ),\r\n               ),\r\n             );\r\n           });\r\n     }\r\n"
+                },
+                {
+                    "date": 1694426046979,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -40,9 +40,9 @@\n                 width: 50,\r\n                 decoration: BoxDecoration(\r\n                   borderRadius: BorderRadius.circular(10),\r\n                 ),\r\n-                chi\r\n+                child: ,\r\n               ),\r\n             );\r\n           });\r\n     }\r\n"
+                },
+                {
+                    "date": 1694426075380,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,9 @@\n     if (attach != []) {\r\n       return ListView.builder(\r\n           itemCount: attach!.length,\r\n           itemBuilder: (context, index) {\r\n-            String? path = attach[index].\r\n+            String? path = attach[index].image;\r\n             return GestureDetector(\r\n               onTap: () {},\r\n               child: Container(\r\n                 clipBehavior: Clip.antiAliasWithSaveLayer,\r\n"
+                }
+            ],
+            "date": 1694425112239,
+            "name": "Commit-0",
+            "content": "import 'package:final_projectt/core/util/constants/colors.dart';\r\nimport 'package:flutter/material.dart';\r\nimport 'package:intl/intl.dart';\r\n\r\nimport '../../models/mail_model.dart';\r\n\r\nWidget myCustomCard(Mails mail) {\r\n  String dateTimeString = mail.archiveDate!;\r\n  DateTime dateTime = DateTime.parse(dateTimeString);\r\n  String formattedDate = DateFormat('yyyy  MMM  dd').format(dateTime);\r\n\r\n  Text getTags(List<Tags>? tags) {\r\n    String tag = '';\r\n    if (tags != []) {\r\n      for (int i = 0; i < tags!.length; i++) {\r\n        tag = '#${tags[i].name}';\r\n      }\r\n      return Text(\r\n        tag,\r\n        style: const TextStyle(\r\n            fontSize: 14,\r\n            color: Color(0xff6589FF),\r\n            fontWeight: FontWeight.w400),\r\n      );\r\n    }\r\n    return const Text('');\r\n  }\r\n\r\n  Widget getAttachments(List<Attachments>? attach) {\r\n    String? path;\r\n    if (attach != []) {\r\n      for (int i = 0; i < attach!.length; i++) {\r\n        path = '${attach[i].image}';\r\n        print(path);\r\n      }\r\n      return GestureDetector(\r\n        onTap: () {},\r\n        child: Container(\r\n          clipBehavior: Clip.antiAliasWithSaveLayer,\r\n          height: 50,\r\n          width: 50,\r\n          decoration: BoxDecoration(\r\n            borderRadius: BorderRadius.circular(10),\r\n          ),\r\n          child: path != null\r\n              ? Image.network(\r\n                  'https://palmail.gsgtt.tech/storage/$path',\r\n                  fit: BoxFit.fill,\r\n                )\r\n              : const Text(''),\r\n        ),\r\n      );\r\n    }\r\n    return const Text('');\r\n  }\r\n\r\n  return GestureDetector(\r\n    onTap: () {},\r\n    child: Card(\r\n      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),\r\n      shape: RoundedRectangleBorder(\r\n        borderRadius:\r\n            BorderRadius.circular(16.0), // Adjust the corner radius as needed\r\n      ),\r\n      child: ListView.builder(\r\n          padding: const EdgeInsets.all(8),\r\n          physics: const BouncingScrollPhysics(),\r\n          itemCount: 1,\r\n          shrinkWrap: true,\r\n          itemBuilder: ((context, index) {\r\n            return Padding(\r\n              padding: const EdgeInsets.all(8.0),\r\n              child: Column(\r\n                children: [\r\n                  Column(\r\n                    crossAxisAlignment: CrossAxisAlignment.start,\r\n                    children: [\r\n                      Row(\r\n                        children: [\r\n                          Container(\r\n                            width: 12,\r\n                            height: 12,\r\n                            decoration: BoxDecoration(\r\n                                color: int.parse(mail.statusId!) == 1\r\n                                    ? inboxColor\r\n                                    : int.parse(mail.statusId!) == 2\r\n                                        ? pendingColor\r\n                                        : int.parse(mail.statusId!) == 3\r\n                                            ? inProgressColor\r\n                                            : completedColor,\r\n                                borderRadius: BorderRadius.circular(6)),\r\n                          ),\r\n                          const SizedBox(\r\n                            width: 4,\r\n                          ),\r\n                          Text(mail.sender!.name ?? 'name',\r\n                              style: const TextStyle(fontSize: 18)),\r\n                          const Spacer(),\r\n                          Row(\r\n                            children: [\r\n                              Text(formattedDate,\r\n                                  style: const TextStyle(\r\n                                      color: Colors.grey, fontSize: 12)),\r\n                              const SizedBox(\r\n                                width: 10,\r\n                              ),\r\n                              const Icon(\r\n                                Icons.arrow_forward_ios,\r\n                                color: Colors.grey,\r\n                                size: 12,\r\n                              )\r\n                            ],\r\n                          )\r\n                        ],\r\n                      ),\r\n                      Padding(\r\n                        padding: const EdgeInsets.symmetric(horizontal: 16.0),\r\n                        child: Column(\r\n                          crossAxisAlignment: CrossAxisAlignment.start,\r\n                          children: [\r\n                            Text(mail.subject!,\r\n                                style: const TextStyle(fontSize: 14)),\r\n                            Text(\r\n                              mail.description ?? 'description',\r\n                              style: const TextStyle(\r\n                                  fontSize: 14, color: Color(0xff898989)),\r\n                              maxLines: 2,\r\n                              overflow: TextOverflow.ellipsis,\r\n                            ),\r\n                            const SizedBox(\r\n                              height: 8,\r\n                            ),\r\n                            getTags(mail.tags),\r\n                            const SizedBox(\r\n                              height: 5,\r\n                            ),\r\n                            getAttachments(mail.attachments),\r\n                          ],\r\n                        ),\r\n                      ),\r\n\r\n                      //\r\n                    ],\r\n                  ),\r\n                ],\r\n              ),\r\n            );\r\n          })),\r\n    ),\r\n  );\r\n}\r\n"
+        }
+    ]
+}
