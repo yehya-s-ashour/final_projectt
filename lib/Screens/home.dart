@@ -13,6 +13,7 @@ import 'package:final_projectt/core/services/status_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
+import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/new_inbox_button_sheet.dart';
 
 import 'package:final_projectt/models/catego_model.dart';
@@ -203,7 +204,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-
                   Consumer<StatuseProvider>(builder: (_, statuseProvider, __) {
                     if (statuseProvider.statusedata.status == Status.LOADING) {
                       return const Center(
@@ -326,7 +326,77 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 children: singleMails!.mails!
                                                     .map((mail) {
-                                                  return myCustomCard(mail);
+                                                  return myCustomCard(
+                                                    mail,
+                                                    () {
+                                                      print(mail.status);
+                                                      showModalBottomSheet(
+                                                        clipBehavior:
+                                                            Clip.hardEdge,
+                                                        isScrollControlled:
+                                                            true,
+                                                        context: context,
+                                                        shape:
+                                                            const RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .vertical(
+                                                          top: Radius.circular(
+                                                              15.0),
+                                                        )),
+                                                        builder: (BuildContext
+                                                            context) {
+                                                          return EditMailBottomSheet(
+                                                            mail: mail,
+                                                          );
+                                                        },
+                                                      ).whenComplete(
+                                                        () {
+                                                          setState(() {
+                                                            Provider.of<NewInboxProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .clearImages();
+                                                            Provider.of<NewInboxProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .senderName = '';
+                                                            Provider.of<NewInboxProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .senderMobile = '';
+                                                            Provider.of<NewInboxProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .activites = [];
+                                                            Provider.of<NewInboxProvider>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .isDatePickerOpened =
+                                                                false;
+                                                            tags = getAllTags();
+                                                            xoffset = 0;
+                                                            yoffset = 0;
+                                                            scalefactor = 1;
+                                                          });
+                                                        },
+                                                      );
+                                                      setState(() {
+                                                        xoffset = MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.12;
+                                                        yoffset = 10;
+                                                        scalefactor = 0.75;
+                                                      });
+                                                    },
+                                                  );
                                                 }).toList(),
                                               ),
                                             );
@@ -486,6 +556,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       xoffset = 0;
                       yoffset = 0;
                       scalefactor = 1;
+                      mails = getMails();
                     });
                   },
                 );

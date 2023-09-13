@@ -36,7 +36,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
 
   void searchSenders(String target) {
     String substring = target.toLowerCase();
-    matchingPairs.clear(); // Clear the previous results
+    matchingPairs.clear();
 
     searchMap.forEach((key, singleSender) {
       String nameLower = singleSender.name.toLowerCase();

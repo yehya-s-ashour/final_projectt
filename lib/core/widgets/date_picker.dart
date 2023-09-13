@@ -115,7 +115,6 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                 color: Colors.grey.shade300,
               )
             : SizedBox(),
-
       ],
     );
   }

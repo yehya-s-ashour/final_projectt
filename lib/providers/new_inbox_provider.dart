@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 
 class NewInboxProvider extends ChangeNotifier {
   List<XFile?> imagesFiles = [];
+  List<XFile?> networkImagesFiles = [];
   List<Map<String, dynamic>>? activites = [];
 
   late String archiveNumber;
@@ -29,12 +30,20 @@ class NewInboxProvider extends ChangeNotifier {
     }
   }
 
+  setNetworkImagesList(List<XFile?> networkImagesFiles) {
+    this.networkImagesFiles = networkImagesFiles;
+  }
+
   addActivity(String activity, String userId) async {
     activites!.add({
       'body': activity,
       'user_id': userId,
     });
     notifyListeners();
+  }
+
+  setActivitesList(List<Map<String, dynamic>>? activites) {
+    this.activites = activites;
   }
 
   setArchiveNumber(String archiveNumber) {

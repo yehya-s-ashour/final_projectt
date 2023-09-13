@@ -150,7 +150,10 @@ class _TagsScreenState extends State<TagsScreen> {
                       return ListView.builder(
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
-                            return myCustomCard(snapshot.data![index]);
+                            return myCustomCard(
+                              snapshot.data![index],
+                              () {},
+                            );
                           });
                     }
                     if (snapshot.hasError) {
