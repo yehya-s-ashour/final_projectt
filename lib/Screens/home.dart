@@ -35,6 +35,8 @@ import 'package:provider/provider.dart';
 import '../core/services/tags_controller.dart';
 import '../core/widgets/my_fab.dart';
 
+const Duration _kExpand = Duration(milliseconds: 200);
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
@@ -45,8 +47,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ExpansionTileController controller = ExpansionTileController();
-
   double xoffset = 0;
   double yoffset = 0;
   double scalefactor = 1;
@@ -55,20 +55,22 @@ class _HomeScreenState extends State<HomeScreen> {
   double spreadRadius = 2.0;
   double dx = 0.0;
   double dy = 10.0;
-  late Future<List<CategoryElement>> categories;
 
+  late Future<List<CategoryElement>> categories;
   late Future<MailsModel> mails;
   late Future<MailsModel> mailsOfSingleCatego;
   late Future<List<TagElement>> tags;
   List<CategoryElement>? categoData;
   MailsModel? singleMails;
   late Future<StatusesesModel> statuses;
+
   @override
   void initState() {
     categories = getCatego();
     mails = getMails();
     tags = getAllTags();
     statuses = StatusController().fetchStatuse();
+
     super.initState();
   }
 
@@ -215,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -240,7 +242,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .statusedata
                                                   .data!
                                                   .statuses![index]
-                                                  .name!),
+                                                  .name!,
+                                              idOfStatus: statuseProvider
+                                                  .statusedata
+                                                  .data!
+                                                  .statuses![index]
+                                                  .id!),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
                                         const begin = Offset(1.0, 0.0);
@@ -273,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     }
 
-                    return const Text("  no data from user provider ");
+                    return const Text("  no data from Status provider ");
                   }),
                   SizedBox(
                     height: deviceHeight * 0.02,
@@ -301,15 +308,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                         children: categoData!.map((catego) {
                                           String nameOfCatego = catego.name;
                                           int idOfCatego = catego.id;
+                                          int numOfEmails =
+                                              singleMails!.mails!.length;
                                           if (idOfCatego == e.id) {
                                             return Theme(
                                               data: Theme.of(context).copyWith(
                                                   dividerColor:
                                                       Colors.transparent),
                                               child: ExpansionTile(
+                                                trailing: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      '$numOfEmails',
+                                                      style: const TextStyle(
+                                                          color: Colors.grey,
+                                                          fontSize: 14),
+                                                    ),
+                                                    const Icon(
+                                                        Icons.expand_more)
+                                                  ],
+                                                ),
                                                 childrenPadding:
                                                     const EdgeInsetsDirectional
-                                                            .only(
+                                                        .only(
                                                         top: 16, bottom: 16),
                                                 textColor:
                                                     const Color(0xff272727),
@@ -401,10 +424,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                             );
                                           }
-                                          return SizedBox(
-                                            height:
-                                                deviceHeight * 0.0000000000001,
-                                          );
+                                          return const SizedBox.shrink();
                                         }).toList(),
                                       );
                                     }
@@ -457,7 +477,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             child: CustomWhiteBox(
                               width: devicewidth * 0.9,
-                              height: (snapshot.data!.length / 2).round() * 52,
+                              height: (snapshot.data!.length / 2).round() * 40,
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.only(
                                     start: 15.0, top: 15),
