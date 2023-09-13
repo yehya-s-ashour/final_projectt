@@ -26,8 +26,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    List<TagElement> selectedTags = widget.selectedTags;
-
+    print(widget.selectedTags);
     return SizedBox(
       height: MediaQuery.of(context).size.height - 150,
       child: Column(
@@ -43,7 +42,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
               children: [
                 IconButton(
                   onPressed: () {
-                    Navigator.pop(context, selectedTags);
+                    Navigator.pop(context, widget.selectedTags);
                   },
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
@@ -89,19 +88,19 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
               }
 
               List<Widget> tagsListForWhiteBox = snapshot.data!.tags.map((tag) {
-                final index = snapshot.data!.tags.indexOf(tag);
                 final tagText = tag.name;
                 final textLength = tagText.length;
                 final tagWidth = 40.0 + (textLength * 8.0);
-                final isSelected = selectedTags.contains(tag);
+                final isSelected = widget.selectedTags.contains(tag);
 
                 return GestureDetector(
                   onTap: () {
                     setState(() {
                       if (isSelected) {
-                        selectedTags.remove(tag);
+                        widget.selectedTags.removeWhere(
+                            (selectedTag) => selectedTag.id == tag.id);
                       } else {
-                        selectedTags.add(tag);
+                        widget.selectedTags.add(tag);
                       }
                     });
                   },
@@ -110,7 +109,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                     width: tagWidth,
                     height: 32,
                     decoration: BoxDecoration(
-                      color: selectedTags.contains(snapshot.data!.tags[index])
+                      color: isSelected
                           ? primaryColor.withOpacity(0.7)
                           : Colors.grey.shade300,
                       borderRadius: BorderRadius.circular(30),

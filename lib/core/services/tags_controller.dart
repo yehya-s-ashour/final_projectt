@@ -20,7 +20,8 @@ Future<List<TagElement>> getAllTags() async {
 
   return Future.error('Error while fetching Tags data');
 }
-Future<List<Mails>> getAllMailsHaveTags(List<int> listOfTagsId) async {
+
+Future<List<Mail>> getAllMailsHaveTags(List<int> listOfTagsId) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   User user = userFromJson(prefs.getString('user')!);
   final response = await http.get(Uri.parse('$baseUrl/tags?tags=$listOfTagsId'),
@@ -28,11 +29,11 @@ Future<List<Mails>> getAllMailsHaveTags(List<int> listOfTagsId) async {
   if (response.statusCode == 200) {
     final data = jsonDecode(response.body)['tags'] as List<dynamic>;
 
-    List<Mails> allMails = [];
+    List<Mail> allMails = [];
 
     for (var tagData in data) {
       final mails = (tagData['mails'] as List<dynamic>)
-          .map((mail) => Mails.fromJson(mail))
+          .map((mail) => Mail.fromJson(mail))
           .toList();
       allMails.addAll(mails);
     }

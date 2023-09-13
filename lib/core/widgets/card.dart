@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../models/mail_model.dart';
 
-Widget myCustomCard(Mail mail) {
+Widget myCustomCard(Mail mail, VoidCallback onTap) {
   String dateTimeString = mail.archiveDate!;
   DateTime dateTime = DateTime.parse(dateTimeString);
   String formattedDate = DateFormat('yyyy  MMM  dd').format(dateTime);
@@ -74,7 +74,7 @@ Widget myCustomCard(Mail mail) {
   }
 
   return GestureDetector(
-    onTap: () {},
+    onTap: onTap,
     child: Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       shape: RoundedRectangleBorder(

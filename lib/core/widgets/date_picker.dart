@@ -119,9 +119,6 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
               )
             : SizedBox(),
 
-
-
-
       ],
     );
   }

@@ -22,7 +22,7 @@ class TagsScreen extends StatefulWidget {
 
 class _TagsScreenState extends State<TagsScreen> {
   late Future<List<CategoryElement>> categories;
-  late Future<List<Mails>> mails;
+  late Future<List<Mail>> mails;
   late Future<List<TagElement>> tags;
   bool isAllTagSelected = true;
   bool isOtherTagSelected = false;
@@ -123,7 +123,6 @@ class _TagsScreenState extends State<TagsScreen> {
           ),
         ),
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -151,7 +150,10 @@ class _TagsScreenState extends State<TagsScreen> {
                       return ListView.builder(
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
-                            return myCustomCard(snapshot.data![index]);
+                            return myCustomCard(
+                              snapshot.data![index],
+                              () {},
+                            );
                           });
                     }
                     if (snapshot.hasError) {
