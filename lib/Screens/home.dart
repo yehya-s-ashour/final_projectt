@@ -240,7 +240,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   .statusedata
                                                   .data!
                                                   .statuses![index]
-                                                  .name!),
+                                                  .name!,
+                                              idOfStatus: statuseProvider
+                                                  .statusedata
+                                                  .data!
+                                                  .statuses![index]
+                                                  .id!),
                                       transitionsBuilder: (context, animation,
                                           secondaryAnimation, child) {
                                         const begin = Offset(1.0, 0.0);
@@ -273,7 +278,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     }
 
-                    return const Text("  no data from user provider ");
+                    return const Text("  no data from Status provider ");
                   }),
                   SizedBox(
                     height: deviceHeight * 0.02,
@@ -309,7 +314,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               child: ExpansionTile(
                                                 childrenPadding:
                                                     const EdgeInsetsDirectional
-                                                            .only(
+                                                        .only(
                                                         top: 16, bottom: 16),
                                                 textColor:
                                                     const Color(0xff272727),
