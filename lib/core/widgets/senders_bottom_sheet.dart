@@ -13,35 +13,40 @@ class SendersBottomSheet extends StatefulWidget {
 class _SendersBottomSheetState extends State<SendersBottomSheet> {
   TextEditingController searchTextField = TextEditingController();
   late Future<Senders> senders;
-  late Map<String, List<String>> searchMap = {};
+  late Map<String, SingleSender> searchMap = {};
+  List<MapEntry<String, SingleSender>> matchingPairs = [];
+
   dynamic sendersData;
-  late List<String> result = [];
 
   @override
   void initState() {
     senders = getSenders();
-    gett();
+    initializeData();
     super.initState();
   }
 
-  void gett() {
-    final Map<int, String> myMap = {
-      1: 'Apple',
-      2: 'Banana',
-      3: 'Bana',
-      4: 'Date',
-      5: 'Ba',
-    };
+  Future<Map<String, SingleSender>> initializeData() async {
+    final sendersData = (await getSenders()).data;
 
-    final searchTerm = 'Ba'; // Substring to search for
+    for (SingleSender sender in sendersData) {
+      searchMap[sender.name] = sender;
+    }
+    return searchMap;
+  }
 
-    final results = myMap.entries
-        .where((entry) => entry.value.contains(searchTerm))
-        .toList();
+  void searchSenders(String target) {
+    String substring = target.toLowerCase();
+    matchingPairs.clear(); // Clear the previous results
 
-    results.forEach((entry) {
-      print('Key: ${entry.key}, Value: ${entry.value}');
+    searchMap.forEach((key, singleSender) {
+      String nameLower = singleSender.name.toLowerCase();
+
+      if (nameLower.contains(substring)) {
+        matchingPairs.add(MapEntry(key, singleSender));
+      }
     });
+
+    setState(() {});
   }
 
   @override
@@ -60,14 +65,16 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                   width: 270,
                   child: TextField(
                     controller: searchTextField,
-                    // onChanged: (value) {
-                    //    searchSenders(sendersData, searchTextField.text);
-                    // },
+                    onChanged: (value) {
+                      searchSenders(value);
+                    },
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.search_rounded),
                       suffixIcon: IconButton(
                         onPressed: () {
-                          searchTextField.clear();
+                          setState(() {
+                            searchTextField.clear();
+                          });
                         },
                         icon: Icon(Icons.cancel),
                       ),
@@ -130,7 +137,25 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
 
                     sendersData = snapshot.data as Senders;
                     final categorizedSenders = categorizeSenders(sendersData);
-
+                    if (matchingPairs.isEmpty &&
+                        searchTextField.text.isNotEmpty) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Image.asset('images/result_not_found.png',
+                                  fit: BoxFit.cover, height: 250),
+                            ),
+                            SizedBox(
+                              height: 70,
+                            )
+                          ],
+                        ),
+                      );
+                    }
                     return ListView.separated(
                       separatorBuilder: (context, index) {
                         return SizedBox(
@@ -143,6 +168,29 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                         final category =
                             categorizedSenders.keys.elementAt(sectionIndex);
                         final categorySenders = categorizedSenders[category]!;
+
+                        // Filter the matchingPairs for the current category and search term
+                        final filteredMatchingPairs =
+                            matchingPairs.where((entry) {
+                          final sender = entry.value;
+                          final senderCategory =
+                              sender.category.name.toLowerCase();
+                          final senderName = sender.name.toLowerCase();
+                          final searchTerm = searchTextField.text.toLowerCase();
+
+                          return senderCategory == category.toLowerCase() &&
+                              (senderName.contains(searchTerm) ||
+                                  sender.mobile.contains(searchTerm));
+                        }).toList();
+
+                        // Check if the section is empty, and skip it if so
+                        if ((filteredMatchingPairs.isEmpty &&
+                                categorySenders.isEmpty) ||
+                            (filteredMatchingPairs.isEmpty &&
+                                searchTextField.text.isNotEmpty)) {
+                          return SizedBox.shrink(); // Hide the empty section
+                        }
+
                         return Column(
                           children: [
                             Column(
@@ -173,47 +221,103 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                             ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
-                              itemCount: categorySenders.length,
+                              itemCount: searchTextField.text.isNotEmpty
+                                  ? filteredMatchingPairs.length
+                                  : categorySenders.length,
                               itemBuilder: (context, itemIndex) {
-                                final sender = categorySenders[itemIndex];
+                                final entry = searchTextField.text.isNotEmpty &&
+                                        itemIndex < filteredMatchingPairs.length
+                                    ? filteredMatchingPairs[itemIndex]
+                                    : null;
 
-                                return ListTile(
-                                  onTap: () {
-                                    setState(() {
-                                      Navigator.pop(context, sender);
-                                    });
-                                  },
-                                  leading: Icon(Icons.person_3_outlined),
-                                  title: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        sender.name,
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      SizedBox(
-                                        height: 8,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.phone,
-                                            size: 20,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            sender.mobile,
-                                            style: TextStyle(fontSize: 17),
-                                          )
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                );
+                                final sender = searchTextField.text.isEmpty &&
+                                        itemIndex < categorySenders.length
+                                    ? categorySenders[itemIndex]
+                                    : null;
+
+                                if (entry != null) {
+                                  return ListTile(
+                                    onTap: () {
+                                      setState(() {
+                                        Navigator.pop(
+                                            context,
+                                            entry
+                                                .value); // Use entry.value to access SingleSender
+                                      });
+                                    },
+                                    leading: Icon(Icons.person_3_outlined),
+                                    title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          entry.value.name,
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.phone,
+                                              size: 20,
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              entry.value.mobile,
+                                              style: TextStyle(fontSize: 17),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                } else if (sender != null) {
+                                  return ListTile(
+                                    onTap: () {
+                                      setState(() {
+                                        Navigator.pop(context, sender);
+                                      });
+                                    },
+                                    leading: Icon(Icons.person_3_outlined),
+                                    title: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          sender.name,
+                                          style: TextStyle(fontSize: 20),
+                                        ),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.phone,
+                                              size: 20,
+                                            ),
+                                            SizedBox(
+                                              width: 10,
+                                            ),
+                                            Text(
+                                              sender.mobile,
+                                              style: TextStyle(fontSize: 17),
+                                            )
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return SizedBox.shrink(); // Hide empty items
                               },
                             ),
                           ],
@@ -230,19 +334,19 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
     );
   }
 
-  searchSenders(Senders sendersData, String searchTerm) {
-    result.clear();
-    for (int i = 0; i < sendersData.data.length; i++) {
-      final sender = sendersData.data[i];
-      final senderName = sender.name;
-      final senderMobile = sender.mobile;
+  // searchSenders(Senders sendersData, String searchTerm) {
+  //   result.clear();
+  //   for (int i = 0; i < sendersData.data.length; i++) {
+  //     final sender = sendersData.data[i];
+  //     final senderName = sender.name;
+  //     final senderMobile = sender.mobile;
 
-      if (senderMobile.contains(searchTerm) ||
-          senderName.contains(searchTerm)) {
-        result.addAll([senderName, senderMobile]);
-      }
-    }
-  }
+  //     if (senderMobile.contains(searchTerm) ||
+  //         senderName.contains(searchTerm)) {
+  //       result.addAll([senderName, senderMobile]);
+  //     }
+  //   }
+  // }
 }
 
 Map<String, List<SingleSender>> categorizeSenders(Senders sendersData) {

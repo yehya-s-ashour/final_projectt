@@ -203,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
+
                   Consumer<StatuseProvider>(builder: (_, statuseProvider, __) {
                     if (statuseProvider.statusedata.status == Status.LOADING) {
                       return const Center(
@@ -214,6 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -485,6 +487,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .activites = [];
                       Provider.of<NewInboxProvider>(context, listen: false)
                           .isDatePickerOpened = false;
+                      tags = getAllTags();
                       xoffset = 0;
                       yoffset = 0;
                       scalefactor = 1;
