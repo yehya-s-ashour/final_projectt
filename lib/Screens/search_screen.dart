@@ -8,17 +8,20 @@ import 'package:final_projectt/models/search_model.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  final int? statuId;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  const SearchScreen({super.key, this.statuId, this.startDate, this.endDate});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  MySearchController mySearchController = MySearchController();
+  Future<Search>? searchData;
+  //MySearchController mySearchController = MySearchController();
   TextEditingController searchController = TextEditingController();
-//bool isbress = false;
-  Search? mail;
+  //Search? mail;
 
   String getMonth(String date) {
     dynamic monthData =
@@ -69,8 +72,18 @@ class _SearchScreenState extends State<SearchScreen> {
               margin: const EdgeInsets.all(8),
               width: 325,
               child: TextField(
-                onChanged: (value) async {
-                  mail = await mySearchController.fetchSearchData(value);
+                onChanged: (value) {
+                  searchData = MySearchController().fetchSearchData(value,
+                      // end: widget.endDate != null
+                      //     ? widget.endDate.toString()
+                      //     : "",
+                      // start: widget.startDate != null
+                      //     ? widget.startDate.toString()
+                      //     : "",
+
+                      status_id: widget.statuId != null
+                          ? widget.statuId.toString()
+                          : "");
                   setState(() {});
                 },
                 controller: searchController,
@@ -132,97 +145,136 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
         Expanded(
             child: searchController.text.isNotEmpty
-                ? mail!.mails!.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: mail!.mails?.length,
-                        physics: const BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 16, vertical: 8),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 16),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
-                                color: boxColor,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: const EdgeInsets.only(right: 8),
-                                        width: 12,
-                                        height: 12,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(6),
-                                            color: Color(int.parse(mail
-                                                    ?.mails![index]
-                                                    .status!
-                                                    .color ??
-                                                ""))),
+                ? FutureBuilder(
+                    future: searchData,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return snapshot.data!.mails?.length != 0
+                            ? ListView.builder(
+                                itemCount: snapshot.data!.mails?.length,
+                                physics: const BouncingScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 16),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                        color: boxColor,
                                       ),
-                                      if (mail!.mails?[index].sender != null)
-                                        Text(mail!.mails?[index].sender!.name ??
-                                            "no data"),
-                                      const Spacer(),
-                                      Text(getMonth(
-                                          mail?.mails?[index].createdAt ?? "")),
-                                      const Icon(
-                                        Icons.arrow_forward_ios,
-                                        color: Colors.grey,
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 24.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(mail?.mails?[index].subject ??
-                                            "no data"),
-                                        Text(
-                                          mail?.mails?[index].description ??
-                                              "no data",
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                        const SizedBox(
-                                          height: 8,
-                                        ),
-                                        Text(
-                                          getTag(
-                                            mail?.mails![index].tags,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                margin: const EdgeInsets.only(
+                                                    right: 8),
+                                                width: 12,
+                                                height: 12,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius
+                                                        .circular(6),
+                                                    color: snapshot
+                                                                .data!
+                                                                .mails![index]
+                                                                .status !=
+                                                            null
+                                                        ? Color(int.parse(
+                                                            snapshot
+                                                                    .data!
+                                                                    .mails![
+                                                                        index]
+                                                                    .status!
+                                                                    .color ??
+                                                                ""))
+                                                        : Colors.white),
+                                              ),
+                                              if (snapshot.data!.mails?[index]
+                                                      .sender !=
+                                                  null)
+                                                Text(snapshot
+                                                        .data!
+                                                        .mails?[index]
+                                                        .sender!
+                                                        .name ??
+                                                    "no data"),
+                                              const Spacer(),
+                                              Text(getMonth(snapshot
+                                                      .data!
+                                                      .mails?[index]
+                                                      .createdAt ??
+                                                  "")),
+                                              const Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Colors.grey,
+                                              )
+                                            ],
                                           ),
-                                          style: const TextStyle(
-                                              color: Color(0xff6589FF)),
-                                        ),
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 24.0),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(snapshot
+                                                        .data!
+                                                        .mails?[index]
+                                                        .subject ??
+                                                    "no data"),
+                                                Text(
+                                                  snapshot.data!.mails?[index]
+                                                          .description ??
+                                                      "no data",
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                const SizedBox(
+                                                  height: 8,
+                                                ),
+                                                Text(
+                                                  getTag(
+                                                    snapshot.data!.mails![index]
+                                                        .tags,
+                                                  ),
+                                                  style: const TextStyle(
+                                                      color: Color(0xff6589FF)),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        })
-                    : Center(
-                        child: Text(
-                            "There are no emails on this data (${searchController.text})"),
-                      )
-                : const Center(
-                    // child: Icon(
-                    //   Icons.search,
-                    //   size: 30,
-                    //   color: Colors.grey,
-                    // ),
-                    ))
+                                  );
+                                })
+                            : Center(
+                                child: Text(
+                                    "There are no emails on this data (${searchController.text})"),
+                              );
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text(snapshot.error.toString()),
+                        );
+                      }
+                      return const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircularProgressIndicator(),
+                        ],
+                      );
+                    })
+                : const Center()),
       ]),
     );
   }

@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomDatePicker extends StatefulWidget {
+  final bool? isLined;
+  CustomDatePicker({this.isLined = true});
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
 }
@@ -104,12 +106,14 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
             ],
           ),
         ),
-        Container(
-          margin: EdgeInsetsDirectional.only(start: 10, end: 10),
-          width: MediaQuery.sizeOf(context).width,
-          height: 1,
-          color: Colors.grey.shade300,
-        ),
+        widget.isLined!
+            ? Container(
+                margin: EdgeInsetsDirectional.only(start: 10, end: 10),
+                width: MediaQuery.sizeOf(context).width,
+                height: 1,
+                color: Colors.grey.shade300,
+              )
+            : SizedBox(),
       ],
     );
   }

@@ -1,10 +1,7 @@
-//import 'package:final_projectt/core/services/catego_controller.dart';
 import 'package:final_projectt/Screens/search_screen.dart';
 import 'package:final_projectt/core/services/status_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
-//import 'package:final_projectt/core/widgets/custom_box.dart';
-// import 'package:final_projectt/core/widgets/custom_box.dart';
-// import 'package:final_projectt/models/catego_model.dart';
+import 'package:final_projectt/core/widgets/custom_expansion.dart';
 import 'package:final_projectt/models/status_model.dart';
 import 'package:flutter/material.dart';
 
@@ -17,18 +14,12 @@ class FilterBottomSheet extends StatefulWidget {
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
   int? selectedIndexStatus;
-
   late Future<StatusesesModel> statuses;
-
-  bool isValidationShown = false;
-  TextEditingController archiveNumber = TextEditingController();
-
-  ///---------
-  DateTime date = DateTime.now();
+  DateTime? dateStart;
+  DateTime? dateEnd;
 
   @override
   void initState() {
-    // categories = getCatego();
     statuses = StatusController().fetchStatuse();
     super.initState();
   }
@@ -55,7 +46,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SearchScreen()));
+                            builder: (context) => const SearchScreen()));
                   },
                 ),
                 const Text("Filter",
@@ -63,7 +54,17 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 TextButton(
                   child: const Text("Done",
                       style: TextStyle(color: Color(0xff6589FF), fontSize: 18)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SearchScreen(
+                                statuId: selectedIndexStatus != null
+                                    ? selectedIndexStatus! + 1
+                                    : null,
+                                startDate: dateStart,
+                                endDate: dateEnd)));
+                  },
                 ),
               ],
             ),
@@ -168,6 +169,36 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 );
               },
             ),
+            CustomExpansion(
+              titleOfDate: " Start Data",
+              children: <Widget>[
+                CalendarDatePicker(
+                  initialDate: DateTime(2023, 1, 1),
+                  firstDate: DateTime(1900, 1, 1),
+                  lastDate: DateTime(2100, 1, 1),
+                  onDateChanged: (DateTime newdate) {
+                    setState(() {
+                      dateStart = newdate;
+                    });
+                  },
+                ),
+              ],
+            ),
+            CustomExpansion(
+              titleOfDate: " End Data",
+              children: <Widget>[
+                CalendarDatePicker(
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1900, 1, 1),
+                  lastDate: DateTime(2100, 1, 1),
+                  onDateChanged: (DateTime newdate) {
+                    setState(() {
+                      dateEnd = newdate;
+                    });
+                  },
+                ),
+              ],
+            )
           ],
         ),
       ),
