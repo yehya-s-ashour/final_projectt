@@ -76,6 +76,33 @@ Future<MailModel> newInbox({
   return MailModel.fromJson(response[1]);
 }
 
+Future<void> updateMail({
+  String? mailId,
+  String? statusId,
+  String? decision,
+  String? finalDecision,
+  List<int>? tags,
+  List<String>? idAttachmentsForDelete,
+  List<String>? pathAttachmentsForDelete,
+  List<Map<String, dynamic>>? activities,
+}) async {
+  final String token = await getToken();
+  final ApiBaseHelper helper = ApiBaseHelper();
+  await helper.post('/mails/$mailId', {
+    "pathAttachmentsForDelete": jsonEncode(pathAttachmentsForDelete),
+    "idAttachmentsForDelete": jsonEncode(idAttachmentsForDelete),
+    "decision": decision,
+    "status_id": statusId,
+    "final_decision": finalDecision,
+    "tags": jsonEncode(tags),
+    "activities": jsonEncode(activities),
+  }, {
+    'Authorization': 'Bearer $token',
+    'Accept': 'application/json',
+  });
+  // return MailModel.fromJson(response[1]);
+}
+
 Future<List<TagElement>> getAllTags() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   User user = userFromJson(prefs.getString('user')!);

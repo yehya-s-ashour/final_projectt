@@ -1,13 +1,13 @@
 // To parse this JSON data, do
 //
-//     final sendersModel = sendersModelFromJson(jsonString);
+//     final sendersModel = sendersModelFromJson(jsonString?);
 
 import 'dart:convert';
 
 SendersModel sendersModelFromJson(String str) =>
     SendersModel.fromJson(json.decode(str));
 
-String sendersModelToJson(SendersModel data) => json.encode(data.toJson());
+String? sendersModelToJson(SendersModel data) => json.encode(data.toJson());
 
 class SendersModel {
   Senders senders;
@@ -16,11 +16,11 @@ class SendersModel {
     required this.senders,
   });
 
-  factory SendersModel.fromJson(Map<String, dynamic> json) => SendersModel(
+  factory SendersModel.fromJson(Map<String?, dynamic> json) => SendersModel(
         senders: Senders.fromJson(json["senders"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "senders": senders.toJson(),
       };
 }
@@ -28,13 +28,13 @@ class SendersModel {
 class Senders {
   int currentPage;
   List<SingleSender> data;
-  String firstPageUrl;
+  String? firstPageUrl;
   int from;
   int lastPage;
-  String lastPageUrl;
+  String? lastPageUrl;
   List<Link> links;
-  String nextPageUrl;
-  String path;
+  String? nextPageUrl;
+  String? path;
   int perPage;
   dynamic prevPageUrl;
   int to;
@@ -56,7 +56,7 @@ class Senders {
     required this.total,
   });
 
-  factory Senders.fromJson(Map<String, dynamic> json) => Senders(
+  factory Senders.fromJson(Map<String?, dynamic> json) => Senders(
         currentPage: json["current_page"],
         data: List<SingleSender>.from(
             json["data"].map((x) => SingleSender.fromJson(x))),
@@ -73,7 +73,7 @@ class Senders {
         total: json["total"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "current_page": currentPage,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
         "first_page_url": firstPageUrl,
@@ -92,13 +92,13 @@ class Senders {
 
 class SingleSender {
   int id;
-  String name;
-  String mobile;
+  String? name;
+  String? mobile;
   String? address;
-  String categoryId;
+  String? categoryId;
   DateTime createdAt;
   DateTime updatedAt;
-  String mailsCount;
+  String? mailsCount;
   Category category;
 
   SingleSender({
@@ -113,7 +113,7 @@ class SingleSender {
     required this.category,
   });
 
-  factory SingleSender.fromJson(Map<String, dynamic> json) => SingleSender(
+  factory SingleSender.fromJson(Map<String?, dynamic> json) => SingleSender(
         id: json["id"],
         name: json["name"],
         mobile: json["mobile"],
@@ -125,7 +125,7 @@ class SingleSender {
         category: Category.fromJson(json["category"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "id": id,
         "name": name,
         "mobile": mobile,
@@ -140,7 +140,7 @@ class SingleSender {
 
 class Category {
   int id;
-  String name;
+  String? name;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -151,14 +151,14 @@ class Category {
     required this.updatedAt,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
+  factory Category.fromJson(Map<String?, dynamic> json) => Category(
         id: json["id"],
         name: json["name"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "id": id,
         "name": name,
         "created_at": createdAt.toIso8601String(),
@@ -168,7 +168,7 @@ class Category {
 
 class Link {
   String? url;
-  String label;
+  String? label;
   bool active;
 
   Link({
@@ -177,13 +177,13 @@ class Link {
     required this.active,
   });
 
-  factory Link.fromJson(Map<String, dynamic> json) => Link(
+  factory Link.fromJson(Map<String?, dynamic> json) => Link(
         url: json["url"],
         label: json["label"],
         active: json["active"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic> toJson() => {
         "url": url,
         "label": label,
         "active": active,

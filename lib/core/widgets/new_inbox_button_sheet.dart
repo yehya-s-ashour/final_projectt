@@ -46,7 +46,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
   late String category = 'Other';
 
   bool isValidationShown = false;
-  late SingleStatus selectedStatus = SingleStatus(
+  late StatusMod selectedStatus = StatusMod(
       id: 1,
       name: 'Inbox',
       color: '0xfffa3a57',
@@ -215,9 +215,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         setState(() {
                                           if (selectedSender != null) {
                                             senderNameCont.text =
-                                                selectedSender!.name;
+                                                selectedSender!.name!;
                                             senderMobileCont.text =
-                                                selectedSender!.mobile;
+                                                selectedSender!.mobile!;
                                           }
                                         });
                                       },
@@ -426,8 +426,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       return StatefulBuilder(builder:
                                           (BuildContext context,
                                               StateSetter setState) {
-                                        return TagsBottomSheet(
-                                            selectedTags: this.selectedTags!);
+                                        return TagsBottomSheet();
                                       });
                                     });
                             setState(() {
@@ -479,7 +478,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         GestureDetector(
                           onTap: () async {
                             final selectedStatus =
-                                await showModalBottomSheet<SingleStatus>(
+                                await showModalBottomSheet<StatusMod>(
                               clipBehavior: Clip.hardEdge,
                               isScrollControlled: true,
                               context: context,
@@ -731,7 +730,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                                           Container(
                                                                         width:
                                                                             200,
-                                                                        height:
+                                                                        height: MediaQuery.sizeOf(context).height -
                                                                             250,
                                                                         decoration: BoxDecoration(
                                                                             borderRadius: BorderRadius.circular(30),

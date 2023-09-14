@@ -9,7 +9,7 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
   DateTime dateTime = DateTime.parse(dateTimeString);
   String formattedDate = DateFormat('yyyy  MMM  dd').format(dateTime);
 
-  Widget getTags(List<Tags>? tags) {
+  Widget getTags(List<MailTag>? tags) {
     if (tags != null && tags.isNotEmpty) {
       return SizedBox(
         height: 20,
@@ -60,9 +60,40 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: path != null
-                      ? Image.network(
-                          'https://palmail.gsgtt.tech/storage/$path',
-                          fit: BoxFit.fill,
+                      ? GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (context) {
+                                return Align(
+                                  alignment: Alignment.center,
+                                  child: SingleChildScrollView(
+                                    child: AlertDialog(
+                                        backgroundColor: Colors.transparent,
+                                        titlePadding: EdgeInsets.zero,
+                                        title: Container(
+                                          width: 200,
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height -
+                                              250,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                      'https://palmail.gsgtt.tech/storage/$path'))),
+                                        )),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Image.network(
+                            'https://palmail.gsgtt.tech/storage/$path',
+                            fit: BoxFit.fill,
+                          ),
                         )
                       : const Text(''),
                 ),

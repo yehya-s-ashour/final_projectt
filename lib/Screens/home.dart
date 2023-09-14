@@ -400,6 +400,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     .isDatePickerOpened =
                                                                 false;
                                                             tags = getAllTags();
+                                                            Provider.of<NewInboxProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .deletedImages = [];
                                                             xoffset = 0;
                                                             yoffset = 0;
                                                             scalefactor = 1;

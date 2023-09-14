@@ -11,6 +11,7 @@ class UserProvider extends ChangeNotifier {
     _userController = UserController();
     getUserData();
   }
+
   ApiResponse<User> get data => _data;
 
   Future<void> getUserData() async {
