@@ -1,0 +1,90 @@
+{
+    "sourceFile": "lib/Screens/pofile_page.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 18,
+            "patches": [
+                {
+                    "date": 1694632136771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694632142322,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,16 @@\n-stf\n\\ No newline at end of file\n+import 'package:flutter/foundation.dart';\r\n+import 'package:flutter/material.dart';\r\n+\r\n+class ProfileScreen extends StatefulWidget {\r\n+  const ProfileScreen({super.key});\r\n+\r\n+  @override\r\n+  State<ProfileScreen> createState() => _ProfileScreenState();\r\n+}\r\n+\r\n+class _ProfileScreenState extends State<ProfileScreen> {\r\n+  @override\r\n+  Widget build(BuildContext context) {\r\n+    return const Placeholder();\r\n+  }\r\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694632149658,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,7 +10,9 @@\n \r\n class _ProfileScreenState extends State<ProfileScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n-    return const Placeholder();\r\n+    return const Scaffold(\r\n+      appBar: ,\r\n+    );\r\n   }\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694632155607,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,8 @@\n class _ProfileScreenState extends State<ProfileScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n     return const Scaffold(\r\n-      appBar: ,\r\n+      appBar: AppBar(),\r\n     );\r\n   }\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694632177801,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,8 @@\n class _ProfileScreenState extends State<ProfileScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n     return const Scaffold(\r\n-      appBar: AppBar(),\r\n+      appBar:,\r\n     );\r\n   }\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694632185241,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,8 @@\n class _ProfileScreenState extends State<ProfileScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n     return const Scaffold(\r\n-      appBar:,\r\n+      body: St,\r\n     );\r\n   }\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694632191118,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,8 +11,9 @@\n class _ProfileScreenState extends State<ProfileScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n     return const Scaffold(\r\n-      body: St,\r\n+      backgroundColor: ,\r\n+      body: Stack(),\r\n     );\r\n   }\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694632219271,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n class _ProfileScreenState extends State<ProfileScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n     return const Scaffold(\r\n-      backgroundColor: ,\r\n+      backgroundColor: backGroundColor,\r\n       body: Stack(),\r\n     );\r\n   }\r\n }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694632224488,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -11,9 +11,9 @@\n \r\n class _ProfileScreenState extends State<ProfileScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n-    return const Scaffold(\r\n+    return   Scaffold(\r\n       backgroundColor: backGroundColor,\r\n       body: Stack(),\r\n     );\r\n   }\r\n"
+                },
+                {
+                    "date": 1694676704096,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+import 'package:final_projectt/core/util/constants/colors.dart';\r\n import 'package:flutter/foundation.dart';\r\n import 'package:flutter/material.dart';\r\n \r\n class ProfileScreen extends StatefulWidget {\r\n@@ -10,10 +11,12 @@\n \r\n class _ProfileScreenState extends State<ProfileScreen> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n-    return   Scaffold(\r\n+    return Scaffold(\r\n       backgroundColor: backGroundColor,\r\n-      body: Stack(),\r\n+      body: const Stack(\r\n+        \r\n\\ No newline at end of file\n+      ),\r\n     );\r\n   }\r\n-}\n+}\r\n"
+                },
+                {
+                    "date": 1694676710314,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,9 @@\n   Widget build(BuildContext context) {\r\n     return Scaffold(\r\n       backgroundColor: backGroundColor,\r\n       body: const Stack(\r\n-        \r\n+        children: [],\r\n       ),\r\n     );\r\n   }\r\n\\ No newline at end of file\n-}\n+}\r\n"
+                },
+                {
+                    "date": 1694676725920,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -14,9 +14,11 @@\n   Widget build(BuildContext context) {\r\n     return Scaffold(\r\n       backgroundColor: backGroundColor,\r\n       body: const Stack(\r\n-        children: [],\r\n+        children: [\r\n+          Cont\r\n+        ],\r\n       ),\r\n\\ No newline at end of file\n     );\r\n   }\r\n-}\n+}\r\n"
+                },
+                {
+                    "date": 1694676731263,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,10 +15,10 @@\n     return Scaffold(\r\n       backgroundColor: backGroundColor,\r\n       body: const Stack(\r\n         children: [\r\n-          Cont\r\n+          Container(),\r\n         ],\r\n       ),\r\n     );\r\n   }\r\n\\ No newline at end of file\n-}\n+}\r\n"
+                },
+                {
+                    "date": 1694676738420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,26 @@\n+import 'package:final_projectt/core/util/constants/colors.dart';\r\n+import 'package:flutter/foundation.dart';\r\n+import 'package:flutter/material.dart';\r\n+\r\n+class ProfileScreen extends StatefulWidget {\r\n+  const ProfileScreen({super.key});\r\n+\r\n+  @override\r\n+  State<ProfileScreen> createState() => _ProfileScreenState();\r\n+}\r\n+\r\n+class _ProfileScreenState extends State<ProfileScreen> {\r\n+  @override\r\n+  Widget build(BuildContext context) {\r\n+    return Scaffold(\r\n+      backgroundColor: backGroundColor,\r\n+      body:  Stack(\r\n+        children: [\r\n+          Container(\r\n+            \r\n+          ),\r\n+        ],\r\n+      ),\r\n+    );\r\n+  }\r\n+}\r\n"
+                },
+                {
+                    "date": 1694676750657,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,35 +16,13 @@\n       backgroundColor: backGroundColor,\r\n       body:  Stack(\r\n         children: [\r\n           Container(\r\n-            \r\n+             clipBehavior: Clip.antiAliasWithSaveLayer,\r\n+                  width: 400,\r\n+                  height: 400,\r\n           ),\r\n         ],\r\n       ),\r\n     );\r\n   }\r\n }\r\n-import 'package:final_projectt/core/util/constants/colors.dart';\r\n-import 'package:flutter/foundation.dart';\r\n-import 'package:flutter/material.dart';\r\n-\r\n-class ProfileScreen extends StatefulWidget {\r\n-  const ProfileScreen({super.key});\r\n-\r\n-  @override\r\n-  State<ProfileScreen> createState() => _ProfileScreenState();\r\n-}\r\n-\r\n-class _ProfileScreenState extends State<ProfileScreen> {\r\n-  @override\r\n-  Widget build(BuildContext context) {\r\n-    return Scaffold(\r\n-      backgroundColor: backGroundColor,\r\n-      body: const Stack(\r\n-        children: [\r\n-          Container(),\r\n-        ],\r\n-      ),\r\n\\ No newline at end of file\n-    );\r\n-  }\r\n-}\n"
+                },
+                {
+                    "date": 1694676760756,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -19,8 +19,14 @@\n           Container(\r\n              clipBehavior: Clip.antiAliasWithSaveLayer,\r\n                   width: 400,\r\n                   height: 400,\r\n+                   decoration: const BoxDecoration(\r\n+                    color: Colors.white,\r\n+                    borderRadius: BorderRadius.only(\r\n+                        bottomLeft: Radius.circular(110),\r\n+                        bottomRight: Radius.circular(200)),\r\n+                  ),\r\n           ),\r\n         ],\r\n       ),\r\n     );\r\n"
+                },
+                {
+                    "date": 1694676767770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n              clipBehavior: Clip.antiAliasWithSaveLayer,\r\n                   width: 400,\r\n                   height: 400,\r\n                    decoration: const BoxDecoration(\r\n-                    color: Colors.white,\r\n+                    color: primaryColor,\r\n                     borderRadius: BorderRadius.only(\r\n                         bottomLeft: Radius.circular(110),\r\n                         bottomRight: Radius.circular(200)),\r\n                   ),\r\n"
+                },
+                {
+                    "date": 1694676795817,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,9 +18,9 @@\n         children: [\r\n           Container(\r\n             clipBehavior: Clip.antiAliasWithSaveLayer,\r\n             width: 400,\r\n-            height: 400,\r\n+            height: 200,\r\n             decoration: BoxDecoration(\r\n               color: primaryColor,\r\n               borderRadius: const BorderRadius.only(\r\n                   bottomLeft: Radius.circular(110),\r\n"
+                },
+                {
+                    "date": 1694676820600,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,34 @@\n+import 'package:final_projectt/core/util/constants/colors.dart';\r\n+import 'package:flutter/material.dart';\r\n+\r\n+class ProfileScreen extends StatefulWidget {\r\n+  const ProfileScreen({super.key});\r\n+\r\n+  @override\r\n+  State<ProfileScreen> createState() => _ProfileScreenState();\r\n+}\r\n+\r\n+class _ProfileScreenState extends State<ProfileScreen> {\r\n+  @override\r\n+  Widget build(BuildContext context) {\r\n+    double deviceHei,\r\n+    return Scaffold(\r\n+      backgroundColor: backGroundColor,\r\n+      body: Stack(\r\n+        children: [\r\n+          Container(\r\n+            clipBehavior: Clip.antiAliasWithSaveLayer,\r\n+            width: 400,\r\n+            height: 200,\r\n+            decoration: BoxDecoration(\r\n+              color: primaryColor,\r\n+              borderRadius: const BorderRadius.only(\r\n+                  bottomLeft: Radius.circular(110),\r\n+                  bottomRight: Radius.circular(200)),\r\n+            ),\r\n+          ),\r\n+        ],\r\n+      ),\r\n+    );\r\n+  }\r\n+}\r\n"
+                }
+            ],
+            "date": 1694632136770,
+            "name": "Commit-0",
+            "content": "stf"
+        }
+    ]
+}

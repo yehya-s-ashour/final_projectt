@@ -1,0 +1,42 @@
+{
+    "sourceFile": "lib/Screens/edit_profile.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1694707934936,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694707943799,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-stf\n\\ No newline at end of file\n+stl\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694707952565,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,15 @@\n-stl\n\\ No newline at end of file\n+import 'package:flutter/material.dart';\r\n+\r\n+class MyWidget extends StatefulWidget {\r\n+  const MyWidget({super.key});\r\n+\r\n+  @override\r\n+  State<MyWidget> createState() => _MyWidgetState();\r\n+}\r\n+\r\n+class _MyWidgetState extends State<MyWidget> {\r\n+  @override\r\n+  Widget build(BuildContext context) {\r\n+    return const Placeholder();\r\n+  }\r\n+}\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1694707961634,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,14 @@\n import 'package:flutter/material.dart';\r\n \r\n-class MyWidget extends StatefulWidget {\r\n-  const MyWidget({super.key});\r\n+class EditProfile extends StatefulWidget {\r\n+  const EditProfile({super.key});\r\n \r\n   @override\r\n-  State<MyWidget> createState() => _MyWidgetState();\r\n+  State<EditProfile> createState() => _EditProfileState();\r\n }\r\n \r\n-class _MyWidgetState extends State<MyWidget> {\r\n+class _EditProfileState extends State<EditProfile> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n     return const Placeholder();\r\n   }\r\n"
+                },
+                {
+                    "date": 1694708028765,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,15 @@\n+import 'package:flutter/material.dart';\r\n+\r\n+class ProfileEditScreen extends StatefulWidget {\r\n+  const ProfileEditScreen({super.key});\r\n+\r\n+  @override\r\n+  State<EditProfile> createState() => _EditProfileState();\r\n+}\r\n+\r\n+class _EditProfileState extends State<EditProfile> {\r\n+  @override\r\n+  Widget build(BuildContext context) {\r\n+    return const Placeholder();\r\n+  }\r\n+}\r\n"
+                },
+                {
+                    "date": 1694708061113,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,7 +9,9 @@\n \r\n class _EditProfileState extends State<EditProfile> {\r\n   @override\r\n   Widget build(BuildContext context) {\r\n-    return const Scaffold();\r\n+    return const Scaffold(\r\n+      \r\n+    );\r\n   }\r\n }\r\n"
+                },
+                {
+                    "date": 1694708082550,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -12,9 +12,9 @@\n   Widget build(BuildContext context) {\r\n     return  Scaffold(\r\n       appBar: AppBar(\r\n         title: Text(\"Edit Profile\"),\r\n-        ce\r\n+        centerTitle: ,\r\n       ),\r\n     );\r\n   }\r\n }\r\n"
+                }
+            ],
+            "date": 1694707934936,
+            "name": "Commit-0",
+            "content": "stf"
+        }
+    ]
+}

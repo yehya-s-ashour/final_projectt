@@ -35,8 +35,6 @@ import 'package:provider/provider.dart';
 import '../core/services/tags_controller.dart';
 import '../core/widgets/my_fab.dart';
 
-const Duration _kExpand = Duration(milliseconds: 200);
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
@@ -70,7 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
     mails = getMails();
     tags = getAllTags();
     statuses = StatusController().fetchStatuse();
-
     super.initState();
   }
 
@@ -192,12 +189,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 showOverlay(
                                     context,
-                                    userProvidor.data.data!.user.name,
-                                    userProvidor.data.data!.user.role!.name);
+                                    userProvidor.data.data!.user.name!,
+                                    userProvidor.data.data!.user.role!.name!);
                               },
-                              child: const CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('images/person.jpg'),
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    'https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}'),
                               ),
                             );
                           }
@@ -332,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 childrenPadding:
                                                     const EdgeInsetsDirectional
-                                                        .only(
+                                                            .only(
                                                         top: 16, bottom: 16),
                                                 textColor:
                                                     const Color(0xff272727),
@@ -477,10 +474,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             child: CustomWhiteBox(
                               width: devicewidth * 0.9,
-                              height: (snapshot.data!.length / 2).round() * 40,
+                              height: (snapshot.data!.length / 2).round() * 46,
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.only(
-                                    start: 15.0, top: 15),
+                                    start: 8.0, top: 8),
                                 child: Wrap(
                                   spacing: 10.0,
                                   runSpacing: 10.0,

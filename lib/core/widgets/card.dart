@@ -106,7 +106,9 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                                         ? pendingColor
                                         : int.parse(mail.statusId!) == 3
                                             ? inProgressColor
-                                            : Colors.white,
+                                            : int.parse(mail.senderId!) == 4
+                                                ? completedColor
+                                                : Colors.red,
                                 borderRadius: BorderRadius.circular(6)),
                           ),
                           const SizedBox(
