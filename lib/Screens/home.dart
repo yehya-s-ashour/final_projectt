@@ -332,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 childrenPadding:
                                                     const EdgeInsetsDirectional
-                                                        .only(
+                                                            .only(
                                                         top: 16, bottom: 16),
                                                 textColor:
                                                     const Color(0xff272727),
@@ -403,6 +403,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     .isDatePickerOpened =
                                                                 false;
                                                             tags = getAllTags();
+                                                            Provider.of<NewInboxProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .deletedImages = [];
                                                             xoffset = 0;
                                                             yoffset = 0;
                                                             scalefactor = 1;

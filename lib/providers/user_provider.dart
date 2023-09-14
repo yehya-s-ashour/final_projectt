@@ -1,5 +1,4 @@
 import 'package:final_projectt/core/helpers/api_response.dart';
-import 'package:final_projectt/core/helpers/token_helper.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/models/user_model.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ class UserProvider extends ChangeNotifier {
 
     getUserData();
   }
+
   ApiResponse<User> get data => _data;
 
   Future<void> getUserData() async {

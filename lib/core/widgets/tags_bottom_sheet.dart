@@ -1,14 +1,10 @@
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
-import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/models/tags_model.dart';
 import 'package:flutter/material.dart';
 
 class TagsBottomSheet extends StatefulWidget {
-  final List<TagElement> selectedTags;
-  TagsBottomSheet({required this.selectedTags});
-
   @override
   State<TagsBottomSheet> createState() => _TagsBottomSheetState();
 }
@@ -17,6 +13,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
   Future<Tag>? tags;
   TextEditingController addTagFieldController = TextEditingController();
   int greyIndex = 0;
+  List<TagElement> selectedTags = [];
 
   @override
   void initState() {
@@ -26,7 +23,6 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.selectedTags);
     return SizedBox(
       height: MediaQuery.of(context).size.height - 150,
       child: Column(
@@ -42,7 +38,8 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
               children: [
                 IconButton(
                   onPressed: () {
-                    Navigator.pop(context, widget.selectedTags);
+                    print(selectedTags);
+                    Navigator.pop(context, selectedTags);
                   },
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
@@ -91,16 +88,16 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                 final tagText = tag.name;
                 final textLength = tagText.length;
                 final tagWidth = 40.0 + (textLength * 8.0);
-                final isSelected = widget.selectedTags.contains(tag);
+                final isSelected = selectedTags.contains(tag);
 
                 return GestureDetector(
                   onTap: () {
                     setState(() {
                       if (isSelected) {
-                        widget.selectedTags.removeWhere(
+                        selectedTags.removeWhere(
                             (selectedTag) => selectedTag.id == tag.id);
                       } else {
-                        widget.selectedTags.add(tag);
+                        selectedTags.add(tag);
                       }
                     });
                   },

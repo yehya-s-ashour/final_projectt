@@ -32,6 +32,7 @@ class SharedPrefsController {
     switch (data.runtimeType) {
       case int:
         return _prefs?.setInt(key, data);
+
       case String:
         return _prefs?.setString(key, data);
       case bool:

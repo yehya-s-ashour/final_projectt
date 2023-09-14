@@ -13,7 +13,7 @@ class StatusesBottomSheet extends StatefulWidget {
 
 class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
   int selectedIndex = 0;
-  late SingleStatus SelectedStatus = SingleStatus(
+  late StatusMod SelectedStatus = StatusMod(
       id: 0,
       name: 'Inbox',
       color: '0xfffa3a57',
