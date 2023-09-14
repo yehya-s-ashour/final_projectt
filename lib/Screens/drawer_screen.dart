@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:final_projectt/Screens/profile_page.dart';
 import 'package:final_projectt/Screens/sender_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../core/util/constants/colors.dart';
-import '../core/util/constants/configuration.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({super.key});
@@ -63,14 +63,21 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                 case "senders":
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
-                                      return SendersScreen();
+                                      return const SendersScreen();
                                     },
                                   ));
+                                case "profilepage":
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return const ProfileScreen();
+                                    },
+                                  ));
+
                                   break;
                               }
                             },
                             child: Text(
-                              "${e['title']}".tr(),
+                              "${e['title']} ".tr(),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,

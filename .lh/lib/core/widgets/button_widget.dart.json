@@ -1,0 +1,42 @@
+{
+    "sourceFile": "lib/core/widgets/button_widget.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1694711196161,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694711203913,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,11 +1,11 @@\n \r\n-class SecondaryButtonWidget extends StatelessWidget {\r\n+class ButtonWidget extends StatelessWidget {\r\n   final Function()? onTap;\r\n   final double? width;\r\n   final String text;\r\n \r\n-  const SecondaryButtonWidget(\r\n+  const ButtonWidget(\r\n       {super.key,\r\n       required this.onTap,\r\n       this.width = double.infinity,\r\n       required this.text});\r\n"
+                },
+                {
+                    "date": 1694711212744,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,5 +1,5 @@\n-\r\n+import 'package:flutter/material.dart';\r\n class ButtonWidget extends StatelessWidget {\r\n   final Function()? onTap;\r\n   final double? width;\r\n   final String text;\r\n"
+                },
+                {
+                    "date": 1694711222348,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,9 +13,9 @@\n   @override\r\n   Widget build(BuildContext context) {\r\n     return Material(\r\n       borderRadius: BorderRadius.circular(12),\r\n-      color: kSecondaryColor,\r\n+      color: pr,\r\n       child: InkWell(\r\n         onTap: onTap,\r\n         borderRadius: BorderRadius.circular(12),\r\n         child: SizedBox(\r\n"
+                },
+                {
+                    "date": 1694711228771,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+import 'package:final_projectt/core/util/constants/colors.dart';\r\n import 'package:flutter/material.dart';\r\n class ButtonWidget extends StatelessWidget {\r\n   final Function()? onTap;\r\n   final double? width;\r\n@@ -13,9 +14,9 @@\n   @override\r\n   Widget build(BuildContext context) {\r\n     return Material(\r\n       borderRadius: BorderRadius.circular(12),\r\n-      color: pr,\r\n+      color: primaryColor,\r\n       child: InkWell(\r\n         onTap: onTap,\r\n         borderRadius: BorderRadius.circular(12),\r\n         child: SizedBox(\r\n@@ -23,10 +24,10 @@\n           height: 50,\r\n           child: Center(\r\n             child: Text(\r\n               text,\r\n-              style: const TextStyle(\r\n-                  color: kOnSecondaryColor,\r\n+              style:   TextStyle(\r\n+                  color: primaryColor,\r\n                   fontSize: 14,\r\n                   fontWeight: FontWeight.w500),\r\n             ),\r\n           ),\r\n"
+                },
+                {
+                    "date": 1694711280150,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,7 @@\n import 'package:final_projectt/core/util/constants/colors.dart';\r\n import 'package:flutter/material.dart';\r\n+\r\n class ButtonWidget extends StatelessWidget {\r\n   final Function()? onTap;\r\n   final double? width;\r\n   final String text;\r\n@@ -24,10 +25,10 @@\n           height: 50,\r\n           child: Center(\r\n             child: Text(\r\n               text,\r\n-              style:   TextStyle(\r\n-                  color: primaryColor,\r\n+              style: TextStyle(\r\n+                  color: Colors.w,\r\n                   fontSize: 14,\r\n                   fontWeight: FontWeight.w500),\r\n             ),\r\n           ),\r\n"
+                },
+                {
+                    "date": 1694711290611,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -25,12 +25,12 @@\n           height: 50,\r\n           child: Center(\r\n             child: Text(\r\n               text,\r\n-              style: TextStyle(\r\n-                  color: Colors.w,\r\n+              style: const TextStyle(\r\n+                  color: Colors.white,\r\n                   fontSize: 14,\r\n-                  fontWeight: FontWeight.w500),\r\n+                  fontWeight: FontWeight.bold),\r\n             ),\r\n           ),\r\n         ),\r\n       ),\r\n"
+                }
+            ],
+            "date": 1694711196161,
+            "name": "Commit-0",
+            "content": "\r\nclass SecondaryButtonWidget extends StatelessWidget {\r\n  final Function()? onTap;\r\n  final double? width;\r\n  final String text;\r\n\r\n  const SecondaryButtonWidget(\r\n      {super.key,\r\n      required this.onTap,\r\n      this.width = double.infinity,\r\n      required this.text});\r\n\r\n  @override\r\n  Widget build(BuildContext context) {\r\n    return Material(\r\n      borderRadius: BorderRadius.circular(12),\r\n      color: kSecondaryColor,\r\n      child: InkWell(\r\n        onTap: onTap,\r\n        borderRadius: BorderRadius.circular(12),\r\n        child: SizedBox(\r\n          width: width,\r\n          height: 50,\r\n          child: Center(\r\n            child: Text(\r\n              text,\r\n              style: const TextStyle(\r\n                  color: kOnSecondaryColor,\r\n                  fontSize: 14,\r\n                  fontWeight: FontWeight.w500),\r\n            ),\r\n          ),\r\n        ),\r\n      ),\r\n    );\r\n  }\r\n}\r\n"
+        }
+    ]
+}

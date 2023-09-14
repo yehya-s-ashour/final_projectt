@@ -38,22 +38,22 @@ class User {
 }
 
 class UserClass {
-  final int id;
-  final String name;
-  final String email;
-  final dynamic image;
-  final dynamic emailVerifiedAt;
-  final String roleId;
-  final String createdAt;
-  final String updatedAt;
+  final int? id;
+  final String? name;
+  final String? email;
+  final String? image; // Updated to be nullable
+  final String? emailVerifiedAt; // Updated to be nullable
+  final String? roleId;
+  final String? createdAt;
+  final String? updatedAt;
   final Role? role;
 
   UserClass({
     required this.id,
     required this.name,
     required this.email,
-    required this.image,
-    required this.emailVerifiedAt,
+    this.image, // Updated to be nullable
+    this.emailVerifiedAt, // Updated to be nullable
     required this.roleId,
     required this.createdAt,
     required this.updatedAt,
@@ -64,8 +64,8 @@ class UserClass {
     int? id,
     String? name,
     String? email,
-    dynamic image,
-    dynamic emailVerifiedAt,
+    String? image,
+    String? emailVerifiedAt,
     String? roleId,
     String? createdAt,
     String? updatedAt,
@@ -109,10 +109,10 @@ class UserClass {
 }
 
 class Role {
-  final int id;
-  final String name;
-  final String createdAt;
-  final String updatedAt;
+  final int? id;
+  final String? name;
+  final String? createdAt;
+  final String? updatedAt;
 
   Role({
     required this.id,

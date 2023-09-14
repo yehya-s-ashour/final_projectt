@@ -1,0 +1,26 @@
+{
+    "sourceFile": "lib/core/util/constants/styles.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1694710747818,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1694710754583,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n   static OutlineInputBorder primaryRoundedOutlineInputBorder =\r\n       OutlineInputBorder(\r\n     borderRadius: BorderRadius.circular(12),\r\n     borderSide: const BorderSide(\r\n-      color: rimaryColor,\r\n+      color: primaryColor,\r\n       width: 2,\r\n     ),\r\n   );\r\n \r\n"
+                },
+                {
+                    "date": 1694710789266,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -10,9 +10,9 @@\n       width: 2,\r\n     ),\r\n   );\r\n \r\n-  static   textStyle14 = TextStyle(\r\n+  static  TextStyle textStyle14 = TextStyle(\r\n     fontSize: 14,\r\n     fontWeight: FontWeight.w500,\r\n     color: primaryColor,\r\n   );\r\n"
+                }
+            ],
+            "date": 1694710747818,
+            "name": "Commit-0",
+            "content": "abstract class Styles {\r\n  static OutlineInputBorder primaryRoundedOutlineInputBorder =\r\n      OutlineInputBorder(\r\n    borderRadius: BorderRadius.circular(12),\r\n    borderSide: const BorderSide(\r\n      color: kPrimaryColor,\r\n      width: 2,\r\n    ),\r\n  );\r\n\r\n  static const textStyle14 = TextStyle(\r\n    fontSize: 14,\r\n    fontWeight: FontWeight.w500,\r\n    color: kPrimaryColor,\r\n  );\r\n}"
+        }
+    ]
+}
