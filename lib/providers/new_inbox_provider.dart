@@ -18,7 +18,7 @@ class NewInboxProvider extends ChangeNotifier {
 
   clearImages() {
     if (imagesFiles.isNotEmpty) {
-      imagesFiles.clear();
+      imagesFiles = [];
       notifyListeners();
     } else
       debugPrint('images list is alerady empty');

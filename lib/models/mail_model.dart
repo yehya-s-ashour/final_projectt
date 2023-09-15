@@ -283,8 +283,8 @@ class Activities {
   String? userId;
   String? mailId;
   String? sendNumber;
-  Null sendDate;
-  Null sendDestination;
+  String? sendDate;
+  String? sendDestination;
   String? createdAt;
   String? updatedAt;
   UserInMail? user;

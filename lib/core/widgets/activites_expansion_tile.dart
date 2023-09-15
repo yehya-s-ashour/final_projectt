@@ -40,7 +40,7 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
             });
           },
           trailing: SizedBox(
-            width: 60,
+            width: 65,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               mainAxisAlignment: MainAxisAlignment.end,

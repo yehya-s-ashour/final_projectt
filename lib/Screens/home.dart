@@ -349,7 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   return myCustomCard(
                                                     mail,
                                                     () {
-                                                      print(mail.status);
+                                                      print(mail.id);
                                                       showModalBottomSheet(
                                                         clipBehavior:
                                                             Clip.hardEdge,
@@ -378,27 +378,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     listen:
                                                                         false)
                                                                 .clearImages();
-                                                            Provider.of<NewInboxProvider>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .senderName = '';
-                                                            Provider.of<NewInboxProvider>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .senderMobile = '';
+
                                                             Provider.of<NewInboxProvider>(
                                                                     context,
                                                                     listen:
                                                                         false)
                                                                 .activites = [];
-                                                            Provider.of<NewInboxProvider>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .isDatePickerOpened =
-                                                                false;
+
                                                             tags = getAllTags();
                                                             Provider.of<NewInboxProvider>(
                                                                     context,

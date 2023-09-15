@@ -77,18 +77,18 @@ Future<MailModel> newInbox({
 }
 
 Future<void> updateMail({
-  String? mailId,
+  int? mailId,
   String? statusId,
   String? decision,
   String? finalDecision,
   List<int>? tags,
-  List<String>? idAttachmentsForDelete,
+  List<int>? idAttachmentsForDelete,
   List<String>? pathAttachmentsForDelete,
   List<Map<String, dynamic>>? activities,
 }) async {
   final String token = await getToken();
-  final ApiBaseHelper helper = ApiBaseHelper();
-  await helper.post('/mails/$mailId', {
+  // final ApiBaseHelper helper = ApiBaseHelper();
+  final response = await http.put(Uri.parse('$baseUrl/mails/$mailId'), body: {
     "pathAttachmentsForDelete": jsonEncode(pathAttachmentsForDelete),
     "idAttachmentsForDelete": jsonEncode(idAttachmentsForDelete),
     "decision": decision,
@@ -96,10 +96,11 @@ Future<void> updateMail({
     "final_decision": finalDecision,
     "tags": jsonEncode(tags),
     "activities": jsonEncode(activities),
-  }, {
+  }, headers: {
     'Authorization': 'Bearer $token',
     'Accept': 'application/json',
   });
+  print(response.body);
   // return MailModel.fromJson(response[1]);
 }
 
@@ -134,12 +135,13 @@ Future<int> uploadImage(File file, mailId) async {
   return response.statusCode;
 }
 
-uploadImages(BuildContext context, int mailId) {
+Future<void>? uploadImages(BuildContext context, int mailId) {
   final imagesProvider =
       Provider.of<NewInboxProvider>(context, listen: false).imagesFiles;
   for (int i = 0; i < imagesProvider.length; i++) {
     uploadImage(File(imagesProvider[i]!.path), mailId);
   }
+  return null;
 }
 
 

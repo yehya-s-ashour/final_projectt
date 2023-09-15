@@ -159,71 +159,43 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                   ),
                   TextButton(
                     onPressed: () async {
-                      // showDialog(
-                      //   barrierDismissible: false,
-                      //   context: context,
-                      //   builder: (context) {
-                      //     return Align(
-                      //       alignment: Alignment.center,
-                      //       child: AlertDialog(
-                      //           backgroundColor: Colors.transparent,
-                      //           titlePadding: EdgeInsets.zero,
-                      //           title:
-                      //               Image.asset('images/loading-icon.gif')),
-                      //     );
-                      //   },
-                      // );
-                      print(
-                          Provider.of<NewInboxProvider>(context, listen: false)
-                              .deletedImages
-                              .map((image) {
-                        return image!.image!;
-                      }));
-                      print(
-                          Provider.of<NewInboxProvider>(context, listen: false)
-                              .deletedImages
-                              .map((image) {
-                        return image!.id!;
-                      }));
-                      // updateMail(
-                      //   mailId: widget.mail.id,
-                      //   idAttachmentsForDelete: Provider.of<NewInboxProvider>(
-                      //           context,
-                      //           listen: false)
-                      //       .deletedImages
-                      //       .map((image) {
-                      //     return image!.id!;
-                      //   }).toList(),
-                      //   pathAttachmentsForDelete: Provider.of<NewInboxProvider>(
-                      //           context,
-                      //           listen: false)
-                      //       .deletedImages
-                      //       .map((image) {
-                      //     return image!.image!;
-                      //   }).toList(),
-                      //   statusId: '${selectedStatus.id}',
-                      //   decision: decisionCont.text,
-                      //   finalDecision: decisionCont.text,
-                      //   activities: Provider.of<NewInboxProvider>(context,
-                      //           listen: false)
-                      //       .activites,
-                      //   tags: selectedTags.map((tag) => tag.id).toList(),
-                      // );
+                      Provider.of<NewInboxProvider>(context, listen: false)
+                                  .imagesFiles
+                                  .length >
+                              0
+                          ? await uploadImages(context, widget.mail.id!)
+                          : null;
+                      await updateMail(
+                        mailId: widget.mail.id,
+                        idAttachmentsForDelete: Provider.of<NewInboxProvider>(
+                                context,
+                                listen: false)
+                            .deletedImages
+                            .map((image) {
+                          return image!.id!;
+                        }).toList(),
+                        pathAttachmentsForDelete: Provider.of<NewInboxProvider>(
+                                context,
+                                listen: false)
+                            .deletedImages
+                            .map((image) {
+                          return image!.image!;
+                        }).toList(),
+                        statusId: selectedStatus.id.toString(),
+                        decision: decisionCont.text,
+                        finalDecision: decisionCont.text,
+                        activities: Provider.of<NewInboxProvider>(context,
+                                listen: false)
+                            .activites,
+                        tags: selectedTags.map((tag) => tag.id).toList(),
+                      );
 
-                      updateMail(
-                          activities: [],
-                          decision: '123',
-                          finalDecision: '123',
-                          idAttachmentsForDelete: [],
-                          mailId: 22.toString(),
-                          statusId: 3.toString(),
-                          tags: [71],
-                          pathAttachmentsForDelete: []);
-                      // uploadImages(context, widget.mail.id!);
-                      // showAlert(context,
-                      //     message: 'Mail Updated Successfully',
-                      //     color: primaryColor.withOpacity(0.8),
-                      //     width: 230);
+                      showAlert(
+                        context,
+                        message: 'Mail Updated Successfully',
+                        color: primaryColor.withOpacity(0.8),
+                        width: 230,
+                      );
 
                       selectedTags = [];
 
@@ -231,7 +203,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           Provider.of<StatuseProvider>(context, listen: false);
                       updateData.updatestutas();
 
-                      Navigator.pushReplacement(context, MaterialPageRoute(
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) {
                           return MainPage();
                         },
