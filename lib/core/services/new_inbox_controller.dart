@@ -20,7 +20,7 @@ Future<Senders> getSenders() async {
     '/senders?mail=false',
     {'Authorization': 'Bearer $token'},
   );
-  return SendersModel.fromJson(response[1]).senders;
+  return SendersModel.fromJson(response[1]).senders!;
 }
 
 Future<Tag> getTags() async {

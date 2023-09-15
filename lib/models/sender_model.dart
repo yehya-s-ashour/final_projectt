@@ -4,41 +4,41 @@
 
 import 'dart:convert';
 
-SendersModel sendersModelFromJson(String str) =>
-    SendersModel.fromJson(json.decode(str));
+SendersModel sendersModelFromJson(String? str) =>
+    SendersModel.fromJson(json.decode(str ?? "{}"));
 
 String? sendersModelToJson(SendersModel data) => json.encode(data.toJson());
 
 class SendersModel {
-  Senders senders;
+  Senders? senders;
 
   SendersModel({
     required this.senders,
   });
 
-  factory SendersModel.fromJson(Map<String?, dynamic> json) => SendersModel(
-        senders: Senders.fromJson(json["senders"]),
+  factory SendersModel.fromJson(Map<String?, dynamic>? json) => SendersModel(
+        senders: json != null ? Senders.fromJson(json["senders"]) : null,
       );
 
   Map<String?, dynamic> toJson() => {
-        "senders": senders.toJson(),
+        "senders": senders?.toJson(),
       };
 }
 
 class Senders {
-  int currentPage;
-  List<SingleSender> data;
+  int? currentPage;
+  List<SingleSender>? data;
   String? firstPageUrl;
-  int from;
-  int lastPage;
+  int? from;
+  int? lastPage;
   String? lastPageUrl;
-  List<Link> links;
+  List<Link>? links;
   String? nextPageUrl;
   String? path;
-  int perPage;
+  int? perPage;
   dynamic prevPageUrl;
-  int to;
-  int total;
+  int? to;
+  int? total;
 
   Senders({
     required this.currentPage,
@@ -56,31 +56,40 @@ class Senders {
     required this.total,
   });
 
-  factory Senders.fromJson(Map<String?, dynamic> json) => Senders(
-        currentPage: json["current_page"],
-        data: List<SingleSender>.from(
-            json["data"].map((x) => SingleSender.fromJson(x))),
-        firstPageUrl: json["first_page_url"],
-        from: json["from"],
-        lastPage: json["last_page"],
-        lastPageUrl: json["last_page_url"],
-        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-        nextPageUrl: json["next_page_url"],
-        path: json["path"],
-        perPage: json["per_page"],
-        prevPageUrl: json["prev_page_url"],
-        to: json["to"],
-        total: json["total"],
+  factory Senders.fromJson(Map<String?, dynamic>? json) => Senders(
+        currentPage: json?["current_page"],
+        data: json?["data"] != null
+            ? List<SingleSender>.from(
+                (json!["data"] as List).map((x) => SingleSender.fromJson(x)))
+            : null,
+        firstPageUrl: json?["first_page_url"],
+        from: json?["from"],
+        lastPage: json?["last_page"],
+        lastPageUrl: json?["last_page_url"],
+        links: json?["links"] != null
+            ? List<Link>.from(
+                (json!["links"] as List).map((x) => Link.fromJson(x)))
+            : null,
+        nextPageUrl: json?["next_page_url"],
+        path: json?["path"],
+        perPage: json?["per_page"],
+        prevPageUrl: json?["prev_page_url"],
+        to: json?["to"],
+        total: json?["total"],
       );
 
   Map<String?, dynamic> toJson() => {
         "current_page": currentPage,
-        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "data": data != null
+            ? List<dynamic>.from(data!.map((x) => x.toJson()))
+            : null,
         "first_page_url": firstPageUrl,
         "from": from,
         "last_page": lastPage,
         "last_page_url": lastPageUrl,
-        "links": List<dynamic>.from(links.map((x) => x.toJson())),
+        "links": links != null
+            ? List<dynamic>.from(links!.map((x) => x.toJson()))
+            : null,
         "next_page_url": nextPageUrl,
         "path": path,
         "per_page": perPage,
@@ -91,15 +100,15 @@ class Senders {
 }
 
 class SingleSender {
-  int id;
+  int? id;
   String? name;
   String? mobile;
   String? address;
   String? categoryId;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
   String? mailsCount;
-  Category category;
+  Category? category;
 
   SingleSender({
     required this.id,
@@ -113,16 +122,22 @@ class SingleSender {
     required this.category,
   });
 
-  factory SingleSender.fromJson(Map<String?, dynamic> json) => SingleSender(
-        id: json["id"],
-        name: json["name"],
-        mobile: json["mobile"],
-        address: json["address"],
-        categoryId: json["category_id"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        mailsCount: json["mails_count"],
-        category: Category.fromJson(json["category"]),
+  factory SingleSender.fromJson(Map<String?, dynamic>? json) => SingleSender(
+        id: json?["id"],
+        name: json?["name"],
+        mobile: json?["mobile"],
+        address: json?["address"],
+        categoryId: json?["category_id"],
+        createdAt: json?["created_at"] != null
+            ? DateTime.parse(json!["created_at"])
+            : null,
+        updatedAt: json?["updated_at"] != null
+            ? DateTime.parse(json!["updated_at"])
+            : null,
+        mailsCount: json?["mails_count"],
+        category: json?["category"] != null
+            ? Category.fromJson(json!["category"])
+            : null,
       );
 
   Map<String?, dynamic> toJson() => {
@@ -131,18 +146,18 @@ class SingleSender {
         "mobile": mobile,
         "address": address,
         "category_id": categoryId,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
         "mails_count": mailsCount,
-        "category": category.toJson(),
+        "category": category?.toJson(),
       };
 }
 
 class Category {
-  int id;
+  int? id;
   String? name;
-  DateTime createdAt;
-  DateTime updatedAt;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   Category({
     required this.id,
@@ -151,25 +166,29 @@ class Category {
     required this.updatedAt,
   });
 
-  factory Category.fromJson(Map<String?, dynamic> json) => Category(
-        id: json["id"],
-        name: json["name"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+  factory Category.fromJson(Map<String?, dynamic>? json) => Category(
+        id: json?["id"],
+        name: json?["name"],
+        createdAt: json?["created_at"] != null
+            ? DateTime.parse(json!["created_at"])
+            : null,
+        updatedAt: json?["updated_at"] != null
+            ? DateTime.parse(json!["updated_at"])
+            : null,
       );
 
   Map<String?, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
       };
 }
 
 class Link {
   String? url;
   String? label;
-  bool active;
+  bool? active;
 
   Link({
     required this.url,
@@ -177,10 +196,10 @@ class Link {
     required this.active,
   });
 
-  factory Link.fromJson(Map<String?, dynamic> json) => Link(
-        url: json["url"],
-        label: json["label"],
-        active: json["active"],
+  factory Link.fromJson(Map<String?, dynamic>? json) => Link(
+        url: json?["url"],
+        label: json?["label"],
+        active: json?["active"],
       );
 
   Map<String?, dynamic> toJson() => {
