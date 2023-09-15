@@ -189,9 +189,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 showOverlay(
                                     context,
-                                    userProvidor.data.data!.user.name,
-                                    userProvidor.data.data!.user.role!.name,
-                                    userProvidor.data.data!.user.image);
+                                    userProvidor.data.data!.user.name!,
+                                    userProvidor.data.data!.user.role!.name!,
+                                    userProvidor.data.data!.user.image!);
                               },
                               child: CircleAvatar(
                                   backgroundImage: userProvidor
@@ -201,8 +201,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}")
                                       : const NetworkImage(
                                           'https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg')),
-                                    
-                              
                             );
                           }
                           return const Text("  no data from user provider ");
