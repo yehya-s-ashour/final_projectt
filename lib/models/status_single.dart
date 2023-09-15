@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:final_projectt/models/mail_model.dart';
+
 StatusSingle statusSingleFromJson(String str) =>
     StatusSingle.fromJson(json.decode(str));
 
@@ -27,7 +29,7 @@ class StatusSingle {
       };
 }
 
-class StatusSingleStatus {
+class StatusSingleStatus extends MailModel {
   int? id;
   String? name;
   String? color;
@@ -72,367 +74,367 @@ class StatusSingleStatus {
       };
 }
 
-class Mail {
-  int? id;
-  String? subject;
-  String? description;
-  String? senderId;
-  String? archiveNumber;
-  String? archiveDate;
-  String? decision;
-  String? statusId;
-  String? finalDecision;
-  String? createdAt;
-  String? updatedAt;
-  Sender? sender;
-  MailStatus? status;
-  List<Attachment>? attachments;
-  List<Activity>? activities;
-  List<Tag>? tags;
+// class Mail {
+//   int? id;
+//   String? subject;
+//   String? description;
+//   String? senderId;
+//   String? archiveNumber;
+//   String? archiveDate;
+//   String? decision;
+//   String? statusId;
+//   String? finalDecision;
+//   String? createdAt;
+//   String? updatedAt;
+//   Sender? sender;
+//   MailStatus? status;
+//   List<Attachment>? attachments;
+//   List<Activity>? activities;
+//   List<Tag>? tags;
 
-  Mail({
-    this.id,
-    this.subject,
-    this.description,
-    this.senderId,
-    this.archiveNumber,
-    this.archiveDate,
-    this.decision,
-    this.statusId,
-    this.finalDecision,
-    this.createdAt,
-    this.updatedAt,
-    this.sender,
-    this.status,
-    this.attachments,
-    this.activities,
-    this.tags,
-  });
+//   Mail({
+//     this.id,
+//     this.subject,
+//     this.description,
+//     this.senderId,
+//     this.archiveNumber,
+//     this.archiveDate,
+//     this.decision,
+//     this.statusId,
+//     this.finalDecision,
+//     this.createdAt,
+//     this.updatedAt,
+//     this.sender,
+//     this.status,
+//     this.attachments,
+//     this.activities,
+//     this.tags,
+//   });
 
-  factory Mail.fromJson(Map<String, dynamic> json) => Mail(
-        id: json["id"],
-        subject: json["subject"],
-        description: json["description"],
-        senderId: json["sender_id"],
-        archiveNumber: json["archive_number"],
-        archiveDate: json["archive_date"],
-        decision: json["decision"],
-        statusId: json["status_id"],
-        finalDecision: json["final_decision"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        sender: json["sender"] == null ? null : Sender.fromJson(json["sender"]),
-        status:
-            json["status"] == null ? null : MailStatus.fromJson(json["status"]),
-        attachments: json["attachments"] == null
-            ? []
-            : List<Attachment>.from(
-                json["attachments"]!.map((x) => Attachment.fromJson(x))),
-        activities: json["activities"] == null
-            ? []
-            : List<Activity>.from(
-                json["activities"]!.map((x) => Activity.fromJson(x))),
-        tags: json["tags"] == null
-            ? []
-            : List<Tag>.from(json["tags"]!.map((x) => Tag.fromJson(x))),
-      );
+//   factory Mail.fromJson(Map<String, dynamic> json) => Mail(
+//         id: json["id"],
+//         subject: json["subject"],
+//         description: json["description"],
+//         senderId: json["sender_id"],
+//         archiveNumber: json["archive_number"],
+//         archiveDate: json["archive_date"],
+//         decision: json["decision"],
+//         statusId: json["status_id"],
+//         finalDecision: json["final_decision"],
+//         createdAt: json["created_at"],
+//         updatedAt: json["updated_at"],
+//         sender: json["sender"] == null ? null : Sender.fromJson(json["sender"]),
+//         status:
+//             json["status"] == null ? null : MailStatus.fromJson(json["status"]),
+//         attachments: json["attachments"] == null
+//             ? []
+//             : List<Attachment>.from(
+//                 json["attachments"]!.map((x) => Attachment.fromJson(x))),
+//         activities: json["activities"] == null
+//             ? []
+//             : List<Activity>.from(
+//                 json["activities"]!.map((x) => Activity.fromJson(x))),
+//         tags: json["tags"] == null
+//             ? []
+//             : List<Tag>.from(json["tags"]!.map((x) => Tag.fromJson(x))),
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "subject": subject,
-        "description": description,
-        "sender_id": senderId,
-        "archive_number": archiveNumber,
-        "archive_date": archiveDate,
-        "decision": decision,
-        "status_id": statusId,
-        "final_decision": finalDecision,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "sender": sender?.toJson(),
-        "status": status?.toJson(),
-        "attachments": attachments == null
-            ? []
-            : List<dynamic>.from(attachments!.map((x) => x.toJson())),
-        "activities": activities == null
-            ? []
-            : List<dynamic>.from(activities!.map((x) => x.toJson())),
-        "tags": tags == null
-            ? []
-            : List<dynamic>.from(tags!.map((x) => x.toJson())),
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "subject": subject,
+//         "description": description,
+//         "sender_id": senderId,
+//         "archive_number": archiveNumber,
+//         "archive_date": archiveDate,
+//         "decision": decision,
+//         "status_id": statusId,
+//         "final_decision": finalDecision,
+//         "created_at": createdAt,
+//         "updated_at": updatedAt,
+//         "sender": sender?.toJson(),
+//         "status": status?.toJson(),
+//         "attachments": attachments == null
+//             ? []
+//             : List<dynamic>.from(attachments!.map((x) => x.toJson())),
+//         "activities": activities == null
+//             ? []
+//             : List<dynamic>.from(activities!.map((x) => x.toJson())),
+//         "tags": tags == null
+//             ? []
+//             : List<dynamic>.from(tags!.map((x) => x.toJson())),
+//       };
+// }
 
-class Activity {
-  int? id;
-  String? body;
-  String? userId;
-  String? mailId;
-  dynamic sendNumber;
-  dynamic sendDate;
-  dynamic sendDestination;
-  String? createdAt;
-  String? updatedAt;
-  User? user;
+// class Activity {
+//   int? id;
+//   String? body;
+//   String? userId;
+//   String? mailId;
+//   dynamic sendNumber;
+//   dynamic sendDate;
+//   dynamic sendDestination;
+//   String? createdAt;
+//   String? updatedAt;
+//   User? user;
 
-  Activity({
-    this.id,
-    this.body,
-    this.userId,
-    this.mailId,
-    this.sendNumber,
-    this.sendDate,
-    this.sendDestination,
-    this.createdAt,
-    this.updatedAt,
-    this.user,
-  });
+//   Activity({
+//     this.id,
+//     this.body,
+//     this.userId,
+//     this.mailId,
+//     this.sendNumber,
+//     this.sendDate,
+//     this.sendDestination,
+//     this.createdAt,
+//     this.updatedAt,
+//     this.user,
+//   });
 
-  factory Activity.fromJson(Map<String, dynamic> json) => Activity(
-        id: json["id"],
-        body: json["body"],
-        userId: json["user_id"],
-        mailId: json["mail_id"],
-        sendNumber: json["send_number"],
-        sendDate: json["send_date"],
-        sendDestination: json["send_destination"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        user: json["user"] == null ? null : User.fromJson(json["user"]),
-      );
+//   factory Activity.fromJson(Map<String, dynamic> json) => Activity(
+//         id: json["id"],
+//         body: json["body"],
+//         userId: json["user_id"],
+//         mailId: json["mail_id"],
+//         sendNumber: json["send_number"],
+//         sendDate: json["send_date"],
+//         sendDestination: json["send_destination"],
+//         createdAt: json["created_at"],
+//         updatedAt: json["updated_at"],
+//         user: json["user"] == null ? null : User.fromJson(json["user"]),
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "body": body,
-        "user_id": userId,
-        "mail_id": mailId,
-        "send_number": sendNumber,
-        "send_date": sendDate,
-        "send_destination": sendDestination,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "user": user?.toJson(),
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "body": body,
+//         "user_id": userId,
+//         "mail_id": mailId,
+//         "send_number": sendNumber,
+//         "send_date": sendDate,
+//         "send_destination": sendDestination,
+//         "created_at": createdAt,
+//         "updated_at": updatedAt,
+//         "user": user?.toJson(),
+//       };
+// }
 
-class User {
-  int? id;
-  String? name;
-  String? email;
-  String? image;
-  String? emailVerifiedAt;
-  String? roleId;
-  String? createdAt;
-  String? updatedAt;
+// class User {
+//   int? id;
+//   String? name;
+//   String? email;
+//   String? image;
+//   String? emailVerifiedAt;
+//   String? roleId;
+//   String? createdAt;
+//   String? updatedAt;
 
-  User({
-    this.id,
-    this.name,
-    this.email,
-    this.image,
-    this.emailVerifiedAt,
-    this.roleId,
-    this.createdAt,
-    this.updatedAt,
-  });
+//   User({
+//     this.id,
+//     this.name,
+//     this.email,
+//     this.image,
+//     this.emailVerifiedAt,
+//     this.roleId,
+//     this.createdAt,
+//     this.updatedAt,
+//   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        name: json["name"],
-        email: json["email"],
-        image: json["image"],
-        emailVerifiedAt: json["email_verified_at"],
-        roleId: json["role_id"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-      );
+//   factory User.fromJson(Map<String, dynamic> json) => User(
+//         id: json["id"],
+//         name: json["name"],
+//         email: json["email"],
+//         image: json["image"],
+//         emailVerifiedAt: json["email_verified_at"],
+//         roleId: json["role_id"],
+//         createdAt: json["created_at"],
+//         updatedAt: json["updated_at"],
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "email": email,
-        "image": image,
-        "email_verified_at": emailVerifiedAt,
-        "role_id": roleId,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "name": name,
+//         "email": email,
+//         "image": image,
+//         "email_verified_at": emailVerifiedAt,
+//         "role_id": roleId,
+//         "created_at": createdAt,
+//         "updated_at": updatedAt,
+//       };
+// }
 
-class Attachment {
-  int? id;
-  String? title;
-  String? image;
-  String? mailId;
-  String? createdAt;
-  String? updatedAt;
+// class Attachment {
+//   int? id;
+//   String? title;
+//   String? image;
+//   String? mailId;
+//   String? createdAt;
+//   String? updatedAt;
 
-  Attachment({
-    this.id,
-    this.title,
-    this.image,
-    this.mailId,
-    this.createdAt,
-    this.updatedAt,
-  });
+//   Attachment({
+//     this.id,
+//     this.title,
+//     this.image,
+//     this.mailId,
+//     this.createdAt,
+//     this.updatedAt,
+//   });
 
-  factory Attachment.fromJson(Map<String, dynamic> json) => Attachment(
-        id: json["id"],
-        title: json["title"],
-        image: json["image"],
-        mailId: json["mail_id"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-      );
+//   factory Attachment.fromJson(Map<String, dynamic> json) => Attachment(
+//         id: json["id"],
+//         title: json["title"],
+//         image: json["image"],
+//         mailId: json["mail_id"],
+//         createdAt: json["created_at"],
+//         updatedAt: json["updated_at"],
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "image": image,
-        "mail_id": mailId,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "title": title,
+//         "image": image,
+//         "mail_id": mailId,
+//         "created_at": createdAt,
+//         "updated_at": updatedAt,
+//       };
+// }
 
-class Sender {
-  int? id;
-  String? name;
-  String? mobile;
-  String? address;
-  String? categoryId;
-  String? createdAt;
-  String? updatedAt;
-  Category? category;
+// class Sender {
+//   int? id;
+//   String? name;
+//   String? mobile;
+//   String? address;
+//   String? categoryId;
+//   String? createdAt;
+//   String? updatedAt;
+//   Category? category;
 
-  Sender({
-    this.id,
-    this.name,
-    this.mobile,
-    this.address,
-    this.categoryId,
-    this.createdAt,
-    this.updatedAt,
-    this.category,
-  });
+//   Sender({
+//     this.id,
+//     this.name,
+//     this.mobile,
+//     this.address,
+//     this.categoryId,
+//     this.createdAt,
+//     this.updatedAt,
+//     this.category,
+//   });
 
-  factory Sender.fromJson(Map<String, dynamic> json) => Sender(
-        id: json["id"],
-        name: json["name"],
-        mobile: json["mobile"],
-        address: json["address"],
-        categoryId: json["category_id"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        category: json["category"] == null
-            ? null
-            : Category.fromJson(json["category"]),
-      );
+//   factory Sender.fromJson(Map<String, dynamic> json) => Sender(
+//         id: json["id"],
+//         name: json["name"],
+//         mobile: json["mobile"],
+//         address: json["address"],
+//         categoryId: json["category_id"],
+//         createdAt: json["created_at"],
+//         updatedAt: json["updated_at"],
+//         category: json["category"] == null
+//             ? null
+//             : Category.fromJson(json["category"]),
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "mobile": mobile,
-        "address": address,
-        "category_id": categoryId,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "category": category?.toJson(),
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "name": name,
+//         "mobile": mobile,
+//         "address": address,
+//         "category_id": categoryId,
+//         "created_at": createdAt,
+//         "updated_at": updatedAt,
+//         "category": category?.toJson(),
+//       };
+// }
 
-class Category {
-  int? id;
-  String? name;
+// class Category {
+//   int? id;
+//   String? name;
 
-  Category({
-    this.id,
-    this.name,
-  });
+//   Category({
+//     this.id,
+//     this.name,
+//   });
 
-  factory Category.fromJson(Map<String, dynamic> json) => Category(
-        id: json["id"],
-        name: json["name"],
-      );
+//   factory Category.fromJson(Map<String, dynamic> json) => Category(
+//         id: json["id"],
+//         name: json["name"],
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "name": name,
+//       };
+// }
 
-class MailStatus {
-  int? id;
-  String? name;
-  String? color;
+// class MailStatus {
+//   int? id;
+//   String? name;
+//   String? color;
 
-  MailStatus({
-    this.id,
-    this.name,
-    this.color,
-  });
+//   MailStatus({
+//     this.id,
+//     this.name,
+//     this.color,
+//   });
 
-  factory MailStatus.fromJson(Map<String, dynamic> json) => MailStatus(
-        id: json["id"],
-        name: json["name"],
-        color: json["color"],
-      );
+//   factory MailStatus.fromJson(Map<String, dynamic> json) => MailStatus(
+//         id: json["id"],
+//         name: json["name"],
+//         color: json["color"],
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "color": color,
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "name": name,
+//         "color": color,
+//       };
+// }
 
-class Tag {
-  int? id;
-  String? name;
-  String? createdAt;
-  String? updatedAt;
-  Pivot? pivot;
+// class Tag {
+//   int? id;
+//   String? name;
+//   String? createdAt;
+//   String? updatedAt;
+//   Pivot? pivot;
 
-  Tag({
-    this.id,
-    this.name,
-    this.createdAt,
-    this.updatedAt,
-    this.pivot,
-  });
+//   Tag({
+//     this.id,
+//     this.name,
+//     this.createdAt,
+//     this.updatedAt,
+//     this.pivot,
+//   });
 
-  factory Tag.fromJson(Map<String, dynamic> json) => Tag(
-        id: json["id"],
-        name: json["name"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        pivot: json["pivot"] == null ? null : Pivot.fromJson(json["pivot"]),
-      );
+//   factory Tag.fromJson(Map<String, dynamic> json) => Tag(
+//         id: json["id"],
+//         name: json["name"],
+//         createdAt: json["created_at"],
+//         updatedAt: json["updated_at"],
+//         pivot: json["pivot"] == null ? null : Pivot.fromJson(json["pivot"]),
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-        "pivot": pivot?.toJson(),
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "id": id,
+//         "name": name,
+//         "created_at": createdAt,
+//         "updated_at": updatedAt,
+//         "pivot": pivot?.toJson(),
+//       };
+// }
 
-class Pivot {
-  String? mailId;
-  String? tagId;
+// class Pivot {
+//   String? mailId;
+//   String? tagId;
 
-  Pivot({
-    this.mailId,
-    this.tagId,
-  });
+//   Pivot({
+//     this.mailId,
+//     this.tagId,
+//   });
 
-  factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
-        mailId: json["mail_id"],
-        tagId: json["tag_id"],
-      );
+//   factory Pivot.fromJson(Map<String, dynamic> json) => Pivot(
+//         mailId: json["mail_id"],
+//         tagId: json["tag_id"],
+//       );
 
-  Map<String, dynamic> toJson() => {
-        "mail_id": mailId,
-        "tag_id": tagId,
-      };
-}
+//   Map<String, dynamic> toJson() => {
+//         "mail_id": mailId,
+//         "tag_id": tagId,
+//       };
+// }

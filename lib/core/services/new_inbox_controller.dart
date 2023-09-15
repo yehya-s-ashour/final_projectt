@@ -106,7 +106,7 @@ Future<void> updateMail({
 
 Future<List<TagElement>> getAllTags() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  User user = userFromJson(prefs.getString('user')!);
+  UserModel user = userFromJson(prefs.getString('user')!);
   final response = await http.get(Uri.parse('$baseUrl/tags'),
       headers: {'Authorization': 'Bearer ${user.token}'});
   if (response.statusCode == 200) {

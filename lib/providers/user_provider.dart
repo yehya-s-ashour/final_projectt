@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
   late UserController _userController;
-  late ApiResponse<User> _data;
+  late ApiResponse<UserModel> _data;
 
   UserProvider() {
     _userController = UserController();
     getUserData();
   }
+  ApiResponse<UserModel> get data => _data;
 
-  ApiResponse<User> get data => _data;
 
   Future<void> getUserData() async {
     _data = ApiResponse.loading('Loading');

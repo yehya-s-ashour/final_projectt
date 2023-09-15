@@ -206,7 +206,7 @@ class Activity {
   dynamic sendDestination;
   String createdAt;
   String updatedAt;
-  User user;
+  UserModel user;
 
   Activity({
     required this.id,
@@ -231,7 +231,7 @@ class Activity {
         sendDestination: json["send_destination"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
-        user: User.fromJson(json["user"]),
+        user: UserModel.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {

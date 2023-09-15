@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 
 Future<List<TagElement>> getAllTags() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  User user = userFromJson(prefs.getString('user')!);
+  UserModel user = userFromJson(prefs.getString('user')!);
   final response = await http.get(Uri.parse(allTagsUrl),
       headers: {'Authorization': 'Bearer ${user.token}'});
   if (response.statusCode == 200) {
@@ -23,7 +23,7 @@ Future<List<TagElement>> getAllTags() async {
 
 Future<List<Mail>> getAllMailsHaveTags(List<int> listOfTagsId) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  User user = userFromJson(prefs.getString('user')!);
+  UserModel user = userFromJson(prefs.getString('user')!);
   final response = await http.get(Uri.parse('$baseUrl/tags?tags=$listOfTagsId'),
       headers: {'Authorization': 'Bearer ${user.token}'});
   if (response.statusCode == 200) {

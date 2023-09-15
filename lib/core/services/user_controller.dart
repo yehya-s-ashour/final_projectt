@@ -7,13 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
 class UserController {
-    Future<User> getLocalUser() async {
-    SharedPrefsController prefs = SharedPrefsController();
-    bool hasKey = await prefs.containsKey('user');
+  Future<UserModel> getLocalUser() async {
+    SharedPrefsController _prefs = SharedPrefsController();
+    bool hasKey = await _prefs.containsKey('user');
+
     if (hasKey) {
       dynamic userData = await prefs.getData('user');
       if (userData != null) {
-        User user = User.fromJson(json.decode(userData));
+        UserModel user = UserModel.fromJson(json.decode(userData));
         return user;
       }
     }
