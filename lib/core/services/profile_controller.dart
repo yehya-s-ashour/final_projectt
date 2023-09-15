@@ -51,7 +51,7 @@ Future<void> updateSharedPreferences(
   SharedPrefsController prefs = SharedPrefsController();
   final userData = await prefs.getData('user');
   if (userData != null) {
-    User user = User.fromJson(json.decode(userData));
+    UserModel user = UserModel.fromJson(json.decode(userData));
     final newUser = user.copyWith(
       user: user.user.copyWith(
         name: newName,

@@ -14,7 +14,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File? pickedFile;
-  late Future<User> user;
+  late Future<UserModel> user;
   @override
   void initState() {
     user = UserController().getLocalUser();
