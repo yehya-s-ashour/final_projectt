@@ -10,7 +10,7 @@ CategoryModel categoryFromJson(String str) =>
 String categoryToJson(CategoryModel data) => json.encode(data.toJson());
 
 class CategoryModel {
-  List<CategoryElement> categories;
+  List<CategoryElement?>? categories;
 
   CategoryModel({
     required this.categories,
@@ -22,17 +22,17 @@ class CategoryModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "categories": List<dynamic>.from(categories.map((x) => x.toJson())),
+        "categories": List<dynamic>.from(categories!.map((x) => x!.toJson())),
       };
 }
 
 class CategoryElement {
-  int id;
-  String name;
-  String createdAt;
-  String updatedAt;
-  String sendersCount;
-  List<Sender> senders;
+  int? id;
+  String? name;
+  String? createdAt;
+  String? updatedAt;
+  String? sendersCount;
+  List<Sender>? senders;
 
   CategoryElement({
     required this.id,
@@ -60,18 +60,18 @@ class CategoryElement {
         "created_at": createdAt,
         "updated_at": updatedAt,
         "senders_count": sendersCount,
-        "senders": List<dynamic>.from(senders.map((x) => x.toJson())),
+        "senders": List<dynamic>.from(senders!.map((x) => x.toJson())),
       };
 }
 
 class Sender {
   int id;
-  String name;
-  String mobile;
+  String? name;
+  String? mobile;
   String? address;
-  String categoryId;
-  String createdAt;
-  String updatedAt;
+  String? categoryId;
+  String? createdAt;
+  String? updatedAt;
 
   Sender({
     required this.id,

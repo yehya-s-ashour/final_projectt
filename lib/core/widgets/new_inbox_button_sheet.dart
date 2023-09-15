@@ -263,7 +263,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       );
                                       setState(() {
                                         if (selectedCategory != null) {
-                                          category = selectedCategory.name;
+                                          category = selectedCategory.name!;
                                         }
                                       });
                                     },

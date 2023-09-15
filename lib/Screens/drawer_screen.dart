@@ -14,10 +14,10 @@ class DrawerScreen extends StatefulWidget {
 
 class _DrawerScreenState extends State<DrawerScreen> {
   List<Map> drawerItem = [
-    {'icon': Icons.home, 'title': 'homepage'},
-    {'icon': Icons.person, 'title': 'profilepage'},
-    {'icon': Icons.send, 'title': 'senders'},
-    {'icon': Icons.settings, 'title': 'usermanagement'},
+    {'icon': Icons.home, 'title': 'Home Page'},
+    {'icon': Icons.person, 'title': 'Profile Page'},
+    {'icon': Icons.send, 'title': 'Senders'},
+    {'icon': Icons.settings, 'title': 'User Management'},
   ];
   @override
   Widget build(BuildContext context) {
@@ -60,13 +60,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           TextButton(
                             onPressed: () {
                               switch (e["title"]) {
-                                case "senders":
+                                case "Senders":
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
                                       return const SendersScreen();
                                     },
                                   ));
-                                case "profilepage":
+                                case "Profile Page":
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
                                       return ProfileScreen();
