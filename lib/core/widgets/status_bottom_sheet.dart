@@ -29,7 +29,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
   void initState() {
     statuses = StatusController().fetchStatuse();
     selectedIndex = widget.mail?.status?.id ?? 0;
-
+    print(selectedIndex);
     super.initState();
   }
 

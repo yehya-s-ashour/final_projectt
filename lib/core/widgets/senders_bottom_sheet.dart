@@ -28,7 +28,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
   Future<Map<String, SingleSender>> initializeData() async {
     final sendersData = (await getSenders()).data;
 
-    for (SingleSender sender in sendersData) {
+    for (SingleSender sender in sendersData!) {
       searchMap[sender.name!] = sender;
     }
     return searchMap;
@@ -174,7 +174,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                             matchingPairs.where((entry) {
                           final sender = entry.value;
                           final senderCategory =
-                              sender.category.name!.toLowerCase();
+                              sender.category!.name!.toLowerCase();
                           final senderName = sender.name!.toLowerCase();
                           final searchTerm = searchTextField.text.toLowerCase();
 
@@ -352,8 +352,8 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
 Map<String, List<SingleSender>> categorizeSenders(Senders sendersData) {
   final categorizedSenders = <String, List<SingleSender>>{};
 
-  for (final sender in sendersData.data) {
-    final category = sender.category.name;
+  for (final sender in sendersData.data!) {
+    final category = sender.category!.name;
     if (!categorizedSenders.containsKey(category!)) {
       categorizedSenders[category] = <SingleSender>[];
     }
