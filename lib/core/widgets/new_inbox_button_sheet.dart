@@ -41,7 +41,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
 
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
-  late User user;
+  late UserModel user;
   final _formKey = GlobalKey<FormState>();
   late String category = 'Other';
 

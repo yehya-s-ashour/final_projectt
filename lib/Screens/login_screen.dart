@@ -7,8 +7,14 @@ import 'package:final_projectt/core/services/auth_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/models/user_model.dart';
+import 'package:final_projectt/providers/status_provider.dart';
+import 'package:final_projectt/providers/user_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -24,6 +30,25 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailOrUserNameController = TextEditingController();
   TextEditingController passController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
 
   void submitRegister() {
     if (_formKey.currentState!.validate()) {
@@ -60,7 +85,11 @@ class _LoginScreenState extends State<LoginScreen> {
         password: passController.text,
       ).then((response) async {
         SharedPrefsController prefs = SharedPrefsController();
-        await prefs.setData('user', userToJson(User.fromJson(response[1])));
+        await prefs.setData(
+            'user', userToJson(UserModel.fromJson(response[1])));
+        Provider.of<StatuseProvider>(context, listen: false).updatestutas();
+        Provider.of<UserProvider>(context, listen: false).getUserData();
+
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
             return const MainPage();
@@ -421,7 +450,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      signInWithGoogle().then((value) {
+                                        nameController.text = value
+                                            .additionalUserInfo!
+                                            .profile?["name"];
+                                        emailOrUserNameController.text =
+                                            value.user!.email!;
+                                      });
+                                      setState(() {
+                                        signInWithGoogle().then((value) {
+                                          nameController.text = value
+                                              .additionalUserInfo!
+                                              .profile?["name"];
+                                          emailOrUserNameController.text =
+                                              value.user!.email!;
+                                        });
+                                      });
+                                    },
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
                                         horizontal: 8,
