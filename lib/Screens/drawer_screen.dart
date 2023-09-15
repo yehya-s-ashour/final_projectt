@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:final_projectt/Screens/profile_page.dart';
 import 'package:final_projectt/Screens/sender_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../core/util/constants/colors.dart';
-import '../core/util/constants/configuration.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({super.key});
@@ -14,10 +14,10 @@ class DrawerScreen extends StatefulWidget {
 
 class _DrawerScreenState extends State<DrawerScreen> {
   List<Map> drawerItem = [
-    {'icon': Icons.home, 'title': 'homepage'},
-    {'icon': Icons.person, 'title': 'profilepage'},
-    {'icon': Icons.send, 'title': 'senders'},
-    {'icon': Icons.settings, 'title': 'usermanagement'},
+    {'icon': Icons.home, 'title': 'Home Page'},
+    {'icon': Icons.person, 'title': 'Profile Page'},
+    {'icon': Icons.send, 'title': 'Senders'},
+    {'icon': Icons.settings, 'title': 'User Management'},
   ];
   @override
   Widget build(BuildContext context) {
@@ -60,17 +60,24 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           TextButton(
                             onPressed: () {
                               switch (e["title"]) {
-                                case "senders":
+                                case "Senders":
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
-                                      return SendersScreen();
+                                      return const SendersScreen();
                                     },
                                   ));
+                                case "Profile Page":
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return ProfileScreen();
+                                    },
+                                  ));
+
                                   break;
                               }
                             },
                             child: Text(
-                              "${e['title']}".tr(),
+                              "${e['title']} ".tr(),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,

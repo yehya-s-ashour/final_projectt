@@ -29,8 +29,8 @@ class _SendersScreenState extends State<SendersScreen> {
   Future<Map<String, SingleSender>> initializeData() async {
     final sendersData = (await getSenders()).data;
 
-    for (SingleSender sender in sendersData) {
-      searchMap[sender.name] = sender;
+    for (SingleSender sender in sendersData!) {
+      searchMap[sender.name!] = sender;
     }
     return searchMap;
   }
@@ -40,7 +40,7 @@ class _SendersScreenState extends State<SendersScreen> {
     matchingPairs.clear(); // Clear the previous results
 
     searchMap.forEach((key, singleSender) {
-      String nameLower = singleSender.name.toLowerCase();
+      String nameLower = singleSender.name!.toLowerCase();
 
       if (nameLower.contains(substring)) {
         matchingPairs.add(MapEntry(key, singleSender));
@@ -183,13 +183,14 @@ class _SendersScreenState extends State<SendersScreen> {
                     // Filter the matchingPairs for the current category and search term
                     final filteredMatchingPairs = matchingPairs.where((entry) {
                       final sender = entry.value;
-                      final senderCategory = sender.category.name.toLowerCase();
-                      final senderName = sender.name.toLowerCase();
+                      final senderCategory =
+                          sender.category!.name!.toLowerCase();
+                      final senderName = sender.name!.toLowerCase();
                       final searchTerm = searchTextField.text.toLowerCase();
 
                       return senderCategory == category.toLowerCase() &&
                           (senderName.contains(searchTerm) ||
-                              sender.mobile.contains(searchTerm));
+                              sender.mobile!.contains(searchTerm));
                     }).toList();
 
                     // Check if the section is empty, and skip it if so
@@ -264,7 +265,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        entry.value.name,
+                                        entry.value.name!,
                                         style: TextStyle(fontSize: 20),
                                       ),
                                       SizedBox(
@@ -280,7 +281,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                             width: 10,
                                           ),
                                           Text(
-                                            entry.value.mobile,
+                                            entry.value.mobile!,
                                             style: TextStyle(fontSize: 17),
                                           )
                                         ],
@@ -302,7 +303,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        sender.name,
+                                        sender.name!,
                                         style: TextStyle(fontSize: 20),
                                       ),
                                       SizedBox(
@@ -318,7 +319,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                             width: 10,
                                           ),
                                           Text(
-                                            sender.mobile,
+                                            sender.mobile!,
                                             style: TextStyle(fontSize: 17),
                                           )
                                         ],
@@ -361,9 +362,9 @@ class _SendersScreenState extends State<SendersScreen> {
 Map<String, List<SingleSender>> categorizeSenders(Senders sendersData) {
   final categorizedSenders = <String, List<SingleSender>>{};
 
-  for (final sender in sendersData.data) {
-    final category = sender.category.name;
-    if (!categorizedSenders.containsKey(category)) {
+  for (final sender in sendersData.data!) {
+    final category = sender.category!.name;
+    if (!categorizedSenders.containsKey(category!)) {
       categorizedSenders[category] = <SingleSender>[];
     }
     categorizedSenders[category]!.add(sender);

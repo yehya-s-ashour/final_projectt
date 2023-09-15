@@ -1,9 +1,11 @@
+import 'package:final_projectt/models/mail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NewInboxProvider extends ChangeNotifier {
   List<XFile?> imagesFiles = [];
-  List<XFile?> networkImagesFiles = [];
+  List<Attachments?> deletedImages = [];
+  List<Attachments?> networkImagesFiles = [];
   List<Map<String, dynamic>>? activites = [];
 
   late String archiveNumber;
@@ -16,7 +18,7 @@ class NewInboxProvider extends ChangeNotifier {
 
   clearImages() {
     if (imagesFiles.isNotEmpty) {
-      imagesFiles.clear();
+      imagesFiles = [];
       notifyListeners();
     } else
       debugPrint('images list is alerady empty');
@@ -30,7 +32,7 @@ class NewInboxProvider extends ChangeNotifier {
     }
   }
 
-  setNetworkImagesList(List<XFile?> networkImagesFiles) {
+  setNetworkImagesList(List<Attachments?> networkImagesFiles) {
     this.networkImagesFiles = networkImagesFiles;
   }
 

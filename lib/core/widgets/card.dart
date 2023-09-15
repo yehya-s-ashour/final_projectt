@@ -9,7 +9,7 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
   DateTime dateTime = DateTime.parse(dateTimeString);
   String formattedDate = DateFormat('yyyy  MMM  dd').format(dateTime);
 
-  Widget getTags(List<Tags>? tags) {
+  Widget getTags(List<MailTag>? tags) {
     if (tags != null && tags.isNotEmpty) {
       return SizedBox(
         height: 20,
@@ -60,9 +60,48 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: path != null
-                      ? Image.network(
-                          'https://palmail.gsgtt.tech/storage/$path',
-                          fit: BoxFit.fill,
+                      ? GestureDetector(
+                          onTap: () {
+                            showDialog(
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (context) {
+                                return Align(
+                                  alignment: Alignment.center,
+                                  child: SingleChildScrollView(
+                                    child: AlertDialog(
+                                        backgroundColor: Colors.transparent,
+                                        titlePadding: EdgeInsets.zero,
+                                        title: Container(
+                                          width: 200,
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height -
+                                              250,
+                                          decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black,
+                                                    blurRadius: 10,
+                                                    blurStyle: BlurStyle.outer,
+                                                    spreadRadius: 10,
+                                                    offset: Offset(0, 10))
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              image: DecorationImage(
+                                                  fit: BoxFit.cover,
+                                                  image: NetworkImage(
+                                                      'https://palmail.gsgtt.tech/storage/$path'))),
+                                        )),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                          child: Image.network(
+                            'https://palmail.gsgtt.tech/storage/$path',
+                            fit: BoxFit.fill,
+                          ),
                         )
                       : const Text(''),
                 ),
@@ -100,13 +139,7 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                             width: 12,
                             height: 12,
                             decoration: BoxDecoration(
-                                color: int.parse(mail.statusId!) == 1
-                                    ? inboxColor
-                                    : int.parse(mail.statusId!) == 2
-                                        ? pendingColor
-                                        : int.parse(mail.statusId!) == 3
-                                            ? inProgressColor
-                                            : Colors.white,
+                                color: Color(int.parse(mail.status!.color!)),
                                 borderRadius: BorderRadius.circular(6)),
                           ),
                           const SizedBox(

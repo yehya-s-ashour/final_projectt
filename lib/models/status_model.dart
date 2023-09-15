@@ -10,7 +10,7 @@ StatusesesModel statusesesFromJson(String str) =>
 String statusesesToJson(StatusesesModel data) => json.encode(data.toJson());
 
 class StatusesesModel {
-  List<SingleStatus>? statuses;
+  List<StatusMod>? statuses;
 
   StatusesesModel({
     this.statuses,
@@ -20,8 +20,8 @@ class StatusesesModel {
       StatusesesModel(
         statuses: json["statuses"] == null
             ? []
-            : List<SingleStatus>.from(
-                json["statuses"]!.map((x) => SingleStatus.fromJson(x))),
+            : List<StatusMod>.from(
+                json["statuses"]!.map((x) => StatusMod.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -31,7 +31,7 @@ class StatusesesModel {
       };
 }
 
-class SingleStatus {
+class StatusMod {
   int? id;
   String? name;
   String? color;
@@ -39,7 +39,7 @@ class SingleStatus {
   String? updatedAt;
   String? mailsCount;
 
-  SingleStatus({
+  StatusMod({
     this.id,
     this.name,
     this.color,
@@ -48,7 +48,7 @@ class SingleStatus {
     this.mailsCount,
   });
 
-  factory SingleStatus.fromJson(Map<String, dynamic> json) => SingleStatus(
+  factory StatusMod.fromJson(Map<String, dynamic> json) => StatusMod(
         id: json["id"],
         name: json["name"],
         color: json["color"],

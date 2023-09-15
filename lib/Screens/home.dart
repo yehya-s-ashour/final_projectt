@@ -35,8 +35,6 @@ import 'package:provider/provider.dart';
 import '../core/services/tags_controller.dart';
 import '../core/widgets/my_fab.dart';
 
-const Duration _kExpand = Duration(milliseconds: 200);
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
@@ -70,7 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
     mails = getMails();
     tags = getAllTags();
     statuses = StatusController().fetchStatuse();
-
     super.initState();
   }
 
@@ -204,6 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}")
                                       : const NetworkImage(
                                           'https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg')),
+                                    
+                              
                             );
                           }
                           return const Text("  no data from user provider ");
@@ -298,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return Column(
                             children: categoData!.map((e) {
                               return FutureBuilder(
-                                  future: getMailsOfSingleCatego(e.id),
+                                  future: getMailsOfSingleCatego(e.id!),
                                   builder:
                                       (context, AsyncSnapshot secondSnapshot) {
                                     if (secondSnapshot.connectionState ==
@@ -311,8 +310,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       singleMails = secondSnapshot.data;
                                       return Column(
                                         children: categoData!.map((catego) {
-                                          String nameOfCatego = catego.name;
-                                          int idOfCatego = catego.id;
+                                          String nameOfCatego = catego.name!;
+                                          int idOfCatego = catego.id!;
                                           int numOfEmails =
                                               singleMails!.mails!.length;
                                           if (idOfCatego == e.id) {
@@ -337,7 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 childrenPadding:
                                                     const EdgeInsetsDirectional
-                                                        .only(
+                                                            .only(
                                                         top: 16, bottom: 16),
                                                 textColor:
                                                     const Color(0xff272727),
@@ -357,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   return myCustomCard(
                                                     mail,
                                                     () {
-                                                      print(mail.status);
+                                                      print(mail.id);
                                                       showModalBottomSheet(
                                                         clipBehavior:
                                                             Clip.hardEdge,
@@ -386,28 +385,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     listen:
                                                                         false)
                                                                 .clearImages();
-                                                            Provider.of<NewInboxProvider>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .senderName = '';
-                                                            Provider.of<NewInboxProvider>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .senderMobile = '';
+
                                                             Provider.of<NewInboxProvider>(
                                                                     context,
                                                                     listen:
                                                                         false)
                                                                 .activites = [];
-                                                            Provider.of<NewInboxProvider>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .isDatePickerOpened =
-                                                                false;
+
                                                             tags = getAllTags();
+                                                            Provider.of<NewInboxProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .deletedImages = [];
                                                             xoffset = 0;
                                                             yoffset = 0;
                                                             scalefactor = 1;
@@ -482,10 +472,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             child: CustomWhiteBox(
                               width: devicewidth * 0.9,
-                              height: (snapshot.data!.length / 2).round() * 40,
+                              height: (snapshot.data!.length / 2).round() * 46,
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.only(
-                                    start: 15.0, top: 15),
+                                    start: 8.0, top: 8),
                                 child: Wrap(
                                   spacing: 10.0,
                                   runSpacing: 10.0,

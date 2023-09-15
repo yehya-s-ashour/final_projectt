@@ -85,8 +85,8 @@ class _StatusScreenState extends State<StatusScreen> {
                                 statusSingledata = secondSnapshot.data;
                                 return Column(
                                   children: categoData!.map((catego) {
-                                    String nameOfCatego = catego.name;
-                                    int idOfCatego = catego.id;
+                                    String nameOfCatego = catego.name!;
+                                    int idOfCatego = catego.id!;
                                     if (idOfCatego == e.id) {
                                       return Theme(
                                         data: Theme.of(context).copyWith(
@@ -117,6 +117,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                                     e.id.toString())
                                                 .map((mail) {
                                               return myCustomCard(mail, () {});
+                                              
                                             }).toList()),
                                       );
                                     }

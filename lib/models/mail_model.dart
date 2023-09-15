@@ -58,7 +58,7 @@ class Mail {
   SingleStatus? status;
   List<Attachments>? attachments;
   List<Activities>? activities;
-  List<Tags>? tags;
+  List<MailTag>? tags;
 
   Mail(
       {this.id,
@@ -106,9 +106,9 @@ class Mail {
       });
     }
     if (json['tags'] != null) {
-      tags = <Tags>[];
+      tags = <MailTag>[];
       json['tags'].forEach((v) {
-        tags!.add(Tags.fromJson(v));
+        tags!.add(MailTag.fromJson(v));
       });
     }
   }
@@ -283,8 +283,8 @@ class Activities {
   String? userId;
   String? mailId;
   String? sendNumber;
-  Null sendDate;
-  Null sendDestination;
+  String? sendDate;
+  String? sendDestination;
   String? createdAt;
   String? updatedAt;
   UserInMail? user;
@@ -377,16 +377,16 @@ class UserInMail {
   }
 }
 
-class Tags {
+class MailTag {
   int? id;
   String? name;
   String? createdAt;
   String? updatedAt;
   Pivot? pivot;
 
-  Tags({this.id, this.name, this.createdAt, this.updatedAt, this.pivot});
+  MailTag({this.id, this.name, this.createdAt, this.updatedAt, this.pivot});
 
-  Tags.fromJson(Map<String, dynamic> json) {
+  MailTag.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     createdAt = json['created_at'];

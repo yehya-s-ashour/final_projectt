@@ -41,7 +41,8 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> put(String url, Map<String, dynamic> body) async {
+  Future<dynamic> put(String url, Map<String, dynamic> body,
+      [Map<String, String>? header]) async {
     var responseJson;
     try {
       final response = await http.put(
