@@ -290,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return Column(
                             children: categoData!.map((e) {
                               return FutureBuilder(
-                                  future: getMailsOfSingleCatego(e.id),
+                                  future: getMailsOfSingleCatego(e.id!),
                                   builder:
                                       (context, AsyncSnapshot secondSnapshot) {
                                     if (secondSnapshot.connectionState ==
@@ -303,8 +303,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       singleMails = secondSnapshot.data;
                                       return Column(
                                         children: categoData!.map((catego) {
-                                          String nameOfCatego = catego.name;
-                                          int idOfCatego = catego.id;
+                                          String nameOfCatego = catego.name!;
+                                          int idOfCatego = catego.id!;
                                           int numOfEmails =
                                               singleMails!.mails!.length;
                                           if (idOfCatego == e.id) {

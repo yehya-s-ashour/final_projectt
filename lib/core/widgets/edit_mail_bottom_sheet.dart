@@ -185,8 +185,14 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         decision: decisionCont.text,
                         finalDecision: decisionCont.text,
                         activities: Provider.of<NewInboxProvider>(context,
-                                listen: false)
-                            .activites,
+                                        listen: false)
+                                    .activites!
+                                    .length ==
+                                widget.mail.activities!.length
+                            ? []
+                            : Provider.of<NewInboxProvider>(context,
+                                    listen: false)
+                                .activites,
                         tags: selectedTags.map((tag) => tag.id).toList(),
                       );
 
@@ -449,7 +455,9 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                               ),
                             ),
                             builder: (BuildContext context) {
-                              return StatusesBottomSheet();
+                              return StatusesBottomSheet(
+                                mail: widget.mail,
+                              );
                             },
                           );
                           setState(() {

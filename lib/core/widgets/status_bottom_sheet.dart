@@ -1,11 +1,13 @@
 import 'package:final_projectt/core/services/status_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
+import 'package:final_projectt/models/mail_model.dart';
 import 'package:final_projectt/models/status_model.dart';
 import 'package:flutter/material.dart';
 
 class StatusesBottomSheet extends StatefulWidget {
-  const StatusesBottomSheet({super.key});
+  Mail? mail;
+  StatusesBottomSheet({this.mail});
 
   @override
   State<StatusesBottomSheet> createState() => _StatusesBottomSheetState();
@@ -26,6 +28,8 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
   @override
   void initState() {
     statuses = StatusController().fetchStatuse();
+    selectedIndex = widget.mail?.status?.id ?? 0;
+
     super.initState();
   }
 

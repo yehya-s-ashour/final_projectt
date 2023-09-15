@@ -86,8 +86,8 @@ class _StatusScreenState extends State<StatusScreen> {
                                 statusSingledata = secondSnapshot.data;
                                 return Column(
                                   children: categoData!.map((catego) {
-                                    String nameOfCatego = catego.name;
-                                    int idOfCatego = catego.id;
+                                    String nameOfCatego = catego.name!;
+                                    int idOfCatego = catego.id!;
                                     if (idOfCatego == e.id) {
                                       return Theme(
                                         data: Theme.of(context).copyWith(
@@ -121,11 +121,11 @@ class _StatusScreenState extends State<StatusScreen> {
                                                 onTap: () {},
                                                 child: Container(
                                                   margin: const EdgeInsets
-                                                      .symmetric(
+                                                          .symmetric(
                                                       horizontal: 16,
                                                       vertical: 8),
                                                   padding: const EdgeInsets
-                                                      .symmetric(
+                                                          .symmetric(
                                                       horizontal: 8,
                                                       vertical: 16),
                                                   decoration: BoxDecoration(
@@ -147,7 +147,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                                           Container(
                                                             margin:
                                                                 const EdgeInsets
-                                                                    .only(
+                                                                        .only(
                                                                     right: 8),
                                                             width: 12,
                                                             height: 12,
@@ -183,7 +183,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .symmetric(
+                                                                    .symmetric(
                                                                 horizontal:
                                                                     24.0),
                                                         child: Column(
