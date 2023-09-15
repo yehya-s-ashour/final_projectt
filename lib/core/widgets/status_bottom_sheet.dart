@@ -6,17 +6,17 @@ import 'package:final_projectt/models/status_model.dart';
 import 'package:flutter/material.dart';
 
 class StatusesBottomSheet extends StatefulWidget {
-  Mail? mail;
-  StatusesBottomSheet({this.mail});
+  StatusMod? status;
+  StatusesBottomSheet({this.status});
 
   @override
   State<StatusesBottomSheet> createState() => _StatusesBottomSheetState();
 }
 
 class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
-  int selectedIndex = 0;
+  int selectedIndex = 1;
   late StatusMod SelectedStatus = StatusMod(
-      id: 0,
+      id: 1,
       name: 'Inbox',
       color: '0xfffa3a57',
       createdAt: '',
@@ -28,7 +28,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
   @override
   void initState() {
     statuses = StatusController().fetchStatuse();
-    selectedIndex = widget.mail?.status?.id ?? 0;
+    selectedIndex = widget.status!.id!;
     print(selectedIndex);
     super.initState();
   }

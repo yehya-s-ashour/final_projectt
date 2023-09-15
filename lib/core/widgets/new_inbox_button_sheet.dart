@@ -488,7 +488,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                 ),
                               ),
                               builder: (BuildContext context) {
-                                return StatusesBottomSheet();
+                                return StatusesBottomSheet(
+                                  status: this.selectedStatus,
+                                );
                               },
                             );
                             setState(() {

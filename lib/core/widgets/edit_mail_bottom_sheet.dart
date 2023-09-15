@@ -89,19 +89,19 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
       debugPrint('attachments is null');
     }
 
-    if (widget.mail.activities!.isNotEmpty) {
-      List<Map<String, dynamic>>? activites =
-          widget.mail.activities!.map((activity) {
-        return {
-          'body': activity.body,
-          'user_id': activity.id,
-        };
-      }).toList();
-      Provider.of<NewInboxProvider>(context, listen: false)
-          .setActivitesList(activites);
-    } else {
-      debugPrint('activites is null');
-    }
+    // if (widget.mail.activities!.isNotEmpty) {
+    //   List<Map<String, dynamic>>? activites =
+    //       widget.mail.activities!.map((activity) {
+    //     return {
+    //       'body': activity.body,
+    //       'user_id': activity.id,
+    //     };
+    //   }).toList();
+    //   Provider.of<NewInboxProvider>(context, listen: false)
+    //       .setActivitesList(activites);
+    // } else {
+    //   debugPrint('activites is null');
+    // }
     if (widget.mail.status != null) {
       final status = widget.mail.status!;
       selectedStatus = StatusMod(
@@ -185,14 +185,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         decision: decisionCont.text,
                         finalDecision: decisionCont.text,
                         activities: Provider.of<NewInboxProvider>(context,
-                                        listen: false)
-                                    .activites!
-                                    .length ==
-                                widget.mail.activities!.length
-                            ? []
-                            : Provider.of<NewInboxProvider>(context,
-                                    listen: false)
-                                .activites,
+                                listen: false)
+                            .activites,
                         tags: selectedTags.map((tag) => tag.id).toList(),
                       );
 
@@ -456,7 +450,11 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                             ),
                             builder: (BuildContext context) {
                               return StatusesBottomSheet(
-                                mail: widget.mail,
+                                status: StatusMod(
+                                  color: widget.mail.status!.color,
+                                  id: widget.mail.status!.id,
+                                  name: widget.mail.status!.name,
+                                ),
                               );
                             },
                           );
