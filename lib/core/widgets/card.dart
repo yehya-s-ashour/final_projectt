@@ -78,6 +78,14 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                                                   .height -
                                               250,
                                           decoration: BoxDecoration(
+                                              boxShadow: [
+                                                BoxShadow(
+                                                    color: Colors.black,
+                                                    blurRadius: 10,
+                                                    blurStyle: BlurStyle.outer,
+                                                    spreadRadius: 10,
+                                                    offset: Offset(0, 10))
+                                              ],
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               image: DecorationImage(
@@ -131,15 +139,7 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                             width: 12,
                             height: 12,
                             decoration: BoxDecoration(
-                                color: int.parse(mail.statusId!) == 1
-                                    ? inboxColor
-                                    : int.parse(mail.statusId!) == 2
-                                        ? pendingColor
-                                        : int.parse(mail.statusId!) == 3
-                                            ? inProgressColor
-                                            : int.parse(mail.senderId!) == 4
-                                                ? completedColor
-                                                : Colors.red,
+                                color: Color(int.parse(mail.status!.color!)),
                                 borderRadius: BorderRadius.circular(6)),
                           ),
                           const SizedBox(

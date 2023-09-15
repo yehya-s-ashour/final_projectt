@@ -1,23 +1,23 @@
+import 'dart:io';
+
 import 'package:final_projectt/Screens/edit_profile.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
-
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  UserController userController = UserController();
+  File? pickedFile;
   late Future<User> user;
   @override
   void initState() {
-    user = userController.getLocalUser();
+    user = UserController().getLocalUser();
     super.initState();
   }
 
@@ -68,26 +68,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             }
                             if (snapshot.hasData) {
                               return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
+                                onTap: () async {
+                                  final newPickedFile =
+                                      await Navigator.push<File>(context,
+                                          MaterialPageRoute(
+                                    builder: (context) {
                                       return EditProfile(
                                         defaultName:
                                             snapshot.data!.user.name ?? 'name',
-                                        defaultImagePath:
+                                        defaultImagePath: pickedFile?.path ??
                                             snapshot.data!.user.image ??
-                                                'image',
+                                            'image',
                                       );
-                                    })).then((value) {
-                                      if (value == true) {
-                                        setState(() {
-                                          user = userController.getLocalUser();
-                                        });
-                                      }
+                                    },
+                                  ));
+
+                                  if (newPickedFile != null) {
+                                    setState(() {
+                                      pickedFile = newPickedFile;
                                     });
-                                  },
-                                  child: const Icon(Icons.edit_note,
-                                      color: Colors.white));
+                                  }
+                                },
+                                child: const Icon(Icons.edit_note,
+                                    color: Colors.white),
+                              );
                             }
                             return Center(
                               child: CircularProgressIndicator(
@@ -130,6 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   }
                   if (snapshot.hasData) {
                     // print('the snapshot image : ${snapshot.data!.user.image}');
+                    // path = snapshot.data!.user.image!;
                     return Container(
                       margin: const EdgeInsets.only(top: 180, left: 180),
                       height: 200,
@@ -137,10 +142,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       clipBehavior: Clip.antiAliasWithSaveLayer,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100)),
-                      child: Image.network(
-                        'https://palmail.gsgtt.tech/storage/${snapshot.data!.user.image}',
-                        fit: BoxFit.cover,
-                      ),
+                      child: pickedFile == null
+                          ? Image.network(
+                              'https://palmail.gsgtt.tech/storage/${snapshot.data!.user.image}',
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(File(pickedFile!.path)),
                     );
                   }
                   return Center(

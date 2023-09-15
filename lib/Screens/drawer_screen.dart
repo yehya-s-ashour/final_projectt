@@ -69,7 +69,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                 case "profilepage":
                                   Navigator.push(context, MaterialPageRoute(
                                     builder: (context) {
-                                      return const ProfileScreen();
+                                      return ProfileScreen();
                                     },
                                   ));
 
