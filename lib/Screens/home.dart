@@ -193,12 +193,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 showOverlay(
                                     context,
                                     userProvidor.data.data!.user.name,
-                                    userProvidor.data.data!.user.role!.name);
+                                    userProvidor.data.data!.user.role!.name,
+                                    userProvidor.data.data!.user.image);
                               },
-                              child: const CircleAvatar(
-                                backgroundImage:
-                                    AssetImage('images/person.jpg'),
-                              ),
+                              child: CircleAvatar(
+                                  backgroundImage: userProvidor
+                                              .data.data!.user.image !=
+                                          null
+                                      ? NetworkImage(
+                                          "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}")
+                                      : const NetworkImage(
+                                          'https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg')),
                             );
                           }
                           return const Text("  no data from user provider ");

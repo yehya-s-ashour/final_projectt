@@ -4,29 +4,29 @@
 
 import 'dart:convert';
 
-User userFromJson(String str) => User.fromJson(json.decode(str));
+UserModel userFromJson(String str) => UserModel.fromJson(json.decode(str));
 
-String userToJson(User data) => json.encode(data.toJson());
+String userToJson(UserModel data) => json.encode(data.toJson());
 
-class User {
+class UserModel {
   final UserClass user;
   final String token;
 
-  User({
+  UserModel({
     required this.user,
     required this.token,
   });
 
-  User copyWith({
+  UserModel copyWith({
     UserClass? user,
     String? token,
   }) =>
-      User(
+      UserModel(
         user: user ?? this.user,
         token: token ?? this.token,
       );
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         user: UserClass.fromJson(json["user"]),
         token: json["token"],
       );

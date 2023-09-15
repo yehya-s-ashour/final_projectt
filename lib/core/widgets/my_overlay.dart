@@ -1,9 +1,10 @@
-import 'dart:convert';
+//import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/login_screen.dart';
+import 'package:final_projectt/Screens/splash_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
-import 'package:final_projectt/core/services/logout_controller.dart';
-import 'package:final_projectt/core/widgets/show_alert.dart';
+//import 'package:final_projectt/core/services/logout_controller.dart';
+//import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:flutter/material.dart';
 
 late OverlayEntry overlayEntry;
@@ -12,7 +13,12 @@ void hideOverlay() {
   overlayEntry.remove();
 }
 
-void showOverlay(BuildContext context, String name, String role) {
+void deletShar() async {
+  SharedPrefsController prefs = SharedPrefsController();
+  await prefs.deleteData('user');
+}
+
+void showOverlay(BuildContext context, String name, String role, String image) {
   OverlayState overlayState = Overlay.of(context);
   overlayEntry = OverlayEntry(builder: (context) {
     return Positioned(
@@ -53,8 +59,9 @@ void showOverlay(BuildContext context, String name, String role) {
                 ),
                 borderRadius: BorderRadius.circular(100),
               ),
-              child: const CircleAvatar(
-                backgroundImage: AssetImage("images/person.jpg"),
+              child: CircleAvatar(
+                backgroundImage:
+                    NetworkImage("https://palmail.gsgtt.tech/storage/$image"),
                 radius: 60,
               ),
             ),
@@ -107,26 +114,38 @@ void showOverlay(BuildContext context, String name, String role) {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextButton(
                 onPressed: () {
-                  logout(
-                    context,
-                  ).then((response) async {
-                    SharedPrefsController prefs = SharedPrefsController();
-                    await prefs.deleteData('user');
-                    hideOverlay();
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                      builder: (context) {
-                        return const LoginScreen();
-                      },
-                    ));
-                  }).catchError((err) async {
-                    final errorMessagae =
-                        json.decode(err.message)['message'].toString();
-                    showAlert(context,
-                        message: errorMessagae,
-                        color: Colors.redAccent,
-                        width: 300);
-                  });
+                  // try {
+                  //   logout(
+                  //     context,
+                  //   ).then((response) async {
+                  //     SharedPrefsController prefs = SharedPrefsController();
+                  //     await prefs.deleteData('user');
+                  //     hideOverlay();
+                  //     // ignore: use_build_context_synchronously
+                  //     Navigator.pushReplacement(context, MaterialPageRoute(
+                  //       builder: (context) {
+                  //         return const LoginScreen();
+                  //       },
+                  //     ));
+                  //   }).catchError((err) async {
+                  //     final errorMessagae = (err.message)['message'].toString();
+                  //     showAlert(context,
+                  //         message: errorMessagae,
+                  //         color: Colors.redAccent,
+                  //         width: 300);
+                  //   });
+                  // } catch (e) {
+                  //  SharedPrefsController prefs = SharedPrefsController();
+                  //  prefs.deleteData('user');
+                  deletShar();
+                  hideOverlay();
+                  // ignore: use_build_context_synchronously
+                  Navigator.pushReplacement(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const SplashScreen();
+                    },
+                  ));
+                  //  }
                 },
                 child: Row(
                   children: [

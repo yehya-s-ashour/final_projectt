@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 
 import 'Screens/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
 //   runApp(MaterialApp(
@@ -18,6 +20,11 @@ import 'package:easy_localization/easy_localization.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(EasyLocalization(
     child: const myapp(),
     supportedLocales: const [Locale('en'), Locale('ar')],

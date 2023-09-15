@@ -16,7 +16,7 @@ class ActivitesExpansionTile extends StatefulWidget {
 
 class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
   DateTime date = DateTime.now();
-  late User user;
+  late UserModel user;
   bool isActivitesOpened = false;
 
   getUser() async {

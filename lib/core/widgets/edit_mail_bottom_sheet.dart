@@ -44,7 +44,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
 
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
-  late User user;
+  late UserModel user;
   final _formKey = GlobalKey<FormState>();
   late String category = 'Other';
   DateTime? date;
@@ -257,7 +257,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               Padding(
                                                 padding:
                                                     const EdgeInsetsDirectional
-                                                            .only(
+                                                        .only(
                                                         top: 10.0, start: 35),
                                                 child: Text(
                                                   '${widget.mail.sender!.category!.name}',
@@ -283,7 +283,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               Padding(
                                                 padding:
                                                     const EdgeInsetsDirectional
-                                                            .only(
+                                                        .only(
                                                         top: 10, bottom: 10),
                                                 child: Text(
                                                   '$today $month $year',

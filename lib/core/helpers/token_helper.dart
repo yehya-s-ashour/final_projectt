@@ -8,7 +8,7 @@ Future<String> getToken() async {
   if (hasKey) {
     dynamic userData = await _prefs.getData('user');
     if (userData != null) {
-      User user = User.fromJson(json.decode(userData));
+      UserModel user = UserModel.fromJson(json.decode(userData));
       return user.token;
     }
   }
