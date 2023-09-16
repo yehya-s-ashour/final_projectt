@@ -1,20 +1,19 @@
 import 'package:final_projectt/core/services/status_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
-import 'package:final_projectt/models/mail_model.dart';
 import 'package:final_projectt/models/status_model.dart';
 import 'package:flutter/material.dart';
 
 class StatusesBottomSheet extends StatefulWidget {
   StatusMod? status;
-  StatusesBottomSheet({this.status});
+  StatusesBottomSheet({super.key, this.status});
 
   @override
   State<StatusesBottomSheet> createState() => _StatusesBottomSheetState();
 }
 
 class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
-  int selectedIndex = 1;
+  late int selectedIndex;
   late StatusMod SelectedStatus = StatusMod(
       id: 1,
       name: 'Inbox',
@@ -28,7 +27,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
   @override
   void initState() {
     statuses = StatusController().fetchStatuse();
-    selectedIndex = widget.status!.id!;
+    selectedIndex = widget.status!.id! - 1;
     print(selectedIndex);
     super.initState();
   }
@@ -39,21 +38,20 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
       height: MediaQuery.of(context).size.height - 150,
       child: Column(
         children: [
-          Padding(
-            padding:
-                const EdgeInsetsDirectional.only(top: 15.0, start: 8, end: 20),
+          const Padding(
+            padding: EdgeInsetsDirectional.only(top: 15.0, start: 8, end: 20),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context, SelectedStatus);
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: primaryColor,
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: () {
+                //     Navigator.pop(context, SelectedStatus);
+                //   },
+                //   icon: Icon(
+                //     Icons.arrow_back_ios_new_rounded,
+                //     color: primaryColor,
+                //   ),
+                // ),
                 Text(
                   'Status',
                   style: TextStyle(
@@ -61,10 +59,10 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
                     fontSize: 20,
                   ),
                 ),
-                Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: Colors.transparent,
-                ),
+                // const Icon(
+                //   Icons.arrow_back_ios_new_rounded,
+                //   color: Colors.transparent,
+                // ),
               ],
             ),
           ),
@@ -73,14 +71,15 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Padding(
-                  padding: EdgeInsetsDirectional.only(top: 5, start: 5, end: 5),
+                  padding: const EdgeInsetsDirectional.only(
+                      top: 5, start: 5, end: 5),
                   child: CustomWhiteBox(
                     width: 378,
                     height: 280,
                     child: Column(
                       children: [
                         Padding(
-                          padding: EdgeInsetsDirectional.only(
+                          padding: const EdgeInsetsDirectional.only(
                             start: 15,
                             end: 10,
                             top: 5,
@@ -100,7 +99,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
                                   ),
                                   IconButton(
                                       onPressed: () {},
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.mode_edit_outlined,
                                         color: Colors.grey,
                                       ))
@@ -113,7 +112,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
                           height: 220,
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               String hexColor =
                                   snapshot.data!.statuses![index].color!;
@@ -124,6 +123,10 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
                                     selectedIndex = index;
                                     SelectedStatus =
                                         snapshot.data!.statuses![index];
+                                    Future.delayed(
+                                        const Duration(milliseconds: 200), () {
+                                      Navigator.pop(context, SelectedStatus);
+                                    });
                                   });
                                 },
                                 title: Column(
@@ -133,8 +136,9 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
                                     Row(
                                       children: [
                                         Container(
-                                          margin: EdgeInsetsDirectional.only(
-                                              end: 12),
+                                          margin:
+                                              const EdgeInsetsDirectional.only(
+                                                  end: 12),
                                           width: 32,
                                           height: 32,
                                           decoration: BoxDecoration(
@@ -145,22 +149,22 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
                                         ),
                                         Text(
                                           snapshot.data!.statuses![index].name!,
-                                          style: TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         selectedIndex == index
                                             ? Icon(
                                                 Icons.check,
                                                 color: primaryColor,
                                               )
-                                            : SizedBox(),
-                                        SizedBox(
+                                            : const SizedBox(),
+                                        const SizedBox(
                                           width: 15,
                                         )
                                       ],
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(top: 10),
+                                      margin: const EdgeInsets.only(top: 10),
                                       width: MediaQuery.sizeOf(context).width,
                                       height: 1,
                                       color:
