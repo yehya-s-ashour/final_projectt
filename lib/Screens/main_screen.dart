@@ -1,4 +1,5 @@
 import 'package:final_projectt/Screens/drawer_screen.dart';
+import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'dart:async';
@@ -86,7 +87,7 @@ class _MainPageState extends State<MainPage> {
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 300),
       animateChildDecoration: true,
-      rtlOpening: false,
+      rtlOpening: Provider.of<RTLPro>(context).rtlOpening,
       disabledGestures: false,
       childDecoration: const BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(16)),
