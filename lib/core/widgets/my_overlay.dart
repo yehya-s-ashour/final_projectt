@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/splash_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
+import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 late OverlayEntry overlayEntry;
 
@@ -93,6 +95,7 @@ void showOverlay(
                   context.locale.toString() == "en"
                       ? context.setLocale(const Locale('ar'))
                       : context.setLocale(const Locale('en'));
+                  Provider.of<RTLPro>(context, listen: false).changeOpening();
                   hideOverlay();
                 },
                 child: Row(

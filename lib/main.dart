@@ -1,4 +1,5 @@
 import 'package:final_projectt/providers/new_inbox_provider.dart';
+import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class myapp extends StatelessWidget {
             create: (BuildContext context) => StatuseProvider()),
         ChangeNotifierProvider(
             create: (BuildContext context) => NewInboxProvider()),
+        ChangeNotifierProvider(create: (BuildContext context) => RTLPro()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
