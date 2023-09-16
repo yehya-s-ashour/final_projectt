@@ -187,20 +187,28 @@ class _HomeScreenState extends State<HomeScreen> {
                           if (userProvidor.data.status == Status.COMPLETED) {
                             return GestureDetector(
                               onTap: () {
+                                print('object');
                                 showOverlay(
                                     context,
                                     userProvidor.data.data!.user.name!,
                                     userProvidor.data.data!.user.role!.name!,
-                                    userProvidor.data.data!.user.image!);
+                                    userProvidor.data.data!.user.image);
                               },
-                              child: CircleAvatar(
-                                  backgroundImage: userProvidor
-                                              .data.data!.user.image !=
-                                          null
-                                      ? NetworkImage(
-                                          "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}")
-                                      : const NetworkImage(
-                                          'https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg')),
+                              child: Container(
+                                height: 40,
+                                width: 40,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100)),
+                                child:
+                                    userProvidor.data.data!.user.image != null
+                                        ? Image.network(
+                                            "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}",
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.asset('images/profile.jpg',
+                                            fit: BoxFit.cover),
+                              ),
                             );
                           }
                           return const Text("  no data from user provider ");

@@ -14,7 +14,7 @@ class StatusesBottomSheet extends StatefulWidget {
 }
 
 class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
-  int selectedIndex = 1;
+  int selectedIndex = 0;
   late StatusMod SelectedStatus = StatusMod(
       id: 1,
       name: 'Inbox',
