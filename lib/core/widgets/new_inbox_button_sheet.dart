@@ -25,6 +25,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NewInboxBottomSheet extends StatefulWidget {
+  const NewInboxBottomSheet({super.key});
+
   @override
   State<NewInboxBottomSheet> createState() => _NewInboxBottomSheetState();
 }
@@ -81,7 +83,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                   TextButton(
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
-                        minimumSize: Size(50, 30),
+                        minimumSize: const Size(50, 30),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         alignment: Alignment.centerLeft),
                     onPressed: () => Navigator.pop(context),
@@ -145,7 +147,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
 
                         Navigator.pushReplacement(context, MaterialPageRoute(
                           builder: (context) {
-                            return MainPage();
+                            return const MainPage();
                           },
                         ));
                       } else {
@@ -161,7 +163,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
             ),
             Expanded(
               child: ListView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 children: [
                   Form(
                     key: _formKey,
@@ -170,7 +172,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           width: 400,
                           height: senderNameCont.text.isEmpty
                               ? (!isValidationShown ? 140 : 155)
@@ -190,7 +192,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                     isPrefixIcon: true,
                                     isSuffixIcon: true,
                                     isUnderlinedBorderEnabled: true,
-                                    prefixIcon: Icon(
+                                    prefixIcon: const Icon(
                                       Icons.person_3_outlined,
                                       size: 23,
                                     ),
@@ -209,7 +211,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                             ),
                                           ),
                                           builder: (BuildContext context) {
-                                            return SendersBottomSheet();
+                                            return const SendersBottomSheet();
                                           },
                                         );
                                         setState(() {
@@ -221,7 +223,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                           }
                                         });
                                       },
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.info_outline,
                                         color: Color(0xff6589FF),
                                         size: 27,
@@ -229,7 +231,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                     ),
                                   ),
                                   senderNameCont.text.isEmpty
-                                      ? SizedBox()
+                                      ? const SizedBox()
                                       : CustomTextField(
                                           controller: senderMobileCont,
                                           validationMessage:
@@ -239,7 +241,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                           isPrefixIcon: true,
                                           isSuffixIcon: false,
                                           isUnderlinedBorderEnabled: true,
-                                          prefixIcon: Icon(
+                                          prefixIcon: const Icon(
                                             Icons.phone_android_rounded,
                                             size: 23,
                                           ),
@@ -258,7 +260,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                           ),
                                         ),
                                         builder: (BuildContext context) {
-                                          return categoriesBottomSheet();
+                                          return const categoriesBottomSheet();
                                         },
                                       );
                                       setState(() {
@@ -268,7 +270,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       });
                                     },
                                     child: Padding(
-                                      padding: EdgeInsetsDirectional.only(
+                                      padding: const EdgeInsetsDirectional.only(
                                         start: 30.0,
                                         end: 20.0,
                                         top: 20,
@@ -277,7 +279,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
+                                          const Text(
                                             'Category',
                                             style: TextStyle(
                                                 color: Colors.black,
@@ -287,13 +289,13 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                           Row(
                                             children: [
                                               Text(
-                                                '$category',
-                                                style: TextStyle(
+                                                category,
+                                                style: const TextStyle(
                                                   color: Colors.grey,
                                                   fontSize: 20,
                                                 ),
                                               ),
-                                              Icon(
+                                              const Icon(
                                                 Icons.arrow_forward_ios_rounded,
                                                 color: Colors.grey,
                                                 size: 22,
@@ -310,7 +312,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           ),
                         ),
                         AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           width: 400,
                           height: isValidationShown ? 155 : 135,
                           child: CustomWhiteBox(
@@ -358,12 +360,12 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                   .isDatePickerOpened
                               ? 515.0
                               : (isValidationShown ? 165 : 130),
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           child: CustomWhiteBox(
                             width: 378,
                             height: 480,
                             child: SingleChildScrollView(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 child: Column(
                                   children: [
                                     CustomDatePicker(),
@@ -426,7 +428,10 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       return StatefulBuilder(builder:
                                           (BuildContext context,
                                               StateSetter setState) {
-                                        return TagsBottomSheet();
+                                        return TagsBottomSheet(
+                                          givenTagsFromOutSide:
+                                              this.selectedTags!,
+                                        );
                                       });
                                     });
                             setState(() {
@@ -503,7 +508,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             width: 378,
                             height: 56,
                             child: Padding(
-                              padding: EdgeInsetsDirectional.only(
+                              padding: const EdgeInsetsDirectional.only(
                                 start: 20.0,
                                 end: 20.0,
                               ),
@@ -521,7 +526,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                           color: Colors.grey,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 15,
                                       ),
                                       SizedBox(
@@ -547,7 +552,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                               ),
                                               child: Text(
                                                 '${selectedStatus.name}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 18,
                                                     color: Colors.white),
                                               ),
@@ -555,7 +560,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                           },
                                           itemCount: 1,
                                           separatorBuilder: (context, index) {
-                                            return SizedBox(
+                                            return const SizedBox(
                                               width: 10,
                                             );
                                           },
@@ -563,7 +568,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       )
                                     ],
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.arrow_forward_ios_rounded,
                                     color: Colors.grey,
                                     size: 22,
@@ -628,23 +633,22 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           },
                           child: AnimatedContainer(
                             height: Provider.of<NewInboxProvider>(context)
-                                        .imagesFiles
-                                        .length >
-                                    0
+                                    .imagesFiles
+                                    .isNotEmpty
                                 ? 95 +
                                     ((Provider.of<NewInboxProvider>(context)
                                             .imagesFiles
                                             .length) *
                                         55)
                                 : 75.0,
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             child: CustomWhiteBox(
                               width: 378,
                               height: 120,
                               child: SingleChildScrollView(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 child: Padding(
-                                  padding: EdgeInsetsDirectional.only(
+                                  padding: const EdgeInsetsDirectional.only(
                                     top: 20,
                                     start: 20.0,
                                     end: 20.0,
@@ -659,12 +663,12 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         children: [
                                           Row(
                                             children: [
-                                              Icon(
+                                              const Icon(
                                                 Icons.image,
                                                 color: Colors.blueGrey,
                                                 size: 23,
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 width: 12,
                                               ),
                                               Text(
@@ -676,7 +680,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                               ),
                                             ],
                                           ),
-                                          Icon(
+                                          const Icon(
                                             Icons.arrow_forward_ios_rounded,
                                             color: Colors.grey,
                                             size: 22,
@@ -701,7 +705,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                   : 50.0,
                                               child: ListView.builder(
                                                 physics:
-                                                    NeverScrollableScrollPhysics(),
+                                                    const NeverScrollableScrollPhysics(),
                                                 itemCount: Provider.of<
                                                             NewInboxProvider>(
                                                         context)
@@ -760,14 +764,15 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                                       index);
                                                               setState(() {});
                                                             },
-                                                            icon: Icon(
+                                                            icon: const Icon(
                                                               Icons
                                                                   .delete_outline_rounded,
                                                               color: Colors.red,
                                                             )),
                                                         Container(
                                                           margin:
-                                                              EdgeInsets.all(7),
+                                                              const EdgeInsets
+                                                                  .all(7),
                                                           width: 38,
                                                           height: 40,
                                                           decoration: BoxDecoration(
@@ -789,12 +794,17 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                                       .path)))),
                                                         ),
                                                         Text(
-                                                          '${Provider.of<NewInboxProvider>(context).imagesFiles[index]!.name}',
+                                                          Provider.of<NewInboxProvider>(
+                                                                  context)
+                                                              .imagesFiles[
+                                                                  index]!
+                                                              .name,
                                                           maxLines: 1,
                                                           overflow: TextOverflow
                                                               .ellipsis,
-                                                          style: TextStyle(
-                                                              fontSize: 17),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 17),
                                                         )
                                                       ],
                                                     ),
@@ -802,7 +812,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                 },
                                               ),
                                             )
-                                          : SizedBox()
+                                          : const SizedBox()
                                     ],
                                   ),
                                 ),
@@ -810,7 +820,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             ),
                           ),
                         ),
-                        ActivitesExpansionTile(),
+                        const ActivitesExpansionTile(),
                         Padding(
                           padding: const EdgeInsetsDirectional.only(
                               start: 20.0, end: 20.0, bottom: 20),
@@ -833,10 +843,10 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                     color: primaryColor,
                                   )),
                               //should be replaced with profie image
-                              prefixIcon: Icon(Icons.person),
+                              prefixIcon: const Icon(Icons.person),
                               filled: true,
                               fillColor: Colors.black.withOpacity(0.05),
-                              contentPadding: EdgeInsets.all(15),
+                              contentPadding: const EdgeInsets.all(15),
                               hintText: "Add new activity ...",
                               hintStyle: const TextStyle(
                                   color: Colors.grey, fontSize: 17),
