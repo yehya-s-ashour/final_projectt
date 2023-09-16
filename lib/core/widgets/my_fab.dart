@@ -5,16 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 
 class MyFab extends StatefulWidget {
-  double blurRadius;
-  double spreadRadius;
-  double dx;
-  double dy;
-  MyFab({
+  const MyFab({
     Key? key,
-    required this.blurRadius,
-    required this.spreadRadius,
-    required this.dx,
-    required this.dy,
   }) : super(key: key);
 
   @override
@@ -28,12 +20,12 @@ class _MyFabState extends State<MyFab> {
       height: MediaQuery.of(context).size.height * 0.065,
       padding: const EdgeInsetsDirectional.only(start: 30.0),
       decoration: BoxDecoration(
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.grey,
-            blurRadius: widget.blurRadius,
-            spreadRadius: widget.spreadRadius,
-            offset: Offset(widget.dx, widget.dy),
+            blurRadius: 5.0,
+            spreadRadius: 1.0,
+            offset: Offset(0.0, 2.0),
           ),
         ],
         color: boxColor,
