@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -81,7 +82,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                       filled: true,
                       fillColor: Colors.black.withOpacity(0.05),
                       contentPadding: EdgeInsets.all(15),
-                      hintText: "Search ...",
+                      hintText: "Search ...".tr(),
                       hintStyle:
                           const TextStyle(color: Colors.grey, fontSize: 19),
                       enabledBorder: UnderlineInputBorder(
@@ -106,7 +107,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                       alignment: Alignment.centerLeft),
                   onPressed: () => Navigator.pop(context),
                   child: Text(
-                    'cancel',
+                    'cancel'.tr(),
                     style: TextStyle(
                       color: primaryColor,
                       fontSize: 23,

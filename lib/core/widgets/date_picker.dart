@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,6 @@ import 'package:provider/provider.dart';
 class CustomDatePicker extends StatefulWidget {
   final bool? isLined;
   CustomDatePicker({this.isLined = true});
-
-
-
 
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
@@ -77,7 +75,7 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Date',
+                    'Date'.tr(),
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Iphone',
@@ -118,7 +116,6 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
                 color: Colors.grey.shade300,
               )
             : SizedBox(),
-
       ],
     );
   }

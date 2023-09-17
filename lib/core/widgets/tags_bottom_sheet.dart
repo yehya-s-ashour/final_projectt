@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
@@ -58,7 +59,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                 ),
                 const Center(
                   child: Text(
-                    'Tags',
+                    'Tags'.tr(),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 23,
@@ -188,9 +189,9 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                   ),
                 ),
                 fillColor: boxColor,
-                contentPadding:
-                    const EdgeInsetsDirectional.only(start: 15, top: 15),
-                hintText: "Add new tag ...",
+                contentPadding: EdgeInsetsDirectional.only(start: 15, top: 15),
+                hintText: "Add new tag ...".tr(),
+
                 hintStyle: const TextStyle(color: Colors.grey, fontSize: 19),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey.shade300),

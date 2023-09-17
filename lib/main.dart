@@ -1,7 +1,9 @@
+import 'package:final_projectt/providers/all_user_provider.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
+import 'package:final_projectt/providers/user_role_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'Screens/splash_screen.dart';
@@ -37,6 +39,10 @@ class myapp extends StatelessWidget {
             create: (BuildContext context) => StatuseProvider()),
         ChangeNotifierProvider(
             create: (BuildContext context) => NewInboxProvider()),
+        ChangeNotifierProvider(
+            create: (BuildContext context) => AllUserProvider()),
+        ChangeNotifierProvider(
+            create: (BuildContext context) => UserRoleProvider()),
         ChangeNotifierProvider(create: (BuildContext context) => RTLPro()),
       ],
       child: MaterialApp(
