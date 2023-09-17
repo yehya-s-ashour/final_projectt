@@ -10,7 +10,7 @@ Widget drawer(BuildContext context) {
     {'icon': MdiIcons.home, 'title': 'Home Page'},
     {'icon': MdiIcons.accountCard, 'title': 'Profile Page'},
     {'icon': MdiIcons.sendCheck, 'title': 'Senders'},
-    {'icon': Icons.settings_accessibility, 'title': 'User Management'},
+    {'icon': Icons.settings_applications, 'title': 'User Management'},
   ];
   return SafeArea(
     child: Container(
