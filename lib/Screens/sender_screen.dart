@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:final_projectt/Screens/sender_mails.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 
@@ -253,10 +254,12 @@ class _SendersScreenState extends State<SendersScreen> {
                                 return ListTile(
                                   onTap: () {
                                     setState(() {
-                                      // Navigator.pop(
-                                      //     context,
-                                      //     entry
-                                      //         .value); // Use entry.value to access SingleSender
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return SenderMails(
+                                              sender: entry.value);
+                                        },
+                                      ));
                                     });
                                   },
                                   leading: Icon(Icons.person_3_outlined),
@@ -294,7 +297,11 @@ class _SendersScreenState extends State<SendersScreen> {
                                 return ListTile(
                                   onTap: () {
                                     setState(() {
-                                      // Navigator.pop(context, sender);
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return SenderMails(sender: sender);
+                                        },
+                                      ));
                                     });
                                   },
                                   leading: Icon(Icons.person_3_outlined),

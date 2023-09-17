@@ -47,6 +47,23 @@ class StatusMod {
     this.updatedAt,
     this.mailsCount,
   });
+  StatusMod copyWith({
+    int? id,
+    String? name,
+    String? color,
+    String? createdAt,
+    String? updatedAt,
+    String? mailsCount,
+  }) {
+    return StatusMod(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      color: color ?? this.color,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      mailsCount: mailsCount ?? this.mailsCount,
+    );
+  }
 
   factory StatusMod.fromJson(Map<String, dynamic> json) => StatusMod(
         id: json["id"],

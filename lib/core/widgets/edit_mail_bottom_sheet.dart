@@ -1,21 +1,15 @@
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
-import 'package:final_projectt/Screens/home.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/activites_expansion_tile.dart';
-import 'package:final_projectt/core/widgets/categories_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
-import 'package:final_projectt/core/widgets/custum_textfield.dart';
 import 'package:final_projectt/core/widgets/date_picker.dart';
-import 'package:final_projectt/core/widgets/senders_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/core/widgets/status_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/tags_bottom_sheet.dart';
-import 'package:final_projectt/models/catego_model.dart';
 import 'package:final_projectt/models/mail_model.dart';
 import 'package:final_projectt/models/sender_model.dart';
 import 'package:final_projectt/models/status_model.dart';
@@ -24,12 +18,11 @@ import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class EditMailBottomSheet extends StatefulWidget {
   Mail mail;
-  EditMailBottomSheet({required this.mail});
+  EditMailBottomSheet({super.key, required this.mail});
 
   @override
   State<EditMailBottomSheet> createState() => _EditMailBottomSheetState();
@@ -49,18 +42,17 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
   late UserModel user;
-  final _formKey = GlobalKey<FormState>();
   late String category = 'Other';
   DateTime? date;
   bool isValidationShown = false;
   late StatusMod selectedStatus = StatusMod(
       id: 1,
-      name: 'Inbox'.tr(),
+      name: 'Inbox',
       color: '0xfffa3a57',
       createdAt: '',
       updatedAt: '',
       mailsCount: '');
-
+  bool? completedStatusId;
   getUser() async {
     user = await UserController().getLocalUser();
   }
@@ -91,19 +83,19 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
       debugPrint('attachments is null');
     }
 
-    if (widget.mail.activities!.isNotEmpty) {
-      List<Map<String, dynamic>>? activites =
-          widget.mail.activities!.map((activity) {
-        return {
-          'body': activity.body,
-          'user_id': activity.id,
-        };
-      }).toList();
-      Provider.of<NewInboxProvider>(context, listen: false)
-          .setActivitesList(activites);
-    } else {
-      debugPrint('activites is null');
-    }
+    // if (widget.mail.activities!.isNotEmpty) {
+    //   List<Map<String, dynamic>>? activites =
+    //       widget.mail.activities!.map((activity) {
+    //     return {
+    //       'body': activity.body,
+    //       'user_id': activity.id,
+    //     };
+    //   }).toList();
+    //   Provider.of<NewInboxProvider>(context, listen: false)
+    //       .setActivitesList(activites);
+    // } else {
+    //   debugPrint('activites is null');
+    // }
     if (widget.mail.status != null) {
       final status = widget.mail.status!;
       selectedStatus = StatusMod(
@@ -121,6 +113,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
   @override
   void initState() {
     intializeData();
+    completedStatusId = (widget.mail.statusId == '4');
 
     getUser();
     super.initState();
@@ -155,17 +148,15 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                       color: primaryColor,
                     ),
                   ),
-                  Text(
-                    'Mail Details'.tr(),
-                    style:
-                        const TextStyle(fontSize: 20, color: Color(0xFF272727)),
+                  const Text(
+                    'Mail Details',
+                    style: TextStyle(fontSize: 20, color: Color(0xFF272727)),
                   ),
                   TextButton(
                     onPressed: () async {
                       Provider.of<NewInboxProvider>(context, listen: false)
-                                  .imagesFiles
-                                  .length >
-                              0
+                              .imagesFiles
+                              .isNotEmpty
                           ? await uploadImages(context, widget.mail.id!)
                           : null;
                       await updateMail(
@@ -188,20 +179,14 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         decision: decisionCont.text,
                         finalDecision: decisionCont.text,
                         activities: Provider.of<NewInboxProvider>(context,
-                                        listen: false)
-                                    .activites!
-                                    .length ==
-                                widget.mail.activities!.length
-                            ? []
-                            : Provider.of<NewInboxProvider>(context,
-                                    listen: false)
-                                .activites,
+                                listen: false)
+                            .activites,
                         tags: selectedTags.map((tag) => tag.id).toList(),
                       );
 
                       showAlert(
                         context,
-                        message: 'Mail Updated Successfully'.tr(),
+                        message: 'Mail Updated Successfully',
                         color: primaryColor.withOpacity(0.8),
                         width: 230,
                       );
@@ -214,19 +199,18 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
 
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) {
-                          return MainPage();
+                          return const MainPage();
                         },
                       ));
                     },
-                    child:
-                        Text('Done'.tr(), style: const TextStyle(fontSize: 20)),
+                    child: const Text('Done', style: TextStyle(fontSize: 20)),
                   ),
                 ],
               ),
             ),
             Expanded(
               child: ListView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -235,7 +219,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                       AnimatedContainer(
                         height: isExpansionOpened ? 175 : 150,
                         width: 400,
-                        duration: Duration(milliseconds: 300),
+                        duration: const Duration(milliseconds: 300),
                         child: CustomWhiteBox(
                             width: 400,
                             height: 180,
@@ -246,8 +230,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
                                           crossAxisAlignment:
@@ -255,16 +239,16 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                           children: [
                                             Row(
                                               children: [
-                                                Icon(
+                                                const Icon(
                                                   Icons.person_2_outlined,
                                                   size: 20,
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 10,
                                                 ),
                                                 Text(
                                                   '${widget.mail.sender!.name}',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 15,
                                                       fontWeight:
                                                           FontWeight.w600),
@@ -274,56 +258,65 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                             Padding(
                                               padding:
                                                   const EdgeInsetsDirectional
-                                                      .only(
+                                                          .only(
                                                       top: 10.0, start: 35),
                                               child: Text(
                                                 '${widget.mail.sender!.category!.name}',
-                                                style: TextStyle(fontSize: 14),
+                                                style: const TextStyle(
+                                                    fontSize: 14),
                                               ),
                                             )
                                           ],
                                         ),
+                                        Spacer(),
                                         Container(
-                                          margin: EdgeInsetsDirectional.only(
-                                              top: 5),
+                                          margin:
+                                              const EdgeInsetsDirectional.only(
+                                                  top: 5),
                                           width: 1,
                                           height: 50,
                                           color: Colors.grey.shade300,
                                         ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .only(
-                                                      top: 10, bottom: 10),
-                                              child: Text(
-                                                '$today $month $year',
-                                                style: TextStyle(
-                                                  fontSize: 14,
+                                        Spacer(),
+                                        SizedBox(
+                                          width: 150,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                            .only(
+                                                        top: 10, bottom: 10),
+                                                child: Text(
+                                                  '$today $month $year',
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: 150,
-                                              child: Text(
-                                                'Archive Number: ${widget.mail.archiveNumber}',
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: TextStyle(fontSize: 14),
-                                              ),
-                                            )
-                                          ],
+                                              SizedBox(
+                                                width: 150,
+                                                child: Text(
+                                                  'Archive Number: ${widget.mail.archiveNumber}',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                      fontSize: 14),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
                                     Container(
-                                      margin:
-                                          EdgeInsetsDirectional.only(top: 15),
+                                      margin: const EdgeInsetsDirectional.only(
+                                          top: 15),
                                       width: MediaQuery.sizeOf(context).width,
                                       height: 1,
                                       color: Colors.grey.shade300,
@@ -333,7 +326,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                           dividerColor: Colors.transparent),
                                       child: ListTileTheme(
                                         contentPadding:
-                                            EdgeInsetsDirectional.only(
+                                            const EdgeInsetsDirectional.only(
                                                 start: 10),
                                         dense: true,
                                         child: ExpansionTile(
@@ -373,7 +366,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                 widget.mail.description == ''
                                                     ? '${widget.mail.description}'
                                                     : 'No Description',
-                                                style: TextStyle(fontSize: 16),
+                                                style: const TextStyle(
+                                                    fontSize: 16),
                                               )
                                             ]),
                                       ),
@@ -398,20 +392,21 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                     return StatefulBuilder(builder:
                                         (BuildContext context,
                                             StateSetter setState) {
-                                      return TagsBottomSheet();
+                                      return TagsBottomSheet(
+                                        givenTagsFromOutSide: this.selectedTags,
+                                      );
                                     });
-                                  });
-                          setState(() {
-                            if (selectedTags != null) {
-                              this.selectedTags = selectedTags;
-                            }
+                                  }).then((value) {
+                            setState(() {
+                              this.selectedTags = value!;
+                            });
                           });
                         },
                         child: CustomWhiteBox(
                           width: 378,
                           height: 56,
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.only(
+                          child: const Padding(
+                            padding: EdgeInsetsDirectional.only(
                               start: 20.0,
                               end: 20.0,
                             ),
@@ -420,23 +415,21 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                               children: [
                                 Row(
                                   children: [
-                                    const Icon(
+                                    Icon(
                                       Icons.tag,
                                       size: 23,
                                     ),
-                                    const SizedBox(
-                                      width: 12,
+                                    SizedBox(
+                                      width: 10,
                                     ),
                                     Text(
-                                      'Tags'.tr(),
-                                      style: const TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'Iphone',
-                                          fontSize: 20),
-                                    ),
+                                      'Tags',
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black),
+                                    )
                                   ],
                                 ),
-                                const Icon(
+                                Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   color: Colors.grey,
                                   size: 22,
@@ -447,29 +440,34 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () async {
-                          final selectedStatus =
-                              await showModalBottomSheet<StatusMod>(
-                            clipBehavior: Clip.hardEdge,
-                            isScrollControlled: true,
-                            context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(15.0),
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              return StatusesBottomSheet(
-                                mail: widget.mail,
-                              );
-                            },
-                          );
-                          setState(() {
-                            if (selectedStatus != null) {
-                              this.selectedStatus = selectedStatus;
-                            }
-                          });
-                        },
+                        onTap: completedStatusId!
+                            ? null
+                            : () async {
+                                final selectedStatus =
+                                    await showModalBottomSheet<StatusMod>(
+                                  clipBehavior: Clip.hardEdge,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(15.0),
+                                    ),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return StatusesBottomSheet(
+                                      status: StatusMod(
+                                        color: widget.mail.status!.color,
+                                        id: this.selectedStatus.id,
+                                        name: widget.mail.status!.name,
+                                      ),
+                                    );
+                                  },
+                                ).then((value) {
+                                  setState(() {
+                                    this.selectedStatus = value!;
+                                  });
+                                });
+                              },
                         child: CustomWhiteBox(
                           width: 378,
                           height: 56,
@@ -524,7 +522,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                         },
                                         itemCount: 1,
                                         separatorBuilder: (context, index) {
-                                          return SizedBox(
+                                          return const SizedBox(
                                             width: 10,
                                           );
                                         },
@@ -532,7 +530,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                     )
                                   ],
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   color: Colors.grey,
                                   size: 22,
@@ -548,15 +546,15 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.only(
+                            const Padding(
+                              padding: EdgeInsetsDirectional.only(
                                 start: 25.0,
                                 end: 20.0,
                                 top: 20.0,
                               ),
                               child: Text(
-                                'Descision'.tr(),
-                                style: const TextStyle(
+                                'Descision',
+                                style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
                                 ),
@@ -573,11 +571,12 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                 },
                                 controller: decisionCont,
                                 decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
+                                  enabled: completedStatusId! ? false : true,
+                                  contentPadding: EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 40),
                                   border: InputBorder.none,
-                                  hintText: "Add Decsision ...".tr(),
-                                  hintStyle: const TextStyle(
+                                  hintText: "Add Decsision ...",
+                                  hintStyle: TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iphone',
                                     fontSize: 19,
@@ -590,19 +589,20 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Provider.of<NewInboxProvider>(context, listen: false)
-                              .getImagesFromGallery();
-                        },
+                        onTap: completedStatusId!
+                            ? null
+                            : () {
+                                Provider.of<NewInboxProvider>(context,
+                                        listen: false)
+                                    .getImagesFromGallery();
+                              },
                         child: AnimatedContainer(
                           height: Provider.of<NewInboxProvider>(context)
-                                          .networkImagesFiles
-                                          .length >
-                                      0 ||
+                                      .networkImagesFiles
+                                      .isNotEmpty ||
                                   Provider.of<NewInboxProvider>(context)
-                                          .imagesFiles
-                                          .length >
-                                      0
+                                      .imagesFiles
+                                      .isNotEmpty
                               ? 95 +
                                   (((Provider.of<NewInboxProvider>(context)
                                               .networkImagesFiles
@@ -613,14 +613,14 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               .length)) *
                                       57)
                               : 75.0,
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           child: CustomWhiteBox(
                             width: 378,
                             height: 120,
                             child: SingleChildScrollView(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.only(
+                                padding: const EdgeInsetsDirectional.only(
                                   top: 20,
                                   start: 20.0,
                                   end: 20.0,
@@ -634,16 +634,16 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                       children: [
                                         Row(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.image,
                                               color: Colors.blueGrey,
                                               size: 23,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 12,
                                             ),
                                             Text(
-                                              'Add image'.tr(),
+                                              'Add image',
                                               style: TextStyle(
                                                   color: primaryColor,
                                                   fontFamily: 'Iphone',
@@ -651,7 +651,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                             ),
                                           ],
                                         ),
-                                        Icon(
+                                        const Icon(
                                           Icons.arrow_forward_ios_rounded,
                                           color: Colors.grey,
                                           size: 22,
@@ -672,7 +672,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               shrinkWrap: true,
                                               padding: EdgeInsets.zero,
                                               physics:
-                                                  NeverScrollableScrollPhysics(),
+                                                  const NeverScrollableScrollPhysics(),
                                               itemCount:
                                                   Provider.of<NewInboxProvider>(
                                                           context)
@@ -742,14 +742,14 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                                     index);
                                                             setState(() {});
                                                           },
-                                                          icon: Icon(
+                                                          icon: const Icon(
                                                             Icons
                                                                 .delete_outline_rounded,
                                                             color: Colors.red,
                                                           )),
                                                       Container(
-                                                        margin:
-                                                            EdgeInsets.all(7),
+                                                        margin: const EdgeInsets
+                                                            .all(7),
                                                         width: 38,
                                                         height: 40,
                                                         decoration: BoxDecoration(
@@ -773,8 +773,9 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                           maxLines: 1,
                                                           overflow: TextOverflow
                                                               .ellipsis,
-                                                          style: TextStyle(
-                                                              fontSize: 17),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 17),
                                                         ),
                                                       )
                                                     ],
@@ -783,7 +784,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               },
                                             ),
                                           )
-                                        : SizedBox(),
+                                        : const SizedBox(),
                                     Provider.of<NewInboxProvider>(context)
                                             .imagesFiles
                                             .isNotEmpty
@@ -854,14 +855,14 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                                     index);
                                                             setState(() {});
                                                           },
-                                                          icon: Icon(
+                                                          icon: const Icon(
                                                             Icons
                                                                 .delete_outline_rounded,
                                                             color: Colors.red,
                                                           )),
                                                       Container(
-                                                        margin:
-                                                            EdgeInsets.all(7),
+                                                        margin: const EdgeInsets
+                                                            .all(7),
                                                         width: 38,
                                                         height: 40,
                                                         decoration:
@@ -887,12 +888,17 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                       SizedBox(
                                                         width: 150,
                                                         child: Text(
-                                                          '${Provider.of<NewInboxProvider>(context).imagesFiles[index]!.name}',
+                                                          Provider.of<NewInboxProvider>(
+                                                                  context)
+                                                              .imagesFiles[
+                                                                  index]!
+                                                              .name,
                                                           maxLines: 1,
                                                           overflow: TextOverflow
                                                               .ellipsis,
-                                                          style: TextStyle(
-                                                              fontSize: 17),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 17),
                                                         ),
                                                       )
                                                     ],
@@ -901,7 +907,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               },
                                             ),
                                           )
-                                        : SizedBox(),
+                                        : const SizedBox(),
                                   ],
                                 ),
                               ),
@@ -909,10 +915,10 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           ),
                         ),
                       ),
-                      const ActivitesExpansionTile(),
+                      ActivitesExpansionTile(),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(
-                            start: 20.0, end: 20.0, bottom: 20, top: 15),
+                            start: 20.0, end: 20.0, bottom: 20, top: 5),
                         child: TextField(
                           controller: activityTextFieldController,
                           decoration: InputDecoration(
@@ -932,11 +938,11 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                   color: primaryColor,
                                 )),
                             //should be replaced with profie image
-                            prefixIcon: Icon(Icons.person),
+                            prefixIcon: const Icon(Icons.person),
                             filled: true,
                             fillColor: Colors.black.withOpacity(0.05),
-                            contentPadding: EdgeInsets.all(15),
-                            hintText: "Add new activity ...".tr(),
+                            contentPadding: const EdgeInsets.all(15),
+                            hintText: "Add new activity ...",
                             hintStyle: const TextStyle(
                                 color: Colors.grey, fontSize: 17),
                             enabledBorder: UnderlineInputBorder(

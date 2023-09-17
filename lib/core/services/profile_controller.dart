@@ -19,7 +19,7 @@ Future<File?> pickImageFile() async {
   return imageFile;
 }
 
-Future<void> uploadProfilePicAndName(File imageFail, String givenName) async {
+Future<void> uploadProfilePic(File imageFail, String givenName) async {
   String token = await getToken();
   var request =
       http.MultipartRequest("POST", Uri.parse('$baseUrl/user/update'));
@@ -27,6 +27,21 @@ Future<void> uploadProfilePicAndName(File imageFail, String givenName) async {
   request.fields["name"] = givenName;
   request.fields['title'] = 'image_${DateTime.now()}';
   request.files.add(pic);
+  request.headers
+      .addAll({'Accept': 'application/json', 'Authorization': 'Bearer $token'});
+  var response = await request.send();
+  var responseData = await response.stream.toBytes();
+  var responseString = String.fromCharCodes(responseData);
+
+  debugPrint(responseString);
+}
+
+Future<void> updateName(String givenName) async {
+  String token = await getToken();
+  var request =
+      http.MultipartRequest("POST", Uri.parse('$baseUrl/user/update'));
+  request.fields["name"] = givenName;
+  request.fields['title'] = 'image_${DateTime.now()}';
   request.headers
       .addAll({'Accept': 'application/json', 'Authorization': 'Bearer $token'});
   var response = await request.send();
@@ -56,6 +71,21 @@ Future<void> updateSharedPreferences(
       user: user.user.copyWith(
         name: newName,
         image: newImagePath,
+      ),
+    );
+    prefs.deleteData('user');
+    prefs.setData('user', userToJson(newUser));
+  }
+}
+
+Future<void> updateNameSharedPreferences(String newName) async {
+  SharedPrefsController prefs = SharedPrefsController();
+  final userData = await prefs.getData('user');
+  if (userData != null) {
+    UserModel user = UserModel.fromJson(json.decode(userData));
+    final newUser = user.copyWith(
+      user: user.user.copyWith(
+        name: newName,
       ),
     );
     prefs.deleteData('user');

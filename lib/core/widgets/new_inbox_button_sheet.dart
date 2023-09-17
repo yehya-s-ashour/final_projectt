@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/mail_controller.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
@@ -26,30 +25,39 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NewInboxBottomSheet extends StatefulWidget {
+  const NewInboxBottomSheet({super.key});
+
   @override
   State<NewInboxBottomSheet> createState() => _NewInboxBottomSheetState();
 }
 
 class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
-  TextEditingController senderNameCont = TextEditingController();
   TextEditingController senderMobileCont = TextEditingController();
+  TextEditingController senderNameCont = TextEditingController();
   TextEditingController mailTitleCont = TextEditingController();
   TextEditingController mailDescriptionCont = TextEditingController();
   TextEditingController archiveNumber = TextEditingController();
 
-  SingleSender? selectedSender;
+  dynamic selectedSender;
   List<TagElement>? selectedTags = [];
 
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
   late UserModel user;
   final _formKey = GlobalKey<FormState>();
-  late String category = 'Other'.tr();
-
+  late CategoryElement selectedCategory = CategoryElement(
+    createdAt: '',
+    id: 1,
+    name: 'Other',
+    senders: [],
+    sendersCount: '',
+    updatedAt: '',
+  );
+  bool? issenderNameFilled = false;
   bool isValidationShown = false;
   late StatusMod selectedStatus = StatusMod(
       id: 1,
-      name: 'Inbox'.tr(),
+      name: 'Inbox',
       color: '0xfffa3a57',
       createdAt: DateTime.now().toString(),
       updatedAt: DateTime.now().toString(),
@@ -62,6 +70,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
   @override
   void initState() {
     getUser();
+
     super.initState();
   }
 
@@ -82,19 +91,18 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                   TextButton(
                     style: TextButton.styleFrom(
                         padding: EdgeInsets.zero,
-                        minimumSize: Size(50, 30),
+                        minimumSize: const Size(50, 30),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         alignment: Alignment.centerLeft),
                     onPressed: () => Navigator.pop(context),
-                    child: Text(
-                      'Cancel'.tr(),
-                      style: const TextStyle(fontSize: 20),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
-                  Text(
-                    'New Inbox'.tr(),
-                    style:
-                        const TextStyle(fontSize: 20, color: Color(0xFF272727)),
+                  const Text(
+                    'New Inbox',
+                    style: TextStyle(fontSize: 20, color: Color(0xFF272727)),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -113,11 +121,25 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         //     );
                         //   },
                         // );
+                        NewSender? newSender;
+                        String? senderId;
+                        if (selectedSender == null ||
+                            selectedSender is String) {
+                          newSender = await createSender(
+                            categoryId: selectedCategory.id?.toString(),
+                            mobile: senderMobileCont.text,
+                            name: senderNameCont.text,
+                          );
+                          senderId = newSender!.singleSender![0].id.toString();
+                        }
 
+                        if (newSender == null) {
+                          senderId = selectedSender!.id.toString();
+                        }
                         final createMailResponse = await newInbox(
                           statusId: '${selectedStatus.id}',
                           decision: decisionCont.text,
-                          senderId: '${selectedSender!.id}',
+                          senderId: senderId.toString(),
                           finalDecision: decisionCont.text,
                           activities: Provider.of<NewInboxProvider>(context,
                                   listen: false)
@@ -134,8 +156,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               .toString(),
                         );
                         uploadImages(context, createMailResponse.mail!.id!);
+
                         showAlert(context,
-                            message: 'Mail Created Successfully'.tr(),
+                            message: 'Mail Created Successfully',
                             color: primaryColor.withOpacity(0.8),
                             width: 230);
 
@@ -147,7 +170,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
 
                         Navigator.pushReplacement(context, MaterialPageRoute(
                           builder: (context) {
-                            return MainPage();
+                            return const MainPage();
                           },
                         ));
                       } else {
@@ -156,15 +179,14 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         });
                       }
                     },
-                    child:
-                        Text('Done'.tr(), style: const TextStyle(fontSize: 20)),
+                    child: const Text('Done', style: TextStyle(fontSize: 20)),
                   ),
                 ],
               ),
             ),
             Expanded(
               child: ListView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 children: [
                   Form(
                     key: _formKey,
@@ -173,148 +195,195 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           width: 400,
-                          height: senderNameCont.text.isEmpty
-                              ? (!isValidationShown ? 140 : 155)
-                              : 220,
+                          height: !issenderNameFilled!
+                              ? (!isValidationShown ? 70 : 110)
+                              : 200,
                           child: CustomWhiteBox(
                             width: 400,
                             height: 230,
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  CustomTextField(
-                                    controller: senderNameCont,
-                                    validationMessage:
-                                        "Please enter a sender name".tr(),
-                                    hintText: "Sender".tr(),
-                                    hintTextColor: Colors.grey,
-                                    isPrefixIcon: true,
-                                    isSuffixIcon: true,
-                                    isUnderlinedBorderEnabled: true,
-                                    prefixIcon: Icon(
-                                      Icons.person_3_outlined,
-                                      size: 23,
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: () async {
-                                        selectedSender = null;
-                                        selectedSender =
-                                            await showModalBottomSheet<
-                                                SingleSender>(
-                                          clipBehavior: Clip.hardEdge,
-                                          isScrollControlled: true,
-                                          context: context,
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(15.0),
-                                            ),
-                                          ),
-                                          builder: (BuildContext context) {
-                                            return SendersBottomSheet();
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: CustomTextField(
+                                          controller: senderNameCont,
+                                          validationMessage:
+                                              "Please enter a sender name",
+                                          onChanged: (value) {
+                                            setState(() {
+                                              issenderNameFilled = true;
+                                            });
                                           },
-                                        );
-                                        setState(() {
-                                          if (selectedSender != null) {
-                                            senderNameCont.text =
-                                                selectedSender!.name!;
-                                            senderMobileCont.text =
-                                                selectedSender!.mobile!;
-                                          }
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.info_outline,
-                                        color: Color(0xff6589FF),
-                                        size: 27,
+                                          hintText: "Sender",
+                                          hintTextColor: Colors.grey,
+                                          isPrefixIcon: true,
+                                          isSuffixIcon: true,
+                                          isUnderlinedBorderEnabled: true,
+                                          prefixIcon: const Icon(
+                                            Icons.person_3_outlined,
+                                            size: 23,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsetsDirectional.only(
+                                                end: 8.0, bottom: 7),
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            selectedSender = null;
+                                            selectedSender =
+                                                await showModalBottomSheet(
+                                              clipBehavior: Clip.hardEdge,
+                                              isScrollControlled: true,
+                                              context: context,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                  top: Radius.circular(15.0),
+                                                ),
+                                              ),
+                                              builder: (BuildContext context) {
+                                                return const SendersBottomSheet();
+                                              },
+                                            );
+                                            if (selectedSender != null) {
+                                              if (selectedSender is String) {
+                                                setState(() {
+                                                  issenderNameFilled = true;
+                                                  senderNameCont.text =
+                                                      selectedSender;
+                                                });
+                                              } else if (selectedSender
+                                                  is SingleSender) {
+                                                setState(() {
+                                                  issenderNameFilled = true;
+                                                  senderNameCont.text =
+                                                      selectedSender.name;
+                                                  senderMobileCont.text =
+                                                      selectedSender.mobile;
+                                                });
+                                              }
+                                            }
+                                          },
+                                          icon: const Icon(
+                                            Icons.info_outline,
+                                            color: Color(0xff6589FF),
+                                            size: 27,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  senderNameCont.text.isEmpty
-                                      ? SizedBox()
+                                  !issenderNameFilled!
+                                      ? const SizedBox()
                                       : CustomTextField(
                                           controller: senderMobileCont,
                                           validationMessage:
-                                              "Please enter a mobile number"
-                                                  .tr(),
-                                          hintText: "Mobile".tr(),
+                                              "Please enter a mobile number",
+                                          hintText: "Mobile",
                                           hintTextColor: Colors.grey,
                                           isPrefixIcon: true,
                                           isSuffixIcon: false,
                                           isUnderlinedBorderEnabled: true,
-                                          prefixIcon: Icon(
+                                          prefixIcon: const Icon(
                                             Icons.phone_android_rounded,
                                             size: 23,
                                           ),
                                         ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      final selectedCategory =
-                                          await showModalBottomSheet<
-                                              CategoryElement>(
-                                        clipBehavior: Clip.hardEdge,
-                                        isScrollControlled: true,
-                                        context: context,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(15.0),
-                                          ),
-                                        ),
-                                        builder: (BuildContext context) {
-                                          return categoriesBottomSheet();
-                                        },
-                                      );
-                                      setState(() {
-                                        if (selectedCategory != null) {
-                                          category = selectedCategory.name!;
-                                        }
-                                      });
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsetsDirectional.only(
-                                        start: 30.0,
-                                        end: 20.0,
-                                        top: 20,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            'Category'.tr(),
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Iphone',
-                                                fontSize: 20),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                '$category'.tr(),
-                                                style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 20,
+                                  !issenderNameFilled!
+                                      ? const SizedBox()
+                                      : GestureDetector(
+                                          onTap: selectedSender != null &&
+                                                  selectedSender.runtimeType ==
+                                                      SingleSender
+                                              ? null
+                                              : () async {
+                                                  final selectedCategory =
+                                                      await showModalBottomSheet<
+                                                          CategoryElement>(
+                                                    clipBehavior: Clip.hardEdge,
+                                                    isScrollControlled: true,
+                                                    context: context,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.vertical(
+                                                        top: Radius.circular(
+                                                            15.0),
+                                                      ),
+                                                    ),
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return const categoriesBottomSheet();
+                                                    },
+                                                  );
+                                                  setState(() {
+                                                    if (selectedCategory !=
+                                                        null) {
+                                                      this.selectedCategory =
+                                                          selectedCategory;
+                                                    }
+                                                  });
+                                                },
+                                          child: Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .only(
+                                              start: 30.0,
+                                              end: 20.0,
+                                              top: 20,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                const Text(
+                                                  'Category',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: 'Iphone',
+                                                      fontSize: 20),
                                                 ),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_ios_rounded,
-                                                color: Colors.grey,
-                                                size: 22,
-                                              ),
-                                            ],
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      selectedSender
+                                                                  .runtimeType ==
+                                                              SingleSender
+                                                          ? selectedSender
+                                                              ?.category?.name
+                                                          : selectedCategory
+                                                              .name,
+                                                      style: const TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                    const Icon(
+                                                      Icons
+                                                          .arrow_forward_ios_rounded,
+                                                      color: Colors.grey,
+                                                      size: 22,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
+                                        )
                                 ],
                               ),
                             ),
                           ),
                         ),
                         AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           width: 400,
                           height: isValidationShown ? 155 : 135,
                           child: CustomWhiteBox(
@@ -326,8 +395,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                   CustomTextField(
                                     controller: mailTitleCont,
                                     validationMessage:
-                                        "Please enter a title of mail".tr(),
-                                    hintText: "Title of mail".tr(),
+                                        "Please enter a title of mail",
+                                    hintText: "Title of mail",
                                     hintTextColor: Colors.grey,
                                     isPrefixIcon: false,
                                     isSuffixIcon: false,
@@ -338,13 +407,12 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         start: 10.0, end: 10.0),
                                     child: TextFormField(
                                       controller: mailDescriptionCont,
-                                      decoration: InputDecoration(
-                                        contentPadding:
-                                            const EdgeInsets.symmetric(
-                                                vertical: 20, horizontal: 35),
+                                      decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                            vertical: 20, horizontal: 35),
                                         border: InputBorder.none,
-                                        hintText: 'Description'.tr(),
-                                        hintStyle: const TextStyle(
+                                        hintText: 'Description',
+                                        hintStyle: TextStyle(
                                           color: Colors.grey,
                                           fontFamily: 'Iphone',
                                           fontSize: 19,
@@ -363,12 +431,12 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                   .isDatePickerOpened
                               ? 515.0
                               : (isValidationShown ? 165 : 130),
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           child: CustomWhiteBox(
                             width: 378,
                             height: 480,
                             child: SingleChildScrollView(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 child: Column(
                                   children: [
                                     CustomDatePicker(),
@@ -384,32 +452,30 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         controller: archiveNumber,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return "Please enter an archive number"
-                                                .tr();
+                                            return "Please enter an archive number";
                                           }
                                           return null;
                                         },
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                             contentPadding:
-                                                const EdgeInsets.symmetric(
+                                                EdgeInsets.symmetric(
                                                     vertical: 20,
                                                     horizontal: 35),
                                             border: InputBorder.none,
-                                            prefixIcon: const Icon(
+                                            prefixIcon: Icon(
                                               Icons.folder_zip_outlined,
                                               color: Colors.blueGrey,
                                               size: 23,
                                             ),
-                                            hintText: "Archive number".tr(),
-                                            hintStyle: const TextStyle(
+                                            hintText: "Archive number",
+                                            hintStyle: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Iphone',
                                               fontSize: 19,
                                               fontWeight: FontWeight.w500,
                                             ),
-                                            errorBorder:
-                                                const UnderlineInputBorder(
-                                                    borderSide: BorderSide(
+                                            errorBorder: UnderlineInputBorder(
+                                                borderSide: BorderSide(
                                               color: Colors.redAccent,
                                             ))),
                                       ),
@@ -433,7 +499,10 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       return StatefulBuilder(builder:
                                           (BuildContext context,
                                               StateSetter setState) {
-                                        return TagsBottomSheet();
+                                        return TagsBottomSheet(
+                                          givenTagsFromOutSide:
+                                              this.selectedTags!,
+                                        );
                                       });
                                     });
                             setState(() {
@@ -445,8 +514,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           child: CustomWhiteBox(
                             width: 378,
                             height: 56,
-                            child: Padding(
-                              padding: const EdgeInsetsDirectional.only(
+                            child: const Padding(
+                              padding: EdgeInsetsDirectional.only(
                                 start: 20.0,
                                 end: 20.0,
                               ),
@@ -456,23 +525,23 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                 children: [
                                   Row(
                                     children: [
-                                      const Icon(
+                                      Icon(
                                         Icons.tag,
                                         size: 23,
                                       ),
-                                      const SizedBox(
+                                      SizedBox(
                                         width: 12,
                                       ),
                                       Text(
-                                        'Tags'.tr(),
-                                        style: const TextStyle(
+                                        'Tags',
+                                        style: TextStyle(
                                             color: Colors.black,
                                             fontFamily: 'Iphone',
                                             fontSize: 20),
                                       ),
                                     ],
                                   ),
-                                  const Icon(
+                                  Icon(
                                     Icons.arrow_forward_ios_rounded,
                                     color: Colors.grey,
                                     size: 22,
@@ -495,7 +564,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                 ),
                               ),
                               builder: (BuildContext context) {
-                                return StatusesBottomSheet();
+                                return StatusesBottomSheet(
+                                  status: this.selectedStatus,
+                                );
                               },
                             );
                             setState(() {
@@ -508,7 +579,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             width: 378,
                             height: 56,
                             child: Padding(
-                              padding: EdgeInsetsDirectional.only(
+                              padding: const EdgeInsetsDirectional.only(
                                 start: 20.0,
                                 end: 20.0,
                               ),
@@ -526,7 +597,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                           color: Colors.grey,
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 15,
                                       ),
                                       SizedBox(
@@ -584,15 +655,15 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: const EdgeInsetsDirectional.only(
+                              const Padding(
+                                padding: EdgeInsetsDirectional.only(
                                   start: 25.0,
                                   end: 20.0,
                                   top: 20.0,
                                 ),
                                 child: Text(
-                                  'Descision'.tr(),
-                                  style: const TextStyle(
+                                  'Descision',
+                                  style: TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
                                   ),
@@ -608,12 +679,12 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         .setArchiveNumber(value);
                                   },
                                   controller: decisionCont,
-                                  decoration: InputDecoration(
-                                    contentPadding: const EdgeInsets.symmetric(
+                                  decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 40),
                                     border: InputBorder.none,
-                                    hintText: "Add Decsision ...".tr(),
-                                    hintStyle: const TextStyle(
+                                    hintText: "Add Decsision ...",
+                                    hintStyle: TextStyle(
                                       color: Colors.grey,
                                       fontFamily: 'Iphone',
                                       fontSize: 19,
@@ -633,9 +704,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           },
                           child: AnimatedContainer(
                             height: Provider.of<NewInboxProvider>(context)
-                                        .imagesFiles
-                                        .length >
-                                    0
+                                    .imagesFiles
+                                    .isNotEmpty
                                 ? 95 +
                                     ((Provider.of<NewInboxProvider>(context)
                                             .imagesFiles
@@ -673,7 +743,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                 width: 12,
                                               ),
                                               Text(
-                                                'Add image'.tr(),
+                                                'Add image',
                                                 style: TextStyle(
                                                     color: primaryColor,
                                                     fontFamily: 'Iphone',
@@ -795,7 +865,11 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                                       .path)))),
                                                         ),
                                                         Text(
-                                                          '${Provider.of<NewInboxProvider>(context).imagesFiles[index]!.name}',
+                                                          Provider.of<NewInboxProvider>(
+                                                                  context)
+                                                              .imagesFiles[
+                                                                  index]!
+                                                              .name,
                                                           maxLines: 1,
                                                           overflow: TextOverflow
                                                               .ellipsis,
@@ -844,7 +918,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               filled: true,
                               fillColor: Colors.black.withOpacity(0.05),
                               contentPadding: const EdgeInsets.all(15),
-                              hintText: "Add new activity ...".tr(),
+                              hintText: "Add new activity ...",
                               hintStyle: const TextStyle(
                                   color: Colors.grey, fontSize: 17),
                               enabledBorder: UnderlineInputBorder(

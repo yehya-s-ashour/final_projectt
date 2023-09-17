@@ -5,10 +5,13 @@ import 'package:final_projectt/core/services/status_controller.dart';
 
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/card.dart';
+import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/models/catego_model.dart';
 
 import 'package:final_projectt/models/status_single.dart';
+import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StatusScreen extends StatefulWidget {
   final String nameOfStatus;
@@ -117,7 +120,46 @@ class _StatusScreenState extends State<StatusScreen> {
                                                         .sender?.categoryId ==
                                                     e.id.toString())
                                                 .map((mail) {
-                                              return myCustomCard(mail, () {});
+
+                                              return myCustomCard(mail, () {
+                                                showModalBottomSheet(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  isScrollControlled: true,
+                                                  context: context,
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .vertical(
+                                                    top: Radius.circular(15.0),
+                                                  )),
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return EditMailBottomSheet(
+                                                      mail: mail,
+                                                    );
+                                                  },
+                                                ).whenComplete(
+                                                  () {
+                                                    setState(() {
+                                                      Provider.of<NewInboxProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .clearImages();
+
+                                                      Provider.of<NewInboxProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .activites = [];
+
+                                                      Provider.of<NewInboxProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .deletedImages = [];
+                                                    });
+                                                  },
+                                                );
+                                              });
                                             }).toList()),
                                       );
                                     }

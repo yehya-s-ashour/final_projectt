@@ -34,19 +34,17 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
       height: MediaQuery.of(context).size.height - 150,
       child: Column(
         children: [
-          Padding(
+          const Padding(
             padding:
                 const EdgeInsetsDirectional.only(top: 15.0, start: 8, end: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  onPressed: () {
-                    Navigator.pop(context, selectedCategory);
-                  },
+                  onPressed: null,
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
-                    color: primaryColor,
+                    color: Colors.transparent,
                   ),
                 ),
                 Center(
@@ -58,9 +56,12 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
                     ),
                   ),
                 ),
-                Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: Colors.transparent,
+                IconButton(
+                  onPressed: null,
+                  icon: Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    color: Colors.transparent,
+                  ),
                 ),
               ],
             ),
@@ -88,6 +89,12 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
                                     setState(() {
                                       selectedIndex = index;
                                       selectedCategory = snapshot.data![index];
+                                      Future.delayed(
+                                          const Duration(milliseconds: 300),
+                                          () {
+                                        Navigator.pop(
+                                            context, selectedCategory);
+                                      });
                                     });
                                   },
                                   title: Column(

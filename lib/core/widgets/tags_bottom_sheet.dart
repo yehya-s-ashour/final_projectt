@@ -1,11 +1,19 @@
 import 'package:easy_localization/easy_localization.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/models/tags_model.dart';
-import 'package:flutter/material.dart';
 
 class TagsBottomSheet extends StatefulWidget {
+  List<TagElement> givenTagsFromOutSide;
+  TagsBottomSheet({
+    Key? key,
+    required this.givenTagsFromOutSide,
+  }) : super(key: key);
+
   @override
   State<TagsBottomSheet> createState() => _TagsBottomSheetState();
 }
@@ -24,6 +32,8 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    selectedTags = widget.givenTagsFromOutSide;
+    print('the selected tags are : $selectedTags');
     return SizedBox(
       height: MediaQuery.of(context).size.height - 150,
       child: Column(
@@ -39,7 +49,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
               children: [
                 IconButton(
                   onPressed: () {
-                    print(selectedTags);
+                    // print(selectedTags);
                     Navigator.pop(context, selectedTags);
                   },
                   icon: Icon(
@@ -47,7 +57,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                     color: primaryColor,
                   ),
                 ),
-                Center(
+                const Center(
                   child: Text(
                     'Tags'.tr(),
                     style: TextStyle(
@@ -60,7 +70,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_back_ios_new_rounded,
                     color: Colors.transparent,
                   ),
@@ -80,25 +90,32 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               } else if (!snapshot.hasData || snapshot.data!.tags.isEmpty) {
-                return Center(
+                return const Center(
                   child: Text('No data available.'),
                 );
               }
 
               List<Widget> tagsListForWhiteBox = snapshot.data!.tags.map((tag) {
+                List<String> givenNameOfTags =
+                    widget.givenTagsFromOutSide.map((e) {
+                  return e.name;
+                }).toList();
+                // print(givenNameOfTags);
                 final tagText = tag.name;
                 final textLength = tagText.length;
                 final tagWidth = 40.0 + (textLength * 8.0);
-                final isSelected = selectedTags.contains(tag);
+                final isSelected = givenNameOfTags.contains(tag.name);
 
                 return GestureDetector(
                   onTap: () {
                     setState(() {
                       if (isSelected) {
                         selectedTags.removeWhere(
-                            (selectedTag) => selectedTag.id == tag.id);
+                            (selectedTag) => selectedTag.name == tag.name);
                       } else {
                         selectedTags.add(tag);
+                        print(
+                            'selectedTags length is : ${selectedTags.length}');
                       }
                     });
                   },
@@ -125,7 +142,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
 
               return CustomWhiteBox(
                   width: 378,
-                  height: (snapshot.data!.tags.length / 3).round() * 52,
+                  height: (snapshot.data!.tags.length / 3).round() * 100,
                   child: Padding(
                     padding:
                         const EdgeInsetsDirectional.only(start: 15.0, top: 15),
@@ -135,6 +152,9 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                         children: tagsListForWhiteBox),
                   ));
             },
+          ),
+          const SizedBox(
+            height: 30,
           ),
           Padding(
             padding: const EdgeInsetsDirectional.only(
@@ -171,6 +191,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                 fillColor: boxColor,
                 contentPadding: EdgeInsetsDirectional.only(start: 15, top: 15),
                 hintText: "Add new tag ...".tr(),
+
                 hintStyle: const TextStyle(color: Colors.grey, fontSize: 19),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey.shade300),

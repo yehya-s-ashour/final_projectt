@@ -1,16 +1,16 @@
-//import 'dart:convert';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:final_projectt/Screens/login_screen.dart';
 import 'package:final_projectt/Screens/splash_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
-//import 'package:final_projectt/core/services/logout_controller.dart';
-//import 'package:final_projectt/core/widgets/show_alert.dart';
+import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-late OverlayEntry overlayEntry;
+OverlayEntry? overlayEntry;
 
 void hideOverlay() {
-  overlayEntry.remove();
+  if (overlayEntry != null) {
+    overlayEntry!.remove();
+  }
 }
 
 void deletShar() async {
@@ -18,7 +18,8 @@ void deletShar() async {
   await prefs.deleteData('user');
 }
 
-void showOverlay(BuildContext context, String name, String role, String image) {
+void showOverlay(
+    BuildContext context, String name, String role, String? image) {
   OverlayState overlayState = Overlay.of(context);
   overlayEntry = OverlayEntry(builder: (context) {
     return Positioned(
@@ -59,10 +60,18 @@ void showOverlay(BuildContext context, String name, String role, String image) {
                 ),
                 borderRadius: BorderRadius.circular(100),
               ),
-              child: CircleAvatar(
-                backgroundImage:
-                    NetworkImage("https://palmail.gsgtt.tech/storage/$image"),
-                radius: 60,
+              child: Container(
+                height: 120,
+                width: 120,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(100)),
+                child: image != null
+                    ? Image.network(
+                        "https://palmail.gsgtt.tech/storage/$image",
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset('images/profile.jpg', fit: BoxFit.cover),
               ),
             ),
             Text(
@@ -88,6 +97,7 @@ void showOverlay(BuildContext context, String name, String role, String image) {
                   context.locale.toString() == "en"
                       ? context.setLocale(const Locale('ar'))
                       : context.setLocale(const Locale('en'));
+                  Provider.of<RTLPro>(context, listen: false).changeOpening();
                   hideOverlay();
                 },
                 child: Row(
@@ -114,32 +124,9 @@ void showOverlay(BuildContext context, String name, String role, String image) {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: TextButton(
                 onPressed: () {
-                  // try {
-                  //   logout(
-                  //     context,
-                  //   ).then((response) async {
-                  //     SharedPrefsController prefs = SharedPrefsController();
-                  //     await prefs.deleteData('user');
-                  //     hideOverlay();
-                  //     // ignore: use_build_context_synchronously
-                  //     Navigator.pushReplacement(context, MaterialPageRoute(
-                  //       builder: (context) {
-                  //         return const LoginScreen();
-                  //       },
-                  //     ));
-                  //   }).catchError((err) async {
-                  //     final errorMessagae = (err.message)['message'].toString();
-                  //     showAlert(context,
-                  //         message: errorMessagae,
-                  //         color: Colors.redAccent,
-                  //         width: 300);
-                  //   });
-                  // } catch (e) {
-                  //  SharedPrefsController prefs = SharedPrefsController();
-                  //  prefs.deleteData('user');
                   deletShar();
                   hideOverlay();
-                  // ignore: use_build_context_synchronously
+
                   Navigator.pushReplacement(context, MaterialPageRoute(
                     builder: (context) {
                       return const SplashScreen();
@@ -173,6 +160,5 @@ void showOverlay(BuildContext context, String name, String role, String image) {
     );
   });
 
-  // Inserting the OverlayEntry into the Overlay
-  overlayState.insert(overlayEntry);
+  overlayState.insert(overlayEntry!);
 }

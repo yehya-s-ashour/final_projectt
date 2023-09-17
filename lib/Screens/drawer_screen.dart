@@ -2,27 +2,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/profile_page.dart';
 import 'package:final_projectt/Screens/sender_screen.dart';
 import 'package:final_projectt/Screens/user_management_screen.dart';
+import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import '../core/util/constants/colors.dart';
-
-class DrawerScreen extends StatefulWidget {
-  const DrawerScreen({super.key});
-
-  @override
-  State<DrawerScreen> createState() => _DrawerScreenState();
-}
-
-class _DrawerScreenState extends State<DrawerScreen> {
+Widget drawer(BuildContext context) {
   List<Map> drawerItem = [
-    {'icon': Icons.home, 'title': 'Home Page'},
-    {'icon': Icons.person, 'title': 'Profile Page'},
-    {'icon': Icons.send, 'title': 'Senders'},
-    {'icon': Icons.settings, 'title': 'User Management'},
+    {'icon': MdiIcons.home, 'title': 'Home Page'},
+    {'icon': MdiIcons.accountCard, 'title': 'Profile Page'},
+    {'icon': MdiIcons.sendCheck, 'title': 'Senders'},
+    {'icon': Icons.settings_applications, 'title': 'User Management'},
   ];
-  @override
-  Widget build(BuildContext context) {
-    return Container(
+  return SafeArea(
+    child: Container(
       height: MediaQuery.of(context).size.height,
       width: double.infinity,
       padding: context.locale.toString() == 'ar'
@@ -52,7 +44,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                           Icon(
                             e['icon'],
                             color: Colors.white,
-                            size: 20,
+                            size: 25,
                           ),
                           const SizedBox(
                             height: 50,
@@ -87,7 +79,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                               "${e['title']}".tr(),
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 16,
+                                fontSize: 18,
                               ),
                             ),
                           ),
@@ -128,6 +120,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
 }
