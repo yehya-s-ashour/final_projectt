@@ -42,7 +42,6 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
   late UserModel user;
-  final _formKey = GlobalKey<FormState>();
   late String category = 'Other';
   DateTime? date;
   bool isValidationShown = false;

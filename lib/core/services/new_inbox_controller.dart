@@ -17,7 +17,7 @@ Future<Senders> getSenders() async {
   final ApiBaseHelper _helper = ApiBaseHelper();
   final String token = await getToken();
   final response = await _helper.get(
-    '/senders?mail=false',
+    '/senders?mail=true',
     {'Authorization': 'Bearer $token'},
   );
   return SendersModel.fromJson(response[1]).senders!;
@@ -144,6 +144,27 @@ Future<void>? uploadImages(BuildContext context, int mailId) {
   return null;
 }
 
+Future<NewSender>? createSender({
+  String? name,
+  String? mobile,
+  String? categoryId,
+}) async {
+  final token = await getToken();
+  final ApiBaseHelper helper = ApiBaseHelper();
+
+  final response =
+      await http.post(Uri.parse('$baseUrl/senders?mail=fasle'), body: {
+    'name': name,
+    'mobile': mobile,
+    'address': '',
+    'category_id': categoryId,
+  }, headers: {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer $token'
+  });
+  print(response.body);
+  return NewSender.fromJson(json.decode(response.body));
+}
 
 // Future<void> uploadImages(BuildContext context, int mailId) async {
 //   final token = await getToken();

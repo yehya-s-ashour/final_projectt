@@ -1,12 +1,10 @@
 import 'dart:io';
 
-import 'package:final_projectt/Screens/edit_profile.dart';
 import 'package:final_projectt/core/services/profile_controller.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -25,7 +23,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     user = UserController().getLocalUser();
-
+    user.then((userData) => {
+          nameTextFieldCont.text = userData.user.name!,
+        });
     super.initState();
   }
 
@@ -42,12 +42,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   isUploading = true;
                 });
                 if (pickedFile != null) {
-                  await uploadProfilePic(pickedFile!, name!)
+                  await uploadProfilePic(
+                          pickedFile!, name ?? nameTextFieldCont.text)
                       .then((value) async {
                     final newImage = await getNewProfilePic();
-                    updateSharedPreferences(name!, newImage!).then((value) {
+                    updateSharedPreferences(
+                            name ?? nameTextFieldCont.text, newImage!)
+                        .then((value) {
                       setState(() {
                         isUploading = false;
+                        user = UserController().getLocalUser();
+
                         showAlert(context,
                             message: "User Updated",
                             color: primaryColor.withOpacity(0.75),
@@ -72,8 +77,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ));
                   });
                 } else {
-                  updateName(name!).then((value) {
-                    updateNameSharedPreferences(nameTextFieldCont.text)
+                  updateName(name ?? nameTextFieldCont.text).then((value) {
+                    updateNameSharedPreferences(name ?? nameTextFieldCont.text)
                         .then((value) {
                       setState(() {
                         isUploading = false;
@@ -207,6 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 radius: 100,
                                 backgroundColor: Colors.blueGrey.shade300,
                                 child: CircleAvatar(
+                                  backgroundColor: primaryColor,
                                   radius: 98,
                                   backgroundImage: pickedFile == null
                                       ? NetworkImage(
@@ -214,8 +220,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         )
                                       : FileImage(
                                           File(pickedFile!.path),
-                                        ) as ImageProvider<
-                                          Object>, // Cast is not necessary and can be removed),
+                                        ) as ImageProvider<Object>,
                                 ),
                               )),
                           GestureDetector(
@@ -284,9 +289,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 subtitle: TextField(
                                   controller: nameTextFieldCont,
                                   onChanged: (value) {
-                                    // Update the name variable when the text changes
-                                    print("Text changed: $value");
-
                                     setState(() {
                                       name = value;
                                     });
