@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:final_projectt/Screens/edit_profile.dart';
+import 'package:final_projectt/core/services/profile_controller.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
+import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import '../models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -14,10 +14,18 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   File? pickedFile;
+  String? filePath;
+  bool isEditable = false;
+  TextEditingController nameTextFieldCont = TextEditingController();
   late Future<UserModel> user;
+  bool isUploading = false;
+  String? name;
   @override
   void initState() {
     user = UserController().getLocalUser();
+    user.then((userData) => {
+          nameTextFieldCont.text = userData.user.name!,
+        });
     super.initState();
   }
 
@@ -27,6 +35,88 @@ class _ProfileScreenState extends State<ProfileScreen> {
     double deviceHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      floatingActionButton: pickedFile != null || isEditable
+          ? FloatingActionButton(
+              onPressed: () async {
+                setState(() {
+                  isUploading = true;
+                });
+                if (pickedFile != null) {
+                  await uploadProfilePic(
+                          pickedFile!, name ?? nameTextFieldCont.text)
+                      .then((value) async {
+                    final newImage = await getNewProfilePic();
+                    updateSharedPreferences(
+                            name ?? nameTextFieldCont.text, newImage!)
+                        .then((value) {
+                      setState(() {
+                        isUploading = false;
+                        user = UserController().getLocalUser();
+
+                        showAlert(context,
+                            message: "User Updated",
+                            color: primaryColor.withOpacity(0.75),
+                            width: 150);
+                      });
+                    });
+
+                    if (mounted) {
+                      setState(() {
+                        isEditable = false;
+                      });
+                    }
+                    if (mounted) {
+                      setState(() {
+                        pickedFile = null;
+                      });
+                    }
+                  }).catchError((err) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(err.toString()),
+                      backgroundColor: Colors.red,
+                    ));
+                  });
+                } else {
+                  updateName(name ?? nameTextFieldCont.text).then((value) {
+                    updateNameSharedPreferences(name ?? nameTextFieldCont.text)
+                        .then((value) {
+                      setState(() {
+                        isUploading = false;
+                        showAlert(context,
+                            message: "User Updated",
+                            color: primaryColor.withOpacity(0.75),
+                            width: 150);
+                      });
+
+                      if (mounted) {
+                        setState(() {
+                          isEditable = false;
+                        });
+                      }
+                      if (mounted) {
+                        setState(() {
+                          pickedFile = null;
+                        });
+                      }
+                    });
+                  }).catchError((err) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text(err.toString()),
+                      backgroundColor: Colors.red,
+                    ));
+                  });
+                }
+              },
+              backgroundColor: primaryColor,
+              child: isUploading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    )
+                  : const Icon(Icons.check),
+            )
+          : null,
       backgroundColor: backGroundColor,
       body: SingleChildScrollView(
         child: Stack(
@@ -44,7 +134,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 38),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 38),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -60,69 +150,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      FutureBuilder(
-                          future: user,
-                          builder: (context, snapshot) {
-                            if (snapshot.hasError) {
-                              return Text(snapshot.error.toString());
-                            }
-                            if (snapshot.hasData) {
-                              return GestureDetector(
-                                onTap: () async {
-                                  final newPickedFile =
-                                      await Navigator.push<File>(context,
-                                          MaterialPageRoute(
-                                    builder: (context) {
-                                      return EditProfile(
-                                        defaultName:
-                                            snapshot.data!.user.name ?? 'name',
-                                        defaultImagePath: pickedFile?.path ??
-                                            snapshot.data!.user.image ??
-                                            'image',
-                                      );
-                                    },
-                                  ));
-
-                                  if (newPickedFile != null) {
-                                    setState(() {
-                                      pickedFile = newPickedFile;
-                                    });
-                                  }
-                                },
-                                child: const Icon(Icons.edit_note,
-                                    color: Colors.white),
-                              );
-                            }
-                            return Center(
-                              child: CircularProgressIndicator(
-                                color: primaryColor,
-                              ),
-                            );
-                          })
                     ],
                   ),
                   const SizedBox(
                     height: 20,
                   ),
                   Container(
-                    margin: const EdgeInsets.only(top: 130, left: 20),
-                    child: RichText(
-                      text: const TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: 'P',
-                            style: TextStyle(
-                                fontSize: 100, fontWeight: FontWeight.bold),
+                    width: 200,
+                    margin: const EdgeInsets.only(top: 140, left: 20),
+                    child: Stack(
+                      children: [
+                        RichText(
+                          text: const TextSpan(
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: 'P',
+                                style: TextStyle(
+                                  fontSize: 110,
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: 'rofile',
+                        ),
+                        Positioned(
+                          left: 40, // Adjust the left offset as needed
+                          top: 72, // Adjust the top offset as needed
+                          child: Text(
+                            'rofile',
                             style: TextStyle(
-                                fontSize: 30, fontStyle: FontStyle.italic),
+                                letterSpacing: 3,
+                                color: Colors.white,
+                                fontSize: 35,
+                                fontStyle: FontStyle.italic),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -135,19 +201,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (snapshot.hasData) {
                     // print('the snapshot image : ${snapshot.data!.user.image}');
                     // path = snapshot.data!.user.image!;
-                    return Container(
-                      margin: const EdgeInsets.only(top: 180, left: 180),
-                      height: 200,
-                      width: 200,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100)),
-                      child: pickedFile == null
-                          ? Image.network(
-                              'https://palmail.gsgtt.tech/storage/${snapshot.data!.user.image}',
-                              fit: BoxFit.cover,
-                            )
-                          : Image.file(File(pickedFile!.path)),
+                    return Center(
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 190, left: 180),
+                              child: CircleAvatar(
+                                radius: 100,
+                                backgroundColor: Colors.blueGrey.shade300,
+                                child: CircleAvatar(
+                                  backgroundColor: primaryColor,
+                                  radius: 98,
+                                  backgroundImage: pickedFile == null
+                                      ? NetworkImage(
+                                          'https://palmail.gsgtt.tech/storage/${snapshot.data!.user.image}',
+                                        )
+                                      : FileImage(
+                                          File(pickedFile!.path),
+                                        ) as ImageProvider<Object>,
+                                ),
+                              )),
+                          GestureDetector(
+                            onTap: () async {
+                              pickedFile = await pickImageFile();
+
+                              if (pickedFile != null) {
+                                filePath = pickedFile!.path;
+                              }
+                              setState(() {});
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.only(end: 15.0),
+                              child: Container(
+                                width: 45,
+                                height: 45,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: BoxDecoration(
+                                    color: primaryColor,
+                                    borderRadius: BorderRadius.circular(25)),
+                                child: const Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     );
                   }
                   return Center(
@@ -166,23 +269,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return Container(
                       margin: const EdgeInsets.only(top: 400),
                       child: Column(children: [
-                        ListTile(
-                          leading: const CircleAvatar(
-                            radius: 50,
-                            child: Icon(Icons.person),
-                          ),
-                          title: const Text(
-                            'Name:',
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 134, 134, 134)),
-                          ),
-                          subtitle: Text(
-                            snapshot.data!.user.name!,
-                            style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ListTile(
+                                leading: const CircleAvatar(
+                                  radius: 50,
+                                  child: Icon(Icons.person),
+                                ),
+                                title: Padding(
+                                  padding: const EdgeInsetsDirectional.only(
+                                      top: 20.0),
+                                  child: const Text(
+                                    'Name:',
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 20),
+                                  ),
+                                ),
+                                subtitle: TextField(
+                                  controller: nameTextFieldCont,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      name = value;
+                                    });
+                                  },
+                                  enabled: isEditable,
+                                  decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.only(bottom: 20),
+                                    hintText: name ?? snapshot.data!.user.name,
+                                    hintStyle: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 20,
+                                    ),
+                                    border: InputBorder.none,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              padding: EdgeInsets.only(right: 45, bottom: 20),
+                              onPressed: () {
+                                setState(() {
+                                  isEditable = !isEditable;
+                                });
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                color: primaryColor,
+                              ),
+                            ),
+                          ],
                         ),
                         ListTile(
                           leading: const CircleAvatar(

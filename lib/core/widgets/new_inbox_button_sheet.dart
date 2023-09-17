@@ -38,15 +38,22 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
   TextEditingController mailDescriptionCont = TextEditingController();
   TextEditingController archiveNumber = TextEditingController();
 
-  SingleSender? selectedSender;
+  dynamic selectedSender;
   List<TagElement>? selectedTags = [];
 
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
   late UserModel user;
   final _formKey = GlobalKey<FormState>();
-  late String category = 'Other';
-
+  late CategoryElement selectedCategory = CategoryElement(
+    createdAt: '',
+    id: 1,
+    name: 'Other',
+    senders: [],
+    sendersCount: '',
+    updatedAt: '',
+  );
+  bool? issenderNameFilled = false;
   bool isValidationShown = false;
   late StatusMod selectedStatus = StatusMod(
       id: 1,
@@ -63,6 +70,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
   @override
   void initState() {
     getUser();
+
     super.initState();
   }
 
@@ -113,11 +121,25 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         //     );
                         //   },
                         // );
+                        NewSender? newSender;
+                        String? senderId;
+                        if (selectedSender == null) {
+                          newSender = await createSender(
+                            categoryId: selectedCategory.id?.toString(),
+                            mobile: senderMobileCont.text,
+                            name: senderNameCont.text,
+                          );
+                          senderId = newSender!.singleSender![0].id.toString();
+                        }
 
+                        if (newSender == null) {
+                          senderId = selectedSender!.id.toString();
+                        }
+                        print(senderId);
                         final createMailResponse = await newInbox(
                           statusId: '${selectedStatus.id}',
                           decision: decisionCont.text,
-                          senderId: '${selectedSender!.id}',
+                          senderId: senderId.toString(),
                           finalDecision: decisionCont.text,
                           activities: Provider.of<NewInboxProvider>(context,
                                   listen: false)
@@ -134,6 +156,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               .toString(),
                         );
                         uploadImages(context, createMailResponse.mail!.id!);
+
                         showAlert(context,
                             message: 'Mail Created Successfully',
                             color: primaryColor.withOpacity(0.8),
@@ -174,9 +197,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
                           width: 400,
-                          height: senderNameCont.text.isEmpty
-                              ? (!isValidationShown ? 140 : 155)
-                              : 220,
+                          height: !issenderNameFilled!
+                              ? (!isValidationShown ? 70 : 110)
+                              : 200,
                           child: CustomWhiteBox(
                             width: 400,
                             height: 230,
@@ -187,6 +210,11 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                     controller: senderNameCont,
                                     validationMessage:
                                         "Please enter a sender name",
+                                    onChanged: (value) {
+                                      setState(() {
+                                        issenderNameFilled = true;
+                                      });
+                                    },
                                     hintText: "Sender",
                                     hintTextColor: Colors.grey,
                                     isPrefixIcon: true,
@@ -200,8 +228,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       onPressed: () async {
                                         selectedSender = null;
                                         selectedSender =
-                                            await showModalBottomSheet<
-                                                SingleSender>(
+                                            await showModalBottomSheet(
                                           clipBehavior: Clip.hardEdge,
                                           isScrollControlled: true,
                                           context: context,
@@ -214,14 +241,24 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                             return const SendersBottomSheet();
                                           },
                                         );
-                                        setState(() {
-                                          if (selectedSender != null) {
-                                            senderNameCont.text =
-                                                selectedSender!.name!;
-                                            senderMobileCont.text =
-                                                selectedSender!.mobile!;
+                                        if (selectedSender != null) {
+                                          if (selectedSender is String) {
+                                            setState(() {
+                                              issenderNameFilled = true;
+                                              senderNameCont.text =
+                                                  selectedSender;
+                                            });
+                                          } else if (selectedSender
+                                              is SingleSender) {
+                                            setState(() {
+                                              issenderNameFilled = true;
+                                              senderNameCont.text =
+                                                  selectedSender.name;
+                                              senderMobileCont.text =
+                                                  selectedSender.mobile;
+                                            });
                                           }
-                                        });
+                                        }
                                       },
                                       icon: const Icon(
                                         Icons.info_outline,
@@ -230,7 +267,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       ),
                                     ),
                                   ),
-                                  senderNameCont.text.isEmpty
+                                  !issenderNameFilled!
                                       ? const SizedBox()
                                       : CustomTextField(
                                           controller: senderMobileCont,
@@ -246,66 +283,80 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                             size: 23,
                                           ),
                                         ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      final selectedCategory =
-                                          await showModalBottomSheet<
-                                              CategoryElement>(
-                                        clipBehavior: Clip.hardEdge,
-                                        isScrollControlled: true,
-                                        context: context,
-                                        shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(15.0),
-                                          ),
-                                        ),
-                                        builder: (BuildContext context) {
-                                          return const categoriesBottomSheet();
-                                        },
-                                      );
-                                      setState(() {
-                                        if (selectedCategory != null) {
-                                          category = selectedCategory.name!;
-                                        }
-                                      });
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsetsDirectional.only(
-                                        start: 30.0,
-                                        end: 20.0,
-                                        top: 20,
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                            'Category',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: 'Iphone',
-                                                fontSize: 20),
-                                          ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                category,
-                                                style: const TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 20,
+                                  !issenderNameFilled!
+                                      ? const SizedBox()
+                                      : GestureDetector(
+                                          onTap: () async {
+                                            final selectedCategory =
+                                                await showModalBottomSheet<
+                                                    CategoryElement>(
+                                              clipBehavior: Clip.hardEdge,
+                                              isScrollControlled: true,
+                                              context: context,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                  top: Radius.circular(15.0),
                                                 ),
                                               ),
-                                              const Icon(
-                                                Icons.arrow_forward_ios_rounded,
-                                                color: Colors.grey,
-                                                size: 22,
-                                              ),
-                                            ],
+                                              builder: (BuildContext context) {
+                                                return const categoriesBottomSheet();
+                                              },
+                                            );
+                                            setState(() {
+                                              if (selectedCategory != null) {
+                                                this.selectedCategory =
+                                                    selectedCategory;
+                                              }
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding: const EdgeInsetsDirectional
+                                                .only(
+                                              start: 30.0,
+                                              end: 20.0,
+                                              top: 20,
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                const Text(
+                                                  'Category',
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontFamily: 'Iphone',
+                                                      fontSize: 20),
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      selectedSender
+                                                                  .runtimeType ==
+                                                              SingleSender
+                                                          ? selectedSender
+                                                              ?.category?.name
+                                                          : selectedCategory
+                                                              .name,
+                                                      style: const TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                    const Icon(
+                                                      Icons
+                                                          .arrow_forward_ios_rounded,
+                                                      color: Colors.grey,
+                                                      size: 22,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
+                                        )
                                 ],
                               ),
                             ),

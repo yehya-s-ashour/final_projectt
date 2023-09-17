@@ -17,11 +17,7 @@ void deletShar() async {
 }
 
 void showOverlay(
-  BuildContext context,
-  String name,
-  String role,
-  String image,
-) {
+    BuildContext context, String name, String role, String? image) {
   OverlayState overlayState = Overlay.of(context);
   overlayEntry = OverlayEntry(builder: (context) {
     return Positioned(
@@ -62,10 +58,18 @@ void showOverlay(
                 ),
                 borderRadius: BorderRadius.circular(100),
               ),
-              child: CircleAvatar(
-                backgroundImage:
-                    NetworkImage("https://palmail.gsgtt.tech/storage/$image"),
-                radius: 60,
+              child: Container(
+                height: 120,
+                width: 120,
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                decoration:
+                    BoxDecoration(borderRadius: BorderRadius.circular(100)),
+                child: image != null
+                    ? Image.network(
+                        "https://palmail.gsgtt.tech/storage/$image",
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset('images/profile.jpg', fit: BoxFit.cover),
               ),
             ),
             Text(

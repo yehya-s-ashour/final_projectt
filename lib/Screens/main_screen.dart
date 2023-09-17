@@ -45,6 +45,8 @@ class _MainPageState extends State<MainPage> {
   MailsModel? singleMails;
   late Future<StatusesesModel> statuses;
   final _advancedDrawerController = AdvancedDrawerController();
+  bool isExpansionOpened = false;
+
   String? nullableValue = 'login';
   bool rtlOpening = false;
   bool positive = false;
@@ -298,19 +300,42 @@ class _MainPageState extends State<MainPage> {
                                                   dividerColor:
                                                       Colors.transparent),
                                               child: ExpansionTile(
-                                                trailing: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Text(
-                                                      '$numOfEmails',
-                                                      style: const TextStyle(
-                                                          color: Colors.grey,
-                                                          fontSize: 14),
-                                                    ),
-                                                    const Icon(
-                                                        Icons.expand_more)
-                                                  ],
+                                                // onExpansionChanged: (value) {
+                                                //   setState(() {
+                                                //     isExpansionOpened = value;
+                                                //   });
+                                                // },
+                                                trailing: SizedBox(
+                                                  width: 40,
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                        '$numOfEmails',
+                                                        style: const TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 17),
+                                                      ),
+                                                      Center(
+                                                        child: Icon(
+                                                          !isExpansionOpened
+                                                              ? Icons
+                                                                  .arrow_forward_ios_rounded
+                                                              : Icons
+                                                                  .keyboard_arrow_up_rounded,
+                                                          size:
+                                                              isExpansionOpened
+                                                                  ? 30
+                                                                  : 20,
+                                                          color:
+                                                              !isExpansionOpened
+                                                                  ? Colors.grey
+                                                                  : primaryColor,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                                 childrenPadding:
                                                     const EdgeInsetsDirectional
@@ -378,7 +403,6 @@ class _MainPageState extends State<MainPage> {
                                                           });
                                                         },
                                                       );
-                                                      setState(() {});
                                                     },
                                                   );
                                                 }).toList(),
@@ -521,25 +545,25 @@ class _MainPageState extends State<MainPage> {
                   builder: (BuildContext context) {
                     return const NewInboxBottomSheet();
                   },
-                ).whenComplete(
-                  () {
-                    setState(() {
-                      Provider.of<NewInboxProvider>(context, listen: false)
-                          .clearImages();
-                      Provider.of<NewInboxProvider>(context, listen: false)
-                          .senderName = '';
-                      Provider.of<NewInboxProvider>(context, listen: false)
-                          .senderMobile = '';
-                      Provider.of<NewInboxProvider>(context, listen: false)
-                          .activites = [];
-                      Provider.of<NewInboxProvider>(context, listen: false)
-                          .isDatePickerOpened = false;
-                      tags = getAllTags();
-                      mails = getMails();
-                    });
-                  },
                 );
-                setState(() {});
+                // ).whenComplete(
+                //   () {
+                //     setState(() {
+                //       Provider.of<NewInboxProvider>(context, listen: false)
+                //           .clearImages();
+                //       Provider.of<NewInboxProvider>(context, listen: false)
+                //           .senderName = '';
+                //       Provider.of<NewInboxProvider>(context, listen: false)
+                //           .senderMobile = '';
+                //       Provider.of<NewInboxProvider>(context, listen: false)
+                //           .activites = [];
+                //       Provider.of<NewInboxProvider>(context, listen: false)
+                //           .isDatePickerOpened = false;
+                //       // tags = getAllTags();
+                //       // mails = getMails();
+                //     });
+                //   },
+                // );
               },
               child: const Align(
                   alignment: Alignment.bottomCenter, child: MyFab()),

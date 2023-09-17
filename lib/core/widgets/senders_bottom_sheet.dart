@@ -141,17 +141,47 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                         searchTextField.text.isNotEmpty) {
                       return Center(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          // mainAxisAlignment: MainAxisAlignment.center,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context, searchTextField.text);
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin:
+                                        EdgeInsets.only(top: 10, bottom: 20),
+                                    width: MediaQuery.sizeOf(context).width,
+                                    height: 1,
+                                    color: Colors.grey.shade300,
+                                  ),
+                                  Text(
+                                    'Do you want create "${searchTextField.text}" as new sender?',
+                                    style: TextStyle(
+                                        color: primaryColor,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 20),
+                                    width: MediaQuery.sizeOf(context).width,
+                                    height: 1,
+                                    color: Colors.grey.shade300,
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 70,
+                            ),
                             Align(
                               alignment: Alignment.center,
                               child: Image.asset('images/result_not_found.png',
                                   fit: BoxFit.cover, height: 250),
                             ),
-                            SizedBox(
-                              height: 70,
-                            )
                           ],
                         ),
                       );
