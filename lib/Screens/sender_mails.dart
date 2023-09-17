@@ -44,7 +44,7 @@ class _SenderMailsState extends State<SenderMails> {
                   ),
                 ),
                 Text(
-                  'Senders',
+                  '${sender!.name} mails',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
