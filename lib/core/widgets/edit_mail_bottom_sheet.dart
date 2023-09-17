@@ -52,7 +52,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
       createdAt: '',
       updatedAt: '',
       mailsCount: '');
-
+  bool? completedStatusId;
   getUser() async {
     user = await UserController().getLocalUser();
   }
@@ -113,6 +113,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
   @override
   void initState() {
     intializeData();
+    completedStatusId = (widget.mail.statusId == '4');
 
     getUser();
     super.initState();
@@ -433,32 +434,34 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () async {
-                          final selectedStatus =
-                              await showModalBottomSheet<StatusMod>(
-                            clipBehavior: Clip.hardEdge,
-                            isScrollControlled: true,
-                            context: context,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(15.0),
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              return StatusesBottomSheet(
-                                status: StatusMod(
-                                  color: widget.mail.status!.color,
-                                  id: this.selectedStatus.id,
-                                  name: widget.mail.status!.name,
-                                ),
-                              );
-                            },
-                          ).then((value) {
-                            setState(() {
-                              this.selectedStatus = value!;
-                            });
-                          });
-                        },
+                        onTap: completedStatusId!
+                            ? null
+                            : () async {
+                                final selectedStatus =
+                                    await showModalBottomSheet<StatusMod>(
+                                  clipBehavior: Clip.hardEdge,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(15.0),
+                                    ),
+                                  ),
+                                  builder: (BuildContext context) {
+                                    return StatusesBottomSheet(
+                                      status: StatusMod(
+                                        color: widget.mail.status!.color,
+                                        id: this.selectedStatus.id,
+                                        name: widget.mail.status!.name,
+                                      ),
+                                    );
+                                  },
+                                ).then((value) {
+                                  setState(() {
+                                    this.selectedStatus = value!;
+                                  });
+                                });
+                              },
                         child: CustomWhiteBox(
                           width: 378,
                           height: 56,
@@ -561,7 +564,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                       .setArchiveNumber(value);
                                 },
                                 controller: decisionCont,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
+                                  enabled: completedStatusId! ? false : true,
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 40),
                                   border: InputBorder.none,
@@ -579,10 +583,13 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {
-                          Provider.of<NewInboxProvider>(context, listen: false)
-                              .getImagesFromGallery();
-                        },
+                        onTap: completedStatusId!
+                            ? null
+                            : () {
+                                Provider.of<NewInboxProvider>(context,
+                                        listen: false)
+                                    .getImagesFromGallery();
+                              },
                         child: AnimatedContainer(
                           height: Provider.of<NewInboxProvider>(context)
                                       .networkImagesFiles
@@ -902,47 +909,52 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           ),
                         ),
                       ),
-                      const ActivitesExpansionTile(),
-                      Padding(
-                        padding: const EdgeInsetsDirectional.only(
-                            start: 20.0, end: 20.0, bottom: 20, top: 15),
-                        child: TextField(
-                          controller: activityTextFieldController,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    Provider.of<NewInboxProvider>(context,
-                                            listen: false)
-                                        .addActivity(
-                                            activityTextFieldController.text,
-                                            user.user.id.toString());
-                                    activityTextFieldController.clear();
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.send,
-                                  color: primaryColor,
-                                )),
-                            //should be replaced with profie image
-                            prefixIcon: const Icon(Icons.person),
-                            filled: true,
-                            fillColor: Colors.black.withOpacity(0.05),
-                            contentPadding: const EdgeInsets.all(15),
-                            hintText: "Add new activity ...",
-                            hintStyle: const TextStyle(
-                                color: Colors.grey, fontSize: 17),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: backGroundColor),
-                              borderRadius: BorderRadius.circular(30),
+                      ActivitesExpansionTile(),
+                      completedStatusId!
+                          ? SizedBox.shrink()
+                          : Padding(
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: 20.0, end: 20.0, bottom: 20, top: 15),
+                              child: TextField(
+                                controller: activityTextFieldController,
+                                decoration: InputDecoration(
+                                  suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          Provider.of<NewInboxProvider>(context,
+                                                  listen: false)
+                                              .addActivity(
+                                                  activityTextFieldController
+                                                      .text,
+                                                  user.user.id.toString());
+                                          activityTextFieldController.clear();
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.send,
+                                        color: primaryColor,
+                                      )),
+                                  //should be replaced with profie image
+                                  prefixIcon: const Icon(Icons.person),
+                                  filled: true,
+                                  fillColor: Colors.black.withOpacity(0.05),
+                                  contentPadding: const EdgeInsets.all(15),
+                                  hintText: "Add new activity ...",
+                                  hintStyle: const TextStyle(
+                                      color: Colors.grey, fontSize: 17),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: backGroundColor),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                    borderSide:
+                                        BorderSide(color: backGroundColor),
+                                  ),
+                                ),
+                              ),
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              borderSide: BorderSide(color: backGroundColor),
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   )
                 ],
