@@ -1,10 +1,12 @@
 import 'package:final_projectt/Screens/drawer_screen.dart';
+import 'package:final_projectt/core/services/mail_controller.dart';
+import 'package:final_projectt/core/widgets/card.dart';
+import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
+import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'dart:async';
-import 'package:final_projectt/core/services/catego_controller.dart';
-import 'package:final_projectt/core/services/mail_controller.dart';
 import 'package:final_projectt/core/services/status_controller.dart';
 import 'package:final_projectt/models/catego_model.dart';
 import 'package:final_projectt/models/mail_model.dart';
@@ -17,12 +19,9 @@ import 'package:final_projectt/Screens/tags_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/helpers/api_response.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
-import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
-import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/new_inbox_button_sheet.dart';
 import 'package:final_projectt/core/widgets/my_overlay.dart';
-import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -36,8 +35,8 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late Future<List<CategoryElement>> categories;
-  late Future<MailsModel> mails;
+  // late Future<List<CategoryElement>> categories;
+  // late Future<MailsModel> mails;
   late Future<MailsModel> mailsOfSingleCatego;
   late Future<List<TagElement>> tags;
   List<CategoryElement>? categoData;
@@ -58,10 +57,16 @@ class _MainPageState extends State<MainPage> {
     hideOverlay();
   }
 
+  List<Map> categories = [
+    {'name': 'Others', 'id': 1},
+    {'name': 'Official Organiztions', 'id': 2},
+    {'name': 'NGOs', 'id': 3},
+    {'name': 'Foreign', 'id': 4}
+  ];
   @override
   void initState() {
-    categories = getCatego();
-    mails = getMails();
+    // categories = getCatego();
+    // mails = getMails();
     tags = getAllTags();
     statuses = StatusController().fetchStatuse();
     super.initState();
@@ -109,6 +114,9 @@ class _MainPageState extends State<MainPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -272,169 +280,119 @@ class _MainPageState extends State<MainPage> {
                     SizedBox(
                       height: deviceHeight * 0.02,
                     ),
-                    FutureBuilder(
-                        future: categories,
-                        builder: (context, AsyncSnapshot firstSnapshot) {
-                          if (firstSnapshot.hasData) {
-                            categoData = firstSnapshot.data;
-                            return Column(
-                              children: categoData!.map((e) {
-                                return FutureBuilder(
-                                    future: getMailsOfSingleCatego(e.id!),
-                                    builder: (context,
-                                        AsyncSnapshot secondSnapshot) {
-                                      if (secondSnapshot.hasError) {
-                                        return Text(
-                                            'Error: ${secondSnapshot.error}');
-                                      } else if (secondSnapshot.hasData) {
-                                        singleMails = secondSnapshot.data;
-                                        return Column(
-                                          children: categoData!.map((catego) {
-                                            String nameOfCatego = catego.name!;
-                                            int idOfCatego = catego.id!;
-                                            int numOfEmails =
-                                                singleMails!.mails!.length;
-                                            if (idOfCatego == e.id) {
-                                              return Theme(
-                                                data: Theme.of(context)
-                                                    .copyWith(
-                                                        dividerColor:
-                                                            Colors.transparent),
-                                                child: ExpansionTile(
-                                                  // onExpansionChanged: (value) {
-                                                  //   setState(() {
-                                                  //     isExpansionOpened = value;
-                                                  //   });
-                                                  // },
-                                                  trailing: SizedBox(
-                                                    width: 40,
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Text(
-                                                          '$numOfEmails',
-                                                          style:
-                                                              const TextStyle(
-                                                                  color: Colors
-                                                                      .grey,
-                                                                  fontSize: 14),
-                                                        ),
-                                                        Center(
-                                                          child: Icon(
-                                                            !isExpansionOpened
-                                                                ? Icons
-                                                                    .arrow_forward_ios_rounded
-                                                                : Icons
-                                                                    .keyboard_arrow_up_rounded,
-                                                            size:
-                                                                isExpansionOpened
-                                                                    ? 20
-                                                                    : 20,
-                                                            color: !isExpansionOpened
-                                                                ? Colors.grey
-                                                                : primaryColor,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  childrenPadding:
-                                                      const EdgeInsetsDirectional
-                                                              .only(
-                                                          top: 16, bottom: 16),
-                                                  textColor:
-                                                      const Color(0xff272727),
-                                                  tilePadding: const EdgeInsets
-                                                          .symmetric(
-                                                      horizontal: 16),
-                                                  initiallyExpanded: false,
-                                                  title: Text(
-                                                    nameOfCatego,
-                                                    style: const TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                  children: singleMails!.mails!
-                                                      .map((mail) {
-                                                    return myCustomCard(
-                                                      mail,
-                                                      () {
-                                                        showModalBottomSheet(
-                                                          clipBehavior:
-                                                              Clip.hardEdge,
-                                                          isScrollControlled:
-                                                              true,
-                                                          context: context,
-                                                          shape:
-                                                              const RoundedRectangleBorder(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .vertical(
-                                                            top:
-                                                                Radius.circular(
-                                                                    15.0),
-                                                          )),
-                                                          builder: (BuildContext
-                                                              context) {
-                                                            return EditMailBottomSheet(
-                                                              mail: mail,
-                                                            );
-                                                          },
-                                                        ).whenComplete(
-                                                          () {
-                                                            setState(() {
-                                                              Provider.of<NewInboxProvider>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .clearImages();
-
-                                                              Provider.of<NewInboxProvider>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .activites = [];
-
-                                                              tags =
-                                                                  getAllTags();
-                                                              Provider.of<NewInboxProvider>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .deletedImages = [];
-                                                            });
-                                                          },
-                                                        );
-                                                      },
-                                                    );
-                                                  }).toList(),
-                                                ),
-                                              );
-                                            }
-                                            return const SizedBox.shrink();
-                                          }).toList(),
-                                        );
-                                      } else {
-                                        return const CircularProgressIndicator();
-                                      }
-                                    });
-                              }).toList(),
-                            );
-                          }
-                          if (firstSnapshot.hasError) {
-                            return Text(firstSnapshot.error.toString());
-                          }
-                          return Center(
-                            child: CircularProgressIndicator(
-                              color: primaryColor,
-                            ),
-                          );
-                        }),
                     const SizedBox(
                       height: 12,
                     ),
+                    const Divider(),
+                    Column(
+                      children: categories.map((catego) {
+                        String nameOfCatego = catego['name'];
+                        int idOfCatego = catego['id'];
+                        return FutureBuilder(
+                            future: getMailsOfSingleCatego(idOfCatego),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else if (snapshot.hasData) {
+                                singleMails = snapshot.data;
+                                int numOfEmails = singleMails!.mails!.length;
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                      dividerColor: Colors.transparent),
+                                  child: ExpansionTile(
+                                    title: Text(
+                                      nameOfCatego,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          '$numOfEmails',
+                                          style: const TextStyle(
+                                              color: Colors.grey, fontSize: 14),
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Center(
+                                          child: Icon(
+                                            !isExpansionOpened
+                                                ? Icons
+                                                    .arrow_forward_ios_rounded
+                                                : Icons
+                                                    .keyboard_arrow_up_rounded,
+                                            size: isExpansionOpened ? 20 : 20,
+                                            color: !isExpansionOpened
+                                                ? Colors.grey
+                                                : primaryColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    childrenPadding:
+                                        const EdgeInsetsDirectional.only(
+                                            top: 16, bottom: 16),
+                                    textColor: const Color(0xff272727),
+                                    tilePadding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    initiallyExpanded: false,
+                                    children: singleMails!.mails!.map((mail) {
+                                      return myCustomCard(
+                                        mail,
+                                        () {
+                                          showModalBottomSheet(
+                                            clipBehavior: Clip.hardEdge,
+                                            isScrollControlled: true,
+                                            context: context,
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                              top: Radius.circular(15.0),
+                                            )),
+                                            builder: (BuildContext context) {
+                                              return EditMailBottomSheet(
+                                                mail: mail,
+                                              );
+                                            },
+                                          ).whenComplete(
+                                            () {
+                                              setState(() {
+                                                Provider.of<NewInboxProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .clearImages();
+
+                                                Provider.of<NewInboxProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .activites = [];
+
+                                                tags = getAllTags();
+                                                Provider.of<NewInboxProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .deletedImages = [];
+                                              });
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }).toList(),
+                                  ),
+                                );
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  color: primaryColor,
+                                ),
+                              );
+                            });
+                      }).toList(),
+                    ),
+                    const Divider(),
                     const Padding(
                       padding: EdgeInsets.all(16.0),
                       child: Text(
@@ -459,8 +417,8 @@ class _MainPageState extends State<MainPage> {
                                 ).then((value) {
                                   if (value == true) {
                                     setState(() {
-                                      categories = getCatego();
-                                      mails = getMails();
+                                      // categories = getCatego();
+                                      // mails = getMails();
                                       tags = getAllTags();
                                     });
                                   }
@@ -494,8 +452,8 @@ class _MainPageState extends State<MainPage> {
                                           ).then((value) {
                                             if (value == true) {
                                               setState(() {
-                                                categories = getCatego();
-                                                mails = getMails();
+                                                // categories = getCatego();
+                                                // mails = getMails();
                                                 tags = getAllTags();
                                               });
                                             }
