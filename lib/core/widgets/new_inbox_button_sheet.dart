@@ -32,8 +32,8 @@ class NewInboxBottomSheet extends StatefulWidget {
 }
 
 class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
-  TextEditingController senderNameCont = TextEditingController();
   TextEditingController senderMobileCont = TextEditingController();
+  TextEditingController senderNameCont = TextEditingController();
   TextEditingController mailTitleCont = TextEditingController();
   TextEditingController mailDescriptionCont = TextEditingController();
   TextEditingController archiveNumber = TextEditingController();
@@ -123,7 +123,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         // );
                         NewSender? newSender;
                         String? senderId;
-                        if (selectedSender == null) {
+                        if (selectedSender == null ||
+                            selectedSender is String) {
                           newSender = await createSender(
                             categoryId: selectedCategory.id?.toString(),
                             mobile: senderMobileCont.text,
@@ -135,7 +136,6 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         if (newSender == null) {
                           senderId = selectedSender!.id.toString();
                         }
-                        print(senderId);
                         final createMailResponse = await newInbox(
                           statusId: '${selectedStatus.id}',
                           decision: decisionCont.text,
@@ -206,66 +206,79 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  CustomTextField(
-                                    controller: senderNameCont,
-                                    validationMessage:
-                                        "Please enter a sender name",
-                                    onChanged: (value) {
-                                      setState(() {
-                                        issenderNameFilled = true;
-                                      });
-                                    },
-                                    hintText: "Sender",
-                                    hintTextColor: Colors.grey,
-                                    isPrefixIcon: true,
-                                    isSuffixIcon: true,
-                                    isUnderlinedBorderEnabled: true,
-                                    prefixIcon: const Icon(
-                                      Icons.person_3_outlined,
-                                      size: 23,
-                                    ),
-                                    suffixIcon: IconButton(
-                                      onPressed: () async {
-                                        selectedSender = null;
-                                        selectedSender =
-                                            await showModalBottomSheet(
-                                          clipBehavior: Clip.hardEdge,
-                                          isScrollControlled: true,
-                                          context: context,
-                                          shape: const RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(15.0),
-                                            ),
-                                          ),
-                                          builder: (BuildContext context) {
-                                            return const SendersBottomSheet();
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: CustomTextField(
+                                          controller: senderNameCont,
+                                          validationMessage:
+                                              "Please enter a sender name",
+                                          onChanged: (value) {
+                                            setState(() {
+                                              issenderNameFilled = true;
+                                            });
                                           },
-                                        );
-                                        if (selectedSender != null) {
-                                          if (selectedSender is String) {
-                                            setState(() {
-                                              issenderNameFilled = true;
-                                              senderNameCont.text =
-                                                  selectedSender;
-                                            });
-                                          } else if (selectedSender
-                                              is SingleSender) {
-                                            setState(() {
-                                              issenderNameFilled = true;
-                                              senderNameCont.text =
-                                                  selectedSender.name;
-                                              senderMobileCont.text =
-                                                  selectedSender.mobile;
-                                            });
-                                          }
-                                        }
-                                      },
-                                      icon: const Icon(
-                                        Icons.info_outline,
-                                        color: Color(0xff6589FF),
-                                        size: 27,
+                                          hintText: "Sender",
+                                          hintTextColor: Colors.grey,
+                                          isPrefixIcon: true,
+                                          isSuffixIcon: true,
+                                          isUnderlinedBorderEnabled: true,
+                                          prefixIcon: const Icon(
+                                            Icons.person_3_outlined,
+                                            size: 23,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsetsDirectional.only(
+                                                end: 8.0, bottom: 7),
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            selectedSender = null;
+                                            selectedSender =
+                                                await showModalBottomSheet(
+                                              clipBehavior: Clip.hardEdge,
+                                              isScrollControlled: true,
+                                              context: context,
+                                              shape:
+                                                  const RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                                  top: Radius.circular(15.0),
+                                                ),
+                                              ),
+                                              builder: (BuildContext context) {
+                                                return const SendersBottomSheet();
+                                              },
+                                            );
+                                            if (selectedSender != null) {
+                                              if (selectedSender is String) {
+                                                setState(() {
+                                                  issenderNameFilled = true;
+                                                  senderNameCont.text =
+                                                      selectedSender;
+                                                });
+                                              } else if (selectedSender
+                                                  is SingleSender) {
+                                                setState(() {
+                                                  issenderNameFilled = true;
+                                                  senderNameCont.text =
+                                                      selectedSender.name;
+                                                  senderMobileCont.text =
+                                                      selectedSender.mobile;
+                                                });
+                                              }
+                                            }
+                                          },
+                                          icon: const Icon(
+                                            Icons.info_outline,
+                                            color: Color(0xff6589FF),
+                                            size: 27,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   !issenderNameFilled!
                                       ? const SizedBox()
@@ -286,31 +299,38 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                   !issenderNameFilled!
                                       ? const SizedBox()
                                       : GestureDetector(
-                                          onTap: () async {
-                                            final selectedCategory =
-                                                await showModalBottomSheet<
-                                                    CategoryElement>(
-                                              clipBehavior: Clip.hardEdge,
-                                              isScrollControlled: true,
-                                              context: context,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.vertical(
-                                                  top: Radius.circular(15.0),
-                                                ),
-                                              ),
-                                              builder: (BuildContext context) {
-                                                return const categoriesBottomSheet();
-                                              },
-                                            );
-                                            setState(() {
-                                              if (selectedCategory != null) {
-                                                this.selectedCategory =
-                                                    selectedCategory;
-                                              }
-                                            });
-                                          },
+                                          onTap: selectedSender != null &&
+                                                  selectedSender.runtimeType ==
+                                                      SingleSender
+                                              ? null
+                                              : () async {
+                                                  final selectedCategory =
+                                                      await showModalBottomSheet<
+                                                          CategoryElement>(
+                                                    clipBehavior: Clip.hardEdge,
+                                                    isScrollControlled: true,
+                                                    context: context,
+                                                    shape:
+                                                        const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.vertical(
+                                                        top: Radius.circular(
+                                                            15.0),
+                                                      ),
+                                                    ),
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return const categoriesBottomSheet();
+                                                    },
+                                                  );
+                                                  setState(() {
+                                                    if (selectedCategory !=
+                                                        null) {
+                                                      this.selectedCategory =
+                                                          selectedCategory;
+                                                    }
+                                                  });
+                                                },
                                           child: Padding(
                                             padding: const EdgeInsetsDirectional
                                                 .only(

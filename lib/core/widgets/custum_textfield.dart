@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 Padding CustomTextField(
     {required String validationMessage,
-    required TextEditingController controller,
+    TextEditingController? controller,
     required String hintText,
     required Color hintTextColor,
     required bool isPrefixIcon,
     required bool isSuffixIcon,
+    bool? isEnabled,
     required bool isUnderlinedBorderEnabled,
     Widget? prefixIcon,
     Widget? suffixIcon,
@@ -39,6 +40,7 @@ Padding CustomTextField(
             fontSize: 19,
             fontWeight: FontWeight.w500,
           ),
+          enabled: isEnabled ?? true,
           enabledBorder: isUnderlinedBorderEnabled
               ? UnderlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey.shade300))

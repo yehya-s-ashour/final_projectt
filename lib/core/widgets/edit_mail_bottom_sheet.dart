@@ -230,8 +230,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                 child: Column(
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      // mainAxisAlignment:
+                                      //     MainAxisAlignment.spaceBetween,
                                       children: [
                                         Column(
                                           crossAxisAlignment:
@@ -268,6 +268,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                             )
                                           ],
                                         ),
+                                        Spacer(),
                                         Container(
                                           margin:
                                               const EdgeInsetsDirectional.only(
@@ -276,35 +277,40 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                           height: 50,
                                           color: Colors.grey.shade300,
                                         ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                          .only(
-                                                      top: 10, bottom: 10),
-                                              child: Text(
-                                                '$today $month $year',
-                                                style: const TextStyle(
-                                                  fontSize: 14,
+                                        Spacer(),
+                                        SizedBox(
+                                          width: 150,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                            .only(
+                                                        top: 10, bottom: 10),
+                                                child: Text(
+                                                  '$today $month $year',
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: 100,
-                                              child: Text(
-                                                'Archive Number: ${widget.mail.archiveNumber}',
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: const TextStyle(
-                                                    fontSize: 14),
-                                              ),
-                                            )
-                                          ],
+                                              SizedBox(
+                                                width: 150,
+                                                child: Text(
+                                                  'Archive Number: ${widget.mail.archiveNumber}',
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  style: const TextStyle(
+                                                      fontSize: 14),
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
