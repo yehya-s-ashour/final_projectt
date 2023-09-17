@@ -4,7 +4,9 @@ import 'package:final_projectt/core/services/profile_controller.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
+import 'package:final_projectt/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -70,6 +72,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         pickedFile = null;
                       });
                     }
+                    Provider.of<UserProvider>(context, listen: false)
+                        .getUserData();
                   }).catchError((err) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(err.toString()),
@@ -98,6 +102,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           pickedFile = null;
                         });
                       }
+                      Provider.of<UserProvider>(context, listen: false)
+                          .getUserData();
                     });
                   }).catchError((err) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -157,7 +163,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Container(
                     width: 200,
-                    margin: const EdgeInsets.only(top: 140, left: 20),
+                    margin: const EdgeInsets.only(top: 115, left: 10),
                     child: Stack(
                       children: [
                         RichText(

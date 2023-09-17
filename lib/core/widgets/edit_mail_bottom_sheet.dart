@@ -916,51 +916,46 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         ),
                       ),
                       ActivitesExpansionTile(),
-                      completedStatusId!
-                          ? SizedBox.shrink()
-                          : Padding(
-                              padding: const EdgeInsetsDirectional.only(
-                                  start: 20.0, end: 20.0, bottom: 20, top: 15),
-                              child: TextField(
-                                controller: activityTextFieldController,
-                                decoration: InputDecoration(
-                                  suffixIcon: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          Provider.of<NewInboxProvider>(context,
-                                                  listen: false)
-                                              .addActivity(
-                                                  activityTextFieldController
-                                                      .text,
-                                                  user.user.id.toString());
-                                          activityTextFieldController.clear();
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.send,
-                                        color: primaryColor,
-                                      )),
-                                  //should be replaced with profie image
-                                  prefixIcon: const Icon(Icons.person),
-                                  filled: true,
-                                  fillColor: Colors.black.withOpacity(0.05),
-                                  contentPadding: const EdgeInsets.all(15),
-                                  hintText: "Add new activity ...",
-                                  hintStyle: const TextStyle(
-                                      color: Colors.grey, fontSize: 17),
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: backGroundColor),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    borderSide:
-                                        BorderSide(color: backGroundColor),
-                                  ),
-                                ),
-                              ),
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(
+                            start: 20.0, end: 20.0, bottom: 20, top: 5),
+                        child: TextField(
+                          controller: activityTextFieldController,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    Provider.of<NewInboxProvider>(context,
+                                            listen: false)
+                                        .addActivity(
+                                            activityTextFieldController.text,
+                                            user.user.id.toString());
+                                    activityTextFieldController.clear();
+                                  });
+                                },
+                                icon: Icon(
+                                  Icons.send,
+                                  color: primaryColor,
+                                )),
+                            //should be replaced with profie image
+                            prefixIcon: const Icon(Icons.person),
+                            filled: true,
+                            fillColor: Colors.black.withOpacity(0.05),
+                            contentPadding: const EdgeInsets.all(15),
+                            hintText: "Add new activity ...",
+                            hintStyle: const TextStyle(
+                                color: Colors.grey, fontSize: 17),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: backGroundColor),
+                              borderRadius: BorderRadius.circular(30),
                             ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(color: backGroundColor),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   )
                 ],
