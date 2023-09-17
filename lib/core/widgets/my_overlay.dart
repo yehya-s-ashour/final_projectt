@@ -5,10 +5,12 @@ import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-late OverlayEntry overlayEntry;
+OverlayEntry? overlayEntry;
 
 void hideOverlay() {
-  overlayEntry.remove();
+  if (overlayEntry != null) {
+    overlayEntry!.remove();
+  }
 }
 
 void deletShar() async {
@@ -154,5 +156,5 @@ void showOverlay(
     );
   });
 
-  overlayState.insert(overlayEntry);
+  overlayState.insert(overlayEntry!);
 }
