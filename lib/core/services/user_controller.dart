@@ -8,8 +8,8 @@ import 'package:http/http.dart' as http;
 
 class UserController {
   Future<UserModel> getLocalUser() async {
-    SharedPrefsController _prefs = SharedPrefsController();
-    bool hasKey = await _prefs.containsKey('user');
+    SharedPrefsController prefs = SharedPrefsController();
+    bool hasKey = await prefs.containsKey('user');
 
     if (hasKey) {
       dynamic userData = await prefs.getData('user');

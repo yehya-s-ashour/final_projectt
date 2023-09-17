@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/catego_controller.dart';
 import 'package:final_projectt/core/services/status_controller.dart';
@@ -45,7 +46,7 @@ class _StatusScreenState extends State<StatusScreen> {
         elevation: 0,
         backgroundColor: const Color(0xffF7F6FF),
         title: Text(
-          widget.nameOfStatus,
+          "${widget.nameOfStatus}".tr(),
           style: const TextStyle(fontSize: 20, color: Colors.black),
         ),
         centerTitle: true,
@@ -104,7 +105,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                                     horizontal: 16),
                                             initiallyExpanded: true,
                                             title: Text(
-                                              nameOfCatego,
+                                              nameOfCatego.tr(),
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.bold),
@@ -117,7 +118,6 @@ class _StatusScreenState extends State<StatusScreen> {
                                                     e.id.toString())
                                                 .map((mail) {
                                               return myCustomCard(mail, () {});
-                                              
                                             }).toList()),
                                       );
                                     }

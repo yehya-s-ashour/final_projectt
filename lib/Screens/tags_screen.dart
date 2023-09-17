@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/tags_controller.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
@@ -58,9 +59,9 @@ class _TagsScreenState extends State<TagsScreen> {
                 : primaryColor,
             borderRadius: BorderRadius.circular(30),
           ),
-          child: const Text(
-            'All Tags',
-            style: TextStyle(
+          child: Text(
+            'All Tags'.tr(),
+            style: const TextStyle(
               fontSize: 14,
               color: Colors.black,
             ),
@@ -105,9 +106,9 @@ class _TagsScreenState extends State<TagsScreen> {
     return Scaffold(
       backgroundColor: backGroundColor,
       appBar: AppBar(
-        title: const Text(
-          'Tags',
-          style: TextStyle(
+        title: Text(
+          'Tags'.tr(),
+          style: const TextStyle(
               color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,

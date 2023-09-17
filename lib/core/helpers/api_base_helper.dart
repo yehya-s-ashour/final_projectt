@@ -41,14 +41,14 @@ class ApiBaseHelper {
     return responseJson;
   }
 
-  Future<dynamic> put(String url, Map<String, dynamic> body,
-      [Map<String, String>? header]) async {
+  Future<dynamic> put(
+      {required String url,
+      required Map<String, dynamic> body,
+      required Map<String, String>? header}) async {
     var responseJson;
     try {
-      final response = await http.put(
-        Uri.parse(baseUrl + url),
-        body: body,
-      );
+      final response =
+          await http.put(Uri.parse(baseUrl + url), body: body, headers: header);
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');

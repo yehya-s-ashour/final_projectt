@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 
@@ -70,15 +71,15 @@ class _SendersScreenState extends State<SendersScreen> {
                 ),
               ),
               Text(
-                'Senders',
-                style: TextStyle(
+                "Senders".tr(),
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 20,
                 ),
               ),
               IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_ios_new_rounded,
                   color: Colors.transparent,
                 ),
@@ -86,7 +87,7 @@ class _SendersScreenState extends State<SendersScreen> {
             ],
           ),
           Padding(
-            padding: EdgeInsetsDirectional.only(start: 10, end: 10),
+            padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -99,19 +100,19 @@ class _SendersScreenState extends State<SendersScreen> {
                       searchSenders(value);
                     },
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search_rounded),
+                      prefixIcon: const Icon(Icons.search_rounded),
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
                             searchTextField.clear();
                           });
                         },
-                        icon: Icon(Icons.cancel),
+                        icon: const Icon(Icons.cancel),
                       ),
                       filled: true,
                       fillColor: Colors.black.withOpacity(0.05),
-                      contentPadding: EdgeInsets.all(15),
-                      hintText: "Search ...",
+                      contentPadding: const EdgeInsets.all(15),
+                      hintText: "Search ...".tr(),
                       hintStyle:
                           const TextStyle(color: Colors.grey, fontSize: 19),
                       enabledBorder: UnderlineInputBorder(

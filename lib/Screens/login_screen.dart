@@ -30,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailOrUserNameController = TextEditingController();
   TextEditingController passController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow

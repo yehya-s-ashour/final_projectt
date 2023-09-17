@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/search_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -47,9 +48,9 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       backgroundColor: const Color(0xffF7F6FF),
       appBar: AppBar(
-        title: const Text(
-          "Search",
-          style: TextStyle(color: Colors.black),
+        title: Text(
+          "Search".tr(),
+          style: const TextStyle(color: Colors.black),
         ),
         backgroundColor: const Color(0xffF7F6FF),
         elevation: 0,
@@ -74,13 +75,12 @@ class _SearchScreenState extends State<SearchScreen> {
               child: TextField(
                 onChanged: (value) {
                   searchData = MySearchController().fetchSearchData(value,
-                      // end: widget.endDate != null
-                      //     ? widget.endDate.toString()
-                      //     : "",
-                      // start: widget.startDate != null
-                      //     ? widget.startDate.toString()
-                      //     : "",
-
+                      end: widget.endDate != null
+                          ? widget.endDate.toString()
+                          : "",
+                      start: widget.startDate != null
+                          ? widget.startDate.toString()
+                          : "",
                       status_id: widget.statuId != null
                           ? widget.statuId.toString()
                           : "");
@@ -111,7 +111,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         )),
                   ),
                   fillColor: const Color(0xffE6E6E6),
-                  hintText: "Search",
+                  hintText: "Search".tr(),
                   hintStyle: const TextStyle(
                     color: Colors.grey,
                   ),

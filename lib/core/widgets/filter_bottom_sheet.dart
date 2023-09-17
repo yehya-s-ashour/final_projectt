@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/search_screen.dart';
 import 'package:final_projectt/core/services/status_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -31,7 +32,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       height: MediaQuery.of(context).size.height * 0.95,
       color: const Color(0xffF7F6FF),
       child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,8 +41,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton(
-                  child: const Text("Cancel",
-                      style: TextStyle(color: Color(0xff6589FF), fontSize: 18)),
+                  child: Text("Cancel".tr(),
+                      style: const TextStyle(
+                          color: Color(0xff6589FF), fontSize: 18)),
                   onPressed: () {
                     Navigator.pushReplacement(
                         context,
@@ -49,11 +51,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                             builder: (context) => const SearchScreen()));
                   },
                 ),
-                const Text("Filter",
-                    style: TextStyle(color: Color(0xff272727), fontSize: 18)),
+                Text("Filter".tr(),
+                    style: const TextStyle(
+                        color: Color(0xff272727), fontSize: 18)),
                 TextButton(
-                  child: const Text("Done",
-                      style: TextStyle(color: Color(0xff6589FF), fontSize: 18)),
+                  child: Text("Done".tr(),
+                      style: const TextStyle(
+                          color: Color(0xff6589FF), fontSize: 18)),
                   onPressed: () {
                     Navigator.pushReplacement(
                         context,
@@ -76,9 +80,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                       selectedIndexStatus = null;
                     });
                   },
-                  child: const Text("clear",
-                      style:
-                          TextStyle(color: Color(0xff6589FF), fontSize: 18))),
+                  child: Text("Clear".tr(),
+                      style: const TextStyle(
+                          color: Color(0xff6589FF), fontSize: 18))),
             ),
             FutureBuilder(
               future: statuses,
@@ -124,7 +128,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         ),
                                       ),
                                       Text(
-                                        snapshot.data!.statuses![index].name!,
+                                        "${snapshot.data!.statuses![index].name!}"
+                                            .tr(),
                                         style: const TextStyle(fontSize: 20),
                                       ),
                                       const Spacer(),
@@ -170,7 +175,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               },
             ),
             CustomExpansion(
-              titleOfDate: " Start Data",
+              titleOfDate: "Start Data".tr(),
               children: <Widget>[
                 CalendarDatePicker(
                   initialDate: DateTime(2023, 1, 1),
@@ -185,7 +190,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ],
             ),
             CustomExpansion(
-              titleOfDate: " End Data",
+              titleOfDate: "End Data".tr(),
               children: <Widget>[
                 CalendarDatePicker(
                   initialDate: DateTime.now(),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
@@ -48,7 +49,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                 ),
                 Center(
                   child: Text(
-                    'Tags',
+                    'Tags'.tr(),
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 23,
@@ -169,7 +170,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                 ),
                 fillColor: boxColor,
                 contentPadding: EdgeInsetsDirectional.only(start: 15, top: 15),
-                hintText: "Add new tag ...",
+                hintText: "Add new tag ...".tr(),
                 hintStyle: const TextStyle(color: Colors.grey, fontSize: 19),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey.shade300),

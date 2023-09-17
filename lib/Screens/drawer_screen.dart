@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/profile_page.dart';
 import 'package:final_projectt/Screens/sender_screen.dart';
+import 'package:final_projectt/Screens/user_management_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../core/util/constants/colors.dart';
@@ -72,12 +73,18 @@ class _DrawerScreenState extends State<DrawerScreen> {
                                       return ProfileScreen();
                                     },
                                   ));
+                                case "User Management":
+                                  Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) {
+                                      return const UserManagementScreen();
+                                    },
+                                  ));
 
                                   break;
                               }
                             },
                             child: Text(
-                              "${e['title']} ".tr(),
+                              "${e['title']}".tr(),
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -96,7 +103,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 TextButton(
                   onPressed: () {},
                   child: Text(
-                    'terms of service'.tr(),
+                    'Terms Of Service'.tr(),
                     style: const TextStyle(
                         color: Color.fromARGB(255, 179, 178, 178),
                         fontSize: 13),
@@ -110,7 +117,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                 TextButton(
                   onPressed: () {},
                   child: Text(
-                    'usagepolicy'.tr(),
+                    'Usage Policy'.tr(),
                     style: const TextStyle(
                         color: Color.fromARGB(255, 179, 178, 178),
                         fontSize: 13),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -38,9 +39,10 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Edit Profile",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        title: Text(
+          "Edit Profile".tr(),
+          style:
+              const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         backgroundColor: backGroundColor,
@@ -119,7 +121,7 @@ class _EditProfileState extends State<EditProfile> {
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 12, vertical: 12),
-                      labelText: 'Name:',
+                      labelText: 'Name:'.tr(),
                       labelStyle: TextStyle(color: primaryColor),
                       border: Styles.primaryUnderlineInputBorder,
                       focusedBorder: Styles.primaryUnderlineInputBorder,
@@ -148,7 +150,7 @@ class _EditProfileState extends State<EditProfile> {
                         ));
                       });
                     },
-                    text: 'UPDATE PROFILE',
+                    text: 'UPDATE PROFILE'.tr(),
                     width: 200,
                   ),
                 ],

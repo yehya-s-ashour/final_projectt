@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
@@ -76,7 +77,7 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
           tilePadding: EdgeInsets.symmetric(horizontal: 30),
           initiallyExpanded: false,
           title: Text(
-            'Activity',
+            'Activity'.tr(),
             style: TextStyle(
               fontSize: 20,
             ),

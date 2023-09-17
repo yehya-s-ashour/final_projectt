@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -82,7 +83,7 @@ class _CustomExpansionState extends State<CustomExpansion> {
                                   fontSize: 19),
                             ),
                             Text(
-                              'sellect your date',
+                              'Sellect Your Date'.tr(),
                               //  '$todayName, $month $today, $year',
                               style: TextStyle(
                                   color: primaryColor,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/status_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
@@ -55,7 +56,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
                   ),
                 ),
                 Text(
-                  'Status',
+                  'Status'.tr(),
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 20,
@@ -92,7 +93,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Add status',
+                                    'Add status'.tr(),
                                     style: TextStyle(
                                       color: primaryColor,
                                       fontSize: 18,
@@ -144,7 +145,8 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
                                           ),
                                         ),
                                         Text(
-                                          snapshot.data!.statuses![index].name!,
+                                          snapshot.data!.statuses![index].name!
+                                              .tr(),
                                           style: TextStyle(fontSize: 20),
                                         ),
                                         Spacer(),

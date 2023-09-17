@@ -35,6 +35,8 @@ import 'package:provider/provider.dart';
 import '../core/services/tags_controller.dart';
 import '../core/widgets/my_fab.dart';
 
+const Duration _kExpand = Duration(milliseconds: 200);
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({
     super.key,
@@ -68,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
     mails = getMails();
     tags = getAllTags();
     statuses = StatusController().fetchStatuse();
+
     super.initState();
   }
 
@@ -189,9 +192,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 showOverlay(
                                     context,
-                                    userProvidor.data.data!.user.name,
-                                    userProvidor.data.data!.user.role!.name,
-                                    userProvidor.data.data!.user.image);
+                                    userProvidor.data.data!.user.name!,
+                                    userProvidor.data.data!.user.role!.name!,
+                                    userProvidor.data.data!.user.image!);
                               },
                               child: CircleAvatar(
                                   backgroundImage: userProvidor
@@ -201,8 +204,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                           "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}")
                                       : const NetworkImage(
                                           'https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg')),
-                                    
-                              
                             );
                           }
                           return const Text("  no data from user provider ");
@@ -336,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ),
                                                 childrenPadding:
                                                     const EdgeInsetsDirectional
-                                                            .only(
+                                                        .only(
                                                         top: 16, bottom: 16),
                                                 textColor:
                                                     const Color(0xff272727),
@@ -345,7 +346,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         horizontal: 16),
                                                 initiallyExpanded: false,
                                                 title: Text(
-                                                  nameOfCatego,
+                                                  "$nameOfCatego".tr(),
                                                   style: const TextStyle(
                                                       fontSize: 18,
                                                       fontWeight:
@@ -356,7 +357,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   return myCustomCard(
                                                     mail,
                                                     () {
-                                                      print(mail.id);
+                                                      print(mail.status);
                                                       showModalBottomSheet(
                                                         clipBehavior:
                                                             Clip.hardEdge,
@@ -385,19 +386,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                     listen:
                                                                         false)
                                                                 .clearImages();
-
+                                                            Provider.of<NewInboxProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .senderName = '';
+                                                            Provider.of<NewInboxProvider>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .senderMobile = '';
                                                             Provider.of<NewInboxProvider>(
                                                                     context,
                                                                     listen:
                                                                         false)
                                                                 .activites = [];
-
-                                                            tags = getAllTags();
                                                             Provider.of<NewInboxProvider>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .deletedImages = [];
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .isDatePickerOpened =
+                                                                false;
+                                                            tags = getAllTags();
                                                             xoffset = 0;
                                                             yoffset = 0;
                                                             scalefactor = 1;
@@ -439,12 +449,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SizedBox(
                     height: 12,
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(16.0),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      "Tags",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      "Tags".tr(),
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                   FutureBuilder(
@@ -472,10 +482,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             child: CustomWhiteBox(
                               width: devicewidth * 0.9,
-                              height: (snapshot.data!.length / 2).round() * 46,
+                              height: (snapshot.data!.length / 2).round() * 40,
                               child: Padding(
                                 padding: const EdgeInsetsDirectional.only(
-                                    start: 8.0, top: 8),
+                                    start: 15.0, top: 15),
                                 child: Wrap(
                                   spacing: 10.0,
                                   runSpacing: 10.0,

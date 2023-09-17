@@ -55,7 +55,7 @@ class _MyFabState extends State<MyFab> {
             width: 8,
           ),
           Text(
-            "newinbox".tr(),
+            "New Inbox".tr(),
             style: const TextStyle(
                 color: Color(0xff6589FF),
                 fontSize: 20,
