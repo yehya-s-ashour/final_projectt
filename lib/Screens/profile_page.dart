@@ -4,10 +4,14 @@ import 'package:final_projectt/core/services/profile_controller.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
+import 'package:final_projectt/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -70,6 +74,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         pickedFile = null;
                       });
                     }
+                    Provider.of<UserProvider>(context, listen: false)
+                        .getUserData();
                   }).catchError((err) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content: Text(err.toString()),
@@ -98,6 +104,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           pickedFile = null;
                         });
                       }
+                      Provider.of<UserProvider>(context, listen: false)
+                          .getUserData();
                     });
                   }).catchError((err) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -174,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                         ),
-                        Positioned(
+                        const Positioned(
                           left: 40, // Adjust the left offset as needed
                           top: 72, // Adjust the top offset as needed
                           child: Text(
@@ -267,47 +275,55 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   }
                   if (snapshot.hasData) {
                     return Container(
-                      margin: const EdgeInsets.only(top: 400),
+                      margin: const EdgeInsets.only(top: 400, left: 30),
                       child: Column(children: [
                         Row(
                           children: [
                             Expanded(
                               child: ListTile(
                                 leading: const CircleAvatar(
-                                  radius: 50,
+                                  radius: 30,
                                   child: Icon(Icons.person),
                                 ),
-                                title: Padding(
-                                  padding: const EdgeInsetsDirectional.only(
-                                      top: 20.0),
-                                  child: const Text(
-                                    'Name:',
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 20),
-                                  ),
+                                title: const Text(
+                                  'Name:',
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 134, 134, 134),
+                                      fontSize: 16),
                                 ),
-                                subtitle: TextField(
-                                  controller: nameTextFieldCont,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      name = value;
-                                    });
-                                  },
-                                  enabled: isEditable,
-                                  decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.only(bottom: 20),
-                                    hintText: name ?? snapshot.data!.user.name,
-                                    hintStyle: const TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 20,
-                                    ),
-                                    border: InputBorder.none,
-                                  ),
-                                ),
+                                subtitle: isEditable
+                                    ? TextField(
+                                        controller: nameTextFieldCont,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            name = value;
+                                          });
+                                        },
+                                        enabled: isEditable,
+                                        decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.only(bottom: 20),
+                                          hintText:
+                                              name ?? snapshot.data!.user.name,
+                                          hintStyle: const TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 20,
+                                          ),
+                                          border: InputBorder.none,
+                                        ),
+                                      )
+                                    : Text(
+                                        nameTextFieldCont.text,
+                                        style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black),
+                                      ),
                               ),
                             ),
                             IconButton(
-                              padding: EdgeInsets.only(right: 45, bottom: 20),
+                              padding:
+                                  const EdgeInsets.only(right: 45, bottom: 0),
                               onPressed: () {
                                 setState(() {
                                   isEditable = !isEditable;
@@ -316,13 +332,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               icon: Icon(
                                 Icons.edit,
                                 color: primaryColor,
+                                size: 18,
                               ),
                             ),
                           ],
                         ),
                         ListTile(
                           leading: const CircleAvatar(
-                            radius: 50,
+                            radius: 30,
                             child: Icon(Icons.email),
                           ),
                           title: const Text(
@@ -340,7 +357,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         ListTile(
                           leading: const CircleAvatar(
-                            radius: 50,
+                            radius: 30,
                             child: Icon(
                               Icons.account_box,
                             ),
