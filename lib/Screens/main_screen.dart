@@ -1,3 +1,4 @@
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:final_projectt/Screens/drawer_screen.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:flutter/material.dart';
@@ -46,12 +47,19 @@ class _MainPageState extends State<MainPage> {
   final _advancedDrawerController = AdvancedDrawerController();
   bool isExpansionOpened = false;
 
+  String? nullableValue = 'login';
   bool rtlOpening = false;
+  bool positive = false;
+  
   void _handleMenuButtonPressed() {
     // NOTICE: Manage Advanced Drawer state through the Controller.
     // _advancedDrawerController.value = AdvancedDrawerValue.visible();
+
     _advancedDrawerController.showDrawer();
+    hideOverlay();
   }
+
+ 
 
   @override
   void initState() {
@@ -103,9 +111,6 @@ class _MainPageState extends State<MainPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
@@ -424,6 +429,7 @@ class _MainPageState extends State<MainPage> {
                   const SizedBox(
                     height: 12,
                   ),
+                    
                   const Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Text(

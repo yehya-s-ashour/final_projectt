@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
@@ -10,7 +11,6 @@ import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  String? nullableValue = 'Login';
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -103,6 +103,15 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  Widget rollingIconBuilder(String? value, bool isActive) {
+    return Text(
+      value!,
+      style: isActive
+          ? const TextStyle(fontSize: 16, color: Colors.white)
+          : TextStyle(fontSize: 16, color: primaryColor),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,71 +178,99 @@ class _LoginScreenState extends State<LoginScreen> {
                         //     });
                         //   },
                         // ),
-                        Container(
+                        // Container(
+                        //   height: 40,
+                        //   width: 200,
+                        //   decoration: BoxDecoration(
+                        //     border: Border.all(color: Colors.grey.shade300),
+                        //     borderRadius: BorderRadius.circular(22),
+                        //   ),
+                        //   child: Row(
+                        //     children: [
+                        //       GestureDetector(
+                        //         onTap: () {
+                        //           setState(() {
+                        //             initialLabelIndex = 0;
+                        //           });
+                        //         },
+                        //         child: Container(
+                        //           height: 45,
+                        //           width: 99,
+                        //           decoration: BoxDecoration(
+                        //             color: initialLabelIndex == 0
+                        //                 ? primaryColor
+                        //                 : Colors.white,
+                        //             borderRadius: BorderRadius.circular(22),
+                        //           ),
+                        //           child: Center(
+                        //             child: Text(
+                        //               'login'.tr(),
+                        //               style: TextStyle(
+                        //                   color: initialLabelIndex == 0
+                        //                       ? Colors.white
+                        //                       : primaryColor,
+                        //                   fontSize: 16),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       GestureDetector(
+                        //         onTap: () {
+                        //           setState(() {
+                        //             initialLabelIndex = 1;
+                        //           });
+                        //         },
+                        //         child: Container(
+                        //           height: 45,
+                        //           width: 99,
+                        //           decoration: BoxDecoration(
+                        //             color: initialLabelIndex == 1
+                        //                 ? primaryColor
+                        //                 : Colors.white,
+                        //             borderRadius: BorderRadius.circular(22),
+                        //           ),
+                        //           child: Center(
+                        //             child: Text(
+                        //               'signup'.tr(),
+                        //               style: TextStyle(
+                        //                   color: initialLabelIndex == 1
+                        //                       ? Colors.white
+                        //                       : primaryColor,
+                        //                   fontSize: 16),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+                        AnimatedToggleSwitch<String?>.rolling(
+                          indicatorSize: const Size.fromWidth(100),
                           height: 40,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey.shade300),
-                            borderRadius: BorderRadius.circular(22),
-                          ),
-                          child: Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    initialLabelIndex = 0;
-                                  });
-                                },
-                                child: Container(
-                                  height: 45,
-                                  width: 99,
-                                  decoration: BoxDecoration(
-                                    color: initialLabelIndex == 0
-                                        ? primaryColor
-                                        : Colors.white,
-                                    borderRadius: BorderRadius.circular(22),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'login'.tr(),
-                                      style: TextStyle(
-                                          color: initialLabelIndex == 0
-                                              ? Colors.white
-                                              : primaryColor,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    initialLabelIndex = 1;
-                                  });
-                                },
-                                child: Container(
-                                  height: 45,
-                                  width: 99,
-                                  decoration: BoxDecoration(
-                                    color: initialLabelIndex == 1
-                                        ? primaryColor
-                                        : Colors.white,
-                                    borderRadius: BorderRadius.circular(22),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      'signup'.tr(),
-                                      style: TextStyle(
-                                          color: initialLabelIndex == 1
-                                              ? Colors.white
-                                              : primaryColor,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                          borderWidth: 0.9,
+                          allowUnlistedValues: true,
+                          styleAnimationType: AnimationType.onHover,
+                          current: nullableValue,
+                          values: const ['Login', 'Sign up'],
+                          onChanged: (value) {
+                            setState(() {
+                              print(value);
+                              nullableValue = value;
+                              if (value.toString() == 'Login') {
+                                initialLabelIndex = 0;
+                              } else if (value.toString() == 'Sign up') {
+                                initialLabelIndex = 1;
+                              }
+                              print(initialLabelIndex);
+                            });
+                          },
+                          iconBuilder: rollingIconBuilder,
+                          customStyleBuilder: (context, local, global) {
+                            return ToggleStyle(
+                              borderColor: primaryColor,
+                              indicatorColor: primaryColor,
+                            );
+                          },
                         ),
                         const SizedBox(height: 30),
                         Form(
@@ -398,7 +435,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 14,
                               ),
                               const Text(
-                                'OR',
+                                '----------- OR -----------',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.grey,
