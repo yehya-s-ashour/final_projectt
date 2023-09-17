@@ -254,14 +254,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           values: const ['Login', 'Sign up'],
                           onChanged: (value) {
                             setState(() {
-                              print(value);
                               nullableValue = value;
                               if (value.toString() == 'Login') {
                                 initialLabelIndex = 0;
                               } else if (value.toString() == 'Sign up') {
                                 initialLabelIndex = 1;
                               }
-                              print(initialLabelIndex);
                             });
                           },
                           iconBuilder: rollingIconBuilder,
