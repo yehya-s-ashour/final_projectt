@@ -6,6 +6,7 @@ import 'package:final_projectt/core/services/status_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
+import 'package:final_projectt/core/widgets/my_expansion_tile.dart';
 import 'package:final_projectt/models/catego_model.dart';
 
 import 'package:final_projectt/models/status_single.dart';
@@ -49,7 +50,7 @@ class _StatusScreenState extends State<StatusScreen> {
         elevation: 0,
         backgroundColor: const Color(0xffF7F6FF),
         title: Text(
-          "${widget.nameOfStatus}".tr(),
+          widget.nameOfStatus.tr(),
           style: const TextStyle(fontSize: 20, color: Colors.black),
         ),
         centerTitle: true,
@@ -87,18 +88,24 @@ class _StatusScreenState extends State<StatusScreen> {
                                 return Text('Error: ${secondSnapshot.error}');
                               } else {
                                 statusSingledata = secondSnapshot.data;
+
                                 return Column(
                                   children: categoData!.map((catego) {
                                     String nameOfCatego = catego.name!;
                                     int idOfCatego = catego.id!;
+
                                     if (idOfCatego == e.id) {
+                                      int numOfMails = statusSingledata!
+                                          .status!.mails!
+                                          .where((element) =>
+                                              element.sender?.categoryId ==
+                                              e.id.toString())
+                                          .length;
                                       return Theme(
                                         data: Theme.of(context).copyWith(
                                             dividerColor: Colors.transparent),
-                                        child: ExpansionTile(
-                                            onExpansionChanged: (value) {},
-                                            trailing:
-                                                Icon(Icons.arrow_back_ios),
+                                        child: MYExpansionTile(
+                                            numOfMails: numOfMails,
                                             childrenPadding:
                                                 const EdgeInsetsDirectional
                                                     .only(top: 16, bottom: 16),
@@ -106,7 +113,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                             tilePadding:
                                                 const EdgeInsets.symmetric(
                                                     horizontal: 16),
-                                            initiallyExpanded: true,
+                                            initiallyExpanded: false,
                                             title: Text(
                                               nameOfCatego.tr(),
                                               style: const TextStyle(
@@ -120,7 +127,6 @@ class _StatusScreenState extends State<StatusScreen> {
                                                         .sender?.categoryId ==
                                                     e.id.toString())
                                                 .map((mail) {
-
                                               return myCustomCard(mail, () {
                                                 showModalBottomSheet(
                                                   clipBehavior: Clip.hardEdge,

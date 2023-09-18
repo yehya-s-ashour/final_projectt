@@ -224,7 +224,7 @@ class MYExpansionTile extends StatefulWidget {
     super.key,
     this.leading,
     required this.title,
-    required this.numOfMails,
+    this.numOfMails,
     this.subtitle,
     this.onExpansionChanged,
     this.children = const <Widget>[],
@@ -620,7 +620,7 @@ class _MYExpansionTileState extends State<MYExpansionTile>
       children: [
         if (widget.isExpanded == false)
           Text(
-            '${widget.numOfMails}',
+            '${widget.numOfMails ?? ''}',
             style: const TextStyle(color: Colors.grey, fontSize: 14),
           ),
         _buildIcon(context)!,
