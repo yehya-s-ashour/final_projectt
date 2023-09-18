@@ -2,6 +2,7 @@ import 'package:final_projectt/Screens/drawer_screen.dart';
 import 'package:final_projectt/core/services/mail_controller.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
+import 'package:final_projectt/core/widgets/my_expansion_tile.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,7 @@ class _MainPageState extends State<MainPage> {
   late Future<MailsModel> mailsOfSingleCatego;
   late Future<List<TagElement>> tags;
   List<CategoryElement>? categoData;
-  MailsModel? singleMails;
+  MailsModel? singleCategoMails;
   late Future<StatusesesModel> statuses;
   final _advancedDrawerController = AdvancedDrawerController();
   bool isExpansionOpened = false;
@@ -58,10 +59,10 @@ class _MainPageState extends State<MainPage> {
   }
 
   List<Map> categories = [
-    {'name': 'Others', 'id': 1},
-    {'name': 'Official Organiztions', 'id': 2},
+    {'name': 'Foreign', 'id': 4},
     {'name': 'NGOs', 'id': 3},
-    {'name': 'Foreign', 'id': 4}
+    {'name': 'Official Organiztions', 'id': 2},
+    {'name': 'Others', 'id': 1},
   ];
   @override
   void initState() {
@@ -122,17 +123,26 @@ class _MainPageState extends State<MainPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          IconButton(
-                            onPressed: _handleMenuButtonPressed,
-                            icon: ValueListenableBuilder<AdvancedDrawerValue>(
+                          GestureDetector(
+                            onTap: _handleMenuButtonPressed,
+                            child: ValueListenableBuilder<AdvancedDrawerValue>(
                               valueListenable: _advancedDrawerController,
                               builder: (_, value, __) {
                                 return AnimatedSwitcher(
                                   duration: const Duration(milliseconds: 250),
-                                  child: Icon(
-                                    value.visible ? Icons.clear : Icons.menu,
-                                    key: ValueKey<bool>(value.visible),
-                                  ),
+                                  child: value.visible
+                                      ? Icon(
+                                          Icons.clear,
+                                          key: ValueKey<bool>(value.visible),
+                                        )
+                                      : Container(
+                                          width: 28,
+                                          height: 28,
+                                          decoration: const BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'images/menu5.png'))),
+                                        ),
                                 );
                               },
                             ),
@@ -164,7 +174,10 @@ class _MainPageState extends State<MainPage> {
                                 ),
                               );
                             },
-                            icon: const Icon(Icons.search),
+                            icon: const Icon(
+                              Icons.search,
+                              size: 25,
+                            ),
                           ),
                           Consumer<UserProvider>(
                               builder: (_, userProvidor, __) {
@@ -184,6 +197,7 @@ class _MainPageState extends State<MainPage> {
                                   );
                                 },
                                 child: CircleAvatar(
+                                    radius: 20,
                                     backgroundImage: userProvidor
                                                 .data.data!.user.image !=
                                             null
@@ -197,6 +211,9 @@ class _MainPageState extends State<MainPage> {
                           }),
                         ],
                       ),
+                    ),
+                    const SizedBox(
+                      height: 5,
                     ),
                     Consumer<StatuseProvider>(
                         builder: (_, statuseProvider, __) {
@@ -215,7 +232,7 @@ class _MainPageState extends State<MainPage> {
                               shrinkWrap: true,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
-                                childAspectRatio: 1.5,
+                                childAspectRatio: 2,
                                 crossAxisCount:
                                     2, // Number of columns in the grid
                                 crossAxisSpacing:
@@ -263,13 +280,12 @@ class _MainPageState extends State<MainPage> {
                                     );
                                   },
                                   child: customBox(
-                                      number: statuseProvider.statusedata.data!
-                                          .statuses![index].mailsCount!,
-                                      title: statuseProvider.statusedata.data!
-                                          .statuses![index].name!
-                                          .tr(),
-                                      height: 88,
-                                      width: 181),
+                                    number: statuseProvider.statusedata.data!
+                                        .statuses![index].mailsCount!,
+                                    title: statuseProvider.statusedata.data!
+                                        .statuses![index].name!
+                                        .tr(),
+                                  ),
                                 );
                               }),
                         );
@@ -277,11 +293,8 @@ class _MainPageState extends State<MainPage> {
 
                       return const Text("  no data from Status provider ");
                     }),
-                    SizedBox(
-                      height: deviceHeight * 0.02,
-                    ),
                     const SizedBox(
-                      height: 12,
+                      height: 30,
                     ),
                     const Divider(),
                     Column(
@@ -294,42 +307,33 @@ class _MainPageState extends State<MainPage> {
                               if (snapshot.hasError) {
                                 return Text('Error: ${snapshot.error}');
                               } else if (snapshot.hasData) {
-                                singleMails = snapshot.data;
-                                int numOfEmails = singleMails!.mails!.length;
+                                singleCategoMails = snapshot.data;
+                                int numOfEmails =
+                                    singleCategoMails!.mails!.length;
                                 return Theme(
                                   data: Theme.of(context).copyWith(
                                       dividerColor: Colors.transparent),
-                                  child: ExpansionTile(
-                                    title: Text(
-                                      nameOfCatego,
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
+                                  child: MYExpansionTile(
+                                    numOfMails: numOfEmails,
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          '$numOfEmails',
+                                          nameOfCatego,
                                           style: const TextStyle(
-                                              color: Colors.grey, fontSize: 14),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Center(
-                                          child: Icon(
-                                            !isExpansionOpened
-                                                ? Icons
-                                                    .arrow_forward_ios_rounded
-                                                : Icons
-                                                    .keyboard_arrow_up_rounded,
-                                            size: isExpansionOpened ? 20 : 20,
-                                            color: !isExpansionOpened
-                                                ? Colors.grey
-                                                : primaryColor,
-                                          ),
-                                        ),
+                                        // if (Provider.of<RTLPro>(context)
+                                        //         .isExpanded ==
+                                        //     false)
+                                        //   Text(
+                                        //     '$numOfEmails',
+                                        //     style: const TextStyle(
+                                        //         color: Colors.grey,
+                                        //         fontSize: 14),
+                                        //   ),
                                       ],
                                     ),
                                     childrenPadding:
@@ -339,7 +343,8 @@ class _MainPageState extends State<MainPage> {
                                     tilePadding: const EdgeInsets.symmetric(
                                         horizontal: 16),
                                     initiallyExpanded: false,
-                                    children: singleMails!.mails!.map((mail) {
+                                    children:
+                                        singleCategoMails!.mails!.map((mail) {
                                       return myCustomCard(
                                         mail,
                                         () {

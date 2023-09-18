@@ -40,7 +40,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
       height: MediaQuery.of(context).size.height - 150,
       child: Column(
         children: [
-          const Padding(
+            Padding(
             padding: EdgeInsetsDirectional.only(top: 15.0, start: 8, end: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -1,4 +1,4 @@
-import 'package:final_projectt/core/util/constants/colors.dart';
+import 'package:final_projectt/Screens/single_tag_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -17,12 +17,24 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               String? tag = '#${tags[index].name}';
-              return Text(
-                tag,
-                style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xff6589FF),
-                    fontWeight: FontWeight.w400),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => SingleTagScreen(
+                          tagId: tags[index].id!,
+                          tagName: '${tags[index].name}',
+                        ),
+                      ));
+                },
+                child: Text(
+                  tag,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff6589FF),
+                      fontWeight: FontWeight.w400),
+                ),
               );
             },
             separatorBuilder: ((context, index) {
@@ -78,7 +90,7 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                                                   .height -
                                               250,
                                           decoration: BoxDecoration(
-                                              boxShadow: [
+                                              boxShadow: const [
                                                 BoxShadow(
                                                     color: Colors.black,
                                                     blurRadius: 10,

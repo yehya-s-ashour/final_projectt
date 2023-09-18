@@ -268,7 +268,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                             )
                                           ],
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Container(
                                           margin:
                                               const EdgeInsetsDirectional.only(
@@ -277,7 +277,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                           height: 50,
                                           color: Colors.grey.shade300,
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         SizedBox(
                                           width: 150,
                                           child: Column(
@@ -289,8 +289,10 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               Padding(
                                                 padding:
                                                     const EdgeInsetsDirectional
-                                                            .only(
-                                                        top: 10, bottom: 10),
+                                                        .only(
+                                                  top: 10,
+                                                  bottom: 10,
+                                                ),
                                                 child: Text(
                                                   '$today $month $year',
                                                   style: const TextStyle(
@@ -572,11 +574,11 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                 controller: decisionCont,
                                 decoration: InputDecoration(
                                   enabled: completedStatusId! ? false : true,
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 40),
                                   border: InputBorder.none,
                                   hintText: "Add Decsision ...",
-                                  hintStyle: TextStyle(
+                                  hintStyle: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iphone',
                                     fontSize: 19,
@@ -915,7 +917,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           ),
                         ),
                       ),
-                      ActivitesExpansionTile(),
+                      const ActivitesExpansionTile(),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(
                             start: 20.0, end: 20.0, bottom: 20, top: 5),

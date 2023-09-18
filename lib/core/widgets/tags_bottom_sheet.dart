@@ -57,10 +57,10 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                     color: primaryColor,
                   ),
                 ),
-                const Center(
+                Center(
                   child: Text(
                     'Tags'.tr(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 23,
                     ),
@@ -189,9 +189,9 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                   ),
                 ),
                 fillColor: boxColor,
-                contentPadding: EdgeInsetsDirectional.only(start: 15, top: 15),
+                contentPadding:
+                    const EdgeInsetsDirectional.only(start: 15, top: 15),
                 hintText: "Add new tag ...".tr(),
-
                 hintStyle: const TextStyle(color: Colors.grey, fontSize: 19),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey.shade300),
