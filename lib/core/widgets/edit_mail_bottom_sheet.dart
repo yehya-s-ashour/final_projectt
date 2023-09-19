@@ -586,11 +586,11 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                 controller: decisionCont,
                                 decoration: InputDecoration(
                                   enabled: completedStatusId! ? false : true,
-                                  contentPadding: EdgeInsets.symmetric(
+                                  contentPadding: const EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 40),
                                   border: InputBorder.none,
                                   hintText: "Add Decsision ...",
-                                  hintStyle: TextStyle(
+                                  hintStyle: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iphone',
                                     fontSize: 19,

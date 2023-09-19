@@ -4,23 +4,18 @@ import 'package:flutter/material.dart';
 Container customBox({
   required String number,
   required String title,
-  required double width,
-  required double height,
+
 }) {
   return Container(
-    margin: const EdgeInsets.symmetric(vertical: 8),
-    width: width,
-    height: height,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(30),
       color: boxColor,
       boxShadow: [
         BoxShadow(
-          color: shadowColor, // Shadow color
-          spreadRadius: 5, // Spread radius
-          blurRadius: 7, // Blur radius
-          offset: const Offset(
-              0, 3), // Offset to control the position of the shadow
+          color: shadowColor,
+          spreadRadius: 5,
+          blurRadius: 7,
+          offset: const Offset(0, 3),
         ),
       ],
     ),

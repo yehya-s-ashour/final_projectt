@@ -7,6 +7,7 @@ import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/models/sender_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SendersScreen extends StatefulWidget {
   const SendersScreen({super.key});
@@ -143,9 +144,7 @@ class _SendersScreenState extends State<SendersScreen> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                  child: CircularProgressIndicator(
-                    color: primaryColor,
-                  ),
+                  child: CircularProgressIndicator(),
                 );
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());

@@ -15,11 +15,14 @@ class ActivitesExpansionTile extends StatefulWidget {
   State<ActivitesExpansionTile> createState() => _ActivitesExpansionTileState();
 }
 
-class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
+class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
+    with SingleTickerProviderStateMixin {
   DateTime date = DateTime.now();
   late UserModel user;
   bool isActivitesOpened = false;
-
+  late AnimationController _animationController;
+  static final Animatable<double> _easeInTween =
+      CurveTween(curve: Curves.easeIn);
   getUser() async {
     user = await UserController().getLocalUser();
   }
@@ -28,6 +31,10 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
   void initState() {
     getUser();
     super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
   }
 
   @override
@@ -37,6 +44,11 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
       child: ExpansionTile(
           onExpansionChanged: (value) {
             setState(() {
+              if (value) {
+                _animationController.forward();
+              } else {
+                _animationController.reverse();
+              }
               isActivitesOpened = !isActivitesOpened;
             });
           },
@@ -55,21 +67,25 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
                               color: !isActivitesOpened
                                   ? Colors.grey
                                   : primaryColor,
-                              fontSize: 17),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700),
                         ),
                       ),
-                SizedBox(
-                  width: 7,
-                ),
-                Center(
-                  child: Icon(
-                    isActivitesOpened
-                        ? Icons.arrow_forward_ios_rounded
-                        : Icons.keyboard_arrow_down_outlined,
-                    size: isActivitesOpened ? 20 : 30,
-                    color: !isActivitesOpened ? Colors.grey : primaryColor,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: RotationTransition(
+                    turns: _animationController.drive(
+                      Tween<double>(
+                        begin: -0.25,
+                        end: 0.0,
+                      ).chain(_easeInTween),
+                    ),
+                    child: const Icon(
+                      Icons.expand_more,
+                      size: 30,
+                    ),
                   ),
-                )
+                ),
               ],
             ),
           ),
