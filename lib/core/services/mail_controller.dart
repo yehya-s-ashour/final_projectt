@@ -34,6 +34,7 @@ Future<void>? deleteMail(String id) async {
 
   print(response);
 }
+
 // Future<MailsModel> getMailsOfSingleCatego(int id) async {
 //   final ApiBaseHelper helper = ApiBaseHelper();
 //   final String token = await getToken();

@@ -20,3 +20,4 @@ Future<int>? deleteSender(int id) async {
       .delete(url: "/senders/$id", header: {'Authorization': 'Bearer $token'});
   return (response[0]);
 }
+

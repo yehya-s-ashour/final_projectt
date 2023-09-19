@@ -8,7 +8,6 @@ import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import '../models/user_model.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -215,44 +214,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: Stack(
                         alignment: Alignment.bottomRight,
                         children: [
-                          Stack(
-                            children: [
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 190, left: 180),
-                                  child: CircleAvatar(
-                                    radius: 100,
-                                    backgroundColor: Colors.blueGrey.shade300,
-                                    child: Stack(
-                                      children: [
-                                        Shimmer.fromColors(
-                                            baseColor: Colors.grey.shade300,
-                                            highlightColor:
-                                                Colors.grey.shade100,
-                                            child: Container(
-                                              // margin: EdgeInsets.only(top: 3),
-                                              height: 195,
-                                              width: 195,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle),
-                                            )),
-                                        CircleAvatar(
-                                          backgroundColor: Colors.transparent,
-                                          radius: 98,
-                                          backgroundImage: pickedFile == null
-                                              ? NetworkImage(
-                                                  'https://palmail.gsgtt.tech/storage/${snapshot.data!.user.image}',
-                                                )
-                                              : FileImage(
-                                                  File(pickedFile!.path),
-                                                ) as ImageProvider<Object>,
-                                        ),
-                                      ],
-                                    ),
-                                  )),
-                            ],
-                          ),
+                          Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 190, left: 180),
+                              child: CircleAvatar(
+                                radius: 100,
+                                backgroundColor: Colors.blueGrey.shade300,
+                                child: CircleAvatar(
+                                  backgroundColor: primaryColor,
+                                  radius: 98,
+                                  backgroundImage: pickedFile == null
+                                      ? NetworkImage(
+                                          'https://palmail.gsgtt.tech/storage/${snapshot.data!.user.image}',
+                                        )
+                                      : FileImage(
+                                          File(pickedFile!.path),
+                                        ) as ImageProvider<Object>,
+                                ),
+                              )),
                           GestureDetector(
                             onTap: () async {
                               pickedFile = await pickImageFile();

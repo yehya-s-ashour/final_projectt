@@ -1,4 +1,3 @@
-import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/providers/all_user_provider.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';
@@ -52,7 +51,7 @@ class myapp extends StatelessWidget {
           localizationsDelegates: context.localizationDelegates,
           locale: context.locale,
           theme: ThemeData(fontFamily: 'Iphone'),
-          home: const MainPage()),
+          home: const SplashScreen()),
     );
   }
 }

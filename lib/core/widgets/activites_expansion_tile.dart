@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -11,18 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ActivitesExpansionTile extends StatefulWidget {
+  const ActivitesExpansionTile({super.key});
+
   @override
   State<ActivitesExpansionTile> createState() => _ActivitesExpansionTileState();
 }
 
-class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
-    with SingleTickerProviderStateMixin {
+class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
   DateTime date = DateTime.now();
   late UserModel user;
   bool isActivitesOpened = false;
-  late AnimationController _animationController;
-  static final Animatable<double> _easeInTween =
-      CurveTween(curve: Curves.easeIn);
+
   getUser() async {
     user = await UserController().getLocalUser();
   }
@@ -31,10 +28,6 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
   void initState() {
     getUser();
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-    );
   }
 
   @override
@@ -44,11 +37,6 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
       child: ExpansionTile(
           onExpansionChanged: (value) {
             setState(() {
-              if (value) {
-                _animationController.forward();
-              } else {
-                _animationController.reverse();
-              }
               isActivitesOpened = !isActivitesOpened;
             });
           },
@@ -67,26 +55,21 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
                               color: !isActivitesOpened
                                   ? Colors.grey
                                   : primaryColor,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700),
+                              fontSize: 17),
                         ),
                       ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
-                  child: RotationTransition(
-                    turns: _animationController.drive(
-                      Tween<double>(
-                        begin: -0.25,
-                        end: 0.0,
-                      ).chain(_easeInTween),
-                    ),
-                    child: const Icon(
-                      Icons.expand_more,
-                      size: 30,
-                    ),
-
-                  ),
+                const SizedBox(
+                  width: 7,
                 ),
+                Center(
+                  child: Icon(
+                    isActivitesOpened
+                        ? Icons.arrow_forward_ios_rounded
+                        : Icons.keyboard_arrow_down_outlined,
+                    size: isActivitesOpened ? 20 : 30,
+                    color: !isActivitesOpened ? Colors.grey : primaryColor,
+                  ),
+                )
               ],
             ),
           ),
@@ -121,20 +104,14 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
                               const SizedBox(
                                 width: 15,
                               ),
-CircleAvatar(
-                                radius: 15,
-                                backgroundImage: NetworkImage(
-                                    'https://palmail.gsgtt.tech/storage/${user.user.image}'),
-                                backgroundColor: Colors.transparent,
-                              ),
-                              SizedBox(
+                              const CircleAvatar(radius: 12),
+                              const SizedBox(
                                 width: 15,
                               ),
                               Text(
                                 '${user.user.name}',
-                                style: TextStyle(
-                                  fontSize: 18,
-
+                                style: const TextStyle(
+                                  fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'Iphone',
                                 ),
