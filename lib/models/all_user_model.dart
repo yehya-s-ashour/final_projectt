@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:final_projectt/models/user_model.dart';
+
 AllUserModel allUserModelFromJson(String str) =>
     AllUserModel.fromJson(json.decode(str));
 
@@ -38,7 +40,7 @@ class User {
   String? roleId;
   String? createdAt;
   String? updatedAt;
-  Role? role;
+  Roles? role;
 
   User({
     this.id,
@@ -61,7 +63,7 @@ class User {
         roleId: json["role_id"],
         createdAt: json["created_at"],
         updatedAt: json["updated_at"],
-        role: json["role"] == null ? null : Role.fromJson(json["role"]),
+        role: json["role"] == null ? null : Roles.fromJson(json["role"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -77,20 +79,20 @@ class User {
       };
 }
 
-class Role {
+class Roles extends Role {
   int? id;
   String? name;
   String? createdAt;
   String? updatedAt;
 
-  Role({
+  Roles({
     this.id,
     this.name,
     this.createdAt,
     this.updatedAt,
-  });
+  }) : super(id: 0, name: '', createdAt: '', updatedAt: '');
 
-  factory Role.fromJson(Map<String, dynamic> json) => Role(
+  factory Roles.fromJson(Map<String, dynamic> json) => Roles(
         id: json["id"],
         name: json["name"],
         createdAt: json["created_at"],

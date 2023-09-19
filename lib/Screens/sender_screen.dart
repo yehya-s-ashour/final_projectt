@@ -214,16 +214,22 @@ class _SendersScreenState extends State<SendersScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.only(
-                              top: 20.0,
-                              start: 35,
-                            ),
-                            child: Text(
-                              category,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.only(
+                                  top: 20.0,
+                                  start: 5,
+                                ),
+                                child: Text(
+                                  category.tr(),
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

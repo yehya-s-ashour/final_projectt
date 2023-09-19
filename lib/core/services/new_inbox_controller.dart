@@ -100,7 +100,7 @@ Future<void> updateMail({
     'Authorization': 'Bearer $token',
     'Accept': 'application/json',
   });
-  print(response.body);
+
   // return MailModel.fromJson(response[1]);
 }
 
@@ -162,7 +162,7 @@ Future<NewSender>? createSender({
     'Accept': 'application/json',
     'Authorization': 'Bearer $token'
   });
-  print(response.body);
+
   return NewSender.fromJson(json.decode(response.body));
 }
 

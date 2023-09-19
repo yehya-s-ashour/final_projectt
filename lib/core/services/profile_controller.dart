@@ -92,3 +92,16 @@ Future<void> updateNameSharedPreferences(String newName) async {
     prefs.setData('user', userToJson(newUser));
   }
 }
+
+Future<void> updateRoleSharedPreferences(Role? newRole) async {
+  SharedPrefsController prefs = SharedPrefsController();
+  final userData = await prefs.getData('user');
+  if (userData != null) {
+    UserModel user = UserModel.fromJson(json.decode(userData));
+    final newUser = user.copyWith(
+      user: user.user.copyWith(role: newRole),
+    );
+    prefs.deleteData('user');
+    prefs.setData('user', userToJson(newUser));
+  }
+}

@@ -28,8 +28,9 @@ Padding CustomTextField(
       },
       decoration: InputDecoration(
           // Increase the left padding to make room for the suffix icon
-          contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          errorStyle: TextStyle(fontSize: 14),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          errorStyle: const TextStyle(fontSize: 14),
           border: InputBorder.none,
           prefixIcon: isPrefixIcon ? prefixIcon : null,
           hintText: hintText,

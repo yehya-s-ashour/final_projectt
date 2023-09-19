@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +7,13 @@ import 'package:flutter/material.dart';
 class CustomExpansion extends StatefulWidget {
   final String titleOfDate;
   final List<Widget> children;
+  final DateTime? dateText;
 
   const CustomExpansion(
-      {super.key, required this.titleOfDate, required this.children});
+      {super.key,
+      required this.titleOfDate,
+      required this.children,
+      required this.dateText});
 
   @override
   State<CustomExpansion> createState() => _CustomExpansionState();
@@ -83,7 +89,9 @@ class _CustomExpansionState extends State<CustomExpansion> {
                                   fontSize: 19),
                             ),
                             Text(
-                              'Sellect Your Date'.tr(),
+                              widget.dateText != null
+                                  ? "${getDay(widget.dateText!)},${widget.dateText!.year},${getMonth(widget.dateText!)},${widget.dateText!.day}"
+                                  : 'Sellect Your Date'.tr(),
                               //  '$todayName, $month $today, $year',
                               style: TextStyle(
                                   color: primaryColor,
@@ -101,4 +109,16 @@ class _CustomExpansionState extends State<CustomExpansion> {
       ),
     );
   }
+}
+
+getDay(DateTime date) {
+  dynamic dayData =
+      '{ "1" : "Mon", "2" : "Tue", "3" : "Wed", "4" : "Thur", "5" : "Fri", "6" : "Sat", "7" : "Sun" }';
+  return json.decode(dayData)['${date.weekday}'];
+}
+
+getMonth(DateTime date) {
+  dynamic monthData =
+      '{ "1" : "Jan", "2" : "Feb", "3" : "Mar", "4" : "Apr", "5" : "May", "6" : "June", "7" : "Jul", "8" : "Aug", "9" : "Sep", "10" : "Oct", "11" : "Nov", "12" : "Dec" }';
+  return json.decode(monthData)['${date.month}'];
 }

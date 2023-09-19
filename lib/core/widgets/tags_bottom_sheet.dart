@@ -33,7 +33,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
   @override
   Widget build(BuildContext context) {
     selectedTags = widget.givenTagsFromOutSide;
-    print('the selected tags are : $selectedTags');
+
     return SizedBox(
       height: MediaQuery.of(context).size.height - 150,
       child: Column(
@@ -114,8 +114,6 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                             (selectedTag) => selectedTag.name == tag.name);
                       } else {
                         selectedTags.add(tag);
-                        print(
-                            'selectedTags length is : ${selectedTags.length}');
                       }
                     });
                   },

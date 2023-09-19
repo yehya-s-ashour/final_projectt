@@ -53,7 +53,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsDirectional.only(top: 25, start: 20, end: 20),
+      padding: const EdgeInsetsDirectional.only(top: 25, start: 20, end: 20),
       child: SizedBox(
         height: MediaQuery.of(context).size.height - 150,
         child: Column(
@@ -70,18 +70,18 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                       searchSenders(value);
                     },
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search_rounded),
+                      prefixIcon: const Icon(Icons.search_rounded),
                       suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
                             searchTextField.clear();
                           });
                         },
-                        icon: Icon(Icons.cancel),
+                        icon: const Icon(Icons.cancel),
                       ),
                       filled: true,
                       fillColor: Colors.black.withOpacity(0.05),
-                      contentPadding: EdgeInsets.all(15),
+                      contentPadding: const EdgeInsets.all(15),
                       hintText: "Search ...".tr(),
                       hintStyle:
                           const TextStyle(color: Colors.grey, fontSize: 19),
@@ -96,13 +96,13 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
-                      minimumSize: Size(50, 30),
+                      minimumSize: const Size(50, 30),
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       alignment: Alignment.centerLeft),
                   onPressed: () => Navigator.pop(context),
@@ -132,7 +132,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                       return Text(snapshot.error.toString());
                     } else if (!snapshot.hasData) {
                       return Center(
-                        child: Text('No data available.'),
+                        child: Text('No data available.'.tr()),
                       );
                     }
 
@@ -153,8 +153,8 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    margin:
-                                        EdgeInsets.only(top: 10, bottom: 20),
+                                    margin: const EdgeInsets.only(
+                                        top: 10, bottom: 20),
                                     width: MediaQuery.sizeOf(context).width,
                                     height: 1,
                                     color: Colors.grey.shade300,
@@ -167,7 +167,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 20),
+                                    margin: const EdgeInsets.only(top: 20),
                                     width: MediaQuery.sizeOf(context).width,
                                     height: 1,
                                     color: Colors.grey.shade300,
@@ -175,7 +175,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                 ],
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 70,
                             ),
                             Align(
@@ -189,11 +189,11 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                     }
                     return ListView.separated(
                       separatorBuilder: (context, index) {
-                        return SizedBox(
+                        return const SizedBox(
                           height: 10,
                         );
                       },
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       itemCount: categorizedSenders.length,
                       itemBuilder: (context, sectionIndex) {
                         final category =
@@ -219,7 +219,8 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                 categorySenders.isEmpty) ||
                             (filteredMatchingPairs.isEmpty &&
                                 searchTextField.text.isNotEmpty)) {
-                          return SizedBox.shrink(); // Hide the empty section
+                          return const SizedBox
+                              .shrink(); // Hide the empty section
                         }
 
                         return Column(
@@ -229,20 +230,20 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.only(
+                                  padding: const EdgeInsetsDirectional.only(
                                     top: 20.0,
                                     start: 5,
                                   ),
                                   child: Text(
                                     category,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(top: 10),
+                                  margin: const EdgeInsets.only(top: 10),
                                   width: MediaQuery.of(context).size.width,
                                   height: 1,
                                   color: Colors.grey.shade300,
@@ -251,7 +252,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                             ),
                             ListView.builder(
                               shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: searchTextField.text.isNotEmpty
                                   ? filteredMatchingPairs.length
                                   : categorySenders.length,
@@ -276,7 +277,8 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                                 .value); // Use entry.value to access SingleSender
                                       });
                                     },
-                                    leading: Icon(Icons.person_3_outlined),
+                                    leading:
+                                        const Icon(Icons.person_3_outlined),
                                     title: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -285,23 +287,24 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                       children: [
                                         Text(
                                           entry.value.name!,
-                                          style: TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         Row(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.phone,
                                               size: 20,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 10,
                                             ),
                                             Text(
                                               entry.value.mobile!,
-                                              style: TextStyle(fontSize: 17),
+                                              style:
+                                                  const TextStyle(fontSize: 17),
                                             )
                                           ],
                                         )
@@ -315,7 +318,8 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                         Navigator.pop(context, sender);
                                       });
                                     },
-                                    leading: Icon(Icons.person_3_outlined),
+                                    leading:
+                                        const Icon(Icons.person_3_outlined),
                                     title: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
@@ -324,23 +328,24 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                       children: [
                                         Text(
                                           sender.name!,
-                                          style: TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         Row(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.phone,
                                               size: 20,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 10,
                                             ),
                                             Text(
                                               sender.mobile!,
-                                              style: TextStyle(fontSize: 17),
+                                              style:
+                                                  const TextStyle(fontSize: 17),
                                             )
                                           ],
                                         )
@@ -348,7 +353,8 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                     ),
                                   );
                                 }
-                                return SizedBox.shrink(); // Hide empty items
+                                return const SizedBox
+                                    .shrink(); // Hide empty items
                               },
                             ),
                           ],

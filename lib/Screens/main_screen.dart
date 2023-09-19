@@ -218,7 +218,8 @@ class _MainPageState extends State<MainPage> {
                                   showOverlay(
                                     context,
                                     userProvidor.data.data!.user.name!,
-                                    userProvidor.data.data!.user.role!.name!,
+                                    userProvidor.data.data!.user.role!.name!
+                                        .tr(),
                                     userProvidor.data.data!.user.image!,
                                   );
                                 },
@@ -364,7 +365,6 @@ class _MainPageState extends State<MainPage> {
                     const SizedBox(
                       height: 20,
                     ),
-
                     // const Divider(),
                     Padding(
                       padding: const EdgeInsets.only(
@@ -540,11 +540,11 @@ class _MainPageState extends State<MainPage> {
                       ),
                     ),
                     // const Divider(),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.all(16.0),
                       child: Text(
-                        "Tags",
-                        style: TextStyle(
+                        "Tags".tr(),
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
