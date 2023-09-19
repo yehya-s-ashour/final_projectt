@@ -41,6 +41,7 @@ class NewInboxProvider extends ChangeNotifier {
       'body': activity,
       'user_id': userId,
     });
+    debugPrint('object');
     notifyListeners();
   }
 
