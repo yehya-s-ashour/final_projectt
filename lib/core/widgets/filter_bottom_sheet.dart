@@ -7,7 +7,8 @@ import 'package:final_projectt/models/status_model.dart';
 import 'package:flutter/material.dart';
 
 class FilterBottomSheet extends StatefulWidget {
-  const FilterBottomSheet({super.key});
+  final String? textSearch;
+  const FilterBottomSheet({super.key, this.textSearch});
 
   @override
   State<FilterBottomSheet> createState() => _FilterBottomSheetState();
@@ -63,6 +64,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => SearchScreen(
+                                text: widget.textSearch,
                                 statuId: selectedIndexStatus != null
                                     ? selectedIndexStatus! + 1
                                     : null,
@@ -175,10 +177,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               },
             ),
             CustomExpansion(
-              titleOfDate: "Start Data".tr(),
+              dateText: dateStart,
+              titleOfDate: "Start Date".tr(),
               children: <Widget>[
                 CalendarDatePicker(
-                  initialDate: DateTime(2023, 1, 1),
+                  currentDate: DateTime.now(),
+                  initialDate: dateStart != null ? dateStart! : DateTime.now(),
                   firstDate: DateTime(1900, 1, 1),
                   lastDate: DateTime(2100, 1, 1),
                   onDateChanged: (DateTime newdate) {
@@ -190,10 +194,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               ],
             ),
             CustomExpansion(
-              titleOfDate: "End Data".tr(),
+              dateText: dateEnd,
+              titleOfDate: "End Date".tr(),
               children: <Widget>[
                 CalendarDatePicker(
-                  initialDate: DateTime.now(),
+                  currentDate: DateTime.now(),
+                  initialDate: dateEnd != null ? dateEnd! : DateTime.now(),
                   firstDate: DateTime(1900, 1, 1),
                   lastDate: DateTime(2100, 1, 1),
                   onDateChanged: (DateTime newdate) {

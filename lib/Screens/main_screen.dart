@@ -192,7 +192,8 @@ class _MainPageState extends State<MainPage> {
                                   showOverlay(
                                     context,
                                     userProvidor.data.data!.user.name!,
-                                    userProvidor.data.data!.user.role!.name!,
+                                    userProvidor.data.data!.user.role!.name!
+                                        .tr(),
                                     userProvidor.data.data!.user.image!,
                                   );
                                 },
@@ -291,7 +292,7 @@ class _MainPageState extends State<MainPage> {
                         );
                       }
 
-                      return const Text("  no data from Status provider ");
+                      return const Text("no data from Status provider");
                     }),
                     const SizedBox(
                       height: 30,
@@ -313,6 +314,7 @@ class _MainPageState extends State<MainPage> {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
                                       dividerColor: Colors.transparent),
+
                                   child: MYExpansionTile(
                                     numOfMails: numOfEmails,
                                     title: Row(
@@ -320,7 +322,7 @@ class _MainPageState extends State<MainPage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          nameOfCatego,
+                                           nameOfCatego.tr(),
                                           style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),
@@ -398,11 +400,11 @@ class _MainPageState extends State<MainPage> {
                       }).toList(),
                     ),
                     const Divider(),
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        "Tags",
-                        style: TextStyle(
+                        "Tags".tr(),
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
@@ -148,9 +149,10 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                       color: primaryColor,
                     ),
                   ),
-                  const Text(
-                    'Mail Details',
-                    style: TextStyle(fontSize: 20, color: Color(0xFF272727)),
+                  Text(
+                    'Mail Details'.tr(),
+                    style:
+                        const TextStyle(fontSize: 20, color: Color(0xFF272727)),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -186,7 +188,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
 
                       showAlert(
                         context,
-                        message: 'Mail Updated Successfully',
+                        message: 'Mail Updated Successfully'.tr(),
                         color: primaryColor.withOpacity(0.8),
                         width: 230,
                       );
@@ -203,7 +205,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         },
                       ));
                     },
-                    child: const Text('Done', style: TextStyle(fontSize: 20)),
+                    child:
+                        Text('Done'.tr(), style: const TextStyle(fontSize: 20)),
                   ),
                 ],
               ),
@@ -258,7 +261,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                             Padding(
                                               padding:
                                                   const EdgeInsetsDirectional
-                                                          .only(
+                                                      .only(
                                                       top: 10.0, start: 35),
                                               child: Text(
                                                 '${widget.mail.sender!.category!.name}',
@@ -290,9 +293,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                 padding:
                                                     const EdgeInsetsDirectional
                                                         .only(
-                                                  top: 10,
-                                                  bottom: 10,
-                                                ),
+                                                        top: 10, bottom: 10),
+
                                                 child: Text(
                                                   '$today $month $year',
                                                   style: const TextStyle(
@@ -407,8 +409,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         child: CustomWhiteBox(
                           width: 378,
                           height: 56,
-                          child: const Padding(
-                            padding: EdgeInsetsDirectional.only(
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.only(
                               start: 20.0,
                               end: 20.0,
                             ),
@@ -417,21 +419,21 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                               children: [
                                 Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.tag,
                                       size: 23,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     Text(
-                                      'Tags',
-                                      style: TextStyle(
+                                      'Tags'.tr(),
+                                      style: const TextStyle(
                                           fontSize: 20, color: Colors.black),
                                     )
                                   ],
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.arrow_forward_ios_rounded,
                                   color: Colors.grey,
                                   size: 22,
@@ -548,15 +550,15 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Padding(
-                              padding: EdgeInsetsDirectional.only(
+                            Padding(
+                              padding: const EdgeInsetsDirectional.only(
                                 start: 25.0,
                                 end: 20.0,
                                 top: 20.0,
                               ),
                               child: Text(
-                                'Descision',
-                                style: TextStyle(
+                                'Descision'.tr(),
+                                style: const TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
                                 ),
@@ -577,7 +579,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 40),
                                   border: InputBorder.none,
-                                  hintText: "Add Decsision ...",
+                                  hintText: "Add Decsision ...".tr(),
+
                                   hintStyle: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iphone',
@@ -645,7 +648,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               width: 12,
                                             ),
                                             Text(
-                                              'Add image',
+                                              'Add image'.tr(),
                                               style: TextStyle(
                                                   color: primaryColor,
                                                   fontFamily: 'Iphone',
@@ -736,8 +739,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                                 .add(provider
                                                                         .networkImagesFiles[
                                                                     index]!);
-                                                            print(provider
-                                                                .deletedImages);
+
                                                             provider
                                                                 .networkImagesFiles
                                                                 .removeAt(
@@ -944,7 +946,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                             filled: true,
                             fillColor: Colors.black.withOpacity(0.05),
                             contentPadding: const EdgeInsets.all(15),
-                            hintText: "Add new activity ...",
+                            hintText: "Add new activity ...".tr(),
                             hintStyle: const TextStyle(
                                 color: Colors.grey, fontSize: 17),
                             enabledBorder: UnderlineInputBorder(

@@ -3,8 +3,11 @@ import 'package:final_projectt/Screens/profile_page.dart';
 import 'package:final_projectt/Screens/sender_screen.dart';
 import 'package:final_projectt/Screens/user_management_screen.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
+import 'package:final_projectt/providers/all_user_provider.dart';
+import 'package:final_projectt/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
 Widget drawer(BuildContext context) {
   List<Map> drawerItem = [
@@ -51,7 +54,7 @@ Widget drawer(BuildContext context) {
                             width: 10,
                           ),
                           TextButton(
-                            onPressed: () {
+                            onPressed: () async {
                               switch (e["title"]) {
                                 case "Senders":
                                   Navigator.push(context, MaterialPageRoute(
@@ -66,11 +69,92 @@ Widget drawer(BuildContext context) {
                                     },
                                   ));
                                 case "User Management":
-                                  Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) {
-                                      return const UserManagementScreen();
-                                    },
-                                  ));
+                                  // ignore: await_only_futures
+                                  int id = await Provider.of<UserProvider>(
+                                          context,
+                                          listen: false)
+                                      .data
+                                      .data!
+                                      .user
+                                      .role!
+                                      .id!;
+
+                                  if (id == 4) {
+                                    // ignore: use_build_context_synchronously
+                                    Provider.of<AllUserProvider>(context,
+                                            listen: false)
+                                        .UpdateAllUserProvider();
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return const UserManagementScreen();
+                                      },
+                                    ));
+                                  } else {
+                                    // ignore: use_build_context_synchronously
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        32.0)),
+                                            titlePadding:
+                                                const EdgeInsets.all(0),
+                                            contentPadding:
+                                                const EdgeInsets.all(16),
+                                            title: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 24),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                          topLeft:
+                                                              Radius.circular(
+                                                                  32),
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  32)),
+                                                  color: primaryColor),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Text(
+                                                    "Entry is restricted".tr(),
+                                                    style: const TextStyle(
+                                                        fontSize: 24,
+                                                        color: Colors.white),
+                                                  ),
+                                                  const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 16.0),
+                                                    child: CircleAvatar(
+                                                      backgroundImage: AssetImage(
+                                                          "images/images.png"),
+                                                      radius: 50,
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            content: Text(
+                                              "Please check with the admin to obtain access permission"
+                                                  .tr(),
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            ),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text("OK".tr()))
+                                            ],
+                                          );
+                                        });
+                                  }
 
                                   break;
                               }

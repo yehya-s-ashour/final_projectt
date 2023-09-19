@@ -1,14 +1,14 @@
 import 'package:final_projectt/core/helpers/api_base_helper.dart';
 import 'package:final_projectt/core/helpers/token_helper.dart';
 
-class ChangeRoleCotroller {
-  Future<bool> changeRole({required int user_id, required int role_id}) async {
+class DeleteUserCotroller {
+  Future<bool> deleteUser({required int user_id, required String name}) async {
     final ApiBaseHelper _helper = ApiBaseHelper();
     final token = await getToken();
 
-    await _helper.put(
-        url: "/users/${user_id.toString()}/role",
-        body: {"role_id": role_id.toString()},
+    await _helper.delete(
+        url: "/users/$user_id",
+        body: {"name": name},
         header: {'Authorization': 'Bearer $token'});
 
     return true;

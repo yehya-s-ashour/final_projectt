@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/mail_controller.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
@@ -95,14 +96,15 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         alignment: Alignment.centerLeft),
                     onPressed: () => Navigator.pop(context),
-                    child: const Text(
-                      'Cancel',
-                      style: TextStyle(fontSize: 20),
+                    child: Text(
+                      'Cancel'.tr(),
+                      style: const TextStyle(fontSize: 20),
                     ),
                   ),
-                  const Text(
-                    'New Inbox',
-                    style: TextStyle(fontSize: 20, color: Color(0xFF272727)),
+                  Text(
+                    'New Inbox'.tr(),
+                    style:
+                        const TextStyle(fontSize: 20, color: Color(0xFF272727)),
                   ),
                   TextButton(
                     onPressed: () async {
@@ -158,7 +160,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         uploadImages(context, createMailResponse.mail!.id!);
 
                         showAlert(context,
-                            message: 'Mail Created Successfully',
+                            message: 'Mail Created Successfully'.tr(),
                             color: primaryColor.withOpacity(0.8),
                             width: 230);
 
@@ -179,7 +181,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         });
                       }
                     },
-                    child: const Text('Done', style: TextStyle(fontSize: 20)),
+                    child:
+                        Text('Done'.tr(), style: const TextStyle(fontSize: 20)),
                   ),
                 ],
               ),
@@ -212,13 +215,13 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         child: CustomTextField(
                                           controller: senderNameCont,
                                           validationMessage:
-                                              "Please enter a sender name",
+                                              "Please enter a sender name".tr(),
                                           onChanged: (value) {
                                             setState(() {
                                               issenderNameFilled = true;
                                             });
                                           },
-                                          hintText: "Sender",
+                                          hintText: "Sender".tr(),
                                           hintTextColor: Colors.grey,
                                           isPrefixIcon: true,
                                           isSuffixIcon: true,
@@ -285,8 +288,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       : CustomTextField(
                                           controller: senderMobileCont,
                                           validationMessage:
-                                              "Please enter a mobile number",
-                                          hintText: "Mobile",
+                                              "Please enter a mobile number"
+                                                  .tr(),
+                                          hintText: "Mobile".tr(),
                                           hintTextColor: Colors.grey,
                                           isPrefixIcon: true,
                                           isSuffixIcon: false,
@@ -343,9 +347,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                const Text(
-                                                  'Category',
-                                                  style: TextStyle(
+                                                Text(
+                                                  'Category'.tr(),
+                                                  style: const TextStyle(
                                                       color: Colors.black,
                                                       fontFamily: 'Iphone',
                                                       fontSize: 20),
@@ -395,8 +399,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                   CustomTextField(
                                     controller: mailTitleCont,
                                     validationMessage:
-                                        "Please enter a title of mail",
-                                    hintText: "Title of mail",
+                                        "Please enter a title of mail".tr(),
+                                    hintText: "Title of mail".tr(),
                                     hintTextColor: Colors.grey,
                                     isPrefixIcon: false,
                                     isSuffixIcon: false,
@@ -407,12 +411,13 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         start: 10.0, end: 10.0),
                                     child: TextFormField(
                                       controller: mailDescriptionCont,
-                                      decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 20, horizontal: 35),
+                                      decoration: InputDecoration(
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                vertical: 20, horizontal: 35),
                                         border: InputBorder.none,
-                                        hintText: 'Description',
-                                        hintStyle: TextStyle(
+                                        hintText: 'Description'.tr(),
+                                        hintStyle: const TextStyle(
                                           color: Colors.grey,
                                           fontFamily: 'Iphone',
                                           fontSize: 19,
@@ -452,30 +457,32 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         controller: archiveNumber,
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return "Please enter an archive number";
+                                            return "Please enter an archive number"
+                                                .tr();
                                           }
                                           return null;
                                         },
-                                        decoration: const InputDecoration(
+                                        decoration: InputDecoration(
                                             contentPadding:
-                                                EdgeInsets.symmetric(
+                                                const EdgeInsets.symmetric(
                                                     vertical: 20,
                                                     horizontal: 35),
                                             border: InputBorder.none,
-                                            prefixIcon: Icon(
+                                            prefixIcon: const Icon(
                                               Icons.folder_zip_outlined,
                                               color: Colors.blueGrey,
                                               size: 23,
                                             ),
-                                            hintText: "Archive number",
-                                            hintStyle: TextStyle(
+                                            hintText: "Archive number".tr(),
+                                            hintStyle: const TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Iphone',
                                               fontSize: 19,
                                               fontWeight: FontWeight.w500,
                                             ),
-                                            errorBorder: UnderlineInputBorder(
-                                                borderSide: BorderSide(
+                                            errorBorder:
+                                                const UnderlineInputBorder(
+                                                    borderSide: BorderSide(
                                               color: Colors.redAccent,
                                             ))),
                                       ),
@@ -514,8 +521,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           child: CustomWhiteBox(
                             width: 378,
                             height: 56,
-                            child: const Padding(
-                              padding: EdgeInsetsDirectional.only(
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.only(
                                 start: 20.0,
                                 end: 20.0,
                               ),
@@ -525,23 +532,23 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(
+                                      const Icon(
                                         Icons.tag,
                                         size: 23,
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 12,
                                       ),
                                       Text(
-                                        'Tags',
-                                        style: TextStyle(
+                                        'Tags'.tr(),
+                                        style: const TextStyle(
                                             color: Colors.black,
                                             fontFamily: 'Iphone',
                                             fontSize: 20),
                                       ),
                                     ],
                                   ),
-                                  Icon(
+                                  const Icon(
                                     Icons.arrow_forward_ios_rounded,
                                     color: Colors.grey,
                                     size: 22,
@@ -622,7 +629,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                     BorderRadius.circular(30),
                                               ),
                                               child: Text(
-                                                '${selectedStatus.name}',
+                                                '${selectedStatus.name}'.tr(),
                                                 style: const TextStyle(
                                                     fontSize: 18,
                                                     color: Colors.white),
@@ -655,15 +662,15 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Padding(
-                                padding: EdgeInsetsDirectional.only(
+                              Padding(
+                                padding: const EdgeInsetsDirectional.only(
                                   start: 25.0,
                                   end: 20.0,
                                   top: 20.0,
                                 ),
                                 child: Text(
-                                  'Descision',
-                                  style: TextStyle(
+                                  'Descision'.tr(),
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     color: Colors.black,
                                   ),
@@ -679,12 +686,12 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         .setArchiveNumber(value);
                                   },
                                   controller: decisionCont,
-                                  decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.symmetric(
                                         vertical: 20, horizontal: 40),
                                     border: InputBorder.none,
-                                    hintText: "Add Decsision ...",
-                                    hintStyle: TextStyle(
+                                    hintText: "Add Decsision ...".tr(),
+                                    hintStyle: const TextStyle(
                                       color: Colors.grey,
                                       fontFamily: 'Iphone',
                                       fontSize: 19,
@@ -743,7 +750,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                 width: 12,
                                               ),
                                               Text(
-                                                'Add image',
+                                                'Add image'.tr(),
                                                 style: TextStyle(
                                                     color: primaryColor,
                                                     fontFamily: 'Iphone',
@@ -918,7 +925,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               filled: true,
                               fillColor: Colors.black.withOpacity(0.05),
                               contentPadding: const EdgeInsets.all(15),
-                              hintText: "Add new activity ...",
+                              hintText: "Add new activity ...".tr(),
                               hintStyle: const TextStyle(
                                   color: Colors.grey, fontSize: 17),
                               enabledBorder: UnderlineInputBorder(
