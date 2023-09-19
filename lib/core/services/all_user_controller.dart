@@ -16,7 +16,7 @@ class AllUserController {
 Future<int>? deleteSender(int id) async {
   final ApiBaseHelper _helper = ApiBaseHelper();
   final token = await getToken();
-  final response =
-      await _helper.delete("/senders/$id", {'Authorization': 'Bearer $token'});
+  final response = await _helper
+      .delete(url: "/senders/$id", header: {'Authorization': 'Bearer $token'});
   return (response[0]);
 }

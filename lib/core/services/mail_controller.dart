@@ -28,8 +28,8 @@ Future<void>? deleteMail(String id) async {
   final ApiBaseHelper helper = ApiBaseHelper();
   final String token = await getToken();
   final response = await helper.delete(
-    '/mails/$id',
-    {'Authorization': 'Bearer $token'},
+    url: '/mails/$id',
+    header: {'Authorization': 'Bearer $token'},
   );
 
   print(response);

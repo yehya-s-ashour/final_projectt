@@ -211,36 +211,34 @@ class _SendersScreenState extends State<SendersScreen> {
                   return Column(
                     children: [
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.only(
-                                  top: 20.0,
-                                  start: 5,
-                                ),
-                                child: Text(
-                                  category.tr(),
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.only(
+                                      top: 20.0,
+                                      start: 5,
+                                    ),
+                                    child: Text(
+                                      category.tr(),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 10),
-                            width: MediaQuery.of(context).size.width,
-                            height: 1,
-                            color: Colors.grey.shade300,
-                          )
-                        ],
-                      ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10),
+                                    width: MediaQuery.of(context).size.width,
+                                    height: 1,
+                                    color: Colors.grey.shade300,
+                                  )
+                                ]),
+                          ]),
                       ListView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
