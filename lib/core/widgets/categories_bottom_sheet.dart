@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/catego_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
@@ -34,13 +35,13 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
       height: MediaQuery.of(context).size.height - 150,
       child: Column(
         children: [
-          const Padding(
+          Padding(
             padding:
                 const EdgeInsetsDirectional.only(top: 15.0, start: 8, end: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
+                const IconButton(
                   onPressed: null,
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
@@ -49,14 +50,14 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
                 ),
                 Center(
                   child: Text(
-                    'Category',
-                    style: TextStyle(
+                    "Category".tr(),
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 23,
                     ),
                   ),
                 ),
-                IconButton(
+                const IconButton(
                   onPressed: null,
                   icon: Icon(
                     Icons.arrow_back_ios_new_rounded,
@@ -71,16 +72,16 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Padding(
-                    padding:
-                        EdgeInsetsDirectional.only(top: 5, start: 5, end: 5),
+                    padding: const EdgeInsetsDirectional.only(
+                        top: 5, start: 5, end: 5),
                     child: CustomWhiteBox(
                       width: 378,
                       height: (snapshot.data!.length) * 55,
                       child: SizedBox(
                         height: 500,
                         child: ListView.builder(
-                          padding: EdgeInsetsDirectional.only(top: 5),
-                          physics: NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsetsDirectional.only(top: 5),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
@@ -106,22 +107,23 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
                                         children: [
                                           Text(
                                             '${snapshot.data![index].name}',
-                                            style: TextStyle(fontSize: 20),
+                                            style:
+                                                const TextStyle(fontSize: 20),
                                           ),
-                                          Spacer(),
+                                          const Spacer(),
                                           selectedIndex == index
                                               ? Icon(
                                                   Icons.check,
                                                   color: primaryColor,
                                                 )
-                                              : SizedBox(),
-                                          SizedBox(
+                                              : const SizedBox(),
+                                          const SizedBox(
                                             width: 15,
                                           )
                                         ],
                                       ),
                                       Container(
-                                        margin: EdgeInsets.only(top: 10),
+                                        margin: const EdgeInsets.only(top: 10),
                                         width: MediaQuery.sizeOf(context).width,
                                         height: 1,
                                         color:

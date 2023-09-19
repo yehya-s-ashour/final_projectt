@@ -8,8 +8,7 @@ class AllUserController {
     final token = await getToken();
     final response =
         await _helper.get("/users", {'Authorization': 'Bearer $token'});
-    print("////**********************");
-    print(response[1]);
+
     return AllUserModel.fromJson(response[1]);
   }
 }

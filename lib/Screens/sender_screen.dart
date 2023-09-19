@@ -217,7 +217,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                   start: 5,
                                 ),
                                 child: Text(
-                                  category,
+                                  category.tr(),
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.w600,

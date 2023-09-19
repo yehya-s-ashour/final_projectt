@@ -12,14 +12,19 @@ class UserProvider extends ChangeNotifier {
     getUserData();
   }
   ApiResponse<UserModel> get data => _data;
-
+  void updatuser() {
+    getUserData();
+  }
 
   Future<void> getUserData() async {
     _data = ApiResponse.loading('Loading');
+
     notifyListeners();
     try {
       final response = await _userController.getLocalUser();
+
       _data = ApiResponse.completed(response);
+
       notifyListeners();
     } catch (e) {
       _data = ApiResponse.error(e.toString());

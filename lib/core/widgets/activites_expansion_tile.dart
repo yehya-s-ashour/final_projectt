@@ -58,7 +58,7 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
                               fontSize: 17),
                         ),
                       ),
-                SizedBox(
+                const SizedBox(
                   width: 7,
                 ),
                 Center(
@@ -73,19 +73,19 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
               ],
             ),
           ),
-          textColor: Color(0xff272727),
-          tilePadding: EdgeInsets.symmetric(horizontal: 30),
+          textColor: const Color(0xff272727),
+          tilePadding: const EdgeInsets.symmetric(horizontal: 30),
           initiallyExpanded: false,
           title: Text(
             'Activity'.tr(),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
             ),
           ),
           children: [
             ListView.builder(
               shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemCount:
                   Provider.of<NewInboxProvider>(context).activites!.length,
               itemBuilder: (context, index) {
@@ -101,16 +101,16 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
                         children: [
                           Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
-                              CircleAvatar(radius: 12),
-                              SizedBox(
+                              const CircleAvatar(radius: 12),
+                              const SizedBox(
                                 width: 15,
                               ),
                               Text(
                                 '${user.user.name}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'Iphone',
@@ -120,7 +120,7 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
                           ),
                           Text(
                             '${Provider.of<NewInboxProvider>(context).activites![index]['body']}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontFamily: 'Iphone',
                             ),
@@ -145,7 +145,7 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
                                       .removeAt(index);
                                   setState(() {});
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.delete_outline_rounded,
                                   color: Colors.red,
                                 )),

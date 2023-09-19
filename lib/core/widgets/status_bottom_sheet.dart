@@ -30,7 +30,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
   void initState() {
     statuses = StatusController().fetchStatuse();
     selectedIndex = widget.status!.id! - 1;
-    print(selectedIndex);
+
     super.initState();
   }
 
@@ -40,7 +40,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
       height: MediaQuery.of(context).size.height - 150,
       child: Column(
         children: [
-          const Padding(
+          Padding(
             padding: EdgeInsetsDirectional.only(top: 15.0, start: 8, end: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -153,7 +153,6 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
                                           snapshot.data!.statuses![index].name!
                                               .tr(),
                                           style: TextStyle(fontSize: 20),
-
                                         ),
                                         const Spacer(),
                                         selectedIndex == index

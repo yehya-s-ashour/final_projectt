@@ -179,7 +179,8 @@ class _MainPageState extends State<MainPage> {
                                   showOverlay(
                                     context,
                                     userProvidor.data.data!.user.name!,
-                                    userProvidor.data.data!.user.role!.name!,
+                                    userProvidor.data.data!.user.role!.name!
+                                        .tr(),
                                     userProvidor.data.data!.user.image!,
                                   );
                                 },
@@ -275,7 +276,7 @@ class _MainPageState extends State<MainPage> {
                         );
                       }
 
-                      return const Text("  no data from Status provider ");
+                      return const Text("no data from Status provider");
                     }),
                     SizedBox(
                       height: deviceHeight * 0.02,
@@ -301,7 +302,7 @@ class _MainPageState extends State<MainPage> {
                                       dividerColor: Colors.transparent),
                                   child: ExpansionTile(
                                     title: Text(
-                                      nameOfCatego,
+                                      nameOfCatego.tr(),
                                       style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold),
@@ -393,11 +394,11 @@ class _MainPageState extends State<MainPage> {
                       }).toList(),
                     ),
                     const Divider(),
-                    const Padding(
-                      padding: EdgeInsets.all(16.0),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        "Tags",
-                        style: TextStyle(
+                        "Tags".tr(),
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
                     ),
