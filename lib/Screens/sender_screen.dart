@@ -1,13 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/sender_mails.dart';
-import 'package:final_projectt/core/services/all_user_controller.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 
 import 'package:final_projectt/models/sender_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:shimmer/shimmer.dart';
 
 class SendersScreen extends StatefulWidget {
   const SendersScreen({super.key});
@@ -58,660 +55,300 @@ class _SendersScreenState extends State<SendersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        Padding(
-          padding: EdgeInsetsDirectional.only(top: 40, start: 15, end: 15),
-          child: Column(
+        body: Padding(
+      padding: EdgeInsetsDirectional.only(top: 40, start: 15, end: 15),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: primaryColor,
-                    ),
-                  ),
-                  Text(
-                    "Senders".tr(),
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Colors.transparent,
-                    ),
-                  ),
-                ],
+              IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: primaryColor,
+                ),
               ),
-              Padding(
-                padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 5),
-                      child: TextField(
-                        controller: searchTextField,
-                        onChanged: (value) {
-                          searchSenders(value);
-                        },
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.search_rounded),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                searchTextField.clear();
-                              });
-                            },
-                            icon: const Icon(Icons.cancel),
-                          ),
-                          filled: true,
-                          fillColor: Colors.black.withOpacity(0.05),
-                          contentPadding: const EdgeInsets.all(15),
-                          hintText: "Search ...".tr(),
-                          hintStyle:
-                              const TextStyle(color: Colors.grey, fontSize: 19),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: backGroundColor),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide(color: backGroundColor),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+              Text(
+                "Senders".tr(),
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                ),
+              ),
+              IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: Colors.transparent,
                 ),
               ),
             ],
           ),
-        ),
-        Expanded(
-          child: FutureBuilder(
-            future: senders,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else if (!snapshot.hasData) {
-                return Center(
-                  child: Text('No data available.'),
-                );
-              }
-
-              sendersData = snapshot.data as Senders;
-              final categorizedSenders = categorizeSenders(sendersData);
-              if (matchingPairs.isEmpty && searchTextField.text.isNotEmpty) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Image.asset('images/result_not_found.png',
-                            fit: BoxFit.cover, height: 250),
-                      ),
-                      SizedBox(
-                        height: 70,
-                      )
-                    ],
-                  ),
-                );
-              }
-              return ListView.separated(
-                padding: EdgeInsets.zero,
-                separatorBuilder: (context, index) {
-                  return SizedBox(
-                    height: 10,
-                  );
-                },
-                physics: BouncingScrollPhysics(),
-                itemCount: categorizedSenders.length,
-                itemBuilder: (context, sectionIndex) {
-                  final category =
-                      categorizedSenders.keys.elementAt(sectionIndex);
-                  final categorySenders = categorizedSenders[category]!;
-
-                  // Filter the matchingPairs for the current category and search term
-                  final filteredMatchingPairs = matchingPairs.where((entry) {
-                    final sender = entry.value;
-                    final senderCategory = sender.category!.name!.toLowerCase();
-                    final senderName = sender.name!.toLowerCase();
-                    final searchTerm = searchTextField.text.toLowerCase();
-
-                    return senderCategory == category.toLowerCase() &&
-                        (senderName.contains(searchTerm) ||
-                            sender.mobile!.contains(searchTerm));
-                  }).toList();
-
-                  // Check if the section is empty, and skip it if so
-                  if ((filteredMatchingPairs.isEmpty &&
-                          categorySenders.isEmpty) ||
-                      (filteredMatchingPairs.isEmpty &&
-                          searchTextField.text.isNotEmpty)) {
-                    return SizedBox.shrink(); // Hide the empty section
-                  }
-
-                  return Column(
-                    children: [
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.only(
-                                      top: 20.0,
-                                      start: 5,
-                                    ),
-                                    child: Text(
-                                      category.tr(),
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(top: 10),
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 1,
-                                    color: Colors.grey.shade300,
-                                  )
-                                ]),
-                          ]),
-                      ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: searchTextField.text.isNotEmpty
-                            ? filteredMatchingPairs.length
-                            : categorySenders.length,
-                        itemBuilder: (context, itemIndex) {
-                          final entry = searchTextField.text.isNotEmpty &&
-                                  itemIndex < filteredMatchingPairs.length
-                              ? filteredMatchingPairs[itemIndex]
-                              : null;
-
-                          final sender = searchTextField.text.isEmpty &&
-                                  itemIndex < categorySenders.length
-                              ? categorySenders[itemIndex]
-                              : null;
-
-                          if (entry != null) {
-                            return Slidable(
-                              endActionPane: ActionPane(
-                                  extentRatio: 0.4,
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    CustomSlidableAction(
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      padding: EdgeInsets.only(left: 30),
-                                      onPressed: (context) {
-                                        showDialog(
-                                          barrierDismissible: false,
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              backgroundColor: Colors.white,
-                                              title: SizedBox(
-                                                width: 290,
-                                                child: Text(
-                                                  'Do you want really to delete "${entry.value.name}" ?',
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 20,
-                                                  ),
-                                                ),
-                                              ),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text(
-                                                    'Cancel',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 17,
-                                                    ),
-                                                  ),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () async {
-                                                    await deleteSender(
-                                                            entry.value.id!)!
-                                                        .then((statusCode) {
-                                                      if (statusCode == 200) {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                SnackBar(
-                                                          content: Center(
-                                                            child: Text(
-                                                              'Deleted Successfully',
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                            ),
-                                                          ),
-                                                          backgroundColor:
-                                                              primaryColor
-                                                                  .withOpacity(
-                                                                      0.7),
-                                                          duration: Duration(
-                                                              seconds: 2),
-                                                          width: 190,
-                                                          elevation: 0,
-                                                          behavior:
-                                                              SnackBarBehavior
-                                                                  .floating,
-                                                        ));
-                                                        setState(() {
-                                                          senders =
-                                                              getSenders();
-                                                          initializeData();
-                                                          Navigator.pop(
-                                                              context);
-                                                        });
-                                                      } else {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                const SnackBar(
-                                                          content: Center(
-                                                            child: Text(
-                                                              'Something went wrong',
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                            ),
-                                                          ),
-                                                          backgroundColor:
-                                                              Colors.redAccent,
-                                                          duration: Duration(
-                                                              seconds: 2),
-                                                          width: 190,
-                                                          elevation: 0,
-                                                          behavior:
-                                                              SnackBarBehavior
-                                                                  .floating,
-                                                        ));
-                                                        Navigator.pop(context);
-                                                      }
-                                                    });
-                                                  },
-                                                  child: const Text(
-                                                    'OK',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 17,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.red,
-                                                borderRadius:
-                                                    BorderRadius.circular(15)),
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.delete,
-                                                color: Colors.white,
-                                                size: 35,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    CustomSlidableAction(
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      padding: EdgeInsets.zero,
-                                      onPressed: (context) {},
-                                      child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                            color: Colors.amber,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        child: Center(
-                                          child: Icon(
-                                            Icons.edit,
-                                            color: Colors.white,
-                                            size: 35,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ]),
-                              child: ListTile(
-                                onTap: () {
-                                  setState(() {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return SenderMails(sender: sender);
-                                      },
-                                    ));
-                                  });
-                                },
-                                title: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Icon(Icons.person_3_outlined),
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          entry.value.name!,
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                        SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.phone,
-                                              size: 20,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              entry.value.mobile!,
-                                              style: TextStyle(fontSize: 17),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          } else if (sender != null) {
-                            return Slidable(
-                              endActionPane: ActionPane(
-                                  extentRatio: 0.4,
-                                  motion: const ScrollMotion(),
-                                  children: [
-                                    CustomSlidableAction(
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      padding: EdgeInsets.only(left: 30),
-                                      onPressed: (context) {
-                                        showDialog(
-                                          barrierDismissible: false,
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              backgroundColor: Colors.white,
-                                              title: SizedBox(
-                                                width: 290,
-                                                child: Text(
-                                                  'Do you want really to delete "${sender.name}" ?',
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 20,
-                                                  ),
-                                                ),
-                                              ),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text(
-                                                    'Cancel',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 17,
-                                                    ),
-                                                  ),
-                                                ),
-                                                TextButton(
-                                                  onPressed: () async {
-                                                    await deleteSender(
-                                                            sender.id!)!
-                                                        .then((statusCode) {
-                                                      if (statusCode == 200) {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                SnackBar(
-                                                          content: Center(
-                                                            child: Text(
-                                                              'Deleted Successfully',
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                            ),
-                                                          ),
-                                                          backgroundColor:
-                                                              primaryColor
-                                                                  .withOpacity(
-                                                                      0.7),
-                                                          duration: Duration(
-                                                              seconds: 2),
-                                                          width: 190,
-                                                          elevation: 0,
-                                                          behavior:
-                                                              SnackBarBehavior
-                                                                  .floating,
-                                                        ));
-                                                        setState(() {
-                                                          senders =
-                                                              getSenders();
-                                                          initializeData();
-                                                          Navigator.pop(
-                                                              context);
-                                                        });
-                                                      } else {
-                                                        ScaffoldMessenger.of(
-                                                                context)
-                                                            .showSnackBar(
-                                                                const SnackBar(
-                                                          content: Center(
-                                                            child: Text(
-                                                              'Something went wrong',
-                                                              style: TextStyle(
-                                                                  fontSize: 15,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                            ),
-                                                          ),
-                                                          backgroundColor:
-                                                              Colors.redAccent,
-                                                          duration: Duration(
-                                                              seconds: 2),
-                                                          width: 190,
-                                                          elevation: 0,
-                                                          behavior:
-                                                              SnackBarBehavior
-                                                                  .floating,
-                                                        ));
-                                                        Navigator.pop(context);
-                                                      }
-                                                    });
-                                                  },
-                                                  child: const Text(
-                                                    'OK',
-                                                    style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      fontSize: 17,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                color: Colors.red,
-                                                borderRadius:
-                                                    BorderRadius.circular(15)),
-                                            child: Center(
-                                              child: Icon(
-                                                Icons.delete,
-                                                color: Colors.white,
-                                                size: 35,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    CustomSlidableAction(
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                      padding: EdgeInsets.zero,
-                                      onPressed: (context) {},
-                                      child: Container(
-                                        height: 50,
-                                        width: 50,
-                                        decoration: BoxDecoration(
-                                            color: Colors.amber,
-                                            borderRadius:
-                                                BorderRadius.circular(15)),
-                                        child: Center(
-                                          child: Icon(
-                                            Icons.edit,
-                                            color: Colors.white,
-                                            size: 35,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ]),
-                              child: ListTile(
-                                onTap: () {
-                                  print('object');
-                                  setState(() {
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return SenderMails(sender: sender);
-                                      },
-                                    ));
-                                  });
-                                },
-                                title: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Icon(Icons.person_3_outlined),
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          sender.name!,
-                                          style: TextStyle(fontSize: 20),
-                                        ),
-                                        SizedBox(
-                                          height: 8,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.phone,
-                                              size: 20,
-                                            ),
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Text(
-                                              sender.mobile!,
-                                              style: TextStyle(fontSize: 17),
-                                            )
-                                          ],
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }
-                          return SizedBox.shrink();
+          Padding(
+            padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(top: 5),
+                  child: TextField(
+                    controller: searchTextField,
+                    onChanged: (value) {
+                      searchSenders(value);
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.search_rounded),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            searchTextField.clear();
+                          });
                         },
+                        icon: const Icon(Icons.cancel),
                       ),
-                    ],
-                  );
-                },
-              );
-            },
+                      filled: true,
+                      fillColor: Colors.black.withOpacity(0.05),
+                      contentPadding: const EdgeInsets.all(15),
+                      hintText: "Search ...".tr(),
+                      hintStyle:
+                          const TextStyle(color: Colors.grey, fontSize: 19),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: backGroundColor),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: BorderSide(color: backGroundColor),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        )
-      ],
+          Expanded(
+            child: FutureBuilder(
+              future: senders,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: primaryColor,
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                } else if (!snapshot.hasData) {
+                  return Center(
+                    child: Text('No data available.'),
+                  );
+                }
+
+                sendersData = snapshot.data as Senders;
+                final categorizedSenders = categorizeSenders(sendersData);
+                if (matchingPairs.isEmpty && searchTextField.text.isNotEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Image.asset('images/result_not_found.png',
+                              fit: BoxFit.cover, height: 250),
+                        ),
+                        SizedBox(
+                          height: 70,
+                        )
+                      ],
+                    ),
+                  );
+                }
+                return ListView.separated(
+                  padding: EdgeInsets.zero,
+                  separatorBuilder: (context, index) {
+                    return SizedBox(
+                      height: 10,
+                    );
+                  },
+                  physics: BouncingScrollPhysics(),
+                  itemCount: categorizedSenders.length,
+                  itemBuilder: (context, sectionIndex) {
+                    final category =
+                        categorizedSenders.keys.elementAt(sectionIndex);
+                    final categorySenders = categorizedSenders[category]!;
+
+                    // Filter the matchingPairs for the current category and search term
+                    final filteredMatchingPairs = matchingPairs.where((entry) {
+                      final sender = entry.value;
+                      final senderCategory =
+                          sender.category!.name!.toLowerCase();
+                      final senderName = sender.name!.toLowerCase();
+                      final searchTerm = searchTextField.text.toLowerCase();
+
+                      return senderCategory == category.toLowerCase() &&
+                          (senderName.contains(searchTerm) ||
+                              sender.mobile!.contains(searchTerm));
+                    }).toList();
+
+                    // Check if the section is empty, and skip it if so
+                    if ((filteredMatchingPairs.isEmpty &&
+                            categorySenders.isEmpty) ||
+                        (filteredMatchingPairs.isEmpty &&
+                            searchTextField.text.isNotEmpty)) {
+                      return SizedBox.shrink(); // Hide the empty section
+                    }
+
+                    return Padding(
+                      padding: EdgeInsetsDirectional.only(start: 20, end: 20),
+                      child: Column(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.only(
+                                  top: 20.0,
+                                  start: 5,
+                                ),
+                                child: Text(
+                                  category.tr(),
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 10),
+                                width: MediaQuery.of(context).size.width,
+                                height: 1,
+                                color: Colors.grey.shade300,
+                              )
+                            ],
+                          ),
+                          ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: searchTextField.text.isNotEmpty
+                                ? filteredMatchingPairs.length
+                                : categorySenders.length,
+                            itemBuilder: (context, itemIndex) {
+                              final entry = searchTextField.text.isNotEmpty &&
+                                      itemIndex < filteredMatchingPairs.length
+                                  ? filteredMatchingPairs[itemIndex]
+                                  : null;
+
+                              final sender = searchTextField.text.isEmpty &&
+                                      itemIndex < categorySenders.length
+                                  ? categorySenders[itemIndex]
+                                  : null;
+
+                              if (entry != null) {
+                                return ListTile(
+                                  onTap: () {
+                                    setState(() {
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return SenderMails(
+                                              sender: entry.value);
+                                        },
+                                      ));
+                                    });
+                                  },
+                                  leading: Icon(Icons.person_3_outlined),
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        entry.value.name!,
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.phone,
+                                            size: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            entry.value.mobile!,
+                                            style: TextStyle(fontSize: 17),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              } else if (sender != null) {
+                                return ListTile(
+                                  onTap: () {
+                                    setState(() {
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return SenderMails(sender: sender);
+                                        },
+                                      ));
+                                    });
+                                  },
+                                  leading: Icon(Icons.person_3_outlined),
+                                  title: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        sender.name!,
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                      SizedBox(
+                                        height: 8,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.phone,
+                                            size: 20,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            sender.mobile!,
+                                            style: TextStyle(fontSize: 17),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }
+                              return SizedBox.shrink(); // Hide empty items
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          )
+        ],
+      ),
     ));
   }
 
