@@ -24,9 +24,10 @@ class ApiBaseHelper {
     return responseJson;
   }
 
+
   Future<dynamic> delete({
     required String url,
-    required Map<String, dynamic> body,
+    Map<String, dynamic> body,
     required Map<String, String> header,
   }) async {
     var responseJson;

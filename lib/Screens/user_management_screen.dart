@@ -9,6 +9,7 @@ import 'package:final_projectt/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class UserManagementScreen extends StatefulWidget {
   const UserManagementScreen({super.key});
@@ -49,8 +50,22 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
         child: Consumer<AllUserProvider>(
           builder: (_, allUserProvider, __) {
             if (allUserProvider.allUserdata.status == Status.LOADING) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return ListView.builder(
+                itemCount: allUserProvider.allUserdata.data?.users?.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      margin: EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      height: 60,
+                    ),
+                  );
+                },
               );
             }
             if (allUserProvider.allUserdata.status == Status.COMPLETED) {

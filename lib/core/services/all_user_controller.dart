@@ -12,3 +12,11 @@ class AllUserController {
     return AllUserModel.fromJson(response[1]);
   }
 }
+
+Future<int>? deleteSender(int id) async {
+  final ApiBaseHelper _helper = ApiBaseHelper();
+  final token = await getToken();
+  final response =
+      await _helper.delete("/senders/$id", {'Authorization': 'Bearer $token'});
+  return (response[0]);
+}
