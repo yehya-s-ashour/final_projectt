@@ -12,6 +12,7 @@ import 'package:final_projectt/models/status_single.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class StatusScreen extends StatefulWidget {
   final String nameOfStatus;
@@ -82,7 +83,7 @@ class _StatusScreenState extends State<StatusScreen> {
                             builder: (context, AsyncSnapshot secondSnapshot) {
                               if (secondSnapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return const CircularProgressIndicator();
+                                return ShimmerList(1);
                               } else if (secondSnapshot.hasError) {
                                 return Text('Error: ${secondSnapshot.error}');
                               } else {
@@ -106,7 +107,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                             tilePadding:
                                                 const EdgeInsets.symmetric(
                                                     horizontal: 16),
-                                            initiallyExpanded: true,
+                                            initiallyExpanded: false,
                                             title: Text(
                                               nameOfCatego.tr(),
                                               style: const TextStyle(
@@ -120,7 +121,6 @@ class _StatusScreenState extends State<StatusScreen> {
                                                         .sender?.categoryId ==
                                                     e.id.toString())
                                                 .map((mail) {
-
                                               return myCustomCard(mail, () {
                                                 showModalBottomSheet(
                                                   clipBehavior: Clip.hardEdge,
@@ -176,11 +176,7 @@ class _StatusScreenState extends State<StatusScreen> {
                   if (firstSnapshot.hasError) {
                     return Text(firstSnapshot.error.toString());
                   }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
-                    ),
-                  );
+                  return ShimmerList(4);
                 }),
           ],
         ),

@@ -246,60 +246,74 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                 const SizedBox(
                                                   width: 10,
                                                 ),
-                                                Text(
-                                                  '${widget.mail.sender!.name}',
-                                                  style: const TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w600),
+                                                SizedBox(
+                                                  width: 130,
+                                                  child: Text(
+                                                    '${widget.mail.sender!.name}',
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: const TextStyle(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
                                                 ),
                                               ],
                                             ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                          .only(
-                                                      top: 10.0, start: 35),
-                                              child: Text(
-                                                '${widget.mail.sender!.category!.name}',
-                                                style: const TextStyle(
-                                                    fontSize: 14),
+                                            SizedBox(
+                                              width: 150,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                            .only(
+                                                        top: 10.0, start: 35),
+                                                child: Text(
+                                                  '${widget.mail.sender!.category!.name}',
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 14),
+                                                ),
                                               ),
                                             )
                                           ],
                                         ),
-                                        Spacer(),
                                         Container(
                                           margin:
                                               const EdgeInsetsDirectional.only(
-                                                  top: 5),
+                                                  start: 10, top: 5),
                                           width: 1,
                                           height: 50,
                                           color: Colors.grey.shade300,
                                         ),
-                                        Spacer(),
-                                        SizedBox(
-                                          width: 150,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsetsDirectional
-                                                            .only(
-                                                        top: 10, bottom: 10),
-                                                child: Text(
-                                                  '$today $month $year',
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                  ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                          .only(
+                                                      top: 10,
+                                                      bottom: 10,
+                                                      start: 20),
+                                              child: Text(
+                                                '$today $month $year',
+                                                style: const TextStyle(
+                                                  fontSize: 14,
                                                 ),
                                               ),
-                                              SizedBox(
-                                                width: 150,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .only(start: 20),
+                                              child: SizedBox(
+                                                width: 155,
                                                 child: Text(
                                                   'Archive Number: ${widget.mail.archiveNumber}',
                                                   overflow:
@@ -308,9 +322,9 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                   style: const TextStyle(
                                                       fontSize: 14),
                                                 ),
-                                              )
-                                            ],
-                                          ),
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ],
                                     ),

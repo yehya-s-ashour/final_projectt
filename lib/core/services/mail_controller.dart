@@ -41,3 +41,14 @@ Future<MailsModel> getMailsOfSingleCatego(int id) async {
   }
   return MailsModel(mails: filterdMails);
 }
+
+Future<void>? deleteMail(String id) async {
+  final ApiBaseHelper helper = ApiBaseHelper();
+  final String token = await getToken();
+  final response = await helper.delete(
+    '/mails/$id',
+    {'Authorization': 'Bearer $token'},
+  );
+
+  print(response);
+}

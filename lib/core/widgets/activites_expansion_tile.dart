@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -9,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ActivitesExpansionTile extends StatefulWidget {
-  const ActivitesExpansionTile({super.key});
-
   @override
   State<ActivitesExpansionTile> createState() => _ActivitesExpansionTileState();
 }
@@ -104,14 +104,19 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile> {
                               SizedBox(
                                 width: 15,
                               ),
-                              CircleAvatar(radius: 12),
+                              CircleAvatar(
+                                radius: 15,
+                                backgroundImage: NetworkImage(
+                                    'https://palmail.gsgtt.tech/storage/${user.user.image}'),
+                                backgroundColor: Colors.transparent,
+                              ),
                               SizedBox(
                                 width: 15,
                               ),
                               Text(
                                 '${user.user.name}',
                                 style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'Iphone',
                                 ),

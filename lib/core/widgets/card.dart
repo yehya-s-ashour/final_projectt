@@ -73,25 +73,25 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                                         backgroundColor: Colors.transparent,
                                         titlePadding: EdgeInsets.zero,
                                         title: Container(
-                                          width: 200,
+                                          width: 220,
                                           height: MediaQuery.sizeOf(context)
                                                   .height -
-                                              250,
+                                              350,
                                           decoration: BoxDecoration(
                                               boxShadow: [
                                                 BoxShadow(
-                                                    color: Colors.black,
+                                                    color: Colors.black26,
                                                     blurRadius: 10,
-                                                    blurStyle: BlurStyle.outer,
-                                                    spreadRadius: 10,
-                                                    offset: Offset(0, 10))
+                                                    spreadRadius: 2,
+                                                    offset: Offset(5, 5))
                                               ],
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               image: DecorationImage(
                                                   fit: BoxFit.cover,
                                                   image: NetworkImage(
-                                                      'https://palmail.gsgtt.tech/storage/$path'))),
+                                                    'https://palmail.gsgtt.tech/storage/$path',
+                                                  ))),
                                         )),
                                   ),
                                 );

@@ -891,7 +891,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             ),
                           ),
                         ),
-                        const ActivitesExpansionTile(),
+                        ActivitesExpansionTile(),
                         Padding(
                           padding: const EdgeInsetsDirectional.only(
                               start: 20.0, end: 20.0, bottom: 20),
