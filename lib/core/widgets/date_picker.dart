@@ -53,6 +53,7 @@ class _CustomDatePickerState extends State<CustomDatePicker>
               ),
               child: const Icon(
                 Icons.expand_more,
+
               ),
             ),
             onExpansionChanged: (value) {
@@ -66,10 +67,10 @@ class _CustomDatePickerState extends State<CustomDatePicker>
                     .setIsDatePickerOpened(value);
               });
             },
-            textColor: Color(0xff272727),
-            tilePadding: EdgeInsets.symmetric(horizontal: 22),
+            textColor: const Color(0xff272727),
+            tilePadding: const EdgeInsets.symmetric(horizontal: 22),
             initiallyExpanded: false,
-            leading: Icon(
+            leading: const Icon(
               Icons.calendar_month_rounded,
               color: Colors.red,
               size: 23,
@@ -83,7 +84,7 @@ class _CustomDatePickerState extends State<CustomDatePicker>
                 children: [
                   Text(
                     'Date'.tr(),
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.black,
                         fontFamily: 'Iphone',
                         fontSize: 19),
@@ -120,12 +121,12 @@ class _CustomDatePickerState extends State<CustomDatePicker>
         ),
         widget.isLined!
             ? Container(
-                margin: EdgeInsetsDirectional.only(start: 10, end: 10),
+                margin: const EdgeInsetsDirectional.only(start: 10, end: 10),
                 width: MediaQuery.sizeOf(context).width,
                 height: 1,
                 color: Colors.grey.shade300,
               )
-            : SizedBox(),
+            : const SizedBox(),
       ],
     );
   }

@@ -252,13 +252,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           allowUnlistedValues: true,
                           styleAnimationType: AnimationType.onHover,
                           current: nullableValue,
-                          values: const ['Login', 'Sign up'],
+                          values: ['Login'.tr(), 'Sign up'.tr()],
                           onChanged: (value) {
                             setState(() {
                               nullableValue = value;
-                              if (value.toString() == 'Login') {
+                              if (value.toString() == 'Login' ||
+                                  value.toString() == "تسجيل الدخول") {
                                 initialLabelIndex = 0;
-                              } else if (value.toString() == 'Sign up') {
+                              } else if (value.toString() == 'Sign up' ||
+                                  value.toString() == "انشاء حساب") {
                                 initialLabelIndex = 1;
                               }
                             });
@@ -281,21 +283,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                   controller: nameController,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please enter your name';
+                                      return 'Please enter your name'.tr();
                                     }
                                     return null;
                                   },
-                                  decoration: const InputDecoration(
-                                      hintText: 'Enter your name',
-                                      hintStyle: TextStyle(
+                                  decoration: InputDecoration(
+                                      hintText: 'Enter your name'.tr(),
+                                      hintStyle: const TextStyle(
                                           color: Colors.grey,
                                           fontFamily: 'Iphone',
                                           fontSize: 14),
                                       fillColor: Colors.grey,
-                                      enabledBorder: UnderlineInputBorder(
+                                      enabledBorder: const UnderlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.grey)),
-                                      focusedBorder: UnderlineInputBorder(
+                                      focusedBorder: const UnderlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.grey))),
                                 ),
@@ -303,21 +305,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                 controller: emailOrUserNameController,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please enter email or username';
+                                    return 'Please enter email or username'
+                                        .tr();
                                   }
                                   return null;
                                 },
-                                decoration: const InputDecoration(
-                                    hintText: 'Enter email or username',
-                                    hintStyle: TextStyle(
+                                decoration: InputDecoration(
+                                    hintText: 'Enter email or username'.tr(),
+                                    hintStyle: const TextStyle(
                                         color: Colors.grey,
                                         fontFamily: 'Iphone',
                                         fontSize: 14),
                                     fillColor: Colors.grey,
-                                    enabledBorder: UnderlineInputBorder(
+                                    enabledBorder: const UnderlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.grey)),
-                                    focusedBorder: UnderlineInputBorder(
+                                    focusedBorder: const UnderlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.grey))),
                               ),
@@ -329,21 +332,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                 obscureText: true,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return ' Please enter a password  ';
+                                    return 'Please enter a password'.tr();
                                   }
                                   return null;
                                 },
-                                decoration: const InputDecoration(
-                                    hintText: 'Password',
-                                    hintStyle: TextStyle(
+                                decoration: InputDecoration(
+                                    hintText: 'Password'.tr(),
+                                    hintStyle: const TextStyle(
                                         color: Colors.grey,
                                         fontFamily: 'Iphone',
                                         fontSize: 14),
                                     fillColor: Colors.grey,
-                                    enabledBorder: UnderlineInputBorder(
+                                    enabledBorder: const UnderlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.grey)),
-                                    focusedBorder: UnderlineInputBorder(
+                                    focusedBorder: const UnderlineInputBorder(
                                         borderSide:
                                             BorderSide(color: Colors.grey))),
                               ),
@@ -358,26 +361,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                       obscureText: true,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Please confirm your password';
+                                          return 'Please confirm your password'
+                                              .tr();
                                         } else if (value !=
                                             passController.text) {
-                                          return 'Passwords do not match';
+                                          return 'Passwords do not match'.tr();
                                         }
                                         return null;
                                       },
-                                      decoration: const InputDecoration(
-                                          hintText: 'Confirm Password',
-                                          hintStyle: TextStyle(
+                                      decoration: InputDecoration(
+                                          hintText: 'Confirm Password'.tr(),
+                                          hintStyle: const TextStyle(
                                               color: Colors.grey,
                                               fontFamily: 'Iphone',
                                               fontSize: 14),
                                           fillColor: Colors.grey,
-                                          enabledBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.grey)),
-                                          focusedBorder: UnderlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: Colors.grey))),
+                                          enabledBorder:
+                                              const UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.grey)),
+                                          focusedBorder:
+                                              const UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Colors.grey))),
                                     ),
                                     const SizedBox(
                                       height: 25,
@@ -420,8 +426,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       vertical: 16.0, horizontal: 32.0),
                                   child: Text(
                                     initialLabelIndex == 1
-                                        ? 'signup'.tr()
-                                        : 'login'.tr(),
+                                        ? 'Sign up'.tr()
+                                        : 'Login'.tr(),
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       color: Colors.white,
@@ -433,8 +439,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               const SizedBox(
                                 height: 14,
                               ),
-                              const Text(
-                                '----------- OR -----------',
+                              Text(
+                                '----------- OR -----------'.tr(),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.grey,

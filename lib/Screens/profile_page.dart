@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/profile_controller.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -306,9 +307,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   radius: 30,
                                   child: Icon(Icons.person),
                                 ),
-                                title: const Text(
-                                  'Name:',
-                                  style: TextStyle(
+                                title: Text(
+                                  'Name:'.tr(),
+                                  style: const TextStyle(
                                       color: Color.fromARGB(255, 134, 134, 134),
                                       fontSize: 16),
                                 ),
@@ -363,9 +364,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             radius: 30,
                             child: Icon(Icons.email),
                           ),
-                          title: const Text(
-                            'Email:',
-                            style: TextStyle(
+                          title: Text(
+                            'Email:'.tr(),
+                            style: const TextStyle(
                                 color: Color.fromARGB(255, 134, 134, 134)),
                           ),
                           subtitle: Text(
@@ -383,9 +384,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Icons.account_box,
                             ),
                           ),
-                          title: const Text(
-                            'Role:',
-                            style: TextStyle(
+                          title: Text(
+                            'Role:'.tr(),
+                            style: const TextStyle(
                                 color: Color.fromARGB(255, 134, 134, 134)),
                           ),
                           subtitle: Text(

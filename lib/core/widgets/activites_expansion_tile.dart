@@ -84,24 +84,25 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
                       Icons.expand_more,
                       size: 30,
                     ),
+
                   ),
                 ),
               ],
             ),
           ),
-          textColor: Color(0xff272727),
-          tilePadding: EdgeInsets.symmetric(horizontal: 30),
+          textColor: const Color(0xff272727),
+          tilePadding: const EdgeInsets.symmetric(horizontal: 30),
           initiallyExpanded: false,
           title: Text(
             'Activity'.tr(),
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 20,
             ),
           ),
           children: [
             ListView.builder(
               shrinkWrap: true,
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemCount:
                   Provider.of<NewInboxProvider>(context).activites!.length,
               itemBuilder: (context, index) {
@@ -117,10 +118,10 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
                         children: [
                           Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
-                              CircleAvatar(
+CircleAvatar(
                                 radius: 15,
                                 backgroundImage: NetworkImage(
                                     'https://palmail.gsgtt.tech/storage/${user.user.image}'),
@@ -133,6 +134,7 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
                                 '${user.user.name}',
                                 style: TextStyle(
                                   fontSize: 18,
+
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'Iphone',
                                 ),
@@ -141,7 +143,7 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
                           ),
                           Text(
                             '${Provider.of<NewInboxProvider>(context).activites![index]['body']}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                               fontFamily: 'Iphone',
                             ),
@@ -166,7 +168,7 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
                                       .removeAt(index);
                                   setState(() {});
                                 },
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.delete_outline_rounded,
                                   color: Colors.red,
                                 )),

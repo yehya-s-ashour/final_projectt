@@ -1,9 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/helpers/api_response.dart';
 import 'package:final_projectt/core/services/change_roal_controller.dart';
+import 'package:final_projectt/core/services/delet_user.dart';
+
+import 'package:final_projectt/core/services/profile_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
+
+import 'package:final_projectt/models/all_user_model.dart';
 import 'package:final_projectt/providers/all_user_provider.dart';
 import 'package:final_projectt/providers/user_role_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +21,7 @@ class CustomAlertDialog extends StatefulWidget {
   final String role;
   final int userId;
   final int roleId;
+  final String type;
 
   const CustomAlertDialog({
     super.key,
@@ -23,6 +31,7 @@ class CustomAlertDialog extends StatefulWidget {
     required this.role,
     required this.userId,
     required this.roleId,
+    required this.type,
   });
 
   @override
@@ -32,6 +41,7 @@ class CustomAlertDialog extends StatefulWidget {
 class _CustomAlertDialogState extends State<CustomAlertDialog> {
   int _value = 0;
   ChangeRoleCotroller changeRoleCotroller = ChangeRoleCotroller();
+  DeleteUserCotroller deleteUserCotroller = DeleteUserCotroller();
   @override
   void initState() {
     _value = widget.roleId;
@@ -56,11 +66,13 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Change User Rloe",
-                style: TextStyle(color: Colors.white),
+                widget.type == "edit"
+                    ? "Change User Rloe".tr()
+                    : "Delete User".tr(),
+                style: const TextStyle(color: Colors.white),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -89,15 +101,16 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text("user information"),
+              Text("user information".tr()),
               const SizedBox(
                 height: 8,
               ),
               RichText(
                 text: TextSpan(children: <TextSpan>[
-                  const TextSpan(
-                      text: "Name :  ",
-                      style: TextStyle(color: Colors.black, fontSize: 16)),
+                  TextSpan(
+                      text: "Name :  ".tr(),
+                      style:
+                          const TextStyle(color: Colors.black, fontSize: 16)),
                   TextSpan(
                       text: widget.name,
                       style: const TextStyle(
@@ -106,9 +119,10 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               ),
               RichText(
                 text: TextSpan(children: <TextSpan>[
-                  const TextSpan(
-                      text: "Email :  ",
-                      style: TextStyle(color: Colors.black, fontSize: 16)),
+                  TextSpan(
+                      text: "Email :  ".tr(),
+                      style:
+                          const TextStyle(color: Colors.black, fontSize: 16)),
                   TextSpan(
                       text: widget.email,
                       style: const TextStyle(
@@ -117,11 +131,12 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               ),
               RichText(
                 text: TextSpan(children: <TextSpan>[
-                  const TextSpan(
-                      text: "Role :  ",
-                      style: TextStyle(color: Colors.black, fontSize: 16)),
                   TextSpan(
-                      text: widget.role,
+                      text: "Role :  ".tr(),
+                      style:
+                          const TextStyle(color: Colors.black, fontSize: 16)),
+                  TextSpan(
+                      text: widget.role.tr(),
                       style: const TextStyle(
                           color: Colors.blueAccent, fontSize: 16)),
                 ]),
@@ -129,72 +144,111 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
               const SizedBox(
                 height: 8,
               ),
-              const Text(
-                  "Attention: You are about to change the role of this user"),
+              Text(
+                widget.type == "edit"
+                    ? "Attention: You are about to change the role of this user"
+                        .tr()
+                    : "Attention: You are about to delete of this user".tr(),
+              )
             ],
           ),
           const SizedBox(
             height: 8,
           ),
-          Consumer<UserRoleProvider>(
-            builder: (_, userRoleProvider, __) {
-              if (userRoleProvider.userRoledata.status == Status.LOADING) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              if (userRoleProvider.userRoledata.status == Status.COMPLETED) {
-                return Wrap(
-                  spacing: 5.0,
-                  children: List<Widget>.generate(
-                    userRoleProvider.userRoledata.data!.roles!.length,
-                    (int index) {
-                      return ChoiceChip(
-                        selectedColor: Colors.blueAccent,
-                        label: Text(userRoleProvider
-                            .userRoledata.data!.roles![index].name!),
-                        selected: _value == index + 1,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _value = (selected ? index + 1 : null)!;
-                          });
-                        },
+          widget.type == "edit"
+              ? Consumer<UserRoleProvider>(
+                  builder: (_, userRoleProvider, __) {
+                    if (userRoleProvider.userRoledata.status ==
+                        Status.LOADING) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    },
-                  ).toList(),
-                );
-              }
+                    }
 
-              return const Text(" no data fron User role provider");
-            },
-          ),
+                    if (userRoleProvider.userRoledata.status ==
+                        Status.COMPLETED) {
+                      return Wrap(
+                        spacing: 5.0,
+                        children: List<Widget>.generate(
+                          userRoleProvider.userRoledata.data!.roles!.length,
+                          (int index) {
+                            return ChoiceChip(
+                              selectedColor: Colors.blueAccent,
+                              label: Text(userRoleProvider
+                                  .userRoledata.data!.roles![index].name!
+                                  .tr()),
+                              selected: _value == index + 1,
+                              onSelected: (bool selected) {
+                                setState(() {
+                                  _value = (selected ? index + 1 : null)!;
+                                });
+                              },
+                            );
+                          },
+                        ).toList(),
+                      );
+                    }
+
+                    return const Text(" no data fron User role provider");
+                  },
+                )
+              : const SizedBox(),
         ],
       ),
       actions: <Widget>[
         TextButton(
-            onPressed: () async {
-              await changeRoleCotroller.changeRole(
-                  user_id: widget.userId, role_id: _value);
+            onPressed: widget.type == "edit"
+                ? () async {
+                    await changeRoleCotroller.changeRole(
+                        user_id: widget.userId, role_id: _value);
 
-              Provider.of<AllUserProvider>(context, listen: false)
-                  .UpdateAllUserProvider();
+                    // ignore: use_build_context_synchronously
+                    await Provider.of<AllUserProvider>(context, listen: false)
+                        .getusersData();
 
-              showAlert(context,
-                  message: 'The role was changed successfully',
-                  color: primaryColor.withOpacity(0.8),
-                  width: 230);
+                    // ignore: use_build_context_synchronously
+                    User? myinfo = Provider.of<AllUserProvider>(context,
+                            listen: false)
+                        .allUserdata
+                        .data
+                        ?.users
+                        ?.firstWhere((element) => element.id == widget.userId);
 
-              Navigator.pop(context);
-            },
-            child: const Text(
-              "confirm",
-              style: TextStyle(fontSize: 16),
+                    await updateRoleSharedPreferences(myinfo?.role);
+
+                    // ignore: use_build_context_synchronously
+                    showAlert(context,
+                        message: 'The role was changed successfully'.tr(),
+                        color: primaryColor.withOpacity(0.8),
+                        width: 230);
+
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  }
+                : () async {
+                    await deleteUserCotroller.deleteUser(
+                        user_id: widget.userId, name: widget.name);
+                    // ignore: use_build_context_synchronously
+                    await Provider.of<AllUserProvider>(context, listen: false)
+                        .getusersData();
+
+                    // ignore: use_build_context_synchronously
+                    showAlert(context,
+                        message: 'The user was deleted successfully'.tr(),
+                        color: primaryColor.withOpacity(0.8),
+                        width: 230);
+
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  },
+            child: Text(
+              "Confirm".tr(),
+              style: const TextStyle(fontSize: 16),
             )),
         TextButton(
-            child: const Text(
-              'cancel',
-              style: TextStyle(fontSize: 16),
+            child: Text(
+              'Cancel'.tr(),
+              style: const TextStyle(fontSize: 16),
             ),
             onPressed: () {
               Navigator.pop(context);

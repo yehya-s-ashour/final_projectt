@@ -10,6 +10,7 @@ OverlayEntry? overlayEntry;
 void hideOverlay() {
   if (overlayEntry != null) {
     overlayEntry!.remove();
+    overlayEntry = null;
   }
 }
 
