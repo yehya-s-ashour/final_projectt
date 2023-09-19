@@ -14,21 +14,8 @@ class CustomDatePicker extends StatefulWidget {
   State<CustomDatePicker> createState() => _CustomDatePickerState();
 }
 
-class _CustomDatePickerState extends State<CustomDatePicker>
-    with SingleTickerProviderStateMixin {
+class _CustomDatePickerState extends State<CustomDatePicker> {
   DateTime date = DateTime.now();
-  late AnimationController _animationController;
-  static final Animatable<double> _easeInTween =
-      CurveTween(curve: Curves.easeIn);
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,25 +31,30 @@ class _CustomDatePickerState extends State<CustomDatePicker>
             dividerColor: Colors.transparent,
           ),
           child: ExpansionTile(
-            trailing: RotationTransition(
-              turns: _animationController.drive(
-                Tween<double>(
-                  begin: -0.25,
-                  end: 0.0,
-                ).chain(_easeInTween),
-              ),
-              child: const Icon(
-                Icons.expand_more,
-
+            trailing: AnimatedContainer(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.linear,
+              width: Provider.of<NewInboxProvider>(context).isDatePickerOpened
+                  ? 35
+                  : 20,
+              child: Center(
+                child: Icon(
+                  !Provider.of<NewInboxProvider>(context).isDatePickerOpened
+                      ? Icons.arrow_forward_ios_rounded
+                      : Icons.keyboard_arrow_down_rounded,
+                  size:
+                      !Provider.of<NewInboxProvider>(context).isDatePickerOpened
+                          ? 22
+                          : 38,
+                  color:
+                      !Provider.of<NewInboxProvider>(context).isDatePickerOpened
+                          ? Colors.grey
+                          : primaryColor,
+                ),
               ),
             ),
             onExpansionChanged: (value) {
               setState(() {
-                if (value) {
-                  _animationController.forward();
-                } else {
-                  _animationController.reverse();
-                }
                 Provider.of<NewInboxProvider>(context, listen: false)
                     .setIsDatePickerOpened(value);
               });
@@ -99,23 +91,20 @@ class _CustomDatePickerState extends State<CustomDatePicker>
                 ],
               ),
             ),
+            //
             children: <Widget>[
-              AnimatedSwitcher(
-                  duration: Duration(milliseconds: 400),
-                  child: CalendarDatePicker(
-                    initialDate: date,
-                    firstDate: DateTime(1900, 1, 1),
-                    lastDate: DateTime(2100, 1, 1),
-                    onDateChanged: (DateTime newdate) {
-                      setState(() {
-                        date = newdate;
-                        Provider.of<NewInboxProvider>(context, listen: false)
-                            .setDate(newdate);
-                      });
-                    },
-                  )
-                  // Hidden when not expanded
-                  ),
+              CalendarDatePicker(
+                initialDate: date,
+                firstDate: DateTime(1900, 1, 1),
+                lastDate: DateTime(2100, 1, 1),
+                onDateChanged: (DateTime newdate) {
+                  setState(() {
+                    date = newdate;
+                    Provider.of<NewInboxProvider>(context, listen: false)
+                        .setDate(newdate);
+                  });
+                },
+              ),
             ],
           ),
         ),

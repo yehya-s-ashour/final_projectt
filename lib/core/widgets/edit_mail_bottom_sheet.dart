@@ -249,76 +249,61 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                 const SizedBox(
                                                   width: 10,
                                                 ),
-                                                SizedBox(
-                                                  width: 130,
-                                                  child: Text(
-                                                    '${widget.mail.sender!.name}',
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w600),
-                                                  ),
+                                                Text(
+                                                  '${widget.mail.sender!.name}',
+                                                  style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w600),
                                                 ),
                                               ],
                                             ),
-                                            SizedBox(
-                                              width: 150,
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsetsDirectional
-                                                            .only(
-                                                        top: 10.0, start: 35),
-                                                child: Text(
-                                                  '${widget.mail.sender!.category!.name}',
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: const TextStyle(
-                                                      fontSize: 14),
-                                                ),
-
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsetsDirectional
+                                                      .only(
+                                                      top: 10.0, start: 35),
+                                              child: Text(
+                                                '${widget.mail.sender!.category!.name}',
+                                                style: const TextStyle(
+                                                    fontSize: 14),
                                               ),
                                             )
                                           ],
                                         ),
+                                        const Spacer(),
                                         Container(
                                           margin:
                                               const EdgeInsetsDirectional.only(
-                                                  start: 10, top: 5),
+                                                  top: 5),
                                           width: 1,
                                           height: 50,
                                           color: Colors.grey.shade300,
                                         ),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                          .only(
-                                                      top: 10,
-                                                      bottom: 10,
-                                                      start: 20),
-                                              child: Text(
-                                                '$today $month $year',
-                                                style: const TextStyle(
-                                                  fontSize: 14,
+                                        const Spacer(),
+                                        SizedBox(
+                                          width: 150,
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsetsDirectional
+                                                        .only(
+                                                        top: 10, bottom: 10),
 
+                                                child: Text(
+                                                  '$today $month $year',
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                      .only(start: 20),
-                                              child: SizedBox(
-                                                width: 155,
+                                              SizedBox(
+                                                width: 150,
                                                 child: Text(
                                                   'Archive Number: ${widget.mail.archiveNumber}',
                                                   overflow:
@@ -327,9 +312,9 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                   style: const TextStyle(
                                                       fontSize: 14),
                                                 ),
-                                              ),
-                                            )
-                                          ],
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -934,7 +919,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           ),
                         ),
                       ),
-                      ActivitesExpansionTile(),
+                      const ActivitesExpansionTile(),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(
                             start: 20.0, end: 20.0, bottom: 20, top: 5),
