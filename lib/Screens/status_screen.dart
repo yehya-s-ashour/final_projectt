@@ -13,6 +13,7 @@ import 'package:final_projectt/models/status_single.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class StatusScreen extends StatefulWidget {
   final String nameOfStatus;
@@ -83,7 +84,7 @@ class _StatusScreenState extends State<StatusScreen> {
                             builder: (context, AsyncSnapshot secondSnapshot) {
                               if (secondSnapshot.connectionState ==
                                   ConnectionState.waiting) {
-                                return const CircularProgressIndicator();
+                                return ShimmerList(1);
                               } else if (secondSnapshot.hasError) {
                                 return Text('Error: ${secondSnapshot.error}');
                               } else {
@@ -182,15 +183,39 @@ class _StatusScreenState extends State<StatusScreen> {
                   if (firstSnapshot.hasError) {
                     return Text(firstSnapshot.error.toString());
                   }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
-                    ),
-                  );
+                  return ShimmerList(4);
                 }),
           ],
         ),
       ),
     );
   }
+}
+
+Widget ShimmerList(int length) {
+  return SizedBox(
+    height: length * 60.0, // Adjust the height to display 4 shimmer items
+    child: ListView.builder(
+      padding: EdgeInsets.zero,
+      itemCount: 4, // Display only 4 shimmer items
+      itemBuilder: (context, index) {
+        return Shimmer.fromColors(
+          baseColor: Colors.grey[300]!,
+          highlightColor: Colors.grey[100]!,
+          child: Container(
+            margin: EdgeInsets.only(
+              top: 20,
+              left: 18,
+              right: 18,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            height: 40,
+          ),
+        );
+      },
+    ),
+  );
 }

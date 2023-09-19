@@ -173,7 +173,7 @@ Widget drawer(BuildContext context) {
           const Spacer(),
           Container(
             margin:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.15),
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.1),
             child: Row(
               children: [
                 TextButton(
