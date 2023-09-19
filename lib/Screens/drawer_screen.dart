@@ -11,10 +11,10 @@ import 'package:provider/provider.dart';
 
 Widget drawer(BuildContext context) {
   List<Map> drawerItem = [
-    {'icon': MdiIcons.home, 'title': 'Home Page'},
-    {'icon': MdiIcons.accountCard, 'title': 'Profile Page'},
+    {'icon': Icons.home, 'title': 'Home Page'},
+    {'icon': Icons.person, 'title': 'Profile Page'},
     {'icon': MdiIcons.sendCheck, 'title': 'Senders'},
-    {'icon': Icons.settings_applications, 'title': 'User Management'},
+    {'icon': Icons.settings, 'title': 'User Management'},
   ];
   return SafeArea(
     child: Container(
@@ -163,7 +163,7 @@ Widget drawer(BuildContext context) {
                               "${e['title']}".tr(),
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 18,
+                                fontSize: 17,
                               ),
                             ),
                           ),
@@ -182,7 +182,7 @@ Widget drawer(BuildContext context) {
                     'Terms Of Service'.tr(),
                     style: const TextStyle(
                         color: Color.fromARGB(255, 179, 178, 178),
-                        fontSize: 13),
+                        fontSize: 12),
                   ).tr(),
                 ),
                 Container(
@@ -196,7 +196,7 @@ Widget drawer(BuildContext context) {
                     'Usage Policy'.tr(),
                     style: const TextStyle(
                         color: Color.fromARGB(255, 179, 178, 178),
-                        fontSize: 13),
+                        fontSize: 12),
                   ),
                 ),
               ],

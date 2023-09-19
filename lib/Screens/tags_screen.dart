@@ -6,7 +6,6 @@ import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:flutter/material.dart';
 
 import '../core/util/constants/colors.dart';
-import '../models/catego_model.dart';
 import '../models/mail_model.dart';
 import '../models/tags_model.dart';
 
@@ -22,31 +21,34 @@ class TagsScreen extends StatefulWidget {
 }
 
 class _TagsScreenState extends State<TagsScreen> {
-  late Future<List<CategoryElement>> categories;
   late Future<List<Mail>> mails;
-  late Future<List<TagElement>> tags;
-  bool isAllTagSelected = true;
-  bool isOtherTagSelected = false;
   List<int> allTagsIds = [];
+  Set<int> tagsIdsToBeShown = {};
+  int greyIndex = 0;
+  bool isAllTagSelected = true;
   @override
   void initState() {
-    // categories = getCatego();
     mails = getAllMailsHaveTags(allTagsIds);
-    // tags = getAllTags();
     super.initState();
   }
 
-  int greyIndex = 0;
   @override
   Widget build(BuildContext context) {
     String allTag = 'All Tags';
+
     List<Widget>? tagsListForWhiteBox;
     tagsListForWhiteBox = [
       GestureDetector(
         onTap: () {
+          isAllTagSelected = !isAllTagSelected;
           setState(() {
-            greyIndex = 0;
-            mails = getAllMailsHaveTags(allTagsIds);
+            if (isAllTagSelected) {
+              mails = getAllMailsHaveTags(allTagsIds);
+            } else if (tagsIdsToBeShown.isEmpty) {
+              mails = getAllMailsHaveTags([]);
+            } else {
+              mails = getAllMailsHaveTags(tagsIdsToBeShown.toList());
+            }
           });
         },
         child: Container(
@@ -54,9 +56,9 @@ class _TagsScreenState extends State<TagsScreen> {
           height: 32,
           width: 40.0 + (allTag.length * 7.0),
           decoration: BoxDecoration(
-            color: greyIndex == 0
-                ? const Color.fromARGB(255, 208, 207, 207)
-                : primaryColor,
+            color: isAllTagSelected
+                ? primaryColor
+                : const Color.fromARGB(255, 208, 207, 207),
             borderRadius: BorderRadius.circular(30),
           ),
           child: Text(
@@ -69,16 +71,27 @@ class _TagsScreenState extends State<TagsScreen> {
         ),
       ),
       ...widget.tagsList.map((tag) {
-        final index = widget.tagsList.indexOf(tag) + 1;
+        allTagsIds.add(tag.id);
         final tagText = tag.name;
         final textLength = tagText.length;
-        allTagsIds.add(tag.id);
         final tagWidth = 40.0 + (textLength * 8.0);
+        bool isSelected = tagsIdsToBeShown.contains(tag.id);
         return GestureDetector(
           onTap: () {
             setState(() {
-              greyIndex = index;
-              mails = getAllMailsHaveTags([tag.id]);
+              if (tagsIdsToBeShown.contains(tag.id)) {
+                tagsIdsToBeShown.remove(tag.id);
+              } else {
+                tagsIdsToBeShown.add(tag.id);
+              }
+              if (tagsIdsToBeShown.isNotEmpty && isAllTagSelected == false) {
+                mails = getAllMailsHaveTags(tagsIdsToBeShown.toList());
+              } else if (tagsIdsToBeShown.isEmpty &&
+                  isAllTagSelected == false) {
+                mails = getAllMailsHaveTags([]);
+              } else {
+                mails = getAllMailsHaveTags(allTagsIds);
+              }
             });
           },
           child: Container(
@@ -86,9 +99,9 @@ class _TagsScreenState extends State<TagsScreen> {
             width: tagWidth,
             height: 32,
             decoration: BoxDecoration(
-              color: index == greyIndex
-                  ? const Color.fromARGB(255, 208, 207, 207)
-                  : primaryColor,
+              color: isSelected
+                  ? primaryColor
+                  : const Color.fromARGB(255, 208, 207, 207),
               borderRadius: BorderRadius.circular(30),
             ),
             child: Text(
@@ -128,7 +141,7 @@ class _TagsScreenState extends State<TagsScreen> {
         child: Column(
           children: [
             CustomWhiteBox(
-                width: 378,
+                width: double.infinity,
                 height: (widget.tagsList.length / 2).round() * 46,
                 child: Padding(
                   padding: const EdgeInsetsDirectional.only(start: 8.0, top: 8),

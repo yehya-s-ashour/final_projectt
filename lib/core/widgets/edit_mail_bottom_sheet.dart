@@ -294,6 +294,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                     const EdgeInsetsDirectional
                                                         .only(
                                                         top: 10, bottom: 10),
+
                                                 child: Text(
                                                   '$today $month $year',
                                                   style: const TextStyle(
@@ -579,6 +580,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                       vertical: 20, horizontal: 40),
                                   border: InputBorder.none,
                                   hintText: "Add Decsision ...".tr(),
+
                                   hintStyle: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iphone',

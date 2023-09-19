@@ -41,6 +41,7 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
       child: Column(
         children: [
           Padding(
+
             padding: EdgeInsetsDirectional.only(top: 15.0, start: 8, end: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
