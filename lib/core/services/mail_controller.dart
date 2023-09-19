@@ -24,17 +24,6 @@ Future<MailsModel> getMailsOfSingleCatego(int id) async {
   return MailsModel.fromJson(response[1]);
 }
 
-Future<void>? deleteMail(String id) async {
-  final ApiBaseHelper helper = ApiBaseHelper();
-  final String token = await getToken();
-  final response = await helper.delete(
-    url: '/mails/$id',
-    header: {'Authorization': 'Bearer $token'},
-  );
-
-  print(response);
-}
-
 // Future<MailsModel> getMailsOfSingleCatego(int id) async {
 //   final ApiBaseHelper helper = ApiBaseHelper();
 //   final String token = await getToken();
