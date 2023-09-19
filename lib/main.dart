@@ -52,7 +52,7 @@ class myapp extends StatelessWidget {
           localizationsDelegates: context.localizationDelegates,
           locale: context.locale,
           theme: ThemeData(fontFamily: 'Iphone'),
-          home: const MainPage()),
+          home: const SplashScreen()),
     );
   }
 }
