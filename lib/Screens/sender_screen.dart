@@ -648,6 +648,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                   ]),
                               child: ListTile(
                                 onTap: () {
+                                  print('object');
                                   setState(() {
                                     Navigator.push(context, MaterialPageRoute(
                                       builder: (context) {
