@@ -85,25 +85,25 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                                         backgroundColor: Colors.transparent,
                                         titlePadding: EdgeInsets.zero,
                                         title: Container(
-                                          width: 220,
+                                          width: 200,
                                           height: MediaQuery.sizeOf(context)
                                                   .height -
-                                              350,
+                                              250,
                                           decoration: BoxDecoration(
                                               boxShadow: const [
                                                 BoxShadow(
-                                                    color: Colors.black26,
+                                                    color: Colors.black,
                                                     blurRadius: 10,
-                                                    spreadRadius: 2,
-                                                    offset: Offset(5, 5))
+                                                    blurStyle: BlurStyle.outer,
+                                                    spreadRadius: 10,
+                                                    offset: Offset(0, 10))
                                               ],
                                               borderRadius:
                                                   BorderRadius.circular(30),
                                               image: DecorationImage(
                                                   fit: BoxFit.cover,
                                                   image: NetworkImage(
-                                                    'https://palmail.gsgtt.tech/storage/$path',
-                                                  ))),
+                                                      'https://palmail.gsgtt.tech/storage/$path'))),
                                         )),
                                   ),
                                 );
