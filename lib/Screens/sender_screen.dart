@@ -61,7 +61,8 @@ class _SendersScreenState extends State<SendersScreen> {
         body: Column(
       children: [
         Padding(
-          padding: EdgeInsetsDirectional.only(top: 40, start: 15, end: 15),
+          padding:
+              const EdgeInsetsDirectional.only(top: 40, start: 15, end: 15),
           child: Column(
             children: [
               Row(
@@ -143,13 +144,13 @@ class _SendersScreenState extends State<SendersScreen> {
             future: senders,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator(),
                 );
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               } else if (!snapshot.hasData) {
-                return Center(
+                return const Center(
                   child: Text('No data available.'),
                 );
               }
@@ -167,7 +168,7 @@ class _SendersScreenState extends State<SendersScreen> {
                         child: Image.asset('images/result_not_found.png',
                             fit: BoxFit.cover, height: 250),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 70,
                       )
                     ],
@@ -177,11 +178,11 @@ class _SendersScreenState extends State<SendersScreen> {
               return ListView.separated(
                 padding: EdgeInsets.zero,
                 separatorBuilder: (context, index) {
-                  return SizedBox(
+                  return const SizedBox(
                     height: 10,
                   );
                 },
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 itemCount: categorizedSenders.length,
                 itemBuilder: (context, sectionIndex) {
                   final category =
@@ -205,7 +206,7 @@ class _SendersScreenState extends State<SendersScreen> {
                           categorySenders.isEmpty) ||
                       (filteredMatchingPairs.isEmpty &&
                           searchTextField.text.isNotEmpty)) {
-                    return SizedBox.shrink(); // Hide the empty section
+                    return const SizedBox.shrink(); // Hide the empty section
                   }
 
                   return Column(
@@ -219,20 +220,20 @@ class _SendersScreenState extends State<SendersScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.only(
+                                    padding: const EdgeInsetsDirectional.only(
                                       top: 20.0,
                                       start: 5,
                                     ),
                                     child: Text(
                                       category.tr(),
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 10),
+                                    margin: const EdgeInsets.only(top: 10),
                                     width: MediaQuery.of(context).size.width,
                                     height: 1,
                                     color: Colors.grey.shade300,
@@ -242,7 +243,7 @@ class _SendersScreenState extends State<SendersScreen> {
                       ListView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemCount: searchTextField.text.isNotEmpty
                             ? filteredMatchingPairs.length
                             : categorySenders.length,
@@ -266,7 +267,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                     CustomSlidableAction(
                                       backgroundColor: Theme.of(context)
                                           .scaffoldBackgroundColor,
-                                      padding: EdgeInsets.only(left: 30),
+                                      padding: const EdgeInsets.only(left: 30),
                                       onPressed: (context) {
                                         showDialog(
                                           barrierDismissible: false,
@@ -278,7 +279,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                                 width: 290,
                                                 child: Text(
                                                   'Do you want really to delete "${entry.value.name}" ?',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 20,
@@ -310,7 +311,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                                                 context)
                                                             .showSnackBar(
                                                                 SnackBar(
-                                                          content: Center(
+                                                          content: const Center(
                                                             child: Text(
                                                               'Deleted Successfully',
                                                               style: TextStyle(
@@ -324,8 +325,9 @@ class _SendersScreenState extends State<SendersScreen> {
                                                               primaryColor
                                                                   .withOpacity(
                                                                       0.7),
-                                                          duration: Duration(
-                                                              seconds: 2),
+                                                          duration:
+                                                              const Duration(
+                                                                  seconds: 2),
                                                           width: 190,
                                                           elevation: 0,
                                                           behavior:
@@ -392,7 +394,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                                 color: Colors.red,
                                                 borderRadius:
                                                     BorderRadius.circular(15)),
-                                            child: Center(
+                                            child: const Center(
                                               child: Icon(
                                                 Icons.delete,
                                                 color: Colors.white,
@@ -415,7 +417,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                             color: Colors.amber,
                                             borderRadius:
                                                 BorderRadius.circular(15)),
-                                        child: Center(
+                                        child: const Center(
                                           child: Icon(
                                             Icons.edit,
                                             color: Colors.white,
@@ -437,11 +439,11 @@ class _SendersScreenState extends State<SendersScreen> {
                                 },
                                 title: Row(
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 30,
                                     ),
-                                    Icon(Icons.person_3_outlined),
-                                    SizedBox(
+                                    const Icon(Icons.person_3_outlined),
+                                    const SizedBox(
                                       width: 30,
                                     ),
                                     Column(
@@ -452,23 +454,24 @@ class _SendersScreenState extends State<SendersScreen> {
                                       children: [
                                         Text(
                                           entry.value.name!,
-                                          style: TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         Row(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.phone,
                                               size: 20,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 10,
                                             ),
                                             Text(
                                               entry.value.mobile!,
-                                              style: TextStyle(fontSize: 17),
+                                              style:
+                                                  const TextStyle(fontSize: 17),
                                             )
                                           ],
                                         )
@@ -487,7 +490,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                     CustomSlidableAction(
                                       backgroundColor: Theme.of(context)
                                           .scaffoldBackgroundColor,
-                                      padding: EdgeInsets.only(left: 30),
+                                      padding: const EdgeInsets.only(left: 30),
                                       onPressed: (context) {
                                         showDialog(
                                           barrierDismissible: false,
@@ -499,7 +502,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                                 width: 290,
                                                 child: Text(
                                                   'Do you want really to delete "${sender.name}" ?',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     color: Colors.black,
                                                     fontWeight: FontWeight.w600,
                                                     fontSize: 20,
@@ -531,7 +534,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                                                 context)
                                                             .showSnackBar(
                                                                 SnackBar(
-                                                          content: Center(
+                                                          content: const Center(
                                                             child: Text(
                                                               'Deleted Successfully',
                                                               style: TextStyle(
@@ -545,8 +548,9 @@ class _SendersScreenState extends State<SendersScreen> {
                                                               primaryColor
                                                                   .withOpacity(
                                                                       0.7),
-                                                          duration: Duration(
-                                                              seconds: 2),
+                                                          duration:
+                                                              const Duration(
+                                                                  seconds: 2),
                                                           width: 190,
                                                           elevation: 0,
                                                           behavior:
@@ -613,7 +617,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                                 color: Colors.red,
                                                 borderRadius:
                                                     BorderRadius.circular(15)),
-                                            child: Center(
+                                            child: const Center(
                                               child: Icon(
                                                 Icons.delete,
                                                 color: Colors.white,
@@ -636,7 +640,7 @@ class _SendersScreenState extends State<SendersScreen> {
                                             color: Colors.amber,
                                             borderRadius:
                                                 BorderRadius.circular(15)),
-                                        child: Center(
+                                        child: const Center(
                                           child: Icon(
                                             Icons.edit,
                                             color: Colors.white,
@@ -659,11 +663,11 @@ class _SendersScreenState extends State<SendersScreen> {
                                 },
                                 title: Row(
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 30,
                                     ),
-                                    Icon(Icons.person_3_outlined),
-                                    SizedBox(
+                                    const Icon(Icons.person_3_outlined),
+                                    const SizedBox(
                                       width: 30,
                                     ),
                                     Column(
@@ -674,23 +678,24 @@ class _SendersScreenState extends State<SendersScreen> {
                                       children: [
                                         Text(
                                           sender.name!,
-                                          style: TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 20),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 8,
                                         ),
                                         Row(
                                           children: [
-                                            Icon(
+                                            const Icon(
                                               Icons.phone,
                                               size: 20,
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 10,
                                             ),
                                             Text(
                                               sender.mobile!,
-                                              style: TextStyle(fontSize: 17),
+                                              style:
+                                                  const TextStyle(fontSize: 17),
                                             )
                                           ],
                                         )
@@ -701,7 +706,7 @@ class _SendersScreenState extends State<SendersScreen> {
                               ),
                             );
                           }
-                          return SizedBox.shrink();
+                          return const SizedBox.shrink();
                         },
                       ),
                     ],

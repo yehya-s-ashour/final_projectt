@@ -233,7 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               // margin: EdgeInsets.only(top: 3),
                                               height: 195,
                                               width: 195,
-                                              decoration: BoxDecoration(
+                                              decoration: const BoxDecoration(
                                                   color: Colors.white,
                                                   shape: BoxShape.circle),
                                             )),

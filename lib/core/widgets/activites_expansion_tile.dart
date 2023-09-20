@@ -33,7 +33,7 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
     );
   }
 
@@ -59,7 +59,7 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Provider.of<NewInboxProvider>(context).activites!.length == 0
-                    ? SizedBox()
+                    ? const SizedBox()
                     : Center(
                         child: Text(
                           '${Provider.of<NewInboxProvider>(context).activites!.length}',
@@ -84,7 +84,6 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
                       Icons.expand_more,
                       size: 30,
                     ),
-
                   ),
                 ),
               ],
@@ -121,20 +120,19 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
                               const SizedBox(
                                 width: 15,
                               ),
-CircleAvatar(
+                              CircleAvatar(
                                 radius: 15,
                                 backgroundImage: NetworkImage(
                                     'https://palmail.gsgtt.tech/storage/${user.user.image}'),
                                 backgroundColor: Colors.transparent,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 15,
                               ),
                               Text(
                                 '${user.user.name}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
-
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'Iphone',
                                 ),

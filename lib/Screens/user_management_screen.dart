@@ -58,11 +58,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                     baseColor: Colors.grey[300]!,
                     highlightColor: Colors.grey[100]!,
                     child: Container(
-                      margin: EdgeInsets.all(8),
+                      margin: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(10)),
-                      height: 60,
+                      height: 70,
                     ),
                   );
                 },
@@ -75,143 +75,148 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return ListTile(
-                      title: Column(
-                        children: [
-                          Slidable(
-                            endActionPane: ActionPane(
-                              motion: const ScrollMotion(),
-                              children: [
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                SlidableAction(
-                                  padding: const EdgeInsets.all(0),
-                                  spacing: 3,
-                                  // An action can be bigger than the others.
+                      title: Slidable(
+                        endActionPane: ActionPane(
+                          extentRatio: 0.4,
+                          motion: const ScrollMotion(),
+                          children: [
+                            // const SizedBox(
+                            //   width: 16,
+                            // ),
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              width: 55,
+                              height: 55,
+                              child: SlidableAction(
+                                padding: const EdgeInsets.all(0),
+                                spacing: 3,
+                                // An action can be bigger than the others.
 
-                                  borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(16),
 
-                                  onPressed: (context) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return CustomAlertDialog(
-                                          type: "edit",
-                                          name: allUserProvider.allUserdata
-                                              .data!.users![index].name!,
-                                          email: allUserProvider.allUserdata
-                                              .data!.users![index].email!,
-                                          image: allUserProvider.allUserdata
-                                              .data!.users![index].image,
-                                          role: allUserProvider.allUserdata
-                                              .data!.users![index].role!.name!,
-                                          userId: allUserProvider.allUserdata
-                                              .data!.users![index].id!,
-                                          roleId: allUserProvider.allUserdata
-                                              .data!.users![index].role!.id!,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  backgroundColor: Colors.amberAccent,
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.edit,
-                                  //    label: 'Edit',
-                                ),
-                                SizedBox(
-                                  width: 8,
-                                ),
-                                SlidableAction(
-                                  borderRadius: BorderRadius.circular(16),
-                                  padding: const EdgeInsets.all(0),
-                                  spacing: 3,
-                                  onPressed: (context) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return CustomAlertDialog(
-                                          type: "delet",
-                                          name: allUserProvider.allUserdata
-                                              .data!.users![index].name!,
-                                          email: allUserProvider.allUserdata
-                                              .data!.users![index].email!,
-                                          image: allUserProvider.allUserdata
-                                              .data!.users![index].image,
-                                          role: allUserProvider.allUserdata
-                                              .data!.users![index].role!.name!,
-                                          userId: allUserProvider.allUserdata
-                                              .data!.users![index].id!,
-                                          roleId: allUserProvider.allUserdata
-                                              .data!.users![index].role!.id!,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  backgroundColor: Colors.red,
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.delete,
-
-                                  //  label: 'delete',
-                                ),
-                              ],
+                                onPressed: (context) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomAlertDialog(
+                                        type: "edit",
+                                        name: allUserProvider.allUserdata.data!
+                                            .users![index].name!,
+                                        email: allUserProvider.allUserdata.data!
+                                            .users![index].email!,
+                                        image: allUserProvider.allUserdata.data!
+                                            .users![index].image,
+                                        role: allUserProvider.allUserdata.data!
+                                            .users![index].role!.name!,
+                                        userId: allUserProvider.allUserdata
+                                            .data!.users![index].id!,
+                                        roleId: allUserProvider.allUserdata
+                                            .data!.users![index].role!.id!,
+                                      );
+                                    },
+                                  );
+                                },
+                                backgroundColor: Colors.amberAccent,
+                                foregroundColor: Colors.white,
+                                icon: Icons.edit,
+                                //    label: 'Edit',
+                              ),
                             ),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 4),
+                            // const SizedBox(
+                            //   width: 8,
+                            // ),
+                            Container(
+                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              width: 55,
+                              height: 55,
+                              child: SlidableAction(
+                                borderRadius: BorderRadius.circular(16),
+                                padding: const EdgeInsets.all(0),
+                                spacing: 3,
+                                onPressed: (context) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CustomAlertDialog(
+                                        type: "delet",
+                                        name: allUserProvider.allUserdata.data!
+                                            .users![index].name!,
+                                        email: allUserProvider.allUserdata.data!
+                                            .users![index].email!,
+                                        image: allUserProvider.allUserdata.data!
+                                            .users![index].image,
+                                        role: allUserProvider.allUserdata.data!
+                                            .users![index].role!.name!,
+                                        userId: allUserProvider.allUserdata
+                                            .data!.users![index].id!,
+                                        roleId: allUserProvider.allUserdata
+                                            .data!.users![index].role!.id!,
+                                      );
+                                    },
+                                  );
+                                },
+                                backgroundColor: Colors.red,
+                                foregroundColor: Colors.white,
+                                icon: Icons.delete,
+
+                                //  label: 'delete',
+                              ),
+                            ),
+                          ],
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 4),
+                          decoration: BoxDecoration(
                               color: index % 2 == 0
                                   ? Colors.grey[100]
                                   : Colors.grey[200],
-                              child: Row(
+                              borderRadius: BorderRadius.circular(16)),
+                          child: Row(
+                            children: [
+                              Container(
+                                height: 50,
+                                width: 50,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration:
+                                    const BoxDecoration(shape: BoxShape.circle),
+                                child: allUserProvider.allUserdata.data!
+                                            .users![index].image !=
+                                        null
+                                    ? Image.network(
+                                        'https://palmail.gsgtt.tech/storage/${allUserProvider.allUserdata.data!.users![index].image!}',
+                                        fit: BoxFit.fill,
+                                      )
+                                    : Image.asset('images/user.jpg'),
+                              ),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                                    decoration: const BoxDecoration(
-                                        shape: BoxShape.circle),
-                                    child: allUserProvider.allUserdata.data!
-                                                .users![index].image !=
-                                            null
-                                        ? Image.network(
-                                            'https://palmail.gsgtt.tech/storage/${allUserProvider.allUserdata.data!.users![index].image!}',
-                                            fit: BoxFit.fill,
-                                          )
-                                        : Image.asset('images/user.jpg'),
+                                  Text(
+                                    allUserProvider
+                                        .allUserdata.data!.users![index].name!,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                   ),
-                                  const SizedBox(
-                                    width: 8,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        allUserProvider.allUserdata.data!
-                                            .users![index].name!,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      allUserProvider.allUserdata.data!
-                                                  .users![index].role !=
-                                              null
-                                          ? Text(
-                                              allUserProvider.allUserdata.data!
-                                                  .users![index].role!.name!,
-                                              style: const TextStyle(
-                                                  color: Colors.grey),
-                                            )
-                                          : const SizedBox()
-                                    ],
-                                  ),
+                                  allUserProvider.allUserdata.data!
+                                              .users![index].role !=
+                                          null
+                                      ? Text(
+                                          allUserProvider.allUserdata.data!
+                                              .users![index].role!.name!,
+                                          style: const TextStyle(
+                                              color: Colors.grey),
+                                        )
+                                      : const SizedBox()
                                 ],
                               ),
-                            ),
+                            ],
                           ),
-                          // const Divider(
-                          //   thickness: 1,
-                          // )
-                        ],
+                        ),
                       ),
                     );
                   });
