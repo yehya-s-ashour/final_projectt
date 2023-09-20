@@ -140,7 +140,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
 
               return CustomWhiteBox(
                   width: 378,
-                  height: (snapshot.data!.tags.length / 3).round() * 100,
+                  height: (snapshot.data!.tags.length / 3).ceil() * 53,
                   child: Padding(
                     padding:
                         const EdgeInsetsDirectional.only(start: 15.0, top: 15),

@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailOrUserNameController = TextEditingController();
   TextEditingController passController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
+  bool isAuthing = false;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? nullableValue = 'Login'.tr();
@@ -53,33 +54,47 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void submitRegister() {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isAuthing = true;
+      });
       AuthController.register(context,
               name: nameController.text,
               email: emailOrUserNameController.text,
               password: passController.text,
               passwordConfirmation: confirmPassController.text)
           .then((response) async {
+        if (response[0] == 201) {
+          setState(() {
+            isAuthing = false;
+          });
+          showAlert(context,
+              message: "Account Created Successfully,\n Please Log In",
+              color: Colors.grey,
+              width: 300);
+          _formKey.currentState!.reset();
+          Navigator.pushReplacement(context, MaterialPageRoute(
+            builder: (context) {
+              return const LoginScreen();
+            },
+          ));
+        }
+      }).catchError((err) {
+        setState(() {
+          isAuthing = false;
+        });
         showAlert(context,
-            message: "Account Created Successfully,\n Please Log In",
-            color: Colors.grey,
-            width: 300);
-        _formKey.currentState!.reset();
-        Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (context) {
-            return const LoginScreen();
-          },
-        ));
-      }).catchError((err) async {
-        final errorMessagae =
-            json.decode(err.message)['errors']['email'][0].toString();
-        showAlert(context,
-            message: errorMessagae, color: Colors.redAccent, width: 300);
+            message: 'Something went wrong',
+            color: Colors.redAccent,
+            width: 200);
       });
     }
   }
 
   void submitLogin() {
     if (_formKey.currentState!.validate()) {
+      setState(() {
+        isAuthing = true;
+      });
       AuthController.login(
         context,
         email: emailOrUserNameController.text,
@@ -97,9 +112,13 @@ class _LoginScreenState extends State<LoginScreen> {
           },
         ));
       }).catchError((err) async {
-        final errorMessagae = json.decode(err.message)['message'].toString();
+        setState(() {
+          isAuthing = false;
+        });
         showAlert(context,
-            message: errorMessagae, color: Colors.redAccent, width: 300);
+            message: 'Invalid Credentials',
+            color: Colors.redAccent,
+            width: 180);
       });
     }
   }
@@ -255,6 +274,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           values: ["Login".tr(), "Sign up".tr()],
                           onChanged: (value) {
                             setState(() {
+                              isAuthing = false;
+                            });
+
+                            setState(() {
                               nullableValue = value;
                               if (value.toString() == 'Login' ||
                                   value.toString() == "تسجيل الدخول") {
@@ -268,7 +291,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           iconBuilder: rollingIconBuilder,
                           customStyleBuilder: (context, local, global) {
                             return ToggleStyle(
-                              borderColor: primaryColor,
+                              borderColor: Colors.grey.shade400,
                               indicatorColor: primaryColor,
                             );
                           },
@@ -400,15 +423,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                     if (_formKey.currentState!.validate()) {
                                       submitLogin();
                                     }
-
-                                    // if (Form.of(context).validate()) {
-                                    //   Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //         builder: (context) =>
-                                    //             const HomeScreen()),
-                                    //   );
-                                    // }
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -424,16 +438,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 16.0, horizontal: 32.0),
-                                  child: Text(
-                                    initialLabelIndex == 1
-                                        ? 'Sign up'.tr()
-                                        : 'Login'.tr(),
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                                  ),
+                                  child: isAuthing
+                                      ? const Center(
+                                          child: SizedBox(
+                                            height: 18,
+                                            width: 18,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        )
+                                      : Text(
+                                          initialLabelIndex == 1
+                                              ? 'Sign up'.tr()
+                                              : 'Login'.tr(),
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                          ),
+                                        ),
                                 ),
                               ),
                               const SizedBox(

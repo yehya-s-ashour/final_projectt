@@ -142,7 +142,7 @@ class _TagsScreenState extends State<TagsScreen> {
           children: [
             CustomWhiteBox(
                 width: double.infinity,
-                height: (widget.tagsList.length / 2).round() * 46,
+                height: (widget.tagsList.length / 3).ceil() * 46,
                 child: Padding(
                   padding: const EdgeInsetsDirectional.only(start: 8.0, top: 8),
                   child: Wrap(
@@ -155,7 +155,7 @@ class _TagsScreenState extends State<TagsScreen> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height -
-                  ((widget.tagsList.length / 2).round() * 52),
+                  ((widget.tagsList.length / 3).ceil() * 52),
               child: FutureBuilder(
                   future: mails,
                   builder: (context, snapshot) {
