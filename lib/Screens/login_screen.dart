@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController confirmPassController = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  String? nullableValue = 'Login';
+  String? nullableValue = 'Login'.tr();
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -252,7 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           allowUnlistedValues: true,
                           styleAnimationType: AnimationType.onHover,
                           current: nullableValue,
-                          values: ['Login'.tr(), 'Sign up'.tr()],
+                          values: ["Login".tr(), "Sign up".tr()],
                           onChanged: (value) {
                             setState(() {
                               nullableValue = value;
