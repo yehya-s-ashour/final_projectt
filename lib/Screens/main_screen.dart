@@ -3,6 +3,7 @@ import 'package:final_projectt/core/services/mail_controller.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/my_expansion_tile.dart';
+import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:flutter/material.dart';
@@ -52,12 +53,10 @@ class _MainPageState extends State<MainPage> {
   MailsModel? singleCategoMails;
   late Future<StatusesesModel> statuses;
   final _advancedDrawerController = AdvancedDrawerController();
-  bool isExpansionOpened = false;
   double? whiteBoxHeight;
-
   String? nullableValue = 'login';
   bool rtlOpening = false;
-  bool positive = false;
+  bool undoPressed = false;
 
   void _handleMenuButtonPressed() {
     // NOTICE: Manage Advanced Drawer state through the Controller.
@@ -252,7 +251,7 @@ class _MainPageState extends State<MainPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 5,
+                      height: 10,
                     ),
                     Consumer<StatuseProvider>(
                       builder: (_, statuseProvider, __) {
@@ -366,178 +365,116 @@ class _MainPageState extends State<MainPage> {
                       height: 20,
                     ),
                     // const Divider(),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                      ),
-                      child: Column(
-                        children: categories.map((catego) {
-                          String nameOfCatego = catego['name'];
-                          int idOfCatego = catego['id'];
-                          return FutureBuilder(
-                              future: getMailsOfSingleCatego(idOfCatego),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasError) {
-                                  return Text('Error: ${snapshot.error}');
-                                } else if (snapshot.hasData) {
-                                  singleCategoMails = snapshot.data;
-                                  int numOfEmails =
-                                      singleCategoMails!.mails!.length;
-                                  return Theme(
-                                    data: Theme.of(context).copyWith(
-                                        dividerColor: Colors.transparent),
-                                    child: MYExpansionTile(
-                                      numOfMails: numOfEmails,
-                                      title: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            nameOfCatego,
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          // if (Provider.of<RTLPro>(context)
-                                          //         .isExpanded ==
-                                          //     false)
-                                          //   Text(
-                                          //     '$numOfEmails',
-                                          //     style: const TextStyle(
-                                          //         color: Colors.grey,
-                                          //         fontSize: 14),
-                                          //   ),
-                                        ],
-                                      ),
-                                      childrenPadding:
-                                          const EdgeInsetsDirectional.only(
-                                              top: 16, bottom: 16),
-                                      textColor: const Color(0xff272727),
-                                      tilePadding: const EdgeInsets.symmetric(
-                                          horizontal: 16),
-                                      initiallyExpanded: false,
-                                      children:
-                                          singleCategoMails!.mails!.map((mail) {
-                                        //   ListView.builder(
-                                        //   // padding: EdgeInsets.zero,
-                                        //   shrinkWrap: true,
-                                        //   // physics:
-                                        //   //     NeverScrollableScrollPhysics(),
-                                        //   itemCount: singleCategoMails!
-                                        //       .mails!.length,
-                                        //   itemBuilder: (context, index) {
-                                        //     Mail mail = singleCategoMails!
-                                        //         .mails![index];
-                                        //     return myCustomCard(
-                                        //       mail,
-                                        //       () {
-                                        //         showModalBottomSheet(
-                                        //           clipBehavior: Clip.hardEdge,
-                                        //           isScrollControlled: true,
-                                        //           context: context,
-                                        //           shape:
-                                        //               const RoundedRectangleBorder(
-                                        //                   borderRadius:
-                                        //                       BorderRadius
-                                        //                           .vertical(
-                                        //             top:
-                                        //                 Radius.circular(15.0),
-                                        //           )),
-                                        //           builder:
-                                        //               (BuildContext context) {
-                                        //             return EditMailBottomSheet(
-                                        //               mail: mail,
-                                        //             );
-                                        //           },
-                                        //         ).whenComplete(
-                                        //           () {
-                                        //             setState(() {
-                                        //               Provider.of<NewInboxProvider>(
-                                        //                       context,
-                                        //                       listen: false)
-                                        //                   .clearImages();
-
-                                        //               Provider.of<NewInboxProvider>(
-                                        //                       context,
-                                        //                       listen: false)
-                                        //                   .activites = [];
-
-                                        //               tags = getAllTags();
-                                        //               Provider.of<NewInboxProvider>(
-                                        //                       context,
-                                        //                       listen: false)
-                                        //                   .deletedImages = [];
-                                        //             });
-                                        //           },
-                                        //         );
-                                        //       },
-                                        //     );
-                                        //   },
-                                        // )
-                                        return myCustomCard(
-                                          mail,
-                                          () {
-                                            showModalBottomSheet(
-                                              clipBehavior: Clip.hardEdge,
-                                              isScrollControlled: true,
-                                              context: context,
-                                              shape:
-                                                  const RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.vertical(
-                                                top: Radius.circular(15.0),
-                                              )),
-                                              builder: (BuildContext context) {
-                                                return EditMailBottomSheet(
-                                                  mail: mail,
-                                                );
-                                              },
-                                            ).whenComplete(
-                                              () {
-                                                setState(() {
-                                                  Provider.of<NewInboxProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .clearImages();
-
-                                                  Provider.of<NewInboxProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .activites = [];
-
-                                                  tags = getAllTags();
-                                                  Provider.of<NewInboxProvider>(
-                                                          context,
-                                                          listen: false)
-                                                      .deletedImages = [];
-                                                });
-                                              },
-                                            );
-                                          },
-                                        );
-                                      }).toList(),
+                    Column(
+                      children: categories.map((catego) {
+                        String nameOfCatego = catego['name'];
+                        int idOfCatego = catego['id'];
+                        return FutureBuilder(
+                            future: getMailsOfSingleCatego(idOfCatego),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else if (snapshot.hasData) {
+                                singleCategoMails = snapshot.data;
+                                int numOfEmails =
+                                    singleCategoMails!.mails!.length;
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                      dividerColor: Colors.transparent),
+                                  child: MYExpansionTile(
+                                    numOfMails: numOfEmails,
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          nameOfCatego,
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        // if (Provider.of<RTLPro>(context)
+                                        //         .isExpanded ==
+                                        //     false)
+                                        //   Text(
+                                        //     '$numOfEmails',
+                                        //     style: const TextStyle(
+                                        //         color: Colors.grey,
+                                        //         fontSize: 14),
+                                        //   ),
+                                      ],
                                     ),
-                                  );
-                                }
-                                return Shimmer.fromColors(
-                                  baseColor: Colors.grey[300]!,
-                                  highlightColor: Colors.grey[100]!,
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                      top: 20,
-                                      left: 18,
-                                      right: 18,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    height: 40,
+                                    childrenPadding:
+                                        const EdgeInsetsDirectional.only(
+                                            top: 16, bottom: 16),
+                                    textColor: const Color(0xff272727),
+                                    tilePadding: const EdgeInsets.symmetric(
+                                        horizontal: 16),
+                                    initiallyExpanded: false,
+                                    children:
+                                        singleCategoMails!.mails!.map((mail) {
+                                      return myCustomCard(
+                                        mail,
+                                        () {
+                                          showModalBottomSheet(
+                                            clipBehavior: Clip.hardEdge,
+                                            isScrollControlled: true,
+                                            context: context,
+                                            shape: const RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.vertical(
+                                              top: Radius.circular(15.0),
+                                            )),
+                                            builder: (BuildContext context) {
+                                              return EditMailBottomSheet(
+                                                mail: mail,
+                                              );
+                                            },
+                                          ).whenComplete(
+                                            () {
+                                              setState(() {
+                                                Provider.of<NewInboxProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .clearImages();
+
+                                                Provider.of<NewInboxProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .activites = [];
+
+                                                tags = getAllTags();
+                                                Provider.of<NewInboxProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .deletedImages = [];
+                                              });
+                                            },
+                                          );
+                                        },
+                                      );
+                                    }).toList(),
                                   ),
                                 );
-                              });
-                        }).toList(),
-                      ),
+                              }
+                              return Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                    top: 18,
+                                    left: 18,
+                                    right: 18,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  height: 42,
+                                ),
+                              );
+                            });
+                      }).toList(),
                     ),
                     // const Divider(),
                     Padding(

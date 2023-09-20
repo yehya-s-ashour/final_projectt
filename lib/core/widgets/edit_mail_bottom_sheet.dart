@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
+import 'package:final_projectt/core/services/mail_controller.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
@@ -39,6 +40,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
 
   SingleSender? selectedSender;
   List<TagElement> selectedTags = [];
+  bool isDeleting = false;
 
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
@@ -279,7 +281,6 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                   style: const TextStyle(
                                                       fontSize: 14),
                                                 ),
-
                                               ),
                                             )
                                           ],
@@ -309,7 +310,6 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                 '$today $month $year',
                                                 style: const TextStyle(
                                                   fontSize: 14,
-
                                                 ),
                                               ),
                                             ),
@@ -595,7 +595,6 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                       vertical: 20, horizontal: 40),
                                   border: InputBorder.none,
                                   hintText: "Add Decsision ...".tr(),
-
                                   hintStyle: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iphone',
@@ -975,8 +974,115 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           ),
                         ),
                       ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 70,
+                          ),
+                          Expanded(
+                            child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  padding: EdgeInsets.only(left: 30, right: 30),
+                                  backgroundColor: Colors.white,
+                                  side: BorderSide(color: Colors.red),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: Colors.white,
+                                        title: const SizedBox(
+                                          width: 290,
+                                          child: Text(
+                                            'Do you want really to delete mail?',
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                isDeleting = false;
+                                              });
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text(
+                                              'Cancel',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          ),
+                                          TextButton(
+                                            onPressed: () async {
+                                              setState(() {
+                                                isDeleting = true;
+                                              });
+                                              await deleteMail(widget.mail.id
+                                                      .toString())!
+                                                  .then((value) {
+                                                isDeleting = false;
+                                                showAlert(context,
+                                                    message: 'Mail Deleted',
+                                                    color: Colors.red,
+                                                    width: 150);
+                                                Navigator.pushReplacement(
+                                                    context, MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return MainPage();
+                                                  },
+                                                ));
+                                              });
+                                            },
+                                            child: const Text(
+                                              'OK',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: isDeleting
+                                    ? const Center(
+                                        child: CircularProgressIndicator(
+                                          color: Colors.red,
+                                        ),
+                                      )
+                                    : Text(
+                                        'Delete Mail',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 18,
+                                        ),
+                                      )),
+                          ),
+                          SizedBox(
+                            width: 70,
+                          ),
+                        ],
+                      )
                     ],
-                  )
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             ),

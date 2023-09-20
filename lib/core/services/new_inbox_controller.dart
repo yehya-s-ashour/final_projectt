@@ -165,27 +165,3 @@ Future<NewSender>? createSender({
 
   return NewSender.fromJson(json.decode(response.body));
 }
-
-// Future<void> uploadImages(BuildContext context, int mailId) async {
-//   final token = await getToken();
-//   final imagesProvider = Provider.of<NewInboxProvider>(context, listen: false);
-
-//   for (final xFile in imagesProvider.imagesFiles) {
-//     if (xFile != null) {
-//       final request =
-//           http.MultipartRequest("POST", Uri.parse('$baseUrl/attachments'));
-//       final file = File(xFile.path);
-//       final pic = await http.MultipartFile.fromPath('image', file.path);
-//       request.fields['mail_id'] = mailId.toString();
-//       request.fields['title'] = 'image_${DateTime.now()}';
-//       request.files.add(pic);
-//       request.headers.addAll(
-//           {'Accept': 'application/json', 'Authorization': 'Bearer $token'});
-
-//       final response = await request.send();
-//       final responseData = await response.stream.toBytes();
-//       final responseString = String.fromCharCodes(responseData);
-//       print(responseString);
-//     }
-//   }
-// }

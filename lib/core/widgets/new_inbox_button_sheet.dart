@@ -38,6 +38,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
   TextEditingController mailTitleCont = TextEditingController();
   TextEditingController mailDescriptionCont = TextEditingController();
   TextEditingController archiveNumber = TextEditingController();
+  bool isUploading = false;
 
   dynamic selectedSender;
   List<TagElement>? selectedTags = [];
@@ -123,6 +124,20 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         //     );
                         //   },
                         // );
+                        setState(() {
+                          isUploading = true;
+                        });
+                        isUploading
+                            ? showDialog(
+                                context: context,
+                                builder: (ctx) {
+                                  return Center(
+                                      child: SizedBox(
+                                          width: 40,
+                                          height: 40,
+                                          child: CircularProgressIndicator()));
+                                })
+                            : null;
                         NewSender? newSender;
                         String? senderId;
                         if (selectedSender == null ||
@@ -871,18 +886,23 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                                           index]!
                                                                       .path)))),
                                                         ),
-                                                        Text(
-                                                          Provider.of<NewInboxProvider>(
-                                                                  context)
-                                                              .imagesFiles[
-                                                                  index]!
-                                                              .name,
-                                                          maxLines: 1,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 17),
+                                                        SizedBox(
+                                                          width: 150,
+                                                          child: Text(
+                                                            Provider.of<NewInboxProvider>(
+                                                                    context)
+                                                                .imagesFiles[
+                                                                    index]!
+                                                                .name,
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontSize:
+                                                                        17),
+                                                          ),
                                                         )
                                                       ],
                                                     ),
