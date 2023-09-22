@@ -21,11 +21,26 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                 onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (_) => SingleTagScreen(
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            SingleTagScreen(
                           tagId: tags[index].id!,
                           tagName: '${tags[index].name}',
                         ),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          const begin = Offset(1.0, 0.0);
+                          const end = Offset.zero;
+                          const curve = Curves.easeInOut;
+                          var tween = Tween(begin: begin, end: end)
+                              .chain(CurveTween(curve: curve));
+                          var offsetAnimation = animation.drive(tween);
+
+                          return SlideTransition(
+                            position: offsetAnimation,
+                            child: child,
+                          );
+                        },
                       ));
                 },
                 child: Text(
