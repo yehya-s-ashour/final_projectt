@@ -5,6 +5,7 @@ import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_expansion.dart';
 import 'package:final_projectt/models/status_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   final String? textSearch;
@@ -130,7 +131,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                                         ),
                                       ),
                                       Text(
-                                        "${snapshot.data!.statuses![index].name!}"
+                                        snapshot.data!.statuses![index].name!
                                             .tr(),
                                         style: const TextStyle(fontSize: 20),
                                       ),
@@ -169,9 +170,11 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: primaryColor,
+                return const Center(
+                  child: SpinKitPulse(
+                    duration: Duration(milliseconds: 1000),
+                    color: Colors.grey,
+                    size: 40,
                   ),
                 );
               },

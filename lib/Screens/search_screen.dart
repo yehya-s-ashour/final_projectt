@@ -8,6 +8,7 @@ import 'package:final_projectt/core/widgets/filter_bottom_sheet.dart';
 import 'package:final_projectt/models/search_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -137,7 +138,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 },
                 icon: const Icon(
                   Icons.filter_alt_outlined,
-                  size: 32,
+                  size: 25,
                   color: Color(0xff6589FF),
                 ))
           ],
@@ -148,7 +149,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     future: searchData,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return snapshot.data!.mails?.length != 0
+                        return snapshot.data!.mails!.isNotEmpty
                             ? ListView.builder(
                                 itemCount: snapshot.data!.mails?.length,
                                 physics: const BouncingScrollPhysics(),
@@ -298,12 +299,12 @@ class _SearchScreenState extends State<SearchScreen> {
                           child: Text(snapshot.error.toString()),
                         );
                       }
-                      return const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircularProgressIndicator(),
-                        ],
+                      return const Center(
+                        child: SpinKitPulse(
+                          duration: Duration(milliseconds: 1000),
+                          color: Colors.grey,
+                          size: 40,
+                        ),
                       );
                     })
                 : const Center()),

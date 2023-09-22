@@ -5,11 +5,10 @@ import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/edit_sender_dialouge.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
-
 import 'package:final_projectt/models/sender_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SendersScreen extends StatefulWidget {
   const SendersScreen({super.key});
@@ -60,846 +59,879 @@ class _SendersScreenState extends State<SendersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      children: [
-        Padding(
-          padding:
-              const EdgeInsetsDirectional.only(top: 40, start: 15, end: 15),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: primaryColor,
-                    ),
-                  ),
-                  Text(
-                    "Senders".tr(),
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      color: Colors.transparent,
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+        body: GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsetsDirectional.only(top: 40, start: 15, end: 15),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(top: 5),
-                      child: TextField(
-                        controller: searchTextField,
-                        onChanged: (value) {
-                          searchSenders(value);
-                        },
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.search_rounded),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                searchTextField.clear();
-                              });
-                            },
-                            icon: const Icon(Icons.cancel),
-                          ),
-                          filled: true,
-                          fillColor: Colors.black.withOpacity(0.05),
-                          contentPadding: const EdgeInsets.all(15),
-                          hintText: "Search ...".tr(),
-                          hintStyle:
-                              const TextStyle(color: Colors.grey, fontSize: 19),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: backGroundColor),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide(color: backGroundColor),
-                          ),
-                        ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: primaryColor,
+                      ),
+                    ),
+                    Text(
+                      "Senders".tr(),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: Colors.transparent,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: FutureBuilder(
-            future: senders,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else if (!snapshot.hasData) {
-                return const Center(
-                  child: Text('No data available.'),
-                );
-              }
-
-              sendersData = snapshot.data as Senders;
-              final categorizedSenders = categorizeSenders(sendersData);
-              if (matchingPairs.isEmpty && searchTextField.text.isNotEmpty) {
-                return Center(
+                Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Image.asset('images/result_not_found.png',
-                            fit: BoxFit.cover, height: 250),
+                      Padding(
+                        padding: const EdgeInsetsDirectional.only(top: 5),
+                        child: TextField(
+                          controller: searchTextField,
+                          onChanged: (value) {
+                            searchSenders(value);
+                          },
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.search_rounded),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  searchTextField.clear();
+                                });
+                              },
+                              icon: const Icon(Icons.cancel),
+                            ),
+                            filled: true,
+                            fillColor: Colors.black.withOpacity(0.05),
+                            contentPadding: const EdgeInsets.all(15),
+                            hintText: "Search ...".tr(),
+                            hintStyle: const TextStyle(
+                                color: Colors.grey, fontSize: 19),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: backGroundColor),
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide(color: backGroundColor),
+                            ),
+                          ),
+                        ),
                       ),
-                      const SizedBox(
-                        height: 70,
-                      )
                     ],
                   ),
-                );
-              }
-              return ListView.separated(
-                padding: EdgeInsets.zero,
-                separatorBuilder: (context, index) {
-                  return const SizedBox(
-                    height: 10,
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder(
+              future: senders,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: SpinKitPulse(
+                      duration: Duration(milliseconds: 1000),
+                      color: Colors.grey,
+                      size: 40,
+                    ),
                   );
-                },
-                physics: const BouncingScrollPhysics(),
-                itemCount: categorizedSenders.length,
-                itemBuilder: (context, sectionIndex) {
-                  final category =
-                      categorizedSenders.keys.elementAt(sectionIndex);
-                  final categorySenders = categorizedSenders[category]!;
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                } else if (!snapshot.hasData) {
+                  return const Center(
+                    child: Text('No data available.'),
+                  );
+                }
 
-                  // Filter the matchingPairs for the current category and search term
-                  final filteredMatchingPairs = matchingPairs.where((entry) {
-                    final sender = entry.value;
-                    final senderCategory = sender.category!.name!.toLowerCase();
-                    final senderName = sender.name!.toLowerCase();
-                    final searchTerm = searchTextField.text.toLowerCase();
-
-                    return senderCategory == category.toLowerCase() &&
-                        (senderName.contains(searchTerm) ||
-                            sender.mobile!.contains(searchTerm));
-                  }).toList();
-
-                  // Check if the section is empty, and skip it if so
-                  if ((filteredMatchingPairs.isEmpty &&
-                          categorySenders.isEmpty) ||
-                      (filteredMatchingPairs.isEmpty &&
-                          searchTextField.text.isNotEmpty)) {
-                    return const SizedBox.shrink(); // Hide the empty section
-                  }
-
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 12.0, left: 12),
+                sendersData = snapshot.data as Senders;
+                final categorizedSenders = categorizeSenders(sendersData);
+                if (matchingPairs.isEmpty && searchTextField.text.isNotEmpty) {
+                  return Center(
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.only(
-                                        top: 20.0,
-                                        start: 5,
-                                      ),
-                                      child: Text(
-                                        category.tr(),
-                                        style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 10),
-                                      width: MediaQuery.of(context).size.width,
-                                      height: 1,
-                                      color: Colors.grey.shade300,
-                                    )
-                                  ]),
-                            ]),
-                        ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: searchTextField.text.isNotEmpty
-                              ? filteredMatchingPairs.length
-                              : categorySenders.length,
-                          itemBuilder: (context, itemIndex) {
-                            final entry = searchTextField.text.isNotEmpty &&
-                                    itemIndex < filteredMatchingPairs.length
-                                ? filteredMatchingPairs[itemIndex]
-                                : null;
-
-                            final sender = searchTextField.text.isEmpty &&
-                                    itemIndex < categorySenders.length
-                                ? categorySenders[itemIndex]
-                                : null;
-
-                            if (entry != null) {
-                              return Slidable(
-                                endActionPane: ActionPane(
-                                    extentRatio: 0.44,
-                                    motion: const ScrollMotion(),
-                                    children: [
-                                      CustomSlidableAction(
-                                        backgroundColor: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                        padding:
-                                            const EdgeInsets.only(left: 30),
-                                        onPressed: (context) {
-                                          showDialog(
-                                            barrierDismissible: false,
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                title: SizedBox(
-                                                  width: 290,
-                                                  child: Text(
-                                                    'Do you want really to delete "${entry.value.name}" ?',
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text(
-                                                      'Cancel',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 17,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      await deleteSender(
-                                                              entry.value.id!)!
-                                                          .then((statusCode) {
-                                                        if (statusCode == 200) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  SnackBar(
-                                                            content:
-                                                                const Center(
-                                                              child: Text(
-                                                                'Deleted Successfully',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            backgroundColor:
-                                                                primaryColor
-                                                                    .withOpacity(
-                                                                        0.7),
-                                                            duration:
-                                                                const Duration(
-                                                                    seconds: 2),
-                                                            width: 190,
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                          ));
-                                                          setState(() {
-                                                            senders =
-                                                                getSenders();
-                                                            initializeData();
-                                                            Navigator.pop(
-                                                                context);
-                                                          });
-                                                        } else {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  const SnackBar(
-                                                            content: Center(
-                                                              child: Text(
-                                                                'Something went wrong',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .redAccent,
-                                                            duration: Duration(
-                                                                seconds: 2),
-                                                            width: 190,
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                          ));
-                                                          Navigator.pop(
-                                                              context);
-                                                        }
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      'OK',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 17,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.red,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15)),
-                                              child: const Center(
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  color: Colors.white,
-                                                  size: 35,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      CustomSlidableAction(
-                                        backgroundColor: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                        padding: EdgeInsets.zero,
-                                        onPressed: (context) {
-                                          showDialog(
-                                            barrierDismissible: false,
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                title: SizedBox(
-                                                  width: 290,
-                                                  child: Text(
-                                                    'Do you want really to delete "${entry.value.name}" ?',
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text(
-                                                      'Cancel',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 17,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      await deleteSender(
-                                                              entry.value.id!)!
-                                                          .then((statusCode) {
-                                                        if (statusCode == 200) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  SnackBar(
-                                                            content:
-                                                                const Center(
-                                                              child: Text(
-                                                                'Deleted Successfully',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            backgroundColor:
-                                                                primaryColor
-                                                                    .withOpacity(
-                                                                        0.7),
-                                                            duration:
-                                                                const Duration(
-                                                                    seconds: 2),
-                                                            width: 190,
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                          ));
-                                                          setState(() {
-                                                            senders =
-                                                                getSenders();
-                                                            initializeData();
-                                                            Navigator.pop(
-                                                                context);
-                                                          });
-                                                        } else {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  const SnackBar(
-                                                            content: Center(
-                                                              child: Text(
-                                                                'Something went wrong',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .redAccent,
-                                                            duration: Duration(
-                                                                seconds: 2),
-                                                            width: 190,
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                          ));
-                                                          Navigator.pop(
-                                                              context);
-                                                        }
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      'OK',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 17,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                              color: Colors.amber,
-                                              borderRadius:
-                                                  BorderRadius.circular(15)),
-                                          child: const Center(
-                                            child: Icon(
-                                              Icons.edit,
-                                              color: Colors.white,
-                                              size: 35,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                                child: ListTile(
-                                  onTap: () {
-                                    setState(() {
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return SenderMails(sender: sender);
-                                        },
-                                      ));
-                                    });
-                                  },
-                                  title: Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 30,
-                                      ),
-                                      const Icon(Icons.person_3_outlined),
-                                      const SizedBox(
-                                        width: 30,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            entry.value.name!,
-                                            style:
-                                                const TextStyle(fontSize: 20),
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.phone,
-                                                size: 20,
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                entry.value.mobile!,
-                                                style: const TextStyle(
-                                                    fontSize: 17),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            } else if (sender != null) {
-                              return Slidable(
-                                endActionPane: ActionPane(
-                                    extentRatio: 0.43,
-                                    motion: const ScrollMotion(),
-                                    children: [
-                                      CustomSlidableAction(
-                                        backgroundColor: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                        padding:
-                                            const EdgeInsets.only(left: 30),
-                                        onPressed: (context) {
-                                          showDialog(
-                                            barrierDismissible: false,
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                title: SizedBox(
-                                                  width: 290,
-                                                  child: Text(
-                                                    'Do you want really to delete "${sender.name}" ?',
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text(
-                                                      'Cancel',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 17,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      await deleteSender(
-                                                              sender.id!)!
-                                                          .then((statusCode) {
-                                                        if (statusCode == 200) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  SnackBar(
-                                                            content:
-                                                                const Center(
-                                                              child: Text(
-                                                                'Deleted Successfully',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            backgroundColor:
-                                                                primaryColor
-                                                                    .withOpacity(
-                                                                        0.7),
-                                                            duration:
-                                                                const Duration(
-                                                                    seconds: 2),
-                                                            width: 190,
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                          ));
-                                                          setState(() {
-                                                            senders =
-                                                                getSenders();
-                                                            initializeData();
-                                                            Navigator.pop(
-                                                                context);
-                                                          });
-                                                        } else {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  const SnackBar(
-                                                            content: Center(
-                                                              child: Text(
-                                                                'Something went wrong',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .redAccent,
-                                                            duration: Duration(
-                                                                seconds: 2),
-                                                            width: 190,
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                          ));
-                                                          Navigator.pop(
-                                                              context);
-                                                        }
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      'OK',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 17,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: Row(
-                                          children: [
-                                            Container(
-                                              height: 50,
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                  color: Colors.red,
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15)),
-                                              child: const Center(
-                                                child: Icon(
-                                                  Icons.delete,
-                                                  color: Colors.white,
-                                                  size: 35,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      CustomSlidableAction(
-                                        backgroundColor: Theme.of(context)
-                                            .scaffoldBackgroundColor,
-                                        padding: EdgeInsets.zero,
-                                        onPressed: (context) {
-                                          showDialog(
-                                            barrierDismissible: false,
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return Padding(
-                                                padding: EdgeInsets.only(
-                                                    bottom:
-                                                        MediaQuery.of(context)
-                                                            .viewInsets
-                                                            .bottom),
-                                                child: AlertDialog(
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15.0)),
-                                                  titlePadding: EdgeInsets.zero,
-                                                  backgroundColor: Colors.white,
-                                                  title: EditSenderDialouge(
-                                                    sender: sender,
-                                                    dotThen: (value) {
-                                                      setState(() {
-                                                        senders = getSenders();
-                                                        initializeData();
-                                                        Navigator.pop(context);
-                                                        showAlert(context,
-                                                            message:
-                                                                'Sender Updated',
-                                                            color: primaryColor
-                                                                .withOpacity(
-                                                                    0.7),
-                                                            width: 150);
-                                                      });
-                                                    },
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                              color: Colors.amber,
-                                              borderRadius:
-                                                  BorderRadius.circular(15)),
-                                          child: const Center(
-                                            child: Icon(
-                                              Icons.edit,
-                                              color: Colors.white,
-                                              size: 35,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                                child: ListTile(
-                                  onTap: () {
-                                    setState(() {
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return SenderMails(sender: sender);
-                                        },
-                                      ));
-                                    });
-                                  },
-                                  title: Row(
-                                    children: [
-                                      const SizedBox(
-                                        width: 30,
-                                      ),
-                                      const Icon(Icons.person_3_outlined),
-                                      const SizedBox(
-                                        width: 30,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            sender.name!,
-                                            style:
-                                                const TextStyle(fontSize: 20),
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Icon(
-                                                Icons.phone,
-                                                size: 20,
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                sender.mobile!,
-                                                style: const TextStyle(
-                                                    fontSize: 17),
-                                              )
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }
-                            return const SizedBox.shrink();
-                          },
+                        Align(
+                          alignment: Alignment.center,
+                          child: Image.asset('images/result_not_found.png',
+                              fit: BoxFit.cover, height: 250),
                         ),
+                        const SizedBox(
+                          height: 70,
+                        )
                       ],
                     ),
                   );
-                },
-              );
-            },
-          ),
-        )
-      ],
+                }
+                return ListView.separated(
+                  padding: EdgeInsets.zero,
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      height: 10,
+                    );
+                  },
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: categorizedSenders.length,
+                  itemBuilder: (context, sectionIndex) {
+                    final category =
+                        categorizedSenders.keys.elementAt(sectionIndex);
+                    final categorySenders = categorizedSenders[category]!;
+
+                    // Filter the matchingPairs for the current category and search term
+                    final filteredMatchingPairs = matchingPairs.where((entry) {
+                      final sender = entry.value;
+                      final senderCategory =
+                          sender.category!.name!.toLowerCase();
+                      final senderName = sender.name!.toLowerCase();
+                      final searchTerm = searchTextField.text.toLowerCase();
+
+                      return senderCategory == category.toLowerCase() &&
+                          (senderName.contains(searchTerm) ||
+                              sender.mobile!.contains(searchTerm));
+                    }).toList();
+
+                    // Check if the section is empty, and skip it if so
+                    if ((filteredMatchingPairs.isEmpty &&
+                            categorySenders.isEmpty) ||
+                        (filteredMatchingPairs.isEmpty &&
+                            searchTextField.text.isNotEmpty)) {
+                      return const SizedBox.shrink(); // Hide the empty section
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 12.0, left: 12),
+                      child: Column(
+                        children: [
+                          Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding:
+                                            const EdgeInsetsDirectional.only(
+                                          top: 20.0,
+                                          start: 5,
+                                        ),
+                                        child: Text(
+                                          category.tr(),
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: const EdgeInsets.only(top: 10),
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 1,
+                                        color: Colors.grey.shade300,
+                                      )
+                                    ]),
+                              ]),
+                          ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: searchTextField.text.isNotEmpty
+                                ? filteredMatchingPairs.length
+                                : categorySenders.length,
+                            itemBuilder: (context, itemIndex) {
+                              final entry = searchTextField.text.isNotEmpty &&
+                                      itemIndex < filteredMatchingPairs.length
+                                  ? filteredMatchingPairs[itemIndex]
+                                  : null;
+
+                              final sender = searchTextField.text.isEmpty &&
+                                      itemIndex < categorySenders.length
+                                  ? categorySenders[itemIndex]
+                                  : null;
+
+                              if (entry != null) {
+                                return Slidable(
+                                  endActionPane: ActionPane(
+                                      extentRatio: 0.44,
+                                      motion: const ScrollMotion(),
+                                      children: [
+                                        CustomSlidableAction(
+                                          backgroundColor: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          padding:
+                                              const EdgeInsets.only(left: 30),
+                                          onPressed: (context) {
+                                            showDialog(
+                                              barrierDismissible: false,
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  title: SizedBox(
+                                                    width: 290,
+                                                    child: Text(
+                                                      'Do you want really to delete "${entry.value.name}" ?',
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text(
+                                                        'Cancel',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 17,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        await deleteSender(entry
+                                                                .value.id!)!
+                                                            .then((statusCode) {
+                                                          if (statusCode ==
+                                                              200) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                                    SnackBar(
+                                                              content:
+                                                                  const Center(
+                                                                child: Text(
+                                                                  'Deleted Successfully',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500),
+                                                                ),
+                                                              ),
+                                                              backgroundColor:
+                                                                  primaryColor
+                                                                      .withOpacity(
+                                                                          0.7),
+                                                              duration:
+                                                                  const Duration(
+                                                                      seconds:
+                                                                          2),
+                                                              width: 190,
+                                                              elevation: 0,
+                                                              behavior:
+                                                                  SnackBarBehavior
+                                                                      .floating,
+                                                            ));
+                                                            setState(() {
+                                                              senders =
+                                                                  getSenders();
+                                                              initializeData();
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
+                                                          } else {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                                    const SnackBar(
+                                                              content: Center(
+                                                                child: Text(
+                                                                  'Something went wrong',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500),
+                                                                ),
+                                                              ),
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .redAccent,
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          2),
+                                                              width: 190,
+                                                              elevation: 0,
+                                                              behavior:
+                                                                  SnackBarBehavior
+                                                                      .floating,
+                                                            ));
+                                                            Navigator.pop(
+                                                                context);
+                                                          }
+                                                        });
+                                                      },
+                                                      child: const Text(
+                                                        'OK',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 17,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                height: 50,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.red,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15)),
+                                                child: const Center(
+                                                  child: Icon(
+                                                    Icons.delete,
+                                                    color: Colors.white,
+                                                    size: 35,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        CustomSlidableAction(
+                                          backgroundColor: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          padding: EdgeInsets.zero,
+                                          onPressed: (context) {
+                                            showDialog(
+                                              barrierDismissible: false,
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  title: SizedBox(
+                                                    width: 290,
+                                                    child: Text(
+                                                      'Do you want really to delete "${entry.value.name}" ?',
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text(
+                                                        'Cancel',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 17,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        await deleteSender(entry
+                                                                .value.id!)!
+                                                            .then((statusCode) {
+                                                          if (statusCode ==
+                                                              200) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                                    SnackBar(
+                                                              content:
+                                                                  const Center(
+                                                                child: Text(
+                                                                  'Deleted Successfully',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500),
+                                                                ),
+                                                              ),
+                                                              backgroundColor:
+                                                                  primaryColor
+                                                                      .withOpacity(
+                                                                          0.7),
+                                                              duration:
+                                                                  const Duration(
+                                                                      seconds:
+                                                                          2),
+                                                              width: 190,
+                                                              elevation: 0,
+                                                              behavior:
+                                                                  SnackBarBehavior
+                                                                      .floating,
+                                                            ));
+                                                            setState(() {
+                                                              senders =
+                                                                  getSenders();
+                                                              initializeData();
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
+                                                          } else {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                                    const SnackBar(
+                                                              content: Center(
+                                                                child: Text(
+                                                                  'Something went wrong',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500),
+                                                                ),
+                                                              ),
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .redAccent,
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          2),
+                                                              width: 190,
+                                                              elevation: 0,
+                                                              behavior:
+                                                                  SnackBarBehavior
+                                                                      .floating,
+                                                            ));
+                                                            Navigator.pop(
+                                                                context);
+                                                          }
+                                                        });
+                                                      },
+                                                      child: const Text(
+                                                        'OK',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 17,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                color: Colors.amber,
+                                                borderRadius:
+                                                    BorderRadius.circular(15)),
+                                            child: const Center(
+                                              child: Icon(
+                                                Icons.edit,
+                                                color: Colors.white,
+                                                size: 35,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                  child: ListTile(
+                                    onTap: () {
+                                      setState(() {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return SenderMails(sender: sender);
+                                          },
+                                        ));
+                                      });
+                                    },
+                                    title: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 30,
+                                        ),
+                                        const Icon(Icons.person_3_outlined),
+                                        const SizedBox(
+                                          width: 30,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              entry.value.name!,
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            ),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.phone,
+                                                  size: 20,
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  entry.value.mobile!,
+                                                  style: const TextStyle(
+                                                      fontSize: 17),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              } else if (sender != null) {
+                                return Slidable(
+                                  endActionPane: ActionPane(
+                                      extentRatio: 0.43,
+                                      motion: const ScrollMotion(),
+                                      children: [
+                                        CustomSlidableAction(
+                                          backgroundColor: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          padding:
+                                              const EdgeInsets.only(left: 30),
+                                          onPressed: (context) {
+                                            showDialog(
+                                              barrierDismissible: false,
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  title: SizedBox(
+                                                    width: 290,
+                                                    child: Text(
+                                                      'Do you want really to delete "${sender.name}" ?',
+                                                      style: const TextStyle(
+                                                        color: Colors.black,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontSize: 20,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text(
+                                                        'Cancel',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 17,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () async {
+                                                        await deleteSender(
+                                                                sender.id!)!
+                                                            .then((statusCode) {
+                                                          if (statusCode ==
+                                                              200) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                                    SnackBar(
+                                                              content:
+                                                                  const Center(
+                                                                child: Text(
+                                                                  'Deleted Successfully',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500),
+                                                                ),
+                                                              ),
+                                                              backgroundColor:
+                                                                  primaryColor
+                                                                      .withOpacity(
+                                                                          0.7),
+                                                              duration:
+                                                                  const Duration(
+                                                                      seconds:
+                                                                          2),
+                                                              width: 190,
+                                                              elevation: 0,
+                                                              behavior:
+                                                                  SnackBarBehavior
+                                                                      .floating,
+                                                            ));
+                                                            setState(() {
+                                                              senders =
+                                                                  getSenders();
+                                                              initializeData();
+                                                              Navigator.pop(
+                                                                  context);
+                                                            });
+                                                          } else {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                                    const SnackBar(
+                                                              content: Center(
+                                                                child: Text(
+                                                                  'Something went wrong',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500),
+                                                                ),
+                                                              ),
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .redAccent,
+                                                              duration:
+                                                                  Duration(
+                                                                      seconds:
+                                                                          2),
+                                                              width: 190,
+                                                              elevation: 0,
+                                                              behavior:
+                                                                  SnackBarBehavior
+                                                                      .floating,
+                                                            ));
+                                                            Navigator.pop(
+                                                                context);
+                                                          }
+                                                        });
+                                                      },
+                                                      child: const Text(
+                                                        'OK',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontSize: 17,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Row(
+                                            children: [
+                                              Container(
+                                                height: 50,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                    color: Colors.red,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15)),
+                                                child: const Center(
+                                                  child: Icon(
+                                                    Icons.delete,
+                                                    color: Colors.white,
+                                                    size: 35,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        CustomSlidableAction(
+                                          backgroundColor: Theme.of(context)
+                                              .scaffoldBackgroundColor,
+                                          padding: EdgeInsets.zero,
+                                          onPressed: (context) {
+                                            showDialog(
+                                              barrierDismissible: false,
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom:
+                                                          MediaQuery.of(context)
+                                                              .viewInsets
+                                                              .bottom),
+                                                  child: AlertDialog(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15.0)),
+                                                    titlePadding:
+                                                        EdgeInsets.zero,
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    title: EditSenderDialouge(
+                                                      sender: sender,
+                                                      dotThen: (value) {
+                                                        setState(() {
+                                                          senders =
+                                                              getSenders();
+                                                          initializeData();
+                                                          Navigator.pop(
+                                                              context);
+                                                          showAlert(context,
+                                                              message:
+                                                                  'Sender Updated',
+                                                              color: primaryColor
+                                                                  .withOpacity(
+                                                                      0.7),
+                                                              width: 150);
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                                color: Colors.amber,
+                                                borderRadius:
+                                                    BorderRadius.circular(15)),
+                                            child: const Center(
+                                              child: Icon(
+                                                Icons.edit,
+                                                color: Colors.white,
+                                                size: 35,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
+                                  child: ListTile(
+                                    onTap: () {
+                                      setState(() {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return SenderMails(sender: sender);
+                                          },
+                                        ));
+                                      });
+                                    },
+                                    title: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 30,
+                                        ),
+                                        const Icon(Icons.person_3_outlined),
+                                        const SizedBox(
+                                          width: 30,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              sender.name!,
+                                              style:
+                                                  const TextStyle(fontSize: 20),
+                                            ),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.phone,
+                                                  size: 20,
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  sender.mobile!,
+                                                  style: const TextStyle(
+                                                      fontSize: 17),
+                                                )
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                              return const SizedBox.shrink();
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          )
+        ],
+      ),
     ));
   }
 
