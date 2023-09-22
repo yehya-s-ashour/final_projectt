@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 Container customBox({
   required String number,
   required String title,
-
 }) {
   return Container(
     decoration: BoxDecoration(
@@ -58,13 +57,13 @@ Container customBox({
   );
 }
 
-Container CustomWhiteBox({
-  required double width,
-  required double height,
-  required Widget child,
-}) {
+Container CustomWhiteBox(
+    {required double width,
+    required double height,
+    required Widget child,
+    double? margin}) {
   return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: margin ?? 15),
       width: width,
       height: height,
       decoration: BoxDecoration(

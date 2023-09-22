@@ -10,6 +10,7 @@ import 'package:final_projectt/core/widgets/activites_expansion_tile.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/core/widgets/date_picker.dart';
 import 'package:final_projectt/core/widgets/my_custom_dialouge.dart';
+import 'package:final_projectt/core/widgets/edit_mail_more_sheet.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/core/widgets/status_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/tags_bottom_sheet.dart';
@@ -20,10 +21,13 @@ import 'package:final_projectt/models/tags_model.dart';
 import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:screenshot/screenshot.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'dart:ui' as ui;
 
 class EditMailBottomSheet extends StatefulWidget {
   Mail mail;
@@ -44,7 +48,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
   SingleSender? selectedSender;
   List<TagElement> selectedTags = [];
   bool isDeleting = false;
-
+  GlobalKey globalKey = GlobalKey();
+  Uint8List? pngBytes;
   TextEditingController decisionCont = TextEditingController();
   TextEditingController activityTextFieldController = TextEditingController();
   late UserModel user;
@@ -103,6 +108,58 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
     decisionCont.text = widget.mail.decision ?? '';
   }
 
+  Future<void> _capturePng() async {
+    RenderRepaintBoundary boundary =
+        globalKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+    if (kDebugMode) {
+      print("Waiting for boundary to be painted.");
+    }
+    await Future.delayed(const Duration(milliseconds: 20));
+    ui.Image image = await boundary.toImage();
+    ByteData? byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+    pngBytes = byteData!.buffer.asUint8List();
+    if (kDebugMode) {
+      print(pngBytes);
+    }
+    if (mounted) {
+      _onShareXFileFromAssets(context, byteData);
+    }
+    // }
+  }
+
+  void _onShareXFileFromAssets(BuildContext context, ByteData? data) async {
+    final box = context.findRenderObject() as RenderBox?;
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    // final data = await rootBundle.load('assets/flutter_logo.png');
+    final buffer = data!.buffer;
+    final shareResult = await Share.shareXFiles(
+      [
+        XFile.fromData(
+          buffer.asUint8List(data.offsetInBytes, data.lengthInBytes),
+          name: 'screen_shot.png',
+          mimeType: 'image/png',
+        ),
+      ],
+      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+    );
+
+    scaffoldMessenger.showSnackBar(getResultSnackBar(shareResult));
+  }
+
+  SnackBar getResultSnackBar(ShareResult result) {
+    return SnackBar(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Share result: ${result.status}"),
+          if (result.status == ShareResultStatus.success)
+            Text("Shared to: ${result.raw}")
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     intializeData();
@@ -117,16 +174,17 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
     int year = date!.year;
     int today = date!.day;
     dynamic month = getMonth(date!);
-    return Screenshot(
-      controller: ScreenshotController(),
-      child: Scaffold(
-        body: Column(
+    return RepaintBoundary(
+      key: globalKey,
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height - 75,
+        child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                left: 10.0,
-                right: 10,
-                top: 30,
+                left: 15.0,
+                right: 15,
+                top: 10,
               ),
               child: Row(
                 children: [
@@ -139,16 +197,6 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           alignment: Alignment.centerLeft),
                       onPressed: () {
-                        setState(() {
-                          Provider.of<NewInboxProvider>(context, listen: false)
-                              .clearImages();
-
-                          Provider.of<NewInboxProvider>(context, listen: false)
-                              .activites = [];
-
-                          Provider.of<NewInboxProvider>(context, listen: false)
-                              .deletedImages = [];
-                        });
                         Navigator.pushReplacement(
                           context,
                           PageRouteBuilder(
@@ -172,121 +220,151 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           ),
                         );
                       },
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.arrow_back_ios,
-                            color: primaryColor,
-                            size: 15,
-                          ),
-                          Text(
-                            'Home',
-                            style: TextStyle(
-                              fontSize: 17,
+                      child: GestureDetector(
+                        onTap: () async {
+                          myCustomDialouge(
+                            context: context,
+                            title: 'Update mail?',
+                            content: 'Do you want to update this mail?',
+                            leftChoice: 'Cancel',
+                            rightChoice: 'Update',
+                            rightChoiceColor: primaryColor,
+                            leftChoiceColor: Colors.red,
+                            rightOnPressed: () async {
+                              Provider.of<NewInboxProvider>(context,
+                                          listen: false)
+                                      .imagesFiles
+                                      .isNotEmpty
+                                  ? await uploadImages(context, widget.mail.id!)
+                                  : null;
+                              await updateMail(
+                                mailId: widget.mail.id,
+                                idAttachmentsForDelete:
+                                    Provider.of<NewInboxProvider>(context,
+                                            listen: false)
+                                        .deletedImages
+                                        .map((image) {
+                                  return image!.id!;
+                                }).toList(),
+                                pathAttachmentsForDelete:
+                                    Provider.of<NewInboxProvider>(context,
+                                            listen: false)
+                                        .deletedImages
+                                        .map((image) {
+                                  return image!.image!;
+                                }).toList(),
+                                statusId: selectedStatus.id.toString(),
+                                decision: decisionCont.text,
+                                finalDecision: decisionCont.text,
+                                activities: Provider.of<NewInboxProvider>(
+                                        context,
+                                        listen: false)
+                                    .activites,
+                                tags:
+                                    selectedTags.map((tag) => tag.id).toList(),
+                              );
+
+                              showAlert(
+                                context,
+                                message: 'Mail Updated Successfully'.tr(),
+                                color: primaryColor.withOpacity(0.8),
+                                width: 230,
+                              );
+
+                              selectedTags = [];
+
+                              final updateData = Provider.of<StatuseProvider>(
+                                  context,
+                                  listen: false);
+                              updateData.updatestutas();
+
+                              Navigator.of(context)
+                                  .pushReplacement(MaterialPageRoute(
+                                builder: (context) {
+                                  return const MainPage();
+                                },
+                              ));
+                            },
+                            leftOnPressed: () {
+                              Navigator.pop(context);
+                            },
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.arrow_back_ios,
                               color: primaryColor,
-                              decoration: TextDecoration.underline,
+                              size: 15,
                             ),
-                          ),
-                        ],
+                            Text(
+                              'Home',
+                              style: TextStyle(
+                                fontSize: 17,
+                                color: primaryColor,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  // Expanded(
-                  //   flex: 2,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.only(top: 5),
-                  //     child: Text(
-                  //       'Mail Details'.tr(),
-                  //       textAlign: TextAlign.center,
-                  //       style: const TextStyle(
-                  //           fontSize: 19, color: Color(0xFF272727)),
-                  //     ),
-                  //   ),
-                  // ),
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        IconButton(
-                            padding: EdgeInsets.only(bottom: 15),
-                            constraints: BoxConstraints(),
-                            onPressed: () async {
-                              final image = ScreenshotController()
-                                  .capture(delay: Duration(milliseconds: 10));
-                              print(image);
-                            },
-                            icon: Icon(
-                              Icons.ios_share_outlined,
-                              color: Colors.black45,
-                            )),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        IconButton(
-                          color: primaryColor,
-                          style: IconButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                          ),
-                          onPressed: () async {
-                            Provider.of<NewInboxProvider>(context,
-                                        listen: false)
-                                    .imagesFiles
-                                    .isNotEmpty
-                                ? await uploadImages(context, widget.mail.id!)
-                                : null;
-                            await updateMail(
-                              mailId: widget.mail.id,
-                              idAttachmentsForDelete:
-                                  Provider.of<NewInboxProvider>(context,
-                                          listen: false)
-                                      .deletedImages
-                                      .map((image) {
-                                return image!.id!;
-                              }).toList(),
-                              pathAttachmentsForDelete:
-                                  Provider.of<NewInboxProvider>(context,
-                                          listen: false)
-                                      .deletedImages
-                                      .map((image) {
-                                return image!.image!;
-                              }).toList(),
-                              statusId: selectedStatus.id.toString(),
-                              decision: decisionCont.text,
-                              finalDecision: decisionCont.text,
-                              activities: Provider.of<NewInboxProvider>(context,
-                                      listen: false)
-                                  .activites,
-                              tags: selectedTags.map((tag) => tag.id).toList(),
-                            );
-
-                            showAlert(
-                              context,
-                              message: 'Mail Updated Successfully'.tr(),
-                              color: primaryColor.withOpacity(0.8),
-                              width: 230,
-                            );
-
-                            selectedTags = [];
-
-                            final updateData = Provider.of<StatuseProvider>(
-                                context,
-                                listen: false);
-                            updateData.updatestutas();
-
-                            Navigator.of(context)
-                                .pushReplacement(MaterialPageRoute(
-                              builder: (context) {
-                                return const MainPage();
+                  IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          clipBehavior: Clip.hardEdge,
+                          isScrollControlled: true,
+                          context: context,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(15.0),
+                          )),
+                          builder: (BuildContext context) {
+                            return EditMailMoreSheet(
+                              onShare: _capturePng,
+                              onDelete: () {
+                                myCustomDialouge(
+                                  context: context,
+                                  title: 'Delete mail?',
+                                  content: 'Do you want to delete this mail?',
+                                  leftChoice: 'Cancel',
+                                  rightChoice: 'Delete',
+                                  rightOnPressed: () async {
+                                    setState(() {
+                                      isDeleting = true;
+                                    });
+                                    await deleteMail(widget.mail.id.toString())!
+                                        .then((value) {
+                                      isDeleting = false;
+                                      showAlert(context,
+                                          message: 'Mail Deleted',
+                                          color: Colors.red,
+                                          width: 150);
+                                      Navigator.pushReplacement(context,
+                                          MaterialPageRoute(
+                                        builder: (context) {
+                                          return MainPage();
+                                        },
+                                      ));
+                                    });
+                                  },
+                                  leftOnPressed: () {
+                                    setState(() {
+                                      isDeleting = false;
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                );
                               },
-                            ));
+                            );
                           },
-                          icon: Icon(Icons.check),
-                        ),
-                      ],
-                    ),
-                  ),
+                        );
+                      },
+                      icon: Icon(
+                        Icons.more_horiz_rounded,
+                        color: primaryColor,
+                      ))
                 ],
               ),
             ),
@@ -1063,75 +1141,6 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           ),
                         ),
                       ),
-                      Row(
-                        children: [
-                          SizedBox(
-                            width: 70,
-                          ),
-                          Expanded(
-                            child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.only(left: 30, right: 30),
-                                  backgroundColor: Colors.white,
-                                  side: BorderSide(color: Colors.red),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  myCustomDialouge(
-                                    context: context,
-                                    title: 'Delete mail?',
-                                    content: 'Do you want to delete this mail?',
-                                    leftChoice: 'Cancel',
-                                    rightChoice: 'Delete',
-                                    rightOnPressed: () async {
-                                      setState(() {
-                                        isDeleting = true;
-                                      });
-                                      await deleteMail(
-                                              widget.mail.id.toString())!
-                                          .then((value) {
-                                        isDeleting = false;
-                                        showAlert(context,
-                                            message: 'Mail Deleted',
-                                            color: Colors.red,
-                                            width: 150);
-                                        Navigator.pushReplacement(context,
-                                            MaterialPageRoute(
-                                          builder: (context) {
-                                            return MainPage();
-                                          },
-                                        ));
-                                      });
-                                    },
-                                    leftOnPressed: () {
-                                      setState(() {
-                                        isDeleting = false;
-                                      });
-                                      Navigator.pop(context);
-                                    },
-                                  );
-                                },
-                                child: isDeleting
-                                    ? const Center(
-                                        child: CircularProgressIndicator(
-                                          color: Colors.red,
-                                        ),
-                                      )
-                                    : Text(
-                                        'Delete Mail',
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 18,
-                                        ),
-                                      )),
-                          ),
-                          SizedBox(
-                            width: 70,
-                          ),
-                        ],
-                      )
                     ],
                   ),
                   SizedBox(
