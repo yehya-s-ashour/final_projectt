@@ -42,32 +42,14 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
       child: Column(
         children: [
           Padding(
-            padding:
-                const EdgeInsetsDirectional.only(top: 15.0, start: 8, end: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // IconButton(
-                //   onPressed: () {
-                //     Navigator.pop(context, SelectedStatus);
-                //   },
-                //   icon: Icon(
-                //     Icons.arrow_back_ios_new_rounded,
-                //     color: primaryColor,
-                //   ),
-                // ),
-                Text(
-                  'Status'.tr(),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                ),
-                // const Icon(
-                //   Icons.arrow_back_ios_new_rounded,
-                //   color: Colors.transparent,
-                // ),
-              ],
+            padding: const EdgeInsetsDirectional.only(
+                top: 25.0, start: 8, end: 20, bottom: 10),
+            child: Text(
+              'Status'.tr(),
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
+              ),
             ),
           ),
           FutureBuilder(
@@ -193,12 +175,17 @@ class _StatusesBottomSheetState extends State<StatusesBottomSheet> {
               if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
-              return const Center(
-                child: SpinKitPulse(
-                  duration: Duration(milliseconds: 1000),
-                  color: Colors.grey,
-                  size: 40,
-                ),
+              return Column(
+                children: [
+                  SizedBox(
+                    height: 250,
+                  ),
+                  SpinKitPulse(
+                    duration: Duration(milliseconds: 1000),
+                    color: Colors.grey,
+                    size: 40,
+                  ),
+                ],
               );
             },
           )

@@ -4,6 +4,7 @@ import 'package:final_projectt/core/services/all_user_controller.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/edit_sender_dialouge.dart';
+import 'package:final_projectt/core/widgets/my_custom_dialouge.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
 
 import 'package:final_projectt/models/sender_model.dart';
@@ -218,7 +219,7 @@ class _SendersScreenState extends State<SendersScreen> {
                   }
 
                   return Padding(
-                    padding: const EdgeInsets.only(right: 12.0, left: 12),
+                    padding: const EdgeInsets.only(right: 20.0, left: 20),
                     child: Column(
                       children: [
                         Column(
@@ -243,7 +244,8 @@ class _SendersScreenState extends State<SendersScreen> {
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.only(top: 10),
+                                      margin: const EdgeInsets.only(
+                                          top: 10, left: 5, right: 5),
                                       width: MediaQuery.of(context).size.width,
                                       height: 1,
                                       color: Colors.grey.shade300,
@@ -271,7 +273,7 @@ class _SendersScreenState extends State<SendersScreen> {
                             if (entry != null) {
                               return Slidable(
                                 endActionPane: ActionPane(
-                                    extentRatio: 0.44,
+                                    extentRatio: 0.45,
                                     motion: const ScrollMotion(),
                                     children: [
                                       CustomSlidableAction(
@@ -280,127 +282,42 @@ class _SendersScreenState extends State<SendersScreen> {
                                         padding:
                                             const EdgeInsets.only(left: 30),
                                         onPressed: (context) {
-                                          showCupertinoDialog(
-                                            barrierDismissible: false,
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                title: SizedBox(
-                                                  width: 290,
-                                                  child: Text(
-                                                    'Do you want really to delete "${entry.value.name}" ?',
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
+                                          myCustomDialouge(
+                                              leftOnPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              context: context,
+                                              title: 'Delete Sender?',
+                                              content:
+                                                  'Are you sure want to delete "${entry.value.name}" ?',
+                                              leftChoice: 'Cancel',
+                                              rightChoice: 'Delete',
+                                              rightOnPressed: () async {
+                                                await deleteSender(
+                                                        entry.value.id!)!
+                                                    .then((statusCode) {
+                                                  if (statusCode == 200) {
+                                                    showAlert(context,
+                                                        message:
+                                                            'Deleted Successfully',
+                                                        color: primaryColor
+                                                            .withOpacity(0.7),
+                                                        width: 190);
+                                                    setState(() {
+                                                      senders = getSenders();
+                                                      initializeData();
                                                       Navigator.pop(context);
-                                                    },
-                                                    child: const Text(
-                                                      'Cancel',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 17,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      await deleteSender(
-                                                              entry.value.id!)!
-                                                          .then((statusCode) {
-                                                        if (statusCode == 200) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  SnackBar(
-                                                            content:
-                                                                const Center(
-                                                              child: Text(
-                                                                'Deleted Successfully',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            backgroundColor:
-                                                                primaryColor
-                                                                    .withOpacity(
-                                                                        0.7),
-                                                            duration:
-                                                                const Duration(
-                                                                    seconds: 2),
-                                                            width: 190,
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                          ));
-                                                          setState(() {
-                                                            senders =
-                                                                getSenders();
-                                                            initializeData();
-                                                            Navigator.pop(
-                                                                context);
-                                                          });
-                                                        } else {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  const SnackBar(
-                                                            content: Center(
-                                                              child: Text(
-                                                                'Something went wrong',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .redAccent,
-                                                            duration: Duration(
-                                                                seconds: 2),
-                                                            width: 190,
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                          ));
-                                                          Navigator.pop(
-                                                              context);
-                                                        }
-                                                      });
-                                                    },
-                                                    child: const Text(
-                                                      'OK',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 17,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
+                                                    });
+                                                  } else {
+                                                    showAlert(context,
+                                                        message:
+                                                            'Something went wrong',
+                                                        color: Colors.redAccent,
+                                                        width: 190);
+                                                    Navigator.pop(context);
+                                                  }
+                                                });
+                                              });
                                         },
                                         child: Row(
                                           children: [
@@ -432,120 +349,37 @@ class _SendersScreenState extends State<SendersScreen> {
                                             barrierDismissible: false,
                                             context: context,
                                             builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                title: SizedBox(
-                                                  width: 290,
-                                                  child: Text(
-                                                    'Do you want really to delete "${entry.value.name}" ?',
-                                                    style: const TextStyle(
-                                                      color: Colors.black,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 20,
-                                                    ),
-                                                  ),
-                                                ),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text(
-                                                      'Cancel',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 17,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      await deleteSender(
-                                                              entry.value.id!)!
-                                                          .then((statusCode) {
-                                                        if (statusCode == 200) {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  SnackBar(
-                                                            content:
-                                                                const Center(
-                                                              child: Text(
-                                                                'Deleted Successfully',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            backgroundColor:
-                                                                primaryColor
-                                                                    .withOpacity(
-                                                                        0.7),
-                                                            duration:
-                                                                const Duration(
-                                                                    seconds: 2),
-                                                            width: 190,
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                          ));
-                                                          setState(() {
-                                                            senders =
-                                                                getSenders();
-                                                            initializeData();
-                                                            Navigator.pop(
-                                                                context);
-                                                          });
-                                                        } else {
-                                                          ScaffoldMessenger.of(
-                                                                  context)
-                                                              .showSnackBar(
-                                                                  const SnackBar(
-                                                            content: Center(
-                                                              child: Text(
-                                                                'Something went wrong',
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        15,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              ),
-                                                            ),
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .redAccent,
-                                                            duration: Duration(
-                                                                seconds: 2),
-                                                            width: 190,
-                                                            elevation: 0,
-                                                            behavior:
-                                                                SnackBarBehavior
-                                                                    .floating,
-                                                          ));
-                                                          Navigator.pop(
-                                                              context);
-                                                        }
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                    bottom:
+                                                        MediaQuery.of(context)
+                                                            .viewInsets
+                                                            .bottom),
+                                                child: AlertDialog(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15.0)),
+                                                  titlePadding: EdgeInsets.zero,
+                                                  backgroundColor: Colors.white,
+                                                  title: EditSenderDialouge(
+                                                    sender: entry.value,
+                                                    dotThen: (value) {
+                                                      setState(() {
+                                                        senders = getSenders();
+                                                        initializeData();
+                                                        Navigator.pop(context);
+                                                        showAlert(context,
+                                                            message:
+                                                                'Sender Updated',
+                                                            color: primaryColor
+                                                                .withOpacity(
+                                                                    0.7),
+                                                            width: 150);
                                                       });
                                                     },
-                                                    child: const Text(
-                                                      'OK',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        fontSize: 17,
-                                                      ),
-                                                    ),
                                                   ),
-                                                ],
+                                                ),
                                               );
                                             },
                                           );
@@ -625,7 +459,7 @@ class _SendersScreenState extends State<SendersScreen> {
                             } else if (sender != null) {
                               return Slidable(
                                 endActionPane: ActionPane(
-                                    extentRatio: 0.43,
+                                    extentRatio: 0.45,
                                     motion: const ScrollMotion(),
                                     children: [
                                       CustomSlidableAction(
@@ -634,192 +468,41 @@ class _SendersScreenState extends State<SendersScreen> {
                                         padding:
                                             const EdgeInsets.only(left: 30),
                                         onPressed: (context) {
-                                          showCupertinoDialog(
-                                            barrierDismissible: false,
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                titlePadding: EdgeInsets.only(
-                                                    top: 20, bottom: 8),
-                                                actionsPadding: EdgeInsets.zero,
-                                                shadowColor: Colors.grey,
-                                                contentPadding: EdgeInsets.only(
-                                                    left: 20,
-                                                    right: 20,
-                                                    bottom: 20),
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15)),
-                                                backgroundColor: Colors.white,
-                                                title: Text(
-                                                  'Delete Sender?',
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 19,
-                                                  ),
-                                                ),
-                                                content: Text(
+                                          myCustomDialouge(
+                                              leftOnPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              context: context,
+                                              title: 'Delete Sender?',
+                                              content:
                                                   'Are you sure want to delete "${sender.name}" ?',
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 17,
-                                                  ),
-                                                ),
-                                                actions: [
-                                                  Column(
-                                                    children: [
-                                                      Container(
-                                                        width: double.infinity,
-                                                        height: 1,
-                                                        color: Colors
-                                                            .grey.shade300,
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 7,
-                                                            child: TextButton(
-                                                              onPressed: () {
-                                                                Navigator.pop(
-                                                                    context);
-                                                              },
-                                                              child: const Text(
-                                                                'Cancel',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .blue,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 16,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          Container(
-                                                            width: 1,
-                                                            height: 50,
-                                                            color: Colors
-                                                                .grey.shade300,
-                                                          ),
-                                                          Expanded(
-                                                            flex: 7,
-                                                            child: TextButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                await deleteSender(
-                                                                        sender
-                                                                            .id!)!
-                                                                    .then(
-                                                                        (statusCode) {
-                                                                  if (statusCode ==
-                                                                      200) {
-                                                                    ScaffoldMessenger.of(
-                                                                            context)
-                                                                        .showSnackBar(
-                                                                            SnackBar(
-                                                                      content:
-                                                                          const Center(
-                                                                        child:
-                                                                            Text(
-                                                                          'Deleted Successfully',
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.w500),
-                                                                        ),
-                                                                      ),
-                                                                      backgroundColor:
-                                                                          primaryColor
-                                                                              .withOpacity(0.7),
-                                                                      duration: const Duration(
-                                                                          seconds:
-                                                                              2),
-                                                                      width:
-                                                                          190,
-                                                                      elevation:
-                                                                          0,
-                                                                      behavior:
-                                                                          SnackBarBehavior
-                                                                              .floating,
-                                                                    ));
-                                                                    setState(
-                                                                        () {
-                                                                      senders =
-                                                                          getSenders();
-                                                                      initializeData();
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                    });
-                                                                  } else {
-                                                                    ScaffoldMessenger.of(
-                                                                            context)
-                                                                        .showSnackBar(
-                                                                            const SnackBar(
-                                                                      content:
-                                                                          Center(
-                                                                        child:
-                                                                            Text(
-                                                                          'Something went wrong',
-                                                                          style: TextStyle(
-                                                                              fontSize: 15,
-                                                                              fontWeight: FontWeight.w500),
-                                                                        ),
-                                                                      ),
-                                                                      backgroundColor:
-                                                                          Colors
-                                                                              .redAccent,
-                                                                      duration: Duration(
-                                                                          seconds:
-                                                                              2),
-                                                                      width:
-                                                                          190,
-                                                                      elevation:
-                                                                          0,
-                                                                      behavior:
-                                                                          SnackBarBehavior
-                                                                              .floating,
-                                                                    ));
-                                                                    Navigator.pop(
-                                                                        context);
-                                                                  }
-                                                                });
-                                                              },
-                                                              child: const Text(
-                                                                'Delete',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Colors
-                                                                      .red,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                  fontSize: 16,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  )
-                                                ],
-                                              );
-                                            },
-                                          );
+                                              leftChoice: 'Cancel',
+                                              rightChoice: 'Delete',
+                                              rightOnPressed: () async {
+                                                await deleteSender(sender.id!)!
+                                                    .then((statusCode) {
+                                                  if (statusCode == 200) {
+                                                    showAlert(context,
+                                                        message:
+                                                            'Deleted Successfully',
+                                                        color: primaryColor
+                                                            .withOpacity(0.7),
+                                                        width: 190);
+                                                    setState(() {
+                                                      senders = getSenders();
+                                                      initializeData();
+                                                      Navigator.pop(context);
+                                                    });
+                                                  } else {
+                                                    showAlert(context,
+                                                        message:
+                                                            'Something went wrong',
+                                                        color: Colors.redAccent,
+                                                        width: 190);
+                                                    Navigator.pop(context);
+                                                  }
+                                                });
+                                              });
                                         },
                                         child: Row(
                                           children: [
