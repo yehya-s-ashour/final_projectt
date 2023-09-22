@@ -53,7 +53,7 @@ class _CustomDatePickerState extends State<CustomDatePicker>
               ),
               child: const Icon(
                 Icons.expand_more,
-
+                size: 30,
               ),
             ),
             onExpansionChanged: (value) {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Color primaryColor = const Color(0xff0c44fd);
 Color scondaryColor = const Color.fromARGB(255, 206, 168, 251);
-Color backGroundColor = const Color(0xffF7F6FF);
+Color backGroundColor = const Color.fromARGB(255, 245, 245, 252);
 Color boxColor = const Color(0xffFFFFFF);
 Color shadowColor = const Color(0xffEFEEFC);
 Color inboxColor = const Color(0xffFA3A57);

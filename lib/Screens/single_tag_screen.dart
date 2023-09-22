@@ -2,6 +2,7 @@
 import 'package:final_projectt/core/services/tags_controller.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../core/util/constants/colors.dart';
 import '../models/mail_model.dart';
 
@@ -71,9 +72,11 @@ class _SingleTagScreenState extends State<SingleTagScreen> {
               if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
-              return Center(
-                child: CircularProgressIndicator(
-                  color: primaryColor,
+              return const Center(
+                child: SpinKitPulse(
+                  duration: Duration(milliseconds: 1000),
+                  color: Colors.grey,
+                  size: 40,
                 ),
               );
             }),

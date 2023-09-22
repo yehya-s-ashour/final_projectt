@@ -1,0 +1,46 @@
+{
+    "sourceFile": "lib/core/util/constants/colors.dart",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 7,
+            "patches": [
+                {
+                    "date": 1695331687014,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1695331700708,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import 'package:flutter/material.dart';\r\n \r\n Color primaryColor = const Color(0xff0c44fd);\r\n Color scondaryColor = const Color.fromARGB(255, 206, 168, 251);\r\n-Color backGroundColor = Color.fromARGB(255, 241, 240, 252);\r\n+Color backGroundColor = Color.fromARGB(255, 228, 227, 238);\r\n Color boxColor = const Color(0xffFFFFFF);\r\n Color shadowColor = const Color(0xffEFEEFC);\r\n Color inboxColor = const Color(0xffFA3A57);\r\n Color pendingColor = const Color(0xffFFE120);\r\n"
+                },
+                {
+                    "date": 1695331716917,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import 'package:flutter/material.dart';\r\n \r\n Color primaryColor = const Color(0xff0c44fd);\r\n Color scondaryColor = const Color.fromARGB(255, 206, 168, 251);\r\n-Color backGroundColor = Color.fromARGB(255, 228, 227, 238);\r\n+Color backGroundColor = Color.fromARGB(255, 214, 214, 223);\r\n Color boxColor = const Color(0xffFFFFFF);\r\n Color shadowColor = const Color(0xffEFEEFC);\r\n Color inboxColor = const Color(0xffFA3A57);\r\n Color pendingColor = const Color(0xffFFE120);\r\n"
+                },
+                {
+                    "date": 1695331726233,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import 'package:flutter/material.dart';\r\n \r\n Color primaryColor = const Color(0xff0c44fd);\r\n Color scondaryColor = const Color.fromARGB(255, 206, 168, 251);\r\n-Color backGroundColor = Color.fromARGB(255, 214, 214, 223);\r\n+Color backGroundColor = Color.fromARGB(255, 204, 204, 213);\r\n Color boxColor = const Color(0xffFFFFFF);\r\n Color shadowColor = const Color(0xffEFEEFC);\r\n Color inboxColor = const Color(0xffFA3A57);\r\n Color pendingColor = const Color(0xffFFE120);\r\n"
+                },
+                {
+                    "date": 1695331736643,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import 'package:flutter/material.dart';\r\n \r\n Color primaryColor = const Color(0xff0c44fd);\r\n Color scondaryColor = const Color.fromARGB(255, 206, 168, 251);\r\n-Color backGroundColor = Color.fromARGB(255, 204, 204, 213);\r\n+Color backGroundColor = Color.fromARGB(255, 31, 31, 234);\r\n Color boxColor = const Color(0xffFFFFFF);\r\n Color shadowColor = const Color(0xffEFEEFC);\r\n Color inboxColor = const Color(0xffFA3A57);\r\n Color pendingColor = const Color(0xffFFE120);\r\n"
+                },
+                {
+                    "date": 1695331755015,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,11 @@\n+import 'package:flutter/material.dart';\r\n+\r\n+Color primaryColor = const Color(0xff0c44fd);\r\n+Color scondaryColor = const Color.fromARGB(255, 206, 168, 251);\r\n+Color backGroundColor = const Color.fromARGB(255, 202, 202, 215);\r\n+Color boxColor = const Color(0xffFFFFFF);\r\n+Color shadowColor = const Color(0xffEFEEFC);\r\n+Color inboxColor = const Color(0xffFA3A57);\r\n+Color pendingColor = const Color(0xffFFE120);\r\n+Color inProgressColor = const Color(0xff6589FF);\r\n+Color completedColor = const Color(0xff77D16F);\r\n"
+                },
+                {
+                    "date": 1695331779515,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,22 +1,11 @@\n import 'package:flutter/material.dart';\r\n \r\n Color primaryColor = const Color(0xff0c44fd);\r\n Color scondaryColor = const Color.fromARGB(255, 206, 168, 251);\r\n-Color backGroundColor = const Color.fromARGB(255, 202, 202, 215);\r\n+Color backGroundColor = Color.fromARGB(255, 232, 232, 238);\r\n Color boxColor = const Color(0xffFFFFFF);\r\n Color shadowColor = const Color(0xffEFEEFC);\r\n Color inboxColor = const Color(0xffFA3A57);\r\n Color pendingColor = const Color(0xffFFE120);\r\n Color inProgressColor = const Color(0xff6589FF);\r\n Color completedColor = const Color(0xff77D16F);\r\n-import 'package:flutter/material.dart';\r\n-\r\n-Color primaryColor = const Color(0xff0c44fd);\r\n-Color scondaryColor = const Color.fromARGB(255, 206, 168, 251);\r\n-Color backGroundColor = Color.fromARGB(255, 31, 31, 234);\r\n-Color boxColor = const Color(0xffFFFFFF);\r\n-Color shadowColor = const Color(0xffEFEEFC);\r\n-Color inboxColor = const Color(0xffFA3A57);\r\n-Color pendingColor = const Color(0xffFFE120);\r\n-Color inProgressColor = const Color(0xff6589FF);\r\n-Color completedColor = const Color(0xff77D16F);\r\n"
+                },
+                {
+                    "date": 1695331802684,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import 'package:flutter/material.dart';\r\n \r\n Color primaryColor = const Color(0xff0c44fd);\r\n Color scondaryColor = const Color.fromARGB(255, 206, 168, 251);\r\n-Color backGroundColor = Color.fromARGB(255, 232, 232, 238);\r\n+Color backGroundColor = Color.fromARGB(255, 245, 245, 252);\r\n Color boxColor = const Color(0xffFFFFFF);\r\n Color shadowColor = const Color(0xffEFEEFC);\r\n Color inboxColor = const Color(0xffFA3A57);\r\n Color pendingColor = const Color(0xffFFE120);\r\n"
+                }
+            ],
+            "date": 1695331687014,
+            "name": "Commit-0",
+            "content": "import 'package:flutter/material.dart';\r\n\r\nColor primaryColor = const Color(0xff0c44fd);\r\nColor scondaryColor = const Color.fromARGB(255, 206, 168, 251);\r\nColor backGroundColor = Color.fromARGB(255, 241, 240, 252);\r\nColor boxColor = const Color(0xffFFFFFF);\r\nColor shadowColor = const Color(0xffEFEEFC);\r\nColor inboxColor = const Color(0xffFA3A57);\r\nColor pendingColor = const Color(0xffFFE120);\r\nColor inProgressColor = const Color(0xff6589FF);\r\nColor completedColor = const Color(0xff77D16F);\r\n"
+        }
+    ]
+}

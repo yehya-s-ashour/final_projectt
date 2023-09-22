@@ -158,7 +158,8 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                             width: 4,
                           ),
                           Text(mail.sender!.name ?? 'name',
-                              style: const TextStyle(fontSize: 18)),
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w700)),
                           const Spacer(),
                           Row(
                             children: [

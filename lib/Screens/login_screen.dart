@@ -12,6 +12,7 @@ import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -78,14 +79,17 @@ class _LoginScreenState extends State<LoginScreen> {
             },
           ));
         }
-      }).catchError((err) {
+      }).catchError((err) async {
         setState(() {
           isAuthing = false;
         });
+        final errorMessagae =
+            json.decode(err.message)['errors']['email'][0].toString();
         showAlert(context,
-            message: 'Something went wrong',
+            message:
+                errorMessagae != '' ? errorMessagae : 'Something went wrong',
             color: Colors.redAccent,
-            width: 200);
+            width: 300);
       });
     }
   }
@@ -443,8 +447,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                           child: SizedBox(
                                             height: 18,
                                             width: 18,
-                                            child: CircularProgressIndicator(
-                                              color: Colors.white,
+                                            child: SpinKitPulse(
+                                              duration:
+                                                  Duration(milliseconds: 1000),
+                                              color: Colors.grey,
+                                              size: 40,
                                             ),
                                           ),
                                         )
@@ -466,7 +473,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Text(
                                 '----------- OR -----------'.tr(),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.grey,
                                   fontSize: 14,
                                 ),

@@ -1,21 +1,22 @@
-import 'package:final_projectt/Screens/drawer_screen.dart';
+import 'package:final_projectt/Screens/profile_page.dart';
+import 'package:final_projectt/Screens/sender_screen.dart';
+import 'package:final_projectt/Screens/user_management_screen.dart';
 import 'package:final_projectt/core/services/mail_controller.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/my_expansion_tile.dart';
-import 'package:final_projectt/core/widgets/show_alert.dart';
+import 'package:final_projectt/providers/all_user_provider.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'dart:async';
-import 'package:final_projectt/core/services/catego_controller.dart';
-import 'package:final_projectt/core/services/mail_controller.dart';
 import 'package:final_projectt/core/services/status_controller.dart';
 import 'package:final_projectt/models/catego_model.dart';
 import 'package:final_projectt/models/mail_model.dart';
 import 'package:final_projectt/models/tags_model.dart';
 import 'package:final_projectt/models/status_model.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shimmer/shimmer.dart';
 import '../core/services/tags_controller.dart';
 import 'package:final_projectt/Screens/search_screen.dart';
@@ -24,12 +25,9 @@ import 'package:final_projectt/Screens/tags_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/helpers/api_response.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
-import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
-import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/new_inbox_button_sheet.dart';
 import 'package:final_projectt/core/widgets/my_overlay.dart';
-import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +41,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  GlobalKey<ScaffoldState> _key = GlobalKey();
+  final GlobalKey<ScaffoldState> _key = GlobalKey();
   bool isLoading = true;
   // late Future<List<CategoryElement>> categories;
   late Future<MailsModel> mails;
@@ -87,15 +85,24 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  List<Map> drawerItem = [
+    {'icon': Icons.home, 'title': 'Home Page'},
+    {'icon': Icons.person, 'title': 'Profile Page'},
+    {'icon': MdiIcons.sendCheck, 'title': 'Senders'},
+    {'icon': Icons.settings, 'title': 'User Management'},
+  ];
   @override
   Widget build(BuildContext context) {
     dynamic deviceHeight = MediaQuery.of(context).size.height;
     dynamic devicewidth = MediaQuery.of(context).size.width;
     return AdvancedDrawer(
+      backdropColor: backGroundColor,
       backdrop: Container(
+        padding: EdgeInsets.zero,
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(
+          color: backGroundColor,
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -109,13 +116,210 @@ class _MainPageState extends State<MainPage> {
       animateChildDecoration: true,
       rtlOpening: Provider.of<RTLPro>(context).rtlOpening,
       disabledGestures: false,
-      childDecoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+      childDecoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+        color: backGroundColor,
       ),
-      drawer: drawer(context),
+      drawer: SafeArea(
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: double.infinity,
+          padding: context.locale.toString() == 'ar'
+              ? const EdgeInsets.only(top: 80, right: 20, bottom: 20)
+              : const EdgeInsets.only(top: 80, left: 20, bottom: 20),
+          color: primaryColor,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: context.locale.toString() == 'ar'
+                    ? EdgeInsets.only(
+                        right: MediaQuery.of(context).size.width * 0.15)
+                    : EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.15),
+                height: 100,
+                width: 100,
+                child: Image.asset('images/pal.png'),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.08,
+              ),
+              Column(
+                  children: drawerItem
+                      .map((e) => Row(
+                            children: [
+                              Icon(
+                                e['icon'],
+                                color: Colors.white,
+                                size: 25,
+                              ),
+                              const SizedBox(
+                                height: 50,
+                                width: 10,
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  switch (e["title"]) {
+                                    case "Home Page":
+                                      _advancedDrawerController.hideDrawer();
+                                    case "Senders":
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return const SendersScreen();
+                                        },
+                                      ));
+                                    case "Profile Page":
+                                      Navigator.push(context, MaterialPageRoute(
+                                        builder: (context) {
+                                          return const ProfileScreen();
+                                        },
+                                      ));
+                                    case "User Management":
+                                      // ignore: await_only_futures
+                                      int id = await Provider.of<UserProvider>(
+                                              context,
+                                              listen: false)
+                                          .data
+                                          .data!
+                                          .user
+                                          .role!
+                                          .id!;
+
+                                      if (id == 4) {
+                                        // ignore: use_build_context_synchronously
+                                        Provider.of<AllUserProvider>(context,
+                                                listen: false)
+                                            .UpdateAllUserProvider();
+                                        // ignore: use_build_context_synchronously
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return const UserManagementScreen();
+                                          },
+                                        ));
+                                      } else {
+                                        // ignore: use_build_context_synchronously
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            32.0)),
+                                                titlePadding:
+                                                    const EdgeInsets.all(0),
+                                                contentPadding:
+                                                    const EdgeInsets.all(16),
+                                                title: Container(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 24),
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                                  .only(
+                                                              topLeft: Radius
+                                                                  .circular(32),
+                                                              topRight: Radius
+                                                                  .circular(
+                                                                      32)),
+                                                      color: primaryColor),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                        "Entry is restricted"
+                                                            .tr(),
+                                                        style: const TextStyle(
+                                                            fontSize: 24,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                      const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 16.0),
+                                                        child: CircleAvatar(
+                                                          backgroundImage:
+                                                              AssetImage(
+                                                                  "images/images.png"),
+                                                          radius: 50,
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                content: Text(
+                                                  "Please check with the admin to obtain access permission"
+                                                      .tr(),
+                                                  style: const TextStyle(
+                                                      fontSize: 20),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text("OK".tr()))
+                                                ],
+                                              );
+                                            });
+                                      }
+
+                                      break;
+                                  }
+                                },
+                                child: Text(
+                                  "${e['title']}".tr(),
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ))
+                      .toList()),
+              const Spacer(),
+              Container(
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.1),
+                child: Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Terms Of Service'.tr(),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 179, 178, 178),
+                            fontSize: 12),
+                      ).tr(),
+                    ),
+                    Container(
+                      width: 1.2,
+                      height: 15,
+                      color: const Color.fromARGB(255, 179, 178, 178),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Usage Policy'.tr(),
+                        style: const TextStyle(
+                            color: Color.fromARGB(255, 179, 178, 178),
+                            fontSize: 12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       child: Scaffold(
+        backgroundColor: backGroundColor,
         body: SafeArea(
-          key: _key,
           child: Stack(
             alignment: Alignment.bottomCenter,
             children: [
@@ -127,6 +331,7 @@ class _MainPageState extends State<MainPage> {
                   children: [
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
+                      color: backGroundColor,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -156,12 +361,7 @@ class _MainPageState extends State<MainPage> {
                                         : const Icon(
                                             Icons.clear,
                                             size: 30,
-                                          )
-                                    // Icon(
-                                    //   value.visible ? Icons.clear : Icons.menu,
-                                    //   key: ValueKey<bool>(value.visible),
-                                    // ),
-                                    );
+                                          ));
                               },
                             ),
                           ),
@@ -206,7 +406,7 @@ class _MainPageState extends State<MainPage> {
                                   child: Container(
                                     height: 40,
                                     width: 40,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         color: Colors.white,
                                         shape: BoxShape.circle),
                                   ));
@@ -219,7 +419,7 @@ class _MainPageState extends State<MainPage> {
                                     userProvidor.data.data!.user.name!,
                                     userProvidor.data.data!.user.role!.name!
                                         .tr(),
-                                    userProvidor.data.data!.user.image!,
+                                    userProvidor.data.data!.user.image,
                                   );
                                 },
                                 child: Stack(children: [
@@ -229,19 +429,21 @@ class _MainPageState extends State<MainPage> {
                                       child: Container(
                                         height: 40,
                                         width: 40,
-                                        decoration: BoxDecoration(
+                                        decoration: const BoxDecoration(
                                             color: Colors.white,
                                             shape: BoxShape.circle),
                                       )),
                                   CircleAvatar(
-                                      backgroundColor: Colors.transparent,
-                                      backgroundImage: userProvidor
-                                                  .data.data!.user.image !=
-                                              null
-                                          ? NetworkImage(
-                                              "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}")
-                                          : const NetworkImage(
-                                              'https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg')),
+                                    backgroundColor: Colors.transparent,
+                                    backgroundImage: userProvidor
+                                                .data.data!.user.image !=
+                                            null
+                                        ? NetworkImage(
+                                            "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}")
+                                        : AssetImage(
+                                            'images/profile.png',
+                                          ) as ImageProvider<Object>,
+                                  ),
                                 ]),
                               );
                             }
@@ -250,8 +452,9 @@ class _MainPageState extends State<MainPage> {
                         ],
                       ),
                     ),
+
                     const SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     Consumer<StatuseProvider>(
                       builder: (_, statuseProvider, __) {
@@ -268,7 +471,7 @@ class _MainPageState extends State<MainPage> {
                                 shrinkWrap: true,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 1.5,
+                                  childAspectRatio: 2,
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 8.0,
                                   mainAxisSpacing: 8.0,
@@ -296,11 +499,12 @@ class _MainPageState extends State<MainPage> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: GridView.builder(
+                              padding: EdgeInsets.zero,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
-                                childAspectRatio: 1.5,
+                                childAspectRatio: 2,
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 8.0,
                                 mainAxisSpacing: 8.0,
@@ -361,8 +565,8 @@ class _MainPageState extends State<MainPage> {
                       },
                     ),
 
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: deviceHeight * 0.02,
                     ),
                     // const Divider(),
                     Column(
@@ -461,7 +665,7 @@ class _MainPageState extends State<MainPage> {
                                 baseColor: Colors.grey[300]!,
                                 highlightColor: Colors.grey[100]!,
                                 child: Container(
-                                  margin: EdgeInsets.only(
+                                  margin: const EdgeInsets.only(
                                     top: 18,
                                     left: 18,
                                     right: 18,
@@ -478,7 +682,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                     // const Divider(),
                     Padding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Text(
                         "Tags".tr(),
                         style: const TextStyle(
@@ -509,7 +713,7 @@ class _MainPageState extends State<MainPage> {
                                 });
                               },
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
+                                padding: const EdgeInsets.only(left: 5.0),
                                 child: CustomWhiteBox(
                                   width: devicewidth * 0.9,
                                   height:
@@ -578,7 +782,7 @@ class _MainPageState extends State<MainPage> {
                             baseColor: Colors.grey.shade300,
                             highlightColor: Colors.grey.shade100,
                             child: Container(
-                              margin: EdgeInsets.only(left: 20),
+                              margin: const EdgeInsets.only(left: 20),
                               width: devicewidth * 0.9,
                               height: 92,
                               decoration: BoxDecoration(

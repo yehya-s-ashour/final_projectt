@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/models/sender_model.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SendersBottomSheet extends StatefulWidget {
   const SendersBottomSheet({super.key});
@@ -123,9 +124,11 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                   future: senders,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(
-                          color: primaryColor,
+                      return const Center(
+                        child: SpinKitPulse(
+                          duration: Duration(milliseconds: 1000),
+                          color: Colors.grey,
+                          size: 40,
                         ),
                       );
                     } else if (snapshot.hasError) {

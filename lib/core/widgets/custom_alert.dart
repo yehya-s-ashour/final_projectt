@@ -12,6 +12,7 @@ import 'package:final_projectt/providers/all_user_provider.dart';
 import 'package:final_projectt/providers/user_role_provider.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class CustomAlertDialog extends StatefulWidget {
@@ -161,7 +162,11 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                     if (userRoleProvider.userRoledata.status ==
                         Status.LOADING) {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: SpinKitPulse(
+                          duration: Duration(milliseconds: 1000),
+                          color: Colors.grey,
+                          size: 40,
+                        ),
                       );
                     }
 

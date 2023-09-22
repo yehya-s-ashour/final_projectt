@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/services/sender_controller.dart';
-import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/categories_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/core/widgets/custum_textfield.dart';
