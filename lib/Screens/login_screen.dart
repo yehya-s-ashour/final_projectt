@@ -78,14 +78,17 @@ class _LoginScreenState extends State<LoginScreen> {
             },
           ));
         }
-      }).catchError((err) {
+      }).catchError((err) async {
         setState(() {
           isAuthing = false;
         });
+        final errorMessagae =
+            json.decode(err.message)['errors']['email'][0].toString();
         showAlert(context,
-            message: 'Something went wrong',
+            message:
+                errorMessagae != '' ? errorMessagae : 'Something went wrong',
             color: Colors.redAccent,
-            width: 200);
+            width: 300);
       });
     }
   }

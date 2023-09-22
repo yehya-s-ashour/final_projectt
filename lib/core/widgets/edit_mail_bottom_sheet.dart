@@ -19,6 +19,7 @@ import 'package:final_projectt/models/tags_model.dart';
 import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +38,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
   TextEditingController mailDescriptionCont = TextEditingController();
   TextEditingController archiveNumberCont = TextEditingController();
   bool isExpansionOpened = false;
-
+  bool? isDecisionFilled;
   SingleSender? selectedSender;
   List<TagElement> selectedTags = [];
   bool isDeleting = false;
@@ -117,7 +118,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
   void initState() {
     intializeData();
     completedStatusId = (widget.mail.statusId == '4');
-
+    isDecisionFilled = (widget.mail.decision == '');
     getUser();
     super.initState();
   }
@@ -136,81 +137,87 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
           children: [
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        minimumSize: const Size(50, 30),
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        alignment: Alignment.centerLeft),
-                    onPressed: () => Navigator.pop(context),
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: primaryColor,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: 8.0,
+                  right: 8.0,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero,
+                          minimumSize: const Size(50, 30),
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          alignment: Alignment.centerLeft),
+                      onPressed: () => Navigator.pop(context),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: primaryColor,
+                      ),
                     ),
-                  ),
-                  Text(
-                    'Mail Details'.tr(),
-                    style:
-                        const TextStyle(fontSize: 20, color: Color(0xFF272727)),
-                  ),
-                  TextButton(
-                    onPressed: () async {
-                      Provider.of<NewInboxProvider>(context, listen: false)
-                              .imagesFiles
-                              .isNotEmpty
-                          ? await uploadImages(context, widget.mail.id!)
-                          : null;
-                      await updateMail(
-                        mailId: widget.mail.id,
-                        idAttachmentsForDelete: Provider.of<NewInboxProvider>(
-                                context,
-                                listen: false)
-                            .deletedImages
-                            .map((image) {
-                          return image!.id!;
-                        }).toList(),
-                        pathAttachmentsForDelete: Provider.of<NewInboxProvider>(
-                                context,
-                                listen: false)
-                            .deletedImages
-                            .map((image) {
-                          return image!.image!;
-                        }).toList(),
-                        statusId: selectedStatus.id.toString(),
-                        decision: decisionCont.text,
-                        finalDecision: decisionCont.text,
-                        activities: Provider.of<NewInboxProvider>(context,
-                                listen: false)
-                            .activites,
-                        tags: selectedTags.map((tag) => tag.id).toList(),
-                      );
+                    Text(
+                      'Mail Details'.tr(),
+                      style: const TextStyle(
+                          fontSize: 20, color: Color(0xFF272727)),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        Provider.of<NewInboxProvider>(context, listen: false)
+                                .imagesFiles
+                                .isNotEmpty
+                            ? await uploadImages(context, widget.mail.id!)
+                            : null;
+                        await updateMail(
+                          mailId: widget.mail.id,
+                          idAttachmentsForDelete: Provider.of<NewInboxProvider>(
+                                  context,
+                                  listen: false)
+                              .deletedImages
+                              .map((image) {
+                            return image!.id!;
+                          }).toList(),
+                          pathAttachmentsForDelete:
+                              Provider.of<NewInboxProvider>(context,
+                                      listen: false)
+                                  .deletedImages
+                                  .map((image) {
+                            return image!.image!;
+                          }).toList(),
+                          statusId: selectedStatus.id.toString(),
+                          decision: decisionCont.text,
+                          finalDecision: decisionCont.text,
+                          activities: Provider.of<NewInboxProvider>(context,
+                                  listen: false)
+                              .activites,
+                          tags: selectedTags.map((tag) => tag.id).toList(),
+                        );
 
-                      showAlert(
-                        context,
-                        message: 'Mail Updated Successfully'.tr(),
-                        color: primaryColor.withOpacity(0.8),
-                        width: 230,
-                      );
+                        showAlert(
+                          context,
+                          message: 'Mail Updated Successfully'.tr(),
+                          color: primaryColor.withOpacity(0.8),
+                          width: 230,
+                        );
 
-                      selectedTags = [];
+                        selectedTags = [];
 
-                      final updateData =
-                          Provider.of<StatuseProvider>(context, listen: false);
-                      updateData.updatestutas();
+                        final updateData = Provider.of<StatuseProvider>(context,
+                            listen: false);
+                        updateData.updatestutas();
 
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) {
-                          return const MainPage();
-                        },
-                      ));
-                    },
-                    child:
-                        Text('Done'.tr(), style: const TextStyle(fontSize: 20)),
-                  ),
-                ],
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) {
+                            return const MainPage();
+                          },
+                        ));
+                      },
+                      child: Text('Done'.tr(),
+                          style: const TextStyle(fontSize: 20)),
+                    ),
+                  ],
+                ),
               ),
             ),
             Expanded(
@@ -397,30 +404,33 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                             )),
                       ),
                       GestureDetector(
-                        onTap: () async {
-                          final selectedTags =
-                              await showModalBottomSheet<List<TagElement>>(
-                                  clipBehavior: Clip.hardEdge,
-                                  isScrollControlled: true,
-                                  context: context,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(15.0),
-                                  )),
-                                  builder: (BuildContext context) {
-                                    return StatefulBuilder(builder:
-                                        (BuildContext context,
-                                            StateSetter setState) {
-                                      return TagsBottomSheet(
-                                        givenTagsFromOutSide: this.selectedTags,
-                                      );
-                                    });
-                                  }).then((value) {
-                            setState(() {
-                              this.selectedTags = value!;
-                            });
-                          });
-                        },
+                        onTap: completedStatusId!
+                            ? null
+                            : () async {
+                                final selectedTags = await showModalBottomSheet<
+                                        List<TagElement>>(
+                                    clipBehavior: Clip.hardEdge,
+                                    isScrollControlled: true,
+                                    context: context,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(15.0),
+                                    )),
+                                    builder: (BuildContext context) {
+                                      return StatefulBuilder(builder:
+                                          (BuildContext context,
+                                              StateSetter setState) {
+                                        return TagsBottomSheet(
+                                          givenTagsFromOutSide:
+                                              this.selectedTags,
+                                        );
+                                      });
+                                    }).then((value) {
+                                  setState(() {
+                                    this.selectedTags = value!;
+                                  });
+                                });
+                              },
                         child: CustomWhiteBox(
                           width: 378,
                           height: 56,
@@ -594,7 +604,9 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                   contentPadding: const EdgeInsets.symmetric(
                                       vertical: 20, horizontal: 40),
                                   border: InputBorder.none,
-                                  hintText: "Add Decsision ...".tr(),
+                                  hintText: isDecisionFilled!
+                                      ? "Add Decsision ...".tr()
+                                      : 'No decision yet',
                                   hintStyle: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iphone',
@@ -622,7 +634,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                   Provider.of<NewInboxProvider>(context)
                                       .imagesFiles
                                       .isNotEmpty
-                              ? 95 +
+                              ? 80 +
                                   (((Provider.of<NewInboxProvider>(context)
                                               .networkImagesFiles
                                               .length) +
@@ -722,7 +734,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                                   height: MediaQuery.sizeOf(
                                                                               context)
                                                                           .height -
-                                                                      250,
+                                                                      350,
                                                                   decoration: BoxDecoration(
                                                                       borderRadius:
                                                                           BorderRadius.circular(
@@ -740,31 +752,34 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                   },
                                                   title: Row(
                                                     children: [
-                                                      IconButton(
-                                                          onPressed: () {
-                                                            final provider =
-                                                                Provider.of<
-                                                                        NewInboxProvider>(
-                                                                    context,
-                                                                    listen:
-                                                                        false);
-                                                            provider
-                                                                .deletedImages
-                                                                .add(provider
-                                                                        .networkImagesFiles[
-                                                                    index]!);
+                                                      completedStatusId!
+                                                          ? SizedBox.shrink()
+                                                          : IconButton(
+                                                              onPressed: () {
+                                                                final provider =
+                                                                    Provider.of<
+                                                                            NewInboxProvider>(
+                                                                        context,
+                                                                        listen:
+                                                                            false);
+                                                                provider
+                                                                    .deletedImages
+                                                                    .add(provider
+                                                                            .networkImagesFiles[
+                                                                        index]!);
 
-                                                            provider
-                                                                .networkImagesFiles
-                                                                .removeAt(
-                                                                    index);
-                                                            setState(() {});
-                                                          },
-                                                          icon: const Icon(
-                                                            Icons
-                                                                .delete_outline_rounded,
-                                                            color: Colors.red,
-                                                          )),
+                                                                provider
+                                                                    .networkImagesFiles
+                                                                    .removeAt(
+                                                                        index);
+                                                                setState(() {});
+                                                              },
+                                                              icon: const Icon(
+                                                                Icons
+                                                                    .delete_outline_rounded,
+                                                                color:
+                                                                    Colors.red,
+                                                              )),
                                                       Container(
                                                         margin: const EdgeInsets
                                                             .all(7),
@@ -990,7 +1005,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  showDialog(
+                                  showCupertinoDialog(
                                     barrierDismissible: false,
                                     context: context,
                                     builder: (BuildContext context) {

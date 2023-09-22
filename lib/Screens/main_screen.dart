@@ -219,7 +219,7 @@ class _MainPageState extends State<MainPage> {
                                     userProvidor.data.data!.user.name!,
                                     userProvidor.data.data!.user.role!.name!
                                         .tr(),
-                                    userProvidor.data.data!.user.image!,
+                                    userProvidor.data.data!.user.image,
                                   );
                                 },
                                 child: Stack(children: [
@@ -234,14 +234,16 @@ class _MainPageState extends State<MainPage> {
                                             shape: BoxShape.circle),
                                       )),
                                   CircleAvatar(
-                                      backgroundColor: Colors.transparent,
-                                      backgroundImage: userProvidor
-                                                  .data.data!.user.image !=
-                                              null
-                                          ? NetworkImage(
-                                              "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}")
-                                          : const NetworkImage(
-                                              'https://png.pngtree.com/png-vector/20190710/ourmid/pngtree-user-vector-avatar-png-image_1541962.jpg')),
+                                    backgroundColor: Colors.transparent,
+                                    backgroundImage: userProvidor
+                                                .data.data!.user.image !=
+                                            null
+                                        ? NetworkImage(
+                                            "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}")
+                                        : AssetImage(
+                                            'images/profile.png',
+                                          ) as ImageProvider<Object>,
+                                  ),
                                 ]),
                               );
                             }
@@ -268,7 +270,7 @@ class _MainPageState extends State<MainPage> {
                                 shrinkWrap: true,
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 1.5,
+                                  childAspectRatio: 2,
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 8.0,
                                   mainAxisSpacing: 8.0,

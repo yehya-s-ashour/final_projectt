@@ -88,6 +88,7 @@ class ApiBaseHelper {
       case 401:
       case 403:
         throw UnauthorisedException(response.body);
+
       case 500:
       default:
         throw FetchDataException(
