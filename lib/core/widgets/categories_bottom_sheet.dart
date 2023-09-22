@@ -4,6 +4,7 @@ import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/models/catego_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class categoriesBottomSheet extends StatefulWidget {
   const categoriesBottomSheet({super.key});
@@ -146,9 +147,11 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
                 if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: primaryColor,
+                return const Center(
+                  child: SpinKitPulse(
+                    duration: Duration(milliseconds: 1000),
+                    color: Colors.grey,
+                    size: 40,
                   ),
                 );
               }),

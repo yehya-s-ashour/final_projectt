@@ -6,6 +6,7 @@ import 'package:final_projectt/core/services/new_inbox_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/models/tags_model.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class TagsBottomSheet extends StatefulWidget {
   List<TagElement> givenTagsFromOutSide;
@@ -82,9 +83,11 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
             future: tags,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: primaryColor,
+                return const Center(
+                  child: SpinKitPulse(
+                    duration: Duration(milliseconds: 1000),
+                    color: Colors.grey,
+                    size: 40,
                   ),
                 );
               } else if (snapshot.hasError) {
@@ -202,6 +205,24 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
               ),
             ),
           ),
+          const Spacer(),
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.red)),
+            margin: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              'The unselected will searched \nand deleted if there is no mail \nhas the tag',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: 17,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.w600),
+            ),
+          )
         ],
       ),
     );

@@ -7,6 +7,7 @@ import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../models/user_model.dart';
@@ -120,8 +121,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               backgroundColor: primaryColor,
               child: isUploading
                   ? const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
+                      child: SizedBox(
+                        width: 25,
+                        height: 25,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
                       ),
                     )
                   : const Icon(Icons.check),
@@ -283,9 +288,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     );
                   }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
+                  return const Center(
+                    child: SpinKitPulse(
+                      duration: Duration(milliseconds: 1000),
+                      color: Colors.grey,
+                      size: 40,
                     ),
                   );
                 }),
@@ -400,9 +407,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ]),
                     );
                   }
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: primaryColor,
+                  return const Center(
+                    child: SpinKitPulse(
+                      duration: Duration(milliseconds: 1000),
+                      color: Colors.grey,
+                      size: 40,
                     ),
                   );
                 })
