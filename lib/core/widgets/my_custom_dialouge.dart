@@ -6,6 +6,8 @@ Future<T?>? myCustomDialouge<T>({
   required String title,
   required String content,
   required String leftChoice,
+  Color? leftChoiceColor,
+  Color? rightChoiceColor,
   required String rightChoice,
   required Function() rightOnPressed,
   required Function() leftOnPressed,
@@ -57,7 +59,7 @@ Future<T?>? myCustomDialouge<T>({
                         leftChoice,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.blue,
+                          color: leftChoiceColor ?? Colors.blue,
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
                         ),
@@ -77,7 +79,7 @@ Future<T?>? myCustomDialouge<T>({
                         rightChoice,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: Colors.red,
+                          color: rightChoiceColor ?? Colors.red,
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
                         ),

@@ -112,35 +112,6 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                   TextButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // showDialog(
-                        //   barrierDismissible: false,
-                        //   context: context,
-                        //   builder: (context) {
-                        //     return Align(
-                        //       alignment: Alignment.center,
-                        //       child: AlertDialog(
-                        //           backgroundColor: Colors.transparent,
-                        //           titlePadding: EdgeInsets.zero,
-                        //           title:
-                        //               Image.asset('images/loading-icon.gif')),
-                        //     );
-                        //   },
-                        // );
-                        setState(() {
-                          isUploading = true;
-                        });
-                        isUploading
-                            ? showDialog(
-                                context: context,
-                                builder: (ctx) {
-                                  return const Center(
-                                      child: SpinKitPulse(
-                                    duration: Duration(milliseconds: 1000),
-                                    color: Colors.grey,
-                                    size: 40,
-                                  ));
-                                })
-                            : null;
                         NewSender? newSender;
                         String? senderId;
                         if (selectedSender == null ||
@@ -175,7 +146,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               .date
                               .toString(),
                         );
-                        uploadImages(context, createMailResponse.mail!.id!);
+                        await uploadImages(
+                            context, createMailResponse.mail!.id!);
 
                         showAlert(context,
                             message: 'Mail Created Successfully'.tr(),
