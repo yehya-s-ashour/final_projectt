@@ -36,10 +36,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
             await Provider.of<UserProvider>(context, listen: false)
                 .getUserData();
             // ignore: use_build_context_synchronously
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) {
-              return const MainPage();
-            }));
+            Navigator.pop(context);
           },
           icon: const Icon(Icons.arrow_back_ios),
           color: Colors.blueAccent,
@@ -84,7 +81,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                             //   width: 16,
                             // ),
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
                               width: 55,
                               height: 55,
                               child: SlidableAction(
@@ -126,7 +123,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                             //   width: 8,
                             // ),
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal: 8),
+                              margin: const EdgeInsets.symmetric(horizontal: 8),
                               width: 55,
                               height: 55,
                               child: SlidableAction(

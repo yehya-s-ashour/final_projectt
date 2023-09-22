@@ -133,10 +133,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             ? showDialog(
                                 context: context,
                                 builder: (ctx) {
-                                  return Center(
+                                  return const Center(
                                       child: SpinKitPulse(
-                                    duration:
-                                        const Duration(milliseconds: 1000),
+                                    duration: Duration(milliseconds: 1000),
                                     color: Colors.grey,
                                     size: 40,
                                   ));
@@ -226,7 +225,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             width: 400,
                             height: 230,
                             child: SingleChildScrollView(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               child: Column(
                                 children: [
                                   Row(
@@ -421,7 +420,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                             ),
                                                           ),
                                                         ),
-                                                        SizedBox(width: 10),
+                                                        const SizedBox(
+                                                            width: 10),
                                                         const Icon(
                                                           Icons
                                                               .arrow_forward_ios_rounded,
@@ -449,7 +449,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             width: 378,
                             height: 155,
                             child: SingleChildScrollView(
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               child: Column(
                                 children: [
                                   CustomTextField(
@@ -501,9 +501,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               child: Column(
                                 children: [
                                   CustomDatePicker(),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 22.0, top: 10),
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.only(left: 22.0, top: 10),
                                     child: Row(
                                       children: [
                                         Icon(
@@ -765,7 +765,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                     hintStyle: const TextStyle(
                                       color: Colors.grey,
                                       fontFamily: 'Iphone',
-                                      fontSize: 19,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),

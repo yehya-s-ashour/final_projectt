@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 8,
+            "activePatchIndex": 9,
             "patches": [
                 {
                     "date": 1695334982174,
@@ -40,6 +40,10 @@
                 {
                     "date": 1695335779525,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -64,9 +64,9 @@\n             )),\r\n       ),\r\n       body: Column(children: [\r\n         Row(\r\n-          mainAxisAlignment: MainAxisAlignment.space,\r\n+          mainAxisAlignment: MainAxisAlignment.spaceAround,\r\n           children: [\r\n             Container(\r\n               margin: const EdgeInsets.all(8),\r\n               width: 325,\r\n"
+                },
+                {
+                    "date": 1695402954733,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -63,9 +63,9 @@\n                     transitionsBuilder:\r\n                         (context, animation, secondaryAnimation, child) {\r\n                       const begin = Offset(1.0, 0.0);\r\n                       const end = Offset.zero;\r\n-                      const curve = Curves.easeOut;\r\n+                      const curve = Curves.easeOutBack;\r\n                       var tween = Tween(begin: begin, end: end)\r\n                           .chain(CurveTween(curve: curve));\r\n                       var offsetAnimation = animation.drive(tween);\r\n \r\n"
                 }
             ],
             "date": 1695334982174,

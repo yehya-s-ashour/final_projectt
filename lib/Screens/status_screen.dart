@@ -57,10 +57,11 @@ class _StatusScreenState extends State<StatusScreen> {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) {
-              return const MainPage();
-            }));
+            // Navigator.pushReplacement(context,
+            //     MaterialPageRoute(builder: (context) {
+            //   return const MainPage();
+            // }));
+            Navigator.pop(context);
           },
           icon: const Icon(
             Icons.arrow_back_ios,
@@ -203,7 +204,7 @@ Widget ShimmerList(int length) {
           baseColor: Colors.grey[300]!,
           highlightColor: Colors.grey[100]!,
           child: Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               top: 20,
               left: 18,
               right: 18,

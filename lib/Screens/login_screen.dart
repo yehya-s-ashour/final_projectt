@@ -12,7 +12,6 @@ import 'package:final_projectt/providers/status_provider.dart';
 import 'package:final_projectt/providers/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -131,8 +130,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return Text(
       value!,
       style: isActive
-          ? const TextStyle(fontSize: 16, color: Colors.white)
-          : TextStyle(fontSize: 16, color: primaryColor),
+          ? context.locale.toString() == "en"
+              ? const TextStyle(fontSize: 16, color: Colors.white)
+              : const TextStyle(fontSize: 14, color: Colors.white)
+          : context.locale.toString() == "en"
+              ? TextStyle(fontSize: 16, color: primaryColor)
+              : TextStyle(fontSize: 14, color: primaryColor),
     );
   }
 
@@ -179,95 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     child: Column(
                       children: [
-                        // ToggleSwitch(
-                        //   fontSize: 16,
-                        //   minWidth: 100.0,
-                        //   cornerRadius: 20.0,
-                        //   activeBgColors: [
-                        //     [Colors.blue[800]!],
-                        //     [Colors.blue[800]!]
-                        //   ],
-                        //   activeFgColor: Colors.white,
-                        //   inactiveBgColor:
-                        //       const Color.fromARGB(255, 234, 232, 232),
-                        //   inactiveFgColor: Colors.blue[800]!,
-                        //   initialLabelIndex: initialLabelIndex,
-                        //   totalSwitches: 2,
-                        //   labels: const ['Log In', 'Sign Up'],
-                        //   radiusStyle: true,
-                        //   onToggle: (index) {
-                        //     setState(() {
-                        //       // isToggled = !isToggled;
-                        //       initialLabelIndex = index!;
-                        //     });
-                        //   },
-                        // ),
-                        // Container(
-                        //   height: 40,
-                        //   width: 200,
-                        //   decoration: BoxDecoration(
-                        //     border: Border.all(color: Colors.grey.shade300),
-                        //     borderRadius: BorderRadius.circular(22),
-                        //   ),
-                        //   child: Row(
-                        //     children: [
-                        //       GestureDetector(
-                        //         onTap: () {
-                        //           setState(() {
-                        //             initialLabelIndex = 0;
-                        //           });
-                        //         },
-                        //         child: Container(
-                        //           height: 45,
-                        //           width: 99,
-                        //           decoration: BoxDecoration(
-                        //             color: initialLabelIndex == 0
-                        //                 ? primaryColor
-                        //                 : Colors.white,
-                        //             borderRadius: BorderRadius.circular(22),
-                        //           ),
-                        //           child: Center(
-                        //             child: Text(
-                        //               'login'.tr(),
-                        //               style: TextStyle(
-                        //                   color: initialLabelIndex == 0
-                        //                       ? Colors.white
-                        //                       : primaryColor,
-                        //                   fontSize: 16),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //       GestureDetector(
-                        //         onTap: () {
-                        //           setState(() {
-                        //             initialLabelIndex = 1;
-                        //           });
-                        //         },
-                        //         child: Container(
-                        //           height: 45,
-                        //           width: 99,
-                        //           decoration: BoxDecoration(
-                        //             color: initialLabelIndex == 1
-                        //                 ? primaryColor
-                        //                 : Colors.white,
-                        //             borderRadius: BorderRadius.circular(22),
-                        //           ),
-                        //           child: Center(
-                        //             child: Text(
-                        //               'signup'.tr(),
-                        //               style: TextStyle(
-                        //                   color: initialLabelIndex == 1
-                        //                       ? Colors.white
-                        //                       : primaryColor,
-                        //                   fontSize: 16),
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                         AnimatedToggleSwitch<String?>.rolling(
                           indicatorSize: const Size.fromWidth(100),
                           height: 40,
@@ -447,11 +361,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                           child: SizedBox(
                                             height: 18,
                                             width: 18,
-                                            child: SpinKitPulse(
-                                              duration:
-                                                  Duration(milliseconds: 1000),
-                                              color: Colors.grey,
-                                              size: 40,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 3,
                                             ),
                                           ),
                                         )
@@ -460,10 +372,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                               ? 'Sign up'.tr()
                                               : 'Login'.tr(),
                                           textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                          ),
+                                          style:
+                                              context.locale.toString() == "en"
+                                                  ? const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                    )
+                                                  : const TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14,
+                                                    ),
                                         ),
                                 ),
                               ),

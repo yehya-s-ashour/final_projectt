@@ -163,17 +163,59 @@ class _MainPageState extends State<MainPage> {
                                     case "Home Page":
                                       _advancedDrawerController.hideDrawer();
                                     case "Senders":
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return const SendersScreen();
-                                        },
-                                      ));
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation,
+                                                    secondaryAnimation) =>
+                                                const SendersScreen(),
+                                            transitionsBuilder: (context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child) {
+                                              const begin = Offset(1.0, 0.0);
+                                              const end = Offset.zero;
+                                              const curve = Curves.easeInOut;
+                                              var tween = Tween(
+                                                      begin: begin, end: end)
+                                                  .chain(
+                                                      CurveTween(curve: curve));
+                                              var offsetAnimation =
+                                                  animation.drive(tween);
+
+                                              return SlideTransition(
+                                                position: offsetAnimation,
+                                                child: child,
+                                              );
+                                            },
+                                          ));
                                     case "Profile Page":
-                                      Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) {
-                                          return const ProfileScreen();
-                                        },
-                                      ));
+                                      Navigator.push(
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation,
+                                                    secondaryAnimation) =>
+                                                const ProfileScreen(),
+                                            transitionsBuilder: (context,
+                                                animation,
+                                                secondaryAnimation,
+                                                child) {
+                                              const begin = Offset(1.0, 0.0);
+                                              const end = Offset.zero;
+                                              const curve = Curves.easeInOut;
+                                              var tween = Tween(
+                                                      begin: begin, end: end)
+                                                  .chain(
+                                                      CurveTween(curve: curve));
+                                              var offsetAnimation =
+                                                  animation.drive(tween);
+
+                                              return SlideTransition(
+                                                position: offsetAnimation,
+                                                child: child,
+                                              );
+                                            },
+                                          ));
                                     case "User Management":
                                       // ignore: await_only_futures
                                       int id = await Provider.of<UserProvider>(
@@ -191,12 +233,32 @@ class _MainPageState extends State<MainPage> {
                                                 listen: false)
                                             .UpdateAllUserProvider();
                                         // ignore: use_build_context_synchronously
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                          builder: (context) {
-                                            return const UserManagementScreen();
-                                          },
-                                        ));
+                                        Navigator.push(
+                                            context,
+                                            PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  const UserManagementScreen(),
+                                              transitionsBuilder: (context,
+                                                  animation,
+                                                  secondaryAnimation,
+                                                  child) {
+                                                const begin = Offset(1.0, 0.0);
+                                                const end = Offset.zero;
+                                                const curve = Curves.easeInOut;
+                                                var tween = Tween(
+                                                        begin: begin, end: end)
+                                                    .chain(CurveTween(
+                                                        curve: curve));
+                                                var offsetAnimation =
+                                                    animation.drive(tween);
+
+                                                return SlideTransition(
+                                                  position: offsetAnimation,
+                                                  child: child,
+                                                );
+                                              },
+                                            ));
                                       } else {
                                         // ignore: use_build_context_synchronously
                                         showDialog(
@@ -368,7 +430,7 @@ class _MainPageState extends State<MainPage> {
                           const Spacer(),
                           IconButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
+                              Navigator.push(
                                 context,
                                 PageRouteBuilder(
                                   pageBuilder: (context, animation,
@@ -440,7 +502,7 @@ class _MainPageState extends State<MainPage> {
                                             null
                                         ? NetworkImage(
                                             "https://palmail.gsgtt.tech/storage/${userProvidor.data.data!.user.image}")
-                                        : AssetImage(
+                                        : const AssetImage(
                                             'images/profile.png',
                                           ) as ImageProvider<Object>,
                                   ),
@@ -499,7 +561,7 @@ class _MainPageState extends State<MainPage> {
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 16.0),
                             child: GridView.builder(
-                              padding: EdgeInsets.zero,
+                              // padding: EdgeInsets.zero,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               gridDelegate:
@@ -513,7 +575,7 @@ class _MainPageState extends State<MainPage> {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () {
-                                    Navigator.pushReplacement(
+                                    Navigator.push(
                                       context,
                                       PageRouteBuilder(
                                         pageBuilder: (context, animation,
