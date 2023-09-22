@@ -187,7 +187,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                                         'https://palmail.gsgtt.tech/storage/${allUserProvider.allUserdata.data!.users![index].image!}',
                                         fit: BoxFit.fill,
                                       )
-                                    : Image.asset('images/user.jpg'),
+                                    : Image.asset('images/profile.png'),
                               ),
                               const SizedBox(
                                 width: 8,

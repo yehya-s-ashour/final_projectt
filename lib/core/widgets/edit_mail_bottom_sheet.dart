@@ -9,6 +9,7 @@ import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/activites_expansion_tile.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/core/widgets/date_picker.dart';
+import 'package:final_projectt/core/widgets/my_custom_dialouge.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/core/widgets/status_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/tags_bottom_sheet.dart';
@@ -22,6 +23,7 @@ import 'package:final_projectt/providers/status_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:screenshot/screenshot.dart';
 
 class EditMailBottomSheet extends StatefulWidget {
   Mail mail;
@@ -87,19 +89,6 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
       debugPrint('attachments is null');
     }
 
-    // if (widget.mail.activities!.isNotEmpty) {
-    //   List<Map<String, dynamic>>? activites =
-    //       widget.mail.activities!.map((activity) {
-    //     return {
-    //       'body': activity.body,
-    //       'user_id': activity.id,
-    //     };
-    //   }).toList();
-    //   Provider.of<NewInboxProvider>(context, listen: false)
-    //       .setActivitesList(activites);
-    // } else {
-    //   debugPrint('activites is null');
-    // }
     if (widget.mail.status != null) {
       final status = widget.mail.status!;
       selectedStatus = StatusMod(
@@ -128,96 +117,177 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
     int year = date!.year;
     int today = date!.day;
     dynamic month = getMonth(date!);
-    return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height - 55,
-        child: Column(
+    return Screenshot(
+      controller: ScreenshotController(),
+      child: Scaffold(
+        body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  left: 8.0,
-                  right: 8.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
+              padding: const EdgeInsets.only(
+                left: 10.0,
+                right: 10,
+                top: 30,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: TextButton(
                       style: TextButton.styleFrom(
-                          padding: EdgeInsets.zero,
+                          padding: EdgeInsets.only(top: 0),
                           minimumSize: const Size(50, 30),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           alignment: Alignment.centerLeft),
-                      onPressed: () => Navigator.pop(context),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: primaryColor,
+                      onPressed: () {
+                        setState(() {
+                          Provider.of<NewInboxProvider>(context, listen: false)
+                              .clearImages();
+
+                          Provider.of<NewInboxProvider>(context, listen: false)
+                              .activites = [];
+
+                          Provider.of<NewInboxProvider>(context, listen: false)
+                              .deletedImages = [];
+                        });
+                        Navigator.pushReplacement(
+                          context,
+                          PageRouteBuilder(
+                            pageBuilder:
+                                (context, animation, secondaryAnimation) =>
+                                    const MainPage(),
+                            transitionsBuilder: (context, animation,
+                                secondaryAnimation, child) {
+                              const begin = Offset(-1.0,
+                                  0.0); // Start from left (negative X direction)
+                              const end = Offset.zero;
+                              const curve = Curves.easeInOut;
+                              var tween = Tween(begin: begin, end: end)
+                                  .chain(CurveTween(curve: curve));
+                              var offsetAnimation = animation.drive(tween);
+                              return SlideTransition(
+                                position: offsetAnimation,
+                                child: child,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.arrow_back_ios,
+                            color: primaryColor,
+                            size: 15,
+                          ),
+                          Text(
+                            'Home',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: primaryColor,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Text(
-                      'Mail Details'.tr(),
-                      style: const TextStyle(
-                          fontSize: 20, color: Color(0xFF272727)),
-                    ),
-                    TextButton(
-                      onPressed: () async {
-                        Provider.of<NewInboxProvider>(context, listen: false)
-                                .imagesFiles
-                                .isNotEmpty
-                            ? await uploadImages(context, widget.mail.id!)
-                            : null;
-                        await updateMail(
-                          mailId: widget.mail.id,
-                          idAttachmentsForDelete: Provider.of<NewInboxProvider>(
-                                  context,
-                                  listen: false)
-                              .deletedImages
-                              .map((image) {
-                            return image!.id!;
-                          }).toList(),
-                          pathAttachmentsForDelete:
-                              Provider.of<NewInboxProvider>(context,
+                  ),
+                  // Expanded(
+                  //   flex: 2,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(top: 5),
+                  //     child: Text(
+                  //       'Mail Details'.tr(),
+                  //       textAlign: TextAlign.center,
+                  //       style: const TextStyle(
+                  //           fontSize: 19, color: Color(0xFF272727)),
+                  //     ),
+                  //   ),
+                  // ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        IconButton(
+                            padding: EdgeInsets.only(bottom: 15),
+                            constraints: BoxConstraints(),
+                            onPressed: () async {
+                              final image = ScreenshotController()
+                                  .capture(delay: Duration(milliseconds: 10));
+                              print(image);
+                            },
+                            icon: Icon(
+                              Icons.ios_share_outlined,
+                              color: Colors.black45,
+                            )),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        IconButton(
+                          color: primaryColor,
+                          style: IconButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () async {
+                            Provider.of<NewInboxProvider>(context,
+                                        listen: false)
+                                    .imagesFiles
+                                    .isNotEmpty
+                                ? await uploadImages(context, widget.mail.id!)
+                                : null;
+                            await updateMail(
+                              mailId: widget.mail.id,
+                              idAttachmentsForDelete:
+                                  Provider.of<NewInboxProvider>(context,
+                                          listen: false)
+                                      .deletedImages
+                                      .map((image) {
+                                return image!.id!;
+                              }).toList(),
+                              pathAttachmentsForDelete:
+                                  Provider.of<NewInboxProvider>(context,
+                                          listen: false)
+                                      .deletedImages
+                                      .map((image) {
+                                return image!.image!;
+                              }).toList(),
+                              statusId: selectedStatus.id.toString(),
+                              decision: decisionCont.text,
+                              finalDecision: decisionCont.text,
+                              activities: Provider.of<NewInboxProvider>(context,
                                       listen: false)
-                                  .deletedImages
-                                  .map((image) {
-                            return image!.image!;
-                          }).toList(),
-                          statusId: selectedStatus.id.toString(),
-                          decision: decisionCont.text,
-                          finalDecision: decisionCont.text,
-                          activities: Provider.of<NewInboxProvider>(context,
-                                  listen: false)
-                              .activites,
-                          tags: selectedTags.map((tag) => tag.id).toList(),
-                        );
+                                  .activites,
+                              tags: selectedTags.map((tag) => tag.id).toList(),
+                            );
 
-                        showAlert(
-                          context,
-                          message: 'Mail Updated Successfully'.tr(),
-                          color: primaryColor.withOpacity(0.8),
-                          width: 230,
-                        );
+                            showAlert(
+                              context,
+                              message: 'Mail Updated Successfully'.tr(),
+                              color: primaryColor.withOpacity(0.8),
+                              width: 230,
+                            );
 
-                        selectedTags = [];
+                            selectedTags = [];
 
-                        final updateData = Provider.of<StatuseProvider>(context,
-                            listen: false);
-                        updateData.updatestutas();
+                            final updateData = Provider.of<StatuseProvider>(
+                                context,
+                                listen: false);
+                            updateData.updatestutas();
 
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) {
-                            return const MainPage();
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                              builder: (context) {
+                                return const MainPage();
+                              },
+                            ));
                           },
-                        ));
-                      },
-                      child: Text('Done'.tr(),
-                          style: const TextStyle(fontSize: 20)),
+                          icon: Icon(Icons.check),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -426,9 +496,11 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                         );
                                       });
                                     }).then((value) {
-                                  setState(() {
-                                    this.selectedTags = value!;
-                                  });
+                                  if (value != null) {
+                                    setState(() {
+                                      this.selectedTags = value;
+                                    });
+                                  }
                                 });
                               },
                         child: CustomWhiteBox(
@@ -492,9 +564,11 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                     );
                                   },
                                 ).then((value) {
-                                  setState(() {
-                                    this.selectedStatus = value!;
-                                  });
+                                  if (value != null) {
+                                    setState(() {
+                                      this.selectedStatus = value;
+                                    });
+                                  }
                                 });
                               },
                         child: CustomWhiteBox(
@@ -1005,72 +1079,37 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  showCupertinoDialog(
-                                    barrierDismissible: false,
+                                  myCustomDialouge(
                                     context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        backgroundColor: Colors.white,
-                                        title: const SizedBox(
-                                          width: 290,
-                                          child: Text(
-                                            'Do you want really to delete mail?',
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20,
-                                            ),
-                                          ),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                isDeleting = false;
-                                              });
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text(
-                                              'Cancel',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 17,
-                                              ),
-                                            ),
-                                          ),
-                                          TextButton(
-                                            onPressed: () async {
-                                              setState(() {
-                                                isDeleting = true;
-                                              });
-                                              await deleteMail(widget.mail.id
-                                                      .toString())!
-                                                  .then((value) {
-                                                isDeleting = false;
-                                                showAlert(context,
-                                                    message: 'Mail Deleted',
-                                                    color: Colors.red,
-                                                    width: 150);
-                                                Navigator.pushReplacement(
-                                                    context, MaterialPageRoute(
-                                                  builder: (context) {
-                                                    return MainPage();
-                                                  },
-                                                ));
-                                              });
-                                            },
-                                            child: const Text(
-                                              'OK',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 17,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
+                                    title: 'Delete mail?',
+                                    content: 'Do you want to delete this mail?',
+                                    leftChoice: 'Cancel',
+                                    rightChoice: 'Delete',
+                                    rightOnPressed: () async {
+                                      setState(() {
+                                        isDeleting = true;
+                                      });
+                                      await deleteMail(
+                                              widget.mail.id.toString())!
+                                          .then((value) {
+                                        isDeleting = false;
+                                        showAlert(context,
+                                            message: 'Mail Deleted',
+                                            color: Colors.red,
+                                            width: 150);
+                                        Navigator.pushReplacement(context,
+                                            MaterialPageRoute(
+                                          builder: (context) {
+                                            return MainPage();
+                                          },
+                                        ));
+                                      });
+                                    },
+                                    leftOnPressed: () {
+                                      setState(() {
+                                        isDeleting = false;
+                                      });
+                                      Navigator.pop(context);
                                     },
                                   );
                                 },

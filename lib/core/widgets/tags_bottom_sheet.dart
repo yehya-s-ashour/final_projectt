@@ -154,9 +154,6 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                   ));
             },
           ),
-          const SizedBox(
-            height: 30,
-          ),
           Padding(
             padding: const EdgeInsetsDirectional.only(
                 start: 40.0, end: 40.0, top: 10),
@@ -214,7 +211,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
             margin: const EdgeInsets.all(30.0),
             padding: const EdgeInsets.all(12.0),
             child: Text(
-              'The unselected will searched \nand deleted if there is no mail \nhas the tag',
+              'The unselected tags will searched and will be deleted if there is no mail has the tag',
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: Colors.grey.shade500,

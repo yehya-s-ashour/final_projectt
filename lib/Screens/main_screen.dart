@@ -620,40 +620,33 @@ class _MainPageState extends State<MainPage> {
                                       return myCustomCard(
                                         mail,
                                         () {
-                                          showModalBottomSheet(
-                                            clipBehavior: Clip.hardEdge,
-                                            isScrollControlled: true,
-                                            context: context,
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.vertical(
-                                              top: Radius.circular(15.0),
-                                            )),
-                                            builder: (BuildContext context) {
-                                              return EditMailBottomSheet(
-                                                mail: mail,
-                                              );
-                                            },
-                                          ).whenComplete(
-                                            () {
-                                              setState(() {
-                                                Provider.of<NewInboxProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .clearImages();
+                                          Navigator.pushReplacement(
+                                            context,
+                                            PageRouteBuilder(
+                                              pageBuilder: (context, animation,
+                                                      secondaryAnimation) =>
+                                                  EditMailBottomSheet(
+                                                      mail: mail),
+                                              transitionsBuilder: (context,
+                                                  animation,
+                                                  secondaryAnimation,
+                                                  child) {
+                                                const begin = Offset(1.0, 0.0);
+                                                const end = Offset.zero;
+                                                const curve = Curves.easeInOut;
+                                                var tween = Tween(
+                                                        begin: begin, end: end)
+                                                    .chain(CurveTween(
+                                                        curve: curve));
+                                                var offsetAnimation =
+                                                    animation.drive(tween);
 
-                                                Provider.of<NewInboxProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .activites = [];
-
-                                                tags = getAllTags();
-                                                Provider.of<NewInboxProvider>(
-                                                        context,
-                                                        listen: false)
-                                                    .deletedImages = [];
-                                              });
-                                            },
+                                                return SlideTransition(
+                                                  position: offsetAnimation,
+                                                  child: child,
+                                                );
+                                              },
+                                            ),
                                           );
                                         },
                                       );
