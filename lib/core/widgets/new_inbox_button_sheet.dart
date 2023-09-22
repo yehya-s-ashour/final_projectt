@@ -23,6 +23,7 @@ import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class NewInboxBottomSheet extends StatefulWidget {
@@ -133,10 +134,12 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                 context: context,
                                 builder: (ctx) {
                                   return Center(
-                                      child: SizedBox(
-                                          width: 40,
-                                          height: 40,
-                                          child: CircularProgressIndicator()));
+                                      child: SpinKitPulse(
+                                    duration:
+                                        const Duration(milliseconds: 1000),
+                                    color: Colors.grey,
+                                    size: 40,
+                                  ));
                                 })
                             : null;
                         NewSender? newSender;
