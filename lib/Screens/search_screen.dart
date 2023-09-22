@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/search_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/card.dart';
@@ -55,8 +54,28 @@ class _SearchScreenState extends State<SearchScreen> {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => const MainPage()));
+              // Navigator.pushReplacement(
+              //     context,
+              //     PageRouteBuilder(
+              //       pageBuilder: (context, animation, secondaryAnimation) =>
+              //           const MainPage(),
+              //       transitionsBuilder:
+              //           (context, animation, secondaryAnimation, child) {
+              //         const begin = Offset(-1.0, 0.0);
+              //         const end = Offset.zero;
+              //         const curve = Curves.easeInOut;
+              //         var tween = Tween(begin: begin, end: end)
+              //             .chain(CurveTween(curve: curve));
+              //         var offsetAnimation = animation.drive(tween);
+
+              //         return SlideTransition(
+              //           position: offsetAnimation,
+              //           child: child,
+              //         );
+
+              //       },
+              //     ));
+              Navigator.pop(context);
             },
             icon: const Icon(
               Icons.arrow_back_ios,

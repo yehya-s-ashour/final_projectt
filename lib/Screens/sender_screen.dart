@@ -10,6 +10,7 @@ import 'package:final_projectt/models/sender_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SendersScreen extends StatefulWidget {
@@ -148,7 +149,11 @@ class _SendersScreenState extends State<SendersScreen> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                  child: CircularProgressIndicator(),
+                  child: SpinKitPulse(
+                    duration: Duration(milliseconds: 1000),
+                    color: Colors.grey,
+                    size: 40,
+                  ),
                 );
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
