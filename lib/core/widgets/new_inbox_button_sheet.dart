@@ -56,7 +56,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
     sendersCount: '',
     updatedAt: '',
   );
-  bool? issenderNameFilled = false;
+  bool isNameMobileFilled = true;
+  bool? isSenderNameFilled = false;
   bool isValidationShown = false;
   late StatusMod selectedStatus = StatusMod(
       id: 1,
@@ -218,35 +219,43 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
                           width: 400,
-                          height: !issenderNameFilled!
+                          height: !isSenderNameFilled!
                               ? (!isValidationShown ? 70 : 110)
-                              : 200,
+                              : (!isValidationShown ? 205 : 230),
                           child: CustomWhiteBox(
                             width: 400,
                             height: 230,
                             child: SingleChildScrollView(
+                              physics: NeverScrollableScrollPhysics(),
                               child: Column(
                                 children: [
                                   Row(
                                     children: [
                                       Flexible(
-                                        child: CustomTextField(
-                                          controller: senderNameCont,
-                                          validationMessage:
-                                              "Please enter a sender name".tr(),
-                                          onChanged: (value) {
-                                            setState(() {
-                                              issenderNameFilled = true;
-                                            });
-                                          },
-                                          hintText: "Sender".tr(),
-                                          hintTextColor: Colors.grey,
-                                          isPrefixIcon: true,
-                                          isSuffixIcon: true,
-                                          isUnderlinedBorderEnabled: true,
-                                          prefixIcon: const Icon(
-                                            Icons.person_3_outlined,
-                                            size: 23,
+                                        child: Theme(
+                                          data: ThemeData(
+                                            disabledColor: Colors.black,
+                                          ),
+                                          child: CustomTextField(
+                                            controller: senderNameCont,
+                                            validationMessage:
+                                                "Please enter a sender name"
+                                                    .tr(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                isSenderNameFilled = true;
+                                              });
+                                            },
+                                            isEnabled: isNameMobileFilled,
+                                            hintText: "Sender".tr(),
+                                            hintTextColor: Colors.grey,
+                                            isPrefixIcon: true,
+                                            isSuffixIcon: true,
+                                            isUnderlinedBorderEnabled: true,
+                                            prefixIcon: const Icon(
+                                              Icons.person_3_outlined,
+                                              size: 23,
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -276,16 +285,18 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                             if (selectedSender != null) {
                                               if (selectedSender is String) {
                                                 setState(() {
-                                                  issenderNameFilled = true;
+                                                  isSenderNameFilled = true;
+                                                  isNameMobileFilled = true;
                                                   senderNameCont.text =
                                                       selectedSender;
                                                 });
                                               } else if (selectedSender
                                                   is SingleSender) {
                                                 setState(() {
-                                                  issenderNameFilled = true;
+                                                  isSenderNameFilled = true;
                                                   senderNameCont.text =
                                                       selectedSender.name;
+                                                  isNameMobileFilled = false;
                                                   senderMobileCont.text =
                                                       selectedSender.mobile;
                                                 });
@@ -301,24 +312,30 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       ),
                                     ],
                                   ),
-                                  !issenderNameFilled!
+                                  !isSenderNameFilled!
                                       ? const SizedBox()
-                                      : CustomTextField(
-                                          controller: senderMobileCont,
-                                          validationMessage:
-                                              "Please enter a mobile number"
-                                                  .tr(),
-                                          hintText: "Mobile".tr(),
-                                          hintTextColor: Colors.grey,
-                                          isPrefixIcon: true,
-                                          isSuffixIcon: false,
-                                          isUnderlinedBorderEnabled: true,
-                                          prefixIcon: const Icon(
-                                            Icons.phone_android_rounded,
-                                            size: 23,
+                                      : Theme(
+                                          data: ThemeData(
+                                            disabledColor: Colors.black,
+                                          ),
+                                          child: CustomTextField(
+                                            controller: senderMobileCont,
+                                            validationMessage:
+                                                "Please enter a mobile number"
+                                                    .tr(),
+                                            hintText: "Mobile".tr(),
+                                            isEnabled: isNameMobileFilled,
+                                            hintTextColor: Colors.grey,
+                                            isPrefixIcon: true,
+                                            isSuffixIcon: false,
+                                            isUnderlinedBorderEnabled: true,
+                                            prefixIcon: const Icon(
+                                              Icons.phone_android_rounded,
+                                              size: 23,
+                                            ),
                                           ),
                                         ),
-                                  !issenderNameFilled!
+                                  !isSenderNameFilled!
                                       ? const SizedBox()
                                       : GestureDetector(
                                           onTap: selectedSender != null &&
@@ -373,25 +390,45 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                       fontSize: 20),
                                                 ),
                                                 Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
                                                   children: [
-                                                    Text(
-                                                      selectedSender
-                                                                  .runtimeType ==
-                                                              SingleSender
-                                                          ? selectedSender
-                                                              ?.category?.name
-                                                          : selectedCategory
-                                                              .name,
-                                                      style: const TextStyle(
-                                                        color: Colors.grey,
-                                                        fontSize: 20,
-                                                      ),
-                                                    ),
-                                                    const Icon(
-                                                      Icons
-                                                          .arrow_forward_ios_rounded,
-                                                      color: Colors.grey,
-                                                      size: 22,
+                                                    Row(
+                                                      children: [
+                                                        SizedBox(
+                                                          width: 150,
+                                                          child: Text(
+                                                            selectedSender
+                                                                        .runtimeType ==
+                                                                    SingleSender
+                                                                ? selectedSender
+                                                                    ?.category
+                                                                    ?.name
+                                                                : selectedCategory
+                                                                    .name,
+                                                            maxLines: 1,
+                                                            textAlign:
+                                                                TextAlign.end,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontSize: 20,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 10),
+                                                        const Icon(
+                                                          Icons
+                                                              .arrow_forward_ios_rounded,
+                                                          color: Colors.grey,
+                                                          size: 22,
+                                                        ),
+                                                      ],
                                                     ),
                                                   ],
                                                 ),
@@ -412,6 +449,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             width: 378,
                             height: 155,
                             child: SingleChildScrollView(
+                              physics: NeverScrollableScrollPhysics(),
                               child: Column(
                                 children: [
                                   CustomTextField(
@@ -453,60 +491,75 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           height: Provider.of<NewInboxProvider>(context)
                                   .isDatePickerOpened
                               ? 515.0
-                              : (isValidationShown ? 165 : 130),
+                              : (isValidationShown ? 190 : 155),
                           duration: const Duration(milliseconds: 300),
                           child: CustomWhiteBox(
                             width: 378,
                             height: 480,
                             child: SingleChildScrollView(
-                                physics: const NeverScrollableScrollPhysics(),
-                                child: Column(
-                                  children: [
-                                    CustomDatePicker(),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.only(
-                                          start: 10.0, end: 10.0),
-                                      child: TextFormField(
-                                        onChanged: (value) {
-                                          Provider.of<NewInboxProvider>(context,
-                                                  listen: false)
-                                              .setArchiveNumber(value);
-                                        },
-                                        controller: archiveNumber,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return "Please enter an archive number"
-                                                .tr();
-                                          }
-                                          return null;
-                                        },
-                                        decoration: InputDecoration(
-                                            contentPadding:
-                                                const EdgeInsets.symmetric(
-                                                    vertical: 20,
-                                                    horizontal: 35),
-                                            border: InputBorder.none,
-                                            prefixIcon: const Icon(
-                                              Icons.folder_zip_outlined,
-                                              color: Colors.blueGrey,
-                                              size: 23,
-                                            ),
-                                            hintText: "Archive number".tr(),
-                                            hintStyle: const TextStyle(
+                              physics: const NeverScrollableScrollPhysics(),
+                              child: Column(
+                                children: [
+                                  CustomDatePicker(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 22.0, top: 10),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.folder_zip_outlined,
+                                          color: Colors.blueGrey,
+                                          size: 23,
+                                        ),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Text('Archive number',
+                                            style: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Iphone',
-                                              fontSize: 19,
+                                              fontSize: 18,
                                               fontWeight: FontWeight.w500,
-                                            ),
-                                            errorBorder:
-                                                const UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                              color: Colors.redAccent,
-                                            ))),
-                                      ),
+                                            )),
+                                      ],
                                     ),
-                                  ],
-                                )),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 65.0, right: 10),
+                                    child: TextFormField(
+                                      onChanged: (value) {
+                                        Provider.of<NewInboxProvider>(context,
+                                                listen: false)
+                                            .setArchiveNumber(value);
+                                      },
+                                      controller: archiveNumber,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter an archive number"
+                                              .tr();
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: "like 102/2022".tr(),
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey.shade500,
+                                            fontFamily: 'Iphone',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                          errorBorder:
+                                              const UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                            color: Colors.redAccent,
+                                          ))),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
                         GestureDetector(

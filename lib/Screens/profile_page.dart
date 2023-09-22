@@ -121,8 +121,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               backgroundColor: primaryColor,
               child: isUploading
                   ? const Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
+                      child: SizedBox(
+                        width: 25,
+                        height: 25,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
                       ),
                     )
                   : const Icon(Icons.check),
