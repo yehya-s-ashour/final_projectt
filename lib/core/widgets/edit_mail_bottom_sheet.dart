@@ -20,7 +20,6 @@ import 'package:final_projectt/models/tags_model.dart';
 import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -134,7 +133,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                     flex: 1,
                     child: TextButton(
                       style: TextButton.styleFrom(
-                          padding: EdgeInsets.only(top: 0),
+                          padding: const EdgeInsets.only(top: 0),
                           minimumSize: const Size(50, 30),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           alignment: Alignment.centerLeft),
@@ -149,28 +148,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           Provider.of<NewInboxProvider>(context, listen: false)
                               .deletedImages = [];
                         });
-                        Navigator.pushReplacement(
-                          context,
-                          PageRouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    const MainPage(),
-                            transitionsBuilder: (context, animation,
-                                secondaryAnimation, child) {
-                              const begin = Offset(-1.0,
-                                  0.0); // Start from left (negative X direction)
-                              const end = Offset.zero;
-                              const curve = Curves.easeInOut;
-                              var tween = Tween(begin: begin, end: end)
-                                  .chain(CurveTween(curve: curve));
-                              var offsetAnimation = animation.drive(tween);
-                              return SlideTransition(
-                                position: offsetAnimation,
-                                child: child,
-                              );
-                            },
-                          ),
-                        );
+                        Navigator.pop(context);
                       },
                       child: Row(
                         children: [
@@ -210,18 +188,18 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         IconButton(
-                            padding: EdgeInsets.only(bottom: 15),
-                            constraints: BoxConstraints(),
+                            padding: const EdgeInsets.only(bottom: 15),
+                            constraints: const BoxConstraints(),
                             onPressed: () async {
-                              final image = ScreenshotController()
-                                  .capture(delay: Duration(milliseconds: 10));
+                              final image = ScreenshotController().capture(
+                                  delay: const Duration(milliseconds: 10));
                               print(image);
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.ios_share_outlined,
                               color: Colors.black45,
                             )),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         IconButton(
@@ -282,7 +260,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                               },
                             ));
                           },
-                          icon: Icon(Icons.check),
+                          icon: const Icon(Icons.check),
                         ),
                       ],
                     ),
@@ -827,7 +805,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                   title: Row(
                                                     children: [
                                                       completedStatusId!
-                                                          ? SizedBox.shrink()
+                                                          ? const SizedBox
+                                                              .shrink()
                                                           : IconButton(
                                                               onPressed: () {
                                                                 final provider =
@@ -1065,15 +1044,15 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 70,
                           ),
                           Expanded(
-                            child: OutlinedButton(
+                            child: TextButton(
                                 style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.only(left: 30, right: 30),
+                                  padding: const EdgeInsets.only(
+                                      left: 30, right: 30),
                                   backgroundColor: Colors.white,
-                                  side: BorderSide(color: Colors.red),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
                                   ),
@@ -1100,7 +1079,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                         Navigator.pushReplacement(context,
                                             MaterialPageRoute(
                                           builder: (context) {
-                                            return MainPage();
+                                            return const MainPage();
                                           },
                                         ));
                                       });
@@ -1119,22 +1098,23 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                           color: Colors.red,
                                         ),
                                       )
-                                    : Text(
+                                    : const Text(
                                         'Delete Mail',
                                         style: TextStyle(
+                                          decoration: TextDecoration.underline,
                                           color: Colors.red,
-                                          fontSize: 18,
+                                          fontSize: 16,
                                         ),
                                       )),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 70,
                           ),
                         ],
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 ],

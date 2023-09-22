@@ -1,4 +1,4 @@
-import 'package:final_projectt/Screens/main_screen.dart';
+import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/providers/all_user_provider.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';
@@ -11,6 +11,7 @@ import 'Screens/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +33,9 @@ class myapp extends StatelessWidget {
   const myapp({super.key});
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: backGroundColor),
+    );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(

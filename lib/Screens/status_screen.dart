@@ -1,18 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/catego_controller.dart';
 import 'package:final_projectt/core/services/status_controller.dart';
 
-import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/my_expansion_tile.dart';
 import 'package:final_projectt/models/catego_model.dart';
 
 import 'package:final_projectt/models/status_single.dart';
-import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class StatusScreen extends StatefulWidget {
@@ -130,7 +126,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                                     e.id.toString())
                                                 .map((mail) {
                                               return myCustomCard(mail, () {
-                                                Navigator.pushReplacement(
+                                                Navigator.push(
                                                   context,
                                                   PageRouteBuilder(
                                                     pageBuilder: (context,
