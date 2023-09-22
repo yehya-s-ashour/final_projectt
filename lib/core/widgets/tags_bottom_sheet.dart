@@ -202,6 +202,24 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
               ),
             ),
           ),
+          const Spacer(),
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.red)),
+            margin: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.all(12.0),
+            child: Text(
+              'The unselected will searched \nand deleted if there is no mail \nhas the tag',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: 17,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.w600),
+            ),
+          )
         ],
       ),
     );

@@ -72,7 +72,7 @@ void showOverlay(
                         "https://palmail.gsgtt.tech/storage/$image",
                         fit: BoxFit.cover,
                       )
-                    : Image.asset('images/profile.jpg', fit: BoxFit.cover),
+                    : Image.asset('images/profile.png', fit: BoxFit.cover),
               ),
             ),
             Text(
