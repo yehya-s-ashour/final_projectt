@@ -629,7 +629,7 @@ class _MainPageState extends State<MainPage> {
                               ),
                             );
                           }
-                          return const Text("  no data from Status provider ");
+                          return const Text(" no data from Status provider ");
                         },
                       ),
                       SizedBox(

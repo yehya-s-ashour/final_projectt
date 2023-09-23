@@ -14,9 +14,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<Senders> getSenders() async {
-  final ApiBaseHelper _helper = ApiBaseHelper();
+  final ApiBaseHelper helper = ApiBaseHelper();
   final String token = await getToken();
-  final response = await _helper.get(
+  final response = await helper.get(
     '/senders?mail=true',
     {'Authorization': 'Bearer $token'},
   );
@@ -24,9 +24,9 @@ Future<Senders> getSenders() async {
 }
 
 Future<Tag> getTags() async {
-  final ApiBaseHelper _helper = ApiBaseHelper();
+  final ApiBaseHelper helper = ApiBaseHelper();
   final String token = await getToken();
-  final response = await _helper.get(
+  final response = await helper.get(
     '/tags',
     {'Authorization': 'Bearer $token'},
   );
@@ -34,9 +34,9 @@ Future<Tag> getTags() async {
 }
 
 Future<void> createTag(String tagName) async {
-  final ApiBaseHelper _helper = ApiBaseHelper();
+  final ApiBaseHelper helper = ApiBaseHelper();
   final String token = await getToken();
-  final response = await _helper.post(
+  final response = await helper.post(
     '/tags',
     {'name': tagName},
     {'Authorization': 'Bearer $token'},
@@ -56,8 +56,8 @@ Future<MailModel> newInbox({
   List<Map<String, dynamic>>? activities,
 }) async {
   final String token = await getToken();
-  final ApiBaseHelper _helper = ApiBaseHelper();
-  final response = await _helper.post('/mails', {
+  final ApiBaseHelper helper = ApiBaseHelper();
+  final response = await helper.post('/mails', {
     "subject": subject,
     "description": description,
     "sender_id": senderId,
