@@ -934,7 +934,7 @@ class _MainPageState extends State<MainPage> {
                         },
                       );
                     },
-                    child: const MyFab(),
+                    child: MyFab(name: "New Inbox"),
                   ),
                 ),
               ],

@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 
 class MyFab extends StatefulWidget {
-  const MyFab({
-    Key? key,
-  }) : super(key: key);
+  String? name;
+  MyFab({required this.name});
 
   @override
   State<MyFab> createState() => _MyFabState();
@@ -47,7 +46,7 @@ class _MyFabState extends State<MyFab> {
             width: 8,
           ),
           Text(
-            "New Inbox".tr(),
+            widget.name!.tr(),
             style: const TextStyle(
                 color: Color(0xff6589FF),
                 fontSize: 20,
