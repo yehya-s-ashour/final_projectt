@@ -1,18 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/services/catego_controller.dart';
 import 'package:final_projectt/core/services/status_controller.dart';
 
-import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/my_expansion_tile.dart';
 import 'package:final_projectt/models/catego_model.dart';
 
 import 'package:final_projectt/models/status_single.dart';
-import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class StatusScreen extends StatefulWidget {
@@ -130,40 +126,43 @@ class _StatusScreenState extends State<StatusScreen> {
                                                     e.id.toString())
                                                 .map((mail) {
                                               return myCustomCard(mail, () {
-                                                Navigator.pushReplacement(
-                                                  context,
-                                                  PageRouteBuilder(
-                                                    pageBuilder: (context,
-                                                            animation,
-                                                            secondaryAnimation) =>
-                                                        EditMailBottomSheet(
-                                                            mail: mail),
-                                                    transitionsBuilder:
-                                                        (context,
-                                                            animation,
-                                                            secondaryAnimation,
-                                                            child) {
-                                                      const begin =
-                                                          Offset(1.0, 0.0);
-                                                      const end = Offset.zero;
-                                                      const curve =
-                                                          Curves.easeInOut;
-                                                      var tween = Tween(
-                                                              begin: begin,
-                                                              end: end)
-                                                          .chain(CurveTween(
-                                                              curve: curve));
-                                                      var offsetAnimation =
-                                                          animation
-                                                              .drive(tween);
 
-                                                      return SlideTransition(
-                                                        position:
-                                                            offsetAnimation,
-                                                        child: child,
-                                                      );
-                                                    },
-                                                  ),
+                                                showModalBottomSheet(
+                                                  clipBehavior: Clip.hardEdge,
+                                                  isScrollControlled: true,
+                                                  context: context,
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .vertical(
+                                                    top: Radius.circular(15.0),
+                                                  )),
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return EditMailBottomSheet(
+                                                      mail: mail,
+                                                    );
+                                                  },
+                                                ).whenComplete(
+                                                  () {
+                                                    setState(() {
+                                                      Provider.of<NewInboxProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .clearImages();
+
+                                                      Provider.of<NewInboxProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .activites = [];
+
+                                                      Provider.of<NewInboxProvider>(
+                                                              context,
+                                                              listen: false)
+                                                          .deletedImages = [];
+                                                    });
+                                                  },
                                                 );
                                               });
                                             }).toList()),
