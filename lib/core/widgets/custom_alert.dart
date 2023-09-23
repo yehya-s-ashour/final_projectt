@@ -80,21 +80,30 @@ class _CustomAlertDialogState extends State<CustomAlertDialog> {
                   textAlign: TextAlign.center,
                 ),
               ),
-              Container(
-                height: 100,
-                width: 100,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    image: DecorationImage(
-                      image: widget.image != null
-                          ? NetworkImage(
-                              'https://palmail.gsgtt.tech/storage/${widget.image}',
-                              // fit: BoxFit.fill,
-                            )
-                          : const AssetImage('images/profile.png')
-                              as ImageProvider<Object>,
-                    )),
-              ),
+              // Container(
+              //   height: 100,
+              //   width: 100,
+              //   decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(50),
+              //       image: DecorationImage(
+              //         image: widget.image != null
+              //             ? NetworkImage(
+              //                 'https://palmail.gsgtt.tech/storage/${widget.image}',
+
+              //                 ,
+              //               )
+              //             : const AssetImage('images/profile.png')
+              //                 as ImageProvider<Object>,
+              //       )),
+              // ),
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: widget.image != null
+                    ? NetworkImage(
+                        'https://palmail.gsgtt.tech/storage/${widget.image}',
+                      )
+                    : AssetImage('images/profile.png') as ImageProvider<Object>,
+              )
             ],
           ),
         ),

@@ -5,9 +5,11 @@ import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/filter_bottom_sheet.dart';
 import 'package:final_projectt/models/search_model.dart';
+import 'package:final_projectt/providers/new_inbox_provider.dart';
 //import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 //import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -213,111 +215,16 @@ class _SearchScreenState extends State<SearchScreen> {
 
                                     ;
                                   });
-                                  // return GestureDetector(
-                                  //   onTap: () {},
-                                  //   child: Container(
-                                  //     margin: const EdgeInsets.symmetric(
-                                  //         horizontal: 16, vertical: 8),
-                                  //     padding: const EdgeInsets.symmetric(
-                                  //         horizontal: 8, vertical: 16),
-                                  //     decoration: BoxDecoration(
-                                  //       borderRadius: BorderRadius.circular(16),
-                                  //       color: boxColor,
-                                  //     ),
-                                  //     child: Column(
-                                  //       crossAxisAlignment:
-                                  //           CrossAxisAlignment.start,
-                                  //       children: [
-                                  //         Row(
-                                  //           mainAxisAlignment:
-                                  //               MainAxisAlignment.start,
-                                  //           children: [
-                                  //             Container(
-                                  //               margin: const EdgeInsets.only(
-                                  //                   right: 8),
-                                  //               width: 12,
-                                  //               height: 12,
-                                  //               decoration: BoxDecoration(
-                                  //                   borderRadius: BorderRadius
-                                  //                       .circular(6),
-                                  //                   color: snapshot
-                                  //                               .data!
-                                  //                               .mails![index]
-                                  //                               .status !=
-                                  //                           null
-                                  //                       ? Color(int.parse(
-                                  //                           snapshot
-                                  //                                   .data!
-                                  //                                   .mails![
-                                  //                                       index]
-                                  //                                   .status!
-                                  //                                   .color ??
-                                  //                               ""))
-                                  //                       : Colors.white),
-                                  //             ),
-                                  //             if (snapshot.data!.mails?[index]
-                                  //                     .sender !=
-                                  //                 null)
-                                  //               Text(snapshot
-                                  //                       .data!
-                                  //                       .mails?[index]
-                                  //                       .sender!
-                                  //                       .name ??
-                                  //                   "no data"),
-                                  //             const Spacer(),
-                                  //             Text(getMonth(snapshot
-                                  //                     .data!
-                                  //                     .mails?[index]
-                                  //                     .createdAt ??
-                                  //                 "")),
-                                  //             const Icon(
-                                  //               Icons.arrow_forward_ios,
-                                  //               color: Colors.grey,
-                                  //             )
-                                  //           ],
-                                  //         ),
-                                  //         Padding(
-                                  //           padding: const EdgeInsets.symmetric(
-                                  //               horizontal: 24.0),
-                                  //           child: Column(
-                                  //             crossAxisAlignment:
-                                  //                 CrossAxisAlignment.start,
-                                  //             children: [
-                                  //               Text(snapshot
-                                  //                       .data!
-                                  //                       .mails?[index]
-                                  //                       .subject ??
-                                  //                   "no data"),
-                                  //               Text(
-                                  //                 snapshot.data!.mails?[index]
-                                  //                         .description ??
-                                  //                     "no data",
-                                  //                 maxLines: 2,
-                                  //                 overflow:
-                                  //                     TextOverflow.ellipsis,
-                                  //               ),
-                                  //               const SizedBox(
-                                  //                 height: 8,
-                                  //               ),
-                                  //               Text(
-                                  //                 getTag(
-                                  //                   snapshot.data!.mails![index]
-                                  //                       .tags,
-                                  //                 ),
-                                  //                 style: const TextStyle(
-                                  //                     color: Color(0xff6589FF)),
-                                  //               ),
-                                  //             ],
-                                  //           ),
-                                  //         )
-                                  //       ],
-                                  //     ),
-                                  //   ),
-                                  // );
                                 })
-                            : Center(
-                                child: Text(
-                                    "There are no emails containing this data"),
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      width: 200,
+                                      child: Image.asset(
+                                          "images/result_not_found.png")),
+                                ],
                               );
                       }
                       if (snapshot.hasError) {

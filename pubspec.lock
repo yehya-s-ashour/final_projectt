@@ -88,7 +88,6 @@ packages:
       sha256: f092b211a4319e98e5ff58223576de6c2803db36221657b46c82574721240687
       url: "https://pub.dev"
     source: hosted
-    
     version: "1.17.2"
   convert:
     dependency: transitive
@@ -98,9 +97,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
-
-
-
   cross_file:
     dependency: transitive
     description:
@@ -928,7 +924,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.1.0-185.0.dev <4.0.0"
-  flutter: ">=3.10.0"
-
-
-
+  flutter: ">=3.7.0"

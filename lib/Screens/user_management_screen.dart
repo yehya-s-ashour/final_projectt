@@ -74,89 +74,95 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                     return ListTile(
                       title: Slidable(
                         endActionPane: ActionPane(
-                          extentRatio: 0.4,
+                          extentRatio: 0.455,
                           motion: const ScrollMotion(),
                           children: [
-                            // const SizedBox(
-                            //   width: 16,
-                            // ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                              width: 55,
-                              height: 55,
-                              child: SlidableAction(
-                                padding: const EdgeInsets.all(0),
-                                spacing: 3,
-                                // An action can be bigger than the others.
-
-                                borderRadius: BorderRadius.circular(16),
-
-                                onPressed: (context) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return CustomAlertDialog(
-                                        type: "edit",
-                                        name: allUserProvider.allUserdata.data!
-                                            .users![index].name!,
-                                        email: allUserProvider.allUserdata.data!
-                                            .users![index].email!,
-                                        image: allUserProvider.allUserdata.data!
-                                            .users![index].image,
-                                        role: allUserProvider.allUserdata.data!
-                                            .users![index].role!.name!,
-                                        userId: allUserProvider.allUserdata
-                                            .data!.users![index].id!,
-                                        roleId: allUserProvider.allUserdata
-                                            .data!.users![index].role!.id!,
-                                      );
-                                    },
-                                  );
-                                },
-                                backgroundColor: Colors.amberAccent,
-                                foregroundColor: Colors.white,
-                                icon: Icons.edit,
-                                //    label: 'Edit',
+                            CustomSlidableAction(
+                              backgroundColor: backGroundColor,
+                              onPressed: (context) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomAlertDialog(
+                                      type: "edit",
+                                      name: allUserProvider.allUserdata.data!
+                                          .users![index].name!,
+                                      email: allUserProvider.allUserdata.data!
+                                          .users![index].email!,
+                                      image: allUserProvider.allUserdata.data!
+                                          .users![index].image,
+                                      role: allUserProvider.allUserdata.data!
+                                          .users![index].role!.name!,
+                                      userId: allUserProvider
+                                          .allUserdata.data!.users![index].id!,
+                                      roleId: allUserProvider.allUserdata.data!
+                                          .users![index].role!.id!,
+                                    );
+                                  },
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Colors.amberAccent,
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.edit,
+                                        color: Colors.white,
+                                        size: 35,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            // const SizedBox(
-                            //   width: 8,
-                            // ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8),
-                              width: 55,
-                              height: 55,
-                              child: SlidableAction(
-                                borderRadius: BorderRadius.circular(16),
-                                padding: const EdgeInsets.all(0),
-                                spacing: 3,
-                                onPressed: (context) {
-                                  showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return CustomAlertDialog(
-                                        type: "delet",
-                                        name: allUserProvider.allUserdata.data!
-                                            .users![index].name!,
-                                        email: allUserProvider.allUserdata.data!
-                                            .users![index].email!,
-                                        image: allUserProvider.allUserdata.data!
-                                            .users![index].image,
-                                        role: allUserProvider.allUserdata.data!
-                                            .users![index].role!.name!,
-                                        userId: allUserProvider.allUserdata
-                                            .data!.users![index].id!,
-                                        roleId: allUserProvider.allUserdata
-                                            .data!.users![index].role!.id!,
-                                      );
-                                    },
-                                  );
-                                },
-                                backgroundColor: Colors.red,
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
-
-                                //  label: 'delete',
+                            CustomSlidableAction(
+                              backgroundColor: backGroundColor,
+                              onPressed: (context) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CustomAlertDialog(
+                                      type: "delet",
+                                      name: allUserProvider.allUserdata.data!
+                                          .users![index].name!,
+                                      email: allUserProvider.allUserdata.data!
+                                          .users![index].email!,
+                                      image: allUserProvider.allUserdata.data!
+                                          .users![index].image,
+                                      role: allUserProvider.allUserdata.data!
+                                          .users![index].role!.name!,
+                                      userId: allUserProvider
+                                          .allUserdata.data!.users![index].id!,
+                                      roleId: allUserProvider.allUserdata.data!
+                                          .users![index].role!.id!,
+                                    );
+                                  },
+                                );
+                              },
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius:
+                                            BorderRadius.circular(16)),
+                                    child: Center(
+                                      child: Icon(
+                                        Icons.delete,
+                                        color: Colors.white,
+                                        size: 35,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
