@@ -117,6 +117,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
     int year = date!.year;
     int today = date!.day;
     dynamic month = getMonth(date!);
+    dynamic monthInAr = getMonthInAr(date!);
     return Screenshot(
       controller: ScreenshotController(),
       child: Scaffold(
@@ -134,7 +135,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                     flex: 1,
                     child: TextButton(
                       style: TextButton.styleFrom(
-                          padding: EdgeInsets.only(top: 0),
+                          padding: const EdgeInsets.only(top: 0),
                           minimumSize: const Size(50, 30),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           alignment: Alignment.centerLeft),
@@ -180,7 +181,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                             size: 15,
                           ),
                           Text(
-                            'Home',
+                            'Home'.tr(),
                             style: TextStyle(
                               fontSize: 17,
                               color: primaryColor,
@@ -210,18 +211,18 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         IconButton(
-                            padding: EdgeInsets.only(bottom: 15),
-                            constraints: BoxConstraints(),
+                            padding: const EdgeInsets.only(bottom: 15),
+                            constraints: const BoxConstraints(),
                             onPressed: () async {
-                              final image = ScreenshotController()
-                                  .capture(delay: Duration(milliseconds: 10));
+                              final image = ScreenshotController().capture(
+                                  delay: const Duration(milliseconds: 10));
                               print(image);
                             },
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.ios_share_outlined,
                               color: Colors.black45,
                             )),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         IconButton(
@@ -282,7 +283,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                               },
                             ));
                           },
-                          icon: Icon(Icons.check),
+                          icon: const Icon(Icons.check),
                         ),
                       ],
                     ),
@@ -348,7 +349,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsetsDirectional
-                                                            .only(
+                                                        .only(
                                                         top: 10.0, start: 35),
                                                 child: Text(
                                                   '${widget.mail.sender!.category!.name}',
@@ -379,12 +380,15 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                             Padding(
                                               padding:
                                                   const EdgeInsetsDirectional
-                                                          .only(
+                                                      .only(
                                                       top: 10,
                                                       bottom: 10,
                                                       start: 20),
                                               child: Text(
-                                                '$today $month $year',
+                                                context.locale.toString() ==
+                                                        'en'
+                                                    ? '$today $month $year'
+                                                    : '$today $monthInAr $year',
                                                 style: const TextStyle(
                                                   fontSize: 14,
                                                 ),
@@ -396,13 +400,27 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                       .only(start: 20),
                                               child: SizedBox(
                                                 width: 155,
-                                                child: Text(
-                                                  'Archive Number: ${widget.mail.archiveNumber}',
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: const TextStyle(
-                                                      fontSize: 14),
+                                                child: Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      'Archive Number:'.tr(),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                      style: const TextStyle(
+                                                          fontSize: 14),
+                                                    ),
+                                                    Text(
+                                                      ' ${widget.mail.archiveNumber}',
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      maxLines: 1,
+                                                      style: const TextStyle(
+                                                          fontSize: 14),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             )
@@ -461,7 +479,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               Text(
                                                 widget.mail.description == ''
                                                     ? '${widget.mail.description}'
-                                                    : 'No Description',
+                                                    : 'No Description'.tr(),
                                                 style: const TextStyle(
                                                     fontSize: 16),
                                               )
@@ -616,7 +634,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                   BorderRadius.circular(30),
                                             ),
                                             child: Text(
-                                              '${selectedStatus.name}',
+                                              '${selectedStatus.name}'.tr(),
                                               style: const TextStyle(
                                                   fontSize: 18,
                                                   color: Colors.white),
@@ -680,7 +698,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                   border: InputBorder.none,
                                   hintText: isDecisionFilled!
                                       ? "Add Decsision ...".tr()
-                                      : 'No decision yet',
+                                      : 'No decision yet'.tr(),
                                   hintStyle: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iphone',
@@ -827,7 +845,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                   title: Row(
                                                     children: [
                                                       completedStatusId!
-                                                          ? SizedBox.shrink()
+                                                          ? const SizedBox
+                                                              .shrink()
                                                           : IconButton(
                                                               onPressed: () {
                                                                 final provider =
@@ -1065,15 +1084,16 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                       ),
                       Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 70,
                           ),
                           Expanded(
                             child: OutlinedButton(
                                 style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.only(left: 30, right: 30),
+                                  padding: const EdgeInsets.only(
+                                      left: 30, right: 30),
                                   backgroundColor: Colors.white,
-                                  side: BorderSide(color: Colors.red),
+                                  side: const BorderSide(color: Colors.red),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30),
                                   ),
@@ -1100,7 +1120,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                         Navigator.pushReplacement(context,
                                             MaterialPageRoute(
                                           builder: (context) {
-                                            return MainPage();
+                                            return const MainPage();
                                           },
                                         ));
                                       });
@@ -1120,21 +1140,21 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                         ),
                                       )
                                     : Text(
-                                        'Delete Mail',
-                                        style: TextStyle(
+                                        'Delete Mail'.tr(),
+                                        style: const TextStyle(
                                           color: Colors.red,
                                           fontSize: 18,
                                         ),
                                       )),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 70,
                           ),
                         ],
                       )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 ],

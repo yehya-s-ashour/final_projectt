@@ -501,21 +501,21 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               child: Column(
                                 children: [
                                   CustomDatePicker(),
-                                  const Padding(
-                                    padding:
-                                        EdgeInsets.only(left: 22.0, top: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 22.0, top: 10),
                                     child: Row(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.folder_zip_outlined,
                                           color: Colors.blueGrey,
                                           size: 23,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 20,
                                         ),
-                                        Text('Archive number',
-                                            style: TextStyle(
+                                        Text('Archive number'.tr(),
+                                            style: const TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Iphone',
                                               fontSize: 18,

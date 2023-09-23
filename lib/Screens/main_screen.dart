@@ -279,7 +279,7 @@ class _MainPageState extends State<MainPage> {
                                                   decoration: BoxDecoration(
                                                       borderRadius:
                                                           const BorderRadius
-                                                                  .only(
+                                                              .only(
                                                               topLeft: Radius
                                                                   .circular(32),
                                                               topRight: Radius
@@ -654,7 +654,7 @@ class _MainPageState extends State<MainPage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          nameOfCatego,
+                                          nameOfCatego.tr(),
                                           style: const TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold),

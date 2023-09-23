@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/single_tag_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -157,7 +158,7 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                           const SizedBox(
                             width: 4,
                           ),
-                          Text(mail.sender!.name ?? 'name',
+                          Text(mail.sender!.name ?? 'name'.tr(),
                               style: const TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w700)),
                           const Spacer(),
@@ -186,7 +187,7 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                             Text(mail.subject!,
                                 style: const TextStyle(fontSize: 14)),
                             Text(
-                              mail.description ?? 'description',
+                              mail.description ?? 'description'.tr(),
                               style: const TextStyle(
                                   fontSize: 14, color: Color(0xff898989)),
                               maxLines: 2,
