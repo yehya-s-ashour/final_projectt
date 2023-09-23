@@ -24,6 +24,7 @@ import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class NewInboxBottomSheet extends StatefulWidget {
@@ -545,12 +546,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               child: Column(
                                 children: [
                                   CustomDatePicker(),
-
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(
                                         left: 22.0, top: 10, right: 22),
-
-
                                     child: Row(
                                       children: [
                                         const Icon(

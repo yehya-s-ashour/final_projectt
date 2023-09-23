@@ -33,7 +33,9 @@ import 'dart:ui' as ui;
 
 class EditMailBottomSheet extends StatefulWidget {
   Mail mail;
-  EditMailBottomSheet({super.key, required this.mail});
+  String backScreen;
+  EditMailBottomSheet(
+      {super.key, required this.mail, required this.backScreen});
 
   @override
   State<EditMailBottomSheet> createState() => _EditMailBottomSheetState();
@@ -317,7 +319,14 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                               }
                             },
                             leftOnPressed: () {
-                              Navigator.pop(context);
+                              Navigator.pop(context, true);
+                              Navigator.pop(context, true);
+                              // Navigator.of(context)
+                              //     .pushReplacement(MaterialPageRoute(
+                              //   builder: (context) {
+                              //     return const MainPage();
+                              //   },
+                              // ));
                             },
                           );
                         },
@@ -329,7 +338,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                               size: 15,
                             ),
                             Text(
-                              'Home',
+                              widget.backScreen,
                               style: TextStyle(
                                 fontSize: 17,
                                 color: primaryColor,

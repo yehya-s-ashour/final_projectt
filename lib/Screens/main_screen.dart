@@ -296,7 +296,7 @@ class _MainPageState extends State<MainPage> {
                                                   decoration: BoxDecoration(
                                                       borderRadius:
                                                           const BorderRadius
-                                                              .only(
+                                                                  .only(
                                                               topLeft: Radius
                                                                   .circular(15),
                                                               topRight: Radius
@@ -732,6 +732,7 @@ class _MainPageState extends State<MainPage> {
                                               builder: (BuildContext context) {
                                                 return EditMailBottomSheet(
                                                   mail: mail,
+                                                  backScreen: 'Home',
                                                 );
                                               },
                                             ).whenComplete(
@@ -751,6 +752,7 @@ class _MainPageState extends State<MainPage> {
                                                           context,
                                                           listen: false)
                                                       .deletedImages = [];
+                                                      
                                                 });
                                               },
                                             );
@@ -777,9 +779,6 @@ class _MainPageState extends State<MainPage> {
                                     height: 42,
                                   ),
                                 );
-
-                             
-
                               });
                         }).toList(),
                       ),
@@ -892,12 +891,15 @@ class _MainPageState extends State<MainPage> {
                               ),
                             );
                           }),
+                      SizedBox(
+                        height: deviceHeight * 0.1,
+                      ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: deviceHeight - (deviceHeight * 0.1)),
+                  padding: EdgeInsets.only(
+                      top: deviceHeight - (deviceHeight * 0.09)),
                   child: GestureDetector(
                     onTap: () {
                       showModalBottomSheet(

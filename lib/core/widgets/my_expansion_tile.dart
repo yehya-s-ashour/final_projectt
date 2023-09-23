@@ -514,6 +514,7 @@ class _MYExpansionTileState extends State<MYExpansionTile>
   late Animation<Color?> _backgroundColor;
 
   bool _isExpanded = false;
+  late String numOfMailsTobeShown;
   late ExpansionTileController _tileController;
   Animation<double> setAnimationBasedOnLang() {
     if (context.locale.toString() == "en") {
@@ -532,8 +533,10 @@ class _MYExpansionTileState extends State<MYExpansionTile>
       );
   }
 
+  late bool isExpandedToBeShown;
   @override
   void initState() {
+    isExpandedToBeShown = widget.isExpanded;
     _animationController = AnimationController(duration: _kExpand, vsync: this);
     _heightFactor = _animationController.drive(_easeInTween);
     _border = _animationController.drive(_borderTween.chain(_easeOutTween));
@@ -543,7 +546,6 @@ class _MYExpansionTileState extends State<MYExpansionTile>
         _animationController.drive(_iconColorTween.chain(_easeInTween));
     _backgroundColor =
         _animationController.drive(_backgroundColorTween.chain(_easeOutTween));
-
     _isExpanded = PageStorage.maybeOf(context)?.readState(context) as bool? ??
         widget.initiallyExpanded;
     if (_isExpanded) {
@@ -553,6 +555,7 @@ class _MYExpansionTileState extends State<MYExpansionTile>
     assert(widget.controller?._state == null);
     _tileController = widget.controller ?? ExpansionTileController();
     _tileController._state = this;
+    numOfMailsTobeShown = widget.numOfMails.toString();
     super.initState();
   }
 
@@ -585,7 +588,7 @@ class _MYExpansionTileState extends State<MYExpansionTile>
 
   void _handleTap() {
     // Provider.of<RTLPro>(context, listen: false).changeExpnaded();
-    widget.isExpanded = !widget.isExpanded;
+    isExpandedToBeShown = !isExpandedToBeShown;
     _toggleExpansion();
   }
 
@@ -626,7 +629,7 @@ class _MYExpansionTileState extends State<MYExpansionTile>
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (widget.isExpanded == false)
+        if (isExpandedToBeShown == false)
           Text(
             '${widget.numOfMails ?? ''}',
             style: const TextStyle(color: Colors.grey, fontSize: 14),
