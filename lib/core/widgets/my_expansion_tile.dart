@@ -4,6 +4,7 @@
 
 // ignore_for_file: must_be_immutable
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 const Duration _kExpand = Duration(milliseconds: 200);
@@ -498,8 +499,6 @@ class _MYExpansionTileState extends State<MYExpansionTile>
       CurveTween(curve: Curves.easeOut);
   static final Animatable<double> _easeInTween =
       CurveTween(curve: Curves.easeIn);
-  static final Animatable<double> _halfTween =
-      Tween<double>(begin: 0.0, end: 0.5);
 
   final ShapeBorderTween _borderTween = ShapeBorderTween();
   final ColorTween _headerColorTween = ColorTween();
@@ -516,19 +515,27 @@ class _MYExpansionTileState extends State<MYExpansionTile>
 
   bool _isExpanded = false;
   late ExpansionTileController _tileController;
+  Animation<double> setAnimationBasedOnLang() {
+    if (context.locale.toString() == "en") {
+      return _animationController.drive(
+        Tween<double>(
+          begin: -0.25,
+          end: 0.0,
+        ).chain(_easeInTween),
+      );
+    } else
+      return _animationController.drive(
+        Tween<double>(
+          begin: 0.25,
+          end: 0.0,
+        ).chain(_easeInTween),
+      );
+  }
 
   @override
   void initState() {
-    super.initState();
     _animationController = AnimationController(duration: _kExpand, vsync: this);
     _heightFactor = _animationController.drive(_easeInTween);
-    // _iconTurns = _animationController.drive(_halfTween.chain(_easeInTween));
-    _iconTurns = _animationController.drive(
-      Tween<double>(
-        begin: -0.25, // Changed initial value to 0.25 for a right arrow
-        end: 0.0, // Default end value (downward arrow)
-      ).chain(_easeInTween),
-    );
     _border = _animationController.drive(_borderTween.chain(_easeOutTween));
     _headerColor =
         _animationController.drive(_headerColorTween.chain(_easeInTween));
@@ -546,6 +553,7 @@ class _MYExpansionTileState extends State<MYExpansionTile>
     assert(widget.controller?._state == null);
     _tileController = widget.controller ?? ExpansionTileController();
     _tileController._state = this;
+    super.initState();
   }
 
   @override
@@ -718,6 +726,7 @@ class _MYExpansionTileState extends State<MYExpansionTile>
           expansionTileTheme.collapsedBackgroundColor
       ..end = widget.backgroundColor ?? expansionTileTheme.backgroundColor;
     super.didChangeDependencies();
+    _iconTurns = setAnimationBasedOnLang();
   }
 
   @override

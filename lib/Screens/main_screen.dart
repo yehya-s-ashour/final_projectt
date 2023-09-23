@@ -296,7 +296,7 @@ class _MainPageState extends State<MainPage> {
                                                   decoration: BoxDecoration(
                                                       borderRadius:
                                                           const BorderRadius
-                                                                  .only(
+                                                              .only(
                                                               topLeft: Radius
                                                                   .circular(15),
                                                               topRight: Radius
@@ -671,7 +671,7 @@ class _MainPageState extends State<MainPage> {
                               ),
                             );
                           }
-                          return const Text("  no data from Status provider ");
+                          return const Text(" no data from Status provider ");
                         },
                       ),
                       SizedBox(
@@ -700,7 +700,7 @@ class _MainPageState extends State<MainPage> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            nameOfCatego,
+                                            nameOfCatego.tr(),
                                             style: const TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold),
@@ -760,6 +760,7 @@ class _MainPageState extends State<MainPage> {
                                     ),
                                   );
                                 }
+
                                 return Shimmer.fromColors(
                                   baseColor: Colors.grey[300]!,
                                   highlightColor: Colors.grey[100]!,
@@ -776,6 +777,9 @@ class _MainPageState extends State<MainPage> {
                                     height: 42,
                                   ),
                                 );
+
+                             
+
                               });
                         }).toList(),
                       ),
