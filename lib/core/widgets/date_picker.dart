@@ -26,7 +26,7 @@ class _CustomDatePickerState extends State<CustomDatePicker>
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
     );
   }
 
@@ -36,6 +36,8 @@ class _CustomDatePickerState extends State<CustomDatePicker>
     int today = date.day;
     dynamic month = getMonth(date);
     dynamic todayName = getDay(date);
+    dynamic todayNameInAr = getDayInAr(date);
+    dynamic monthInAr = getMonthInAr(date);
 
     return Column(
       children: [
@@ -90,7 +92,9 @@ class _CustomDatePickerState extends State<CustomDatePicker>
                         fontSize: 19),
                   ),
                   Text(
-                    '$todayName, $month $today, $year',
+                    context.locale.toString() == 'en'
+                        ? '$todayName, $month $today, $year'
+                        : '$todayNameInAr,$today $monthInAr , $year',
                     style: TextStyle(
                         color: primaryColor,
                         fontFamily: 'Iphone',
@@ -101,7 +105,7 @@ class _CustomDatePickerState extends State<CustomDatePicker>
             ),
             children: <Widget>[
               AnimatedSwitcher(
-                  duration: Duration(milliseconds: 400),
+                  duration: const Duration(milliseconds: 400),
                   child: CalendarDatePicker(
                     initialDate: date,
                     firstDate: DateTime(1900, 1, 1),
@@ -141,5 +145,17 @@ getDay(DateTime date) {
 getMonth(DateTime date) {
   dynamic monthData =
       '{ "1" : "Jan", "2" : "Feb", "3" : "Mar", "4" : "Apr", "5" : "May", "6" : "June", "7" : "Jul", "8" : "Aug", "9" : "Sep", "10" : "Oct", "11" : "Nov", "12" : "Dec" }';
+  return json.decode(monthData)['${date.month}'];
+}
+
+getDayInAr(DateTime date) {
+  dynamic dayData =
+      '{ "1" : "الاثنين", "2" : "الثلاثاء", "3" : "الاربعاء", "4" : "الخميس", "5" : "الجمعة", "6" : "السبت", "7" : "الاحد" }';
+  return json.decode(dayData)['${date.weekday}'];
+}
+
+getMonthInAr(DateTime date) {
+  dynamic monthData =
+      '{ "1" : "يناير", "2" : "فبراير", "3" : "مارس", "4" : "ابريل", "5" : "مايو", "6" : "يونيو", "7" : "يوليو", "8" : "اغسطس", "9" : "سبتمبر", "10" : "اكتوبر", "11" : "نوفمبر", "12" : "ديسمبر" }';
   return json.decode(monthData)['${date.month}'];
 }

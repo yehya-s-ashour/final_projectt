@@ -3,7 +3,7 @@
   "Pending" :"Pending",
   "In Progress":"In Progress",
   "Completed":"Completed",
-  "New Inbox":"New inbox",
+  "New Inbox":"New Inbox",
   "Home Page":"Home Page",
   "Profile Page" :"Profile Page ",
   "Senders" :"Senders",
@@ -105,7 +105,14 @@
 "admin":"admin",
 "guest":"guest",
 "user":"user",
-"editor":"editor"
+"editor":"editor",
+"like 102/2022":"like 102/2022",
+"There are no emails containing this data":"There are no emails containing this data",
+"Home":"Home",
+"Delete Mail":"Delete Mail",
+"No decision yet":"No decision yet",
+"Archive Number":"Archive Number:",
+"No Description":"No Description"
 
   
     }
