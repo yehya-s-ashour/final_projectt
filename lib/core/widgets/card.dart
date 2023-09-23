@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/Screens/single_tag_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../models/mail_model.dart';
 
@@ -80,58 +81,74 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
               String? path = attach[index].image;
               return GestureDetector(
                 onTap: () {},
-                child: Container(
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: path != null
-                      ? GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              barrierDismissible: true,
-                              context: context,
-                              builder: (context) {
-                                return Align(
-                                  alignment: Alignment.center,
-                                  child: SingleChildScrollView(
-                                    child: AlertDialog(
-                                        backgroundColor: Colors.transparent,
-                                        titlePadding: EdgeInsets.zero,
-                                        title: Container(
-                                          width: 220,
-                                          height: MediaQuery.sizeOf(context)
-                                                  .height -
-                                              350,
-                                          decoration: BoxDecoration(
-                                              boxShadow: const [
-                                                BoxShadow(
-                                                    color: Colors.black26,
-                                                    blurRadius: 10,
-                                                    spreadRadius: 2,
-                                                    offset: Offset(5, 5))
-                                              ],
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
-                                              image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: NetworkImage(
-                                                    'https://palmail.gsgtt.tech/storage/$path',
-                                                  ))),
-                                        )),
-                                  ),
+                child: Stack(
+                  children: [
+                    Shimmer.fromColors(
+                        baseColor: Colors.grey.shade300,
+                        highlightColor: Colors.grey.shade100,
+                        child: Container(
+                          height: 50,
+                          width: 48,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10)),
+                        )),
+                    Container(
+                      // clipBehavior: Clip.antiAliasWithSaveLayer,
+                      height: 50,
+                      width: 48,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            'https://palmail.gsgtt.tech/storage/$path',
+                          ),
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: path != null
+                          ? GestureDetector(
+                              onTap: () {
+                                showDialog(
+                                  barrierDismissible: true,
+                                  context: context,
+                                  builder: (context) {
+                                    return Align(
+                                      alignment: Alignment.center,
+                                      child: SingleChildScrollView(
+                                        child: AlertDialog(
+                                            backgroundColor: Colors.transparent,
+                                            titlePadding: EdgeInsets.zero,
+                                            title: Container(
+                                              width: 220,
+                                              height: MediaQuery.sizeOf(context)
+                                                      .height -
+                                                  350,
+                                              decoration: BoxDecoration(
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                        color: Colors.black26,
+                                                        blurRadius: 10,
+                                                        spreadRadius: 2,
+                                                        offset: Offset(5, 5))
+                                                  ],
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  image: DecorationImage(
+                                                      fit: BoxFit.cover,
+                                                      image: NetworkImage(
+                                                        'https://palmail.gsgtt.tech/storage/$path',
+                                                      ))),
+                                            )),
+                                      ),
+                                    );
+                                  },
                                 );
                               },
-                            );
-                          },
-                          child: Image.network(
-                            'https://palmail.gsgtt.tech/storage/$path',
-                            fit: BoxFit.fill,
-                          ),
-                        )
-                      : const Text(''),
+                            )
+                          : const Text(''),
+                    ),
+                  ],
                 ),
               );
             }),

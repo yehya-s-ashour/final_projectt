@@ -253,12 +253,14 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                     )
                                   : null;
                               final isUploaded = (Provider.of<NewInboxProvider>(
-                                          context,
-                                          listen: false)
-                                      .imagesFiles
-                                      .isNotEmpty
-                                  ? await uploadImages(context, widget.mail.id!)
-                                  : null);
+                                              context,
+                                              listen: false)
+                                          .imagesFiles
+                                          .isNotEmpty
+                                      ? await uploadImages(
+                                          context, widget.mail.id!)
+                                      : null) ??
+                                  true;
                               final isUpdated = await updateMail(
                                 mailId: widget.mail.id,
                                 idAttachmentsForDelete:
@@ -285,7 +287,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                 tags:
                                     selectedTags.map((tag) => tag.id).toList(),
                               );
-                              if (isUploaded! && isUpdated) {
+                              if (isUploaded && isUpdated) {
                                 showAlert(
                                   context,
                                   message: 'Mail Updated Successfully'.tr(),
@@ -754,7 +756,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                       ),
                       CustomWhiteBox(
                         width: 378,
-                        height: 110,
+                        height: context.locale.toString() == "ar" ? 125 : 110,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
