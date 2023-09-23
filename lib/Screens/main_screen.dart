@@ -732,6 +732,7 @@ class _MainPageState extends State<MainPage> {
                                               builder: (BuildContext context) {
                                                 return EditMailBottomSheet(
                                                   mail: mail,
+                                                  backScreen: 'Home',
                                                 );
                                               },
                                             ).whenComplete(
@@ -751,6 +752,7 @@ class _MainPageState extends State<MainPage> {
                                                           context,
                                                           listen: false)
                                                       .deletedImages = [];
+                                                      
                                                 });
                                               },
                                             );
@@ -893,6 +895,9 @@ class _MainPageState extends State<MainPage> {
                               ),
                             );
                           }),
+                      SizedBox(
+                        height: deviceHeight * 0.1,
+                      ),
                     ],
                   ),
                 ),

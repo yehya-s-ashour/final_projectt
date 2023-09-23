@@ -3,7 +3,6 @@ import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/models/mail_model.dart';
 import 'package:final_projectt/models/sender_model.dart';
-import 'package:final_projectt/models/tags_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -105,6 +104,7 @@ class _SenderMailsState extends State<SenderMails> {
                       builder: (BuildContext context) {
                         return EditMailBottomSheet(
                           mail: mail,
+                          backScreen: '${sender!.name} mails',
                         );
                       },
                     ).whenComplete(
