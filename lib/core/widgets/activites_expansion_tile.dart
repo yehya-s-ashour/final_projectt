@@ -5,6 +5,7 @@ import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/core/widgets/date_picker.dart';
+import 'package:final_projectt/core/widgets/my_expansion_tile.dart';
 import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +42,13 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
   Widget build(BuildContext context) {
     return Theme(
       data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
+      child: MYExpansionTile(
+          numOfMails: int.parse(
+                      '${Provider.of<NewInboxProvider>(context).activites!.length}') >
+                  0
+              ? int.parse(
+                  '${Provider.of<NewInboxProvider>(context).activites!.length}')
+              : null,
           onExpansionChanged: (value) {
             setState(() {
               if (value) {
@@ -52,43 +59,43 @@ class _ActivitesExpansionTileState extends State<ActivitesExpansionTile>
               isActivitesOpened = !isActivitesOpened;
             });
           },
-          trailing: SizedBox(
-            width: 65,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Provider.of<NewInboxProvider>(context).activites!.length == 0
-                    ? const SizedBox()
-                    : Center(
-                        child: Text(
-                          '${Provider.of<NewInboxProvider>(context).activites!.length}',
-                          style: TextStyle(
-                              color: !isActivitesOpened
-                                  ? Colors.grey
-                                  : primaryColor,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12.0),
-                  child: RotationTransition(
-                    turns: _animationController.drive(
-                      Tween<double>(
-                        begin: -0.25,
-                        end: 0.0,
-                      ).chain(_easeInTween),
-                    ),
-                    child: const Icon(
-                      Icons.expand_more,
-                      size: 30,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // trailing: SizedBox(
+          //   width: 65,
+          //   child: Row(
+          //     crossAxisAlignment: CrossAxisAlignment.end,
+          //     mainAxisAlignment: MainAxisAlignment.end,
+          //     children: [
+          //       Provider.of<NewInboxProvider>(context).activites!.length == 0
+          //           ? const SizedBox()
+          //           : Center(
+          //               child: Text(
+          //                 '${Provider.of<NewInboxProvider>(context).activites!.length}',
+          //                 style: TextStyle(
+          //                     color: !isActivitesOpened
+          //                         ? Colors.grey
+          //                         : primaryColor,
+          //                     fontSize: 17,
+          //                     fontWeight: FontWeight.w700),
+          //               ),
+          //             ),
+          //       Padding(
+          //         padding: const EdgeInsets.only(bottom: 12.0),
+          //         child: RotationTransition(
+          //           turns: _animationController.drive(
+          //             Tween<double>(
+          //               begin: -0.25,
+          //               end: 0.0,
+          //             ).chain(_easeInTween),
+          //           ),
+          //           child: const Icon(
+          //             Icons.expand_more,
+          //             size: 30,
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           textColor: const Color(0xff272727),
           tilePadding: const EdgeInsets.symmetric(horizontal: 30),
           initiallyExpanded: false,

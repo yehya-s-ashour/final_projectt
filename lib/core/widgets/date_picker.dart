@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
+import 'package:final_projectt/core/widgets/my_expansion_tile.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,17 +18,14 @@ class CustomDatePicker extends StatefulWidget {
 class _CustomDatePickerState extends State<CustomDatePicker>
     with SingleTickerProviderStateMixin {
   DateTime date = DateTime.now();
-  late AnimationController _animationController;
-  static final Animatable<double> _easeInTween =
-      CurveTween(curve: Curves.easeIn);
+  // late AnimationController _animationController;
+  // static final Animatable<double> _easeInTween =
+  //     CurveTween(curve: Curves.easeIn);
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
+
   }
 
   @override
@@ -45,26 +43,26 @@ class _CustomDatePickerState extends State<CustomDatePicker>
           data: Theme.of(context).copyWith(
             dividerColor: Colors.transparent,
           ),
-          child: ExpansionTile(
-            trailing: RotationTransition(
-              turns: _animationController.drive(
-                Tween<double>(
-                  begin: -0.25,
-                  end: 0.0,
-                ).chain(_easeInTween),
-              ),
-              child: const Icon(
-                Icons.expand_more,
-                size: 30,
-              ),
-            ),
+          child: MYExpansionTile(
+            // trailing: RotationTransition(
+            //   turns: _animationController.drive(
+            //     Tween<double>(
+            //       begin: -0.25,
+            //       end: 0.0,
+            //     ).chain(_easeInTween),
+            //   ),
+            //   child: const Icon(
+            //     Icons.expand_more,
+            //     size: 30,
+            //   ),
+            // ),
             onExpansionChanged: (value) {
               setState(() {
-                if (value) {
-                  _animationController.forward();
-                } else {
-                  _animationController.reverse();
-                }
+                // if (value) {
+                //   _animationController.forward();
+                // } else {
+                //   _animationController.reverse();
+                // }
                 Provider.of<NewInboxProvider>(context, listen: false)
                     .setIsDatePickerOpened(value);
               });

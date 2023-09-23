@@ -22,6 +22,7 @@ import 'package:final_projectt/models/tags_model.dart';
 import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -111,6 +112,24 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                   TextButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          isUploading = true;
+                        });
+                        isUploading
+                            ? showCupertinoDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) {
+                                  return Center(
+                                      child: SpinKitPulse(
+                                    duration: Duration(milliseconds: 1000),
+                                    color: Colors.white,
+                                    size: 40,
+                                  ));
+                                },
+                              )
+                            : null;
+
                         NewSender? newSender;
                         String? senderId;
                         if (selectedSender == null ||
@@ -146,25 +165,56 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               .date
                               .toString(),
                         );
-                        await uploadImages(
+                        final isUploaded = await uploadImages(
                             context, createMailResponse.mail!.id!);
 
-                        showAlert(context,
-                            message: 'Mail Created Successfully'.tr(),
-                            color: primaryColor.withOpacity(0.8),
-                            width: 230);
+                        if (isUploaded) {
+                          setState(() {
+                            isUploading = false;
+                          });
+                          setState(() {
+                            Provider.of<NewInboxProvider>(context,
+                                    listen: false)
+                                .clearImages();
+                            Provider.of<NewInboxProvider>(context,
+                                    listen: false)
+                                .senderName = '';
+                            Provider.of<NewInboxProvider>(context,
+                                    listen: false)
+                                .senderMobile = '';
+                            Provider.of<NewInboxProvider>(context,
+                                    listen: false)
+                                .activites = [];
+                            Provider.of<NewInboxProvider>(context,
+                                    listen: false)
+                                .isDatePickerOpened = false;
+                          });
+                          showAlert(context,
+                              message: 'Mail Created Successfully'.tr(),
+                              color: primaryColor.withOpacity(0.8),
+                              width: 230);
 
-                        selectedTags = [];
-                        getMails();
-                        final updateData = Provider.of<StatuseProvider>(context,
-                            listen: false);
-                        updateData.updatestutas();
+                          selectedTags = [];
+                          getMails();
+                          final updateData = Provider.of<StatuseProvider>(
+                              context,
+                              listen: false);
+                          updateData.updatestutas();
 
-                        Navigator.pushReplacement(context, MaterialPageRoute(
-                          builder: (context) {
-                            return const MainPage();
-                          },
-                        ));
+                          Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (context) {
+                              return const MainPage();
+                            },
+                          ));
+                        } else {
+                          showAlert(
+                            context,
+                            message: 'Something went wrong'.tr(),
+                            color: Colors.red,
+                            width: 230,
+                          );
+                          Navigator.pop(context);
+                        }
                       } else {
                         setState(() {
                           isValidationShown = true;
@@ -191,8 +241,18 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                           duration: const Duration(milliseconds: 300),
                           width: 400,
                           height: !isSenderNameFilled!
-                              ? (!isValidationShown ? 70 : 110)
-                              : (!isValidationShown ? 205 : 230),
+                              ? (!isValidationShown
+                                  ? context.locale.toString() == "ar"
+                                      ? 80
+                                      : 70
+                                  : context.locale.toString() == "ar"
+                                      ? 130
+                                      : 110)
+                              : (!isValidationShown
+                                  ? 225
+                                  : context.locale.toString() == "ar"
+                                      ? 265
+                                      : 230),
                           child: CustomWhiteBox(
                             width: 400,
                             height: 230,
@@ -416,7 +476,13 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
                           width: 400,
-                          height: isValidationShown ? 155 : 135,
+                          height: isValidationShown
+                              ? context.locale.toString() == "ar"
+                                  ? 180
+                                  : 155
+                              : context.locale.toString() == "ar"
+                                  ? 150
+                                  : 135,
                           child: CustomWhiteBox(
                             width: 378,
                             height: 155,
@@ -462,8 +528,14 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         AnimatedContainer(
                           height: Provider.of<NewInboxProvider>(context)
                                   .isDatePickerOpened
-                              ? 515.0
-                              : (isValidationShown ? 190 : 155),
+                              ? context.locale.toString() == "ar"
+                                  ? 550
+                                  : 515.0
+                              : (isValidationShown
+                                  ? context.locale.toString() == "ar"
+                                      ? 200
+                                      : 190
+                                  : 155),
                           duration: const Duration(milliseconds: 300),
                           child: CustomWhiteBox(
                             width: 378,
@@ -473,9 +545,12 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                               child: Column(
                                 children: [
                                   CustomDatePicker(),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 22.0, top: 10),
+
+                                  const Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 22.0, top: 10, right: 22),
+
+
                                     child: Row(
                                       children: [
                                         const Icon(
@@ -497,8 +572,13 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 65.0, right: 10),
+                                    padding: EdgeInsets.only(
+                                        left: context.locale.toString() == "ar"
+                                            ? 10
+                                            : 65.0,
+                                        right: context.locale.toString() == "ar"
+                                            ? 65.0
+                                            : 10),
                                     child: TextFormField(
                                       onChanged: (value) {
                                         Provider.of<NewInboxProvider>(context,
@@ -701,7 +781,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                         ),
                         CustomWhiteBox(
                           width: 378,
-                          height: 110,
+                          height: context.locale.toString() == "ar" ? 120 : 110,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -761,7 +841,9 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                             .imagesFiles
                                             .length) *
                                         55)
-                                : 75.0,
+                                : context.locale.toString() == "ar"
+                                    ? 85
+                                    : 75.0,
                             duration: const Duration(milliseconds: 300),
                             child: CustomWhiteBox(
                               width: 378,

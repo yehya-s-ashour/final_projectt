@@ -128,7 +128,6 @@ class _StatusScreenState extends State<StatusScreen> {
                                                     e.id.toString())
                                                 .map((mail) {
                                               return myCustomCard(mail, () {
-
                                                 showModalBottomSheet(
                                                   clipBehavior: Clip.hardEdge,
                                                   isScrollControlled: true,
