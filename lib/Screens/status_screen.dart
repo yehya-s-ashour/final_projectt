@@ -34,7 +34,6 @@ class _StatusScreenState extends State<StatusScreen> {
   @override
   void initState() {
     categories = getCatego();
-
     statusSingle = StatusController().fetchSingleStatuse(widget.idOfStatus);
     super.initState();
   }
@@ -143,6 +142,9 @@ class _StatusScreenState extends State<StatusScreen> {
                                                       (BuildContext context) {
                                                     return EditMailBottomSheet(
                                                       mail: mail,
+                                                      backScreen: widget
+                                                          .nameOfStatus
+                                                          .tr(),
                                                     );
                                                   },
                                                 ).whenComplete(
@@ -169,9 +171,7 @@ class _StatusScreenState extends State<StatusScreen> {
                                             }).toList()),
                                       );
                                     }
-                                    return SizedBox(
-                                      height: deviceHeight * 0.0000000000001,
-                                    );
+                                    return SizedBox.shrink();
                                   }).toList(),
                                 );
                               }

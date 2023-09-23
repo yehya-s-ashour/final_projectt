@@ -296,7 +296,7 @@ class _MainPageState extends State<MainPage> {
                                                   decoration: BoxDecoration(
                                                       borderRadius:
                                                           const BorderRadius
-                                                              .only(
+                                                                  .only(
                                                               topLeft: Radius
                                                                   .circular(15),
                                                               topRight: Radius
@@ -732,6 +732,7 @@ class _MainPageState extends State<MainPage> {
                                               builder: (BuildContext context) {
                                                 return EditMailBottomSheet(
                                                   mail: mail,
+                                                  backScreen: 'Home',
                                                 );
                                               },
                                             ).whenComplete(
@@ -751,6 +752,7 @@ class _MainPageState extends State<MainPage> {
                                                           context,
                                                           listen: false)
                                                       .deletedImages = [];
+                                                      
                                                 });
                                               },
                                             );
@@ -777,9 +779,6 @@ class _MainPageState extends State<MainPage> {
                                     height: 42,
                                   ),
                                 );
-
-                             
-
                               });
                         }).toList(),
                       ),
@@ -818,11 +817,15 @@ class _MainPageState extends State<MainPage> {
                                   padding: const EdgeInsets.only(left: 5.0),
                                   child: CustomWhiteBox(
                                     width: devicewidth * 0.9,
-                                    height:
-                                        (snapshot.data!.length / 3).ceil() * 46,
+                                    // height:
+                                    //     (snapshot.data!.length / 3).ceil() * 46,
                                     child: Padding(
                                       padding: const EdgeInsetsDirectional.only(
-                                          start: 8.0, top: 8),
+                                        start: 15.0,
+                                        top: 15,
+                                        end: 15,
+                                        bottom: 15,
+                                      ),
                                       child: Wrap(
                                         spacing: 10.0,
                                         runSpacing: 10.0,
@@ -892,12 +895,15 @@ class _MainPageState extends State<MainPage> {
                               ),
                             );
                           }),
+                      SizedBox(
+                        height: deviceHeight * 0.1,
+                      ),
                     ],
                   ),
                 ),
                 Padding(
-                  padding:
-                      EdgeInsets.only(top: deviceHeight - (deviceHeight * 0.1)),
+                  padding: EdgeInsets.only(
+                      top: deviceHeight - (deviceHeight * 0.09)),
                   child: GestureDetector(
                     onTap: () {
                       showModalBottomSheet(
@@ -933,7 +939,7 @@ class _MainPageState extends State<MainPage> {
                         },
                       );
                     },
-                    child: const MyFab(),
+                    child: MyFab(name: "New Inbox"),
                   ),
                 ),
               ],

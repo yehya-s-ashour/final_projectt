@@ -59,7 +59,7 @@ Container customBox({
 
 Container CustomWhiteBox(
     {required double width,
-    required double height,
+    double? height,
     required Widget child,
     double? margin}) {
   return Container(

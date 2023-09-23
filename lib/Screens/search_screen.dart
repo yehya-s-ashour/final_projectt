@@ -56,27 +56,6 @@ class _SearchScreenState extends State<SearchScreen> {
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
-              // Navigator.pushReplacement(
-              //     context,
-              //     PageRouteBuilder(
-              //       pageBuilder: (context, animation, secondaryAnimation) =>
-              //           const MainPage(),
-              //       transitionsBuilder:
-              //           (context, animation, secondaryAnimation, child) {
-              //         const begin = Offset(-1.0, 0.0);
-              //         const end = Offset.zero;
-              //         const curve = Curves.easeInOut;
-              //         var tween = Tween(begin: begin, end: end)
-              //             .chain(CurveTween(curve: curve));
-              //         var offsetAnimation = animation.drive(tween);
-
-              //         return SlideTransition(
-              //           position: offsetAnimation,
-              //           child: child,
-              //         );
-
-              //       },
-              //     ));
               Navigator.pop(context);
             },
             icon: const Icon(
@@ -84,134 +63,127 @@ class _SearchScreenState extends State<SearchScreen> {
               color: Color(0xff6589FF),
             )),
       ),
-      body: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Container(
-              margin: const EdgeInsets.all(8),
-              width: 325,
-              child: TextField(
-                onChanged: (value) {
-                  searchData = MySearchController().fetchSearchData(value,
-                      end: widget.endDate != null
-                          ? widget.endDate.toString()
-                          : "",
-                      start: widget.startDate != null
-                          ? widget.startDate.toString()
-                          : "",
-                      status_id: widget.statuId != null
-                          ? widget.statuId.toString()
-                          : "");
-                  setState(() {});
-                },
-                controller: searchController,
-                autofocus: false,
-                decoration: InputDecoration(
-                  filled: true,
-                  prefixIcon: const Icon(Icons.search_rounded),
-
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        searchController.clear();
-                      });
-                    },
-                    icon: const Icon(Icons.cancel),
-                  ),
-                  // suffixIcon: GestureDetector(
-                  //   onTap: () {
-                  //     searchController.clear();
-                  //     setState(() {});
-                  //   },
-                  //   child: Container(
-                  //       margin: const EdgeInsets.all(12),
-                  //       decoration: const BoxDecoration(
-                  //           color: Color(0xffAFAFAF), shape: BoxShape.circle),
-                  //       child: const Icon(
-                  //         Icons.clear,
-                  //         color: Color(0xffE6E6E6),
-                  //         size: 20,
-                  //       )),
-                  // ),
-                  fillColor: const Color(0xffE6E6E6),
-                  hintText: "Search".tr(),
-                  hintStyle: const TextStyle(
-                    color: Colors.grey,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: backGroundColor),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: backGroundColor),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Column(children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                margin: const EdgeInsets.all(8),
+                width: 325,
+                child: TextField(
+                  onChanged: (value) {
+                    searchData = MySearchController().fetchSearchData(value,
+                        end: widget.endDate != null
+                            ? widget.endDate.toString()
+                            : "",
+                        start: widget.startDate != null
+                            ? widget.startDate.toString()
+                            : "",
+                        status_id: widget.statuId != null
+                            ? widget.statuId.toString()
+                            : "");
+                    setState(() {});
+                  },
+                  controller: searchController,
+                  autofocus: false,
+                  decoration: InputDecoration(
+                    filled: true,
+                    prefixIcon: const Icon(Icons.search_rounded),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          searchController.clear();
+                        });
+                      },
+                      icon: const Icon(Icons.cancel),
+                    ),
+                    fillColor: const Color(0xffE6E6E6),
+                    hintText: "Search".tr(),
+                    hintStyle: const TextStyle(
+                      color: Colors.grey,
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: backGroundColor),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      borderSide: BorderSide(color: backGroundColor),
+                    ),
                   ),
                 ),
               ),
-            ),
-            IconButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                      clipBehavior: Clip.hardEdge,
-                      isScrollControlled: true,
-                      context: context,
-                      builder: (BuildContext context) {
-                        return FilterBottomSheet(
-                          textSearch: searchController.text,
-                        );
-                      });
-                },
-                icon: const Icon(
-                  Icons.filter_alt_outlined,
-                  size: 25,
-                  color: Color(0xff6589FF),
-                ))
-          ],
-        ),
-        Expanded(
-            child: searchController.text.isNotEmpty
-                ? FutureBuilder(
-                    future: searchData,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return snapshot.data!.mails!.isNotEmpty
-                            ? ListView.builder(
-                                itemCount: snapshot.data!.mails?.length,
-                                physics: const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return myCustomCard(
-                                      snapshot.data!.mails![index], () {
-                                    showModalBottomSheet(
-                                      clipBehavior: Clip.hardEdge,
-                                      isScrollControlled: true,
-                                      context: context,
-                                      shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(15.0),
-                                      )),
-                                      builder: (BuildContext context) {
-                                        return EditMailBottomSheet(
-                                          mail: snapshot.data!.mails![index],
-                                        );
-                                      },
-                                    ).whenComplete(
-                                      () {
-                                        setState(() {
-                                          Provider.of<NewInboxProvider>(context,
-                                                  listen: false)
-                                              .clearImages();
+              IconButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        clipBehavior: Clip.hardEdge,
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return FilterBottomSheet(
+                            textSearch: searchController.text,
+                          );
+                        });
+                  },
+                  icon: const Icon(
+                    Icons.filter_alt_outlined,
+                    size: 25,
+                    color: Color(0xff6589FF),
+                  ))
+            ],
+          ),
+          Expanded(
+              child: searchController.text.isNotEmpty
+                  ? FutureBuilder(
+                      future: searchData,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return snapshot.data!.mails!.isNotEmpty
+                              ? ListView.builder(
+                                  itemCount: snapshot.data!.mails?.length,
+                                  physics: const BouncingScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return myCustomCard(
+                                        snapshot.data!.mails![index], () {
+                                      showModalBottomSheet(
+                                        clipBehavior: Clip.hardEdge,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(15.0),
+                                        )),
+                                        builder: (BuildContext context) {
+                                          return EditMailBottomSheet(
+                                            mail: snapshot.data!.mails![index],
+                                            backScreen: 'Search',
+                                          );
+                                        },
+                                      ).whenComplete(
+                                        () {
+                                          setState(() {
+                                            Provider.of<NewInboxProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .clearImages();
 
-                                          Provider.of<NewInboxProvider>(context,
-                                                  listen: false)
-                                              .activites = [];
+                                            Provider.of<NewInboxProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .activites = [];
 
-                                          Provider.of<NewInboxProvider>(context,
-                                                  listen: false)
-                                              .deletedImages = [];
-                                        });
-                                      },
-                                    );
+                                            Provider.of<NewInboxProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .deletedImages = [];
+                                          });
+                                        },
+                                      );
+
 
                                     ;
                                   });
@@ -241,7 +213,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       );
                     })
                 : const Center()),
-      ]),
+        ]),
+      ),
     );
   }
 }

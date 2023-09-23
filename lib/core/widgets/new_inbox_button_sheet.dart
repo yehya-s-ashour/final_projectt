@@ -560,7 +560,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                           width: 20,
                                         ),
                                         Text('Archive number'.tr(),
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               color: Colors.black,
                                               fontFamily: 'Iphone',
                                               fontSize: 18,
