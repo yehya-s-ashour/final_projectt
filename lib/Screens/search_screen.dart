@@ -5,10 +5,10 @@ import 'package:final_projectt/core/widgets/card.dart';
 import 'package:final_projectt/core/widgets/edit_mail_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/filter_bottom_sheet.dart';
 import 'package:final_projectt/models/search_model.dart';
-import 'package:final_projectt/providers/new_inbox_provider.dart';
+//import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   final String? text;
@@ -104,29 +104,34 @@ class _SearchScreenState extends State<SearchScreen> {
                   setState(() {});
                 },
                 controller: searchController,
-                autofocus: true,
+                autofocus: false,
                 decoration: InputDecoration(
                   filled: true,
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    color: Colors.grey,
-                    size: 24.0,
-                  ),
-                  suffixIcon: GestureDetector(
-                    onTap: () {
-                      searchController.clear();
-                      setState(() {});
+                  prefixIcon: const Icon(Icons.search_rounded),
+
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        searchController.clear();
+                      });
                     },
-                    child: Container(
-                        margin: const EdgeInsets.all(12),
-                        decoration: const BoxDecoration(
-                            color: Color(0xffAFAFAF), shape: BoxShape.circle),
-                        child: const Icon(
-                          Icons.clear,
-                          color: Color(0xffE6E6E6),
-                          size: 20,
-                        )),
+                    icon: const Icon(Icons.cancel),
                   ),
+                  // suffixIcon: GestureDetector(
+                  //   onTap: () {
+                  //     searchController.clear();
+                  //     setState(() {});
+                  //   },
+                  //   child: Container(
+                  //       margin: const EdgeInsets.all(12),
+                  //       decoration: const BoxDecoration(
+                  //           color: Color(0xffAFAFAF), shape: BoxShape.circle),
+                  //       child: const Icon(
+                  //         Icons.clear,
+                  //         color: Color(0xffE6E6E6),
+                  //         size: 20,
+                  //       )),
+                  // ),
                   fillColor: const Color(0xffE6E6E6),
                   hintText: "Search".tr(),
                   hintStyle: const TextStyle(
@@ -312,7 +317,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 })
                             : Center(
                                 child: Text(
-                                    "There are no emails on this data (${searchController.text})"),
+                                    "There are no emails containing this data"),
                               );
                       }
                       if (snapshot.hasError) {
