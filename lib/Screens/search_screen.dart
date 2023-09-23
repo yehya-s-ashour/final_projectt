@@ -184,28 +184,35 @@ class _SearchScreenState extends State<SearchScreen> {
                                         },
                                       );
 
-                                      ;
-                                    });
-                                  })
-                              : Center(
-                                  child: Text(
-                                      "There are no emails containing this data"),
-                                );
-                        }
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text(snapshot.error.toString()),
-                          );
-                        }
-                        return const Center(
-                          child: SpinKitPulse(
-                            duration: Duration(milliseconds: 1000),
-                            color: Colors.grey,
-                            size: 40,
-                          ),
+
+                                    ;
+                                  });
+                                })
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      width: 200,
+                                      child: Image.asset(
+                                          "images/result_not_found.png")),
+                                ],
+                              );
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text(snapshot.error.toString()),
                         );
-                      })
-                  : const Center()),
+                      }
+                      return const Center(
+                        child: SpinKitPulse(
+                          duration: Duration(milliseconds: 1000),
+                          color: Colors.grey,
+                          size: 40,
+                        ),
+                      );
+                    })
+                : const Center()),
         ]),
       ),
     );
