@@ -15,6 +15,7 @@ import 'package:final_projectt/providers/all_user_provider.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'dart:async';
@@ -261,18 +262,34 @@ class _MainPageState extends State<MainPage> {
                                             ));
                                       } else {
                                         // ignore: use_build_context_synchronously
-                                        showDialog(
+                                        showCupertinoDialog(
+                                            barrierDismissible: true,
                                             context: context,
                                             builder: (BuildContext context) {
                                               return AlertDialog(
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            32.0)),
+                                                            15.0)),
                                                 titlePadding:
                                                     const EdgeInsets.all(0),
                                                 contentPadding:
-                                                    const EdgeInsets.all(16),
+                                                    const EdgeInsets.only(
+                                                        left: 20,
+                                                        right: 20,
+                                                        top: 15,
+                                                        bottom: 15),
+                                                content: SizedBox(
+                                                  width: 100,
+                                                  child: Text(
+                                                    "Contact with the admin to get an access"
+                                                        .tr(),
+                                                    textAlign: TextAlign.center,
+                                                    style: const TextStyle(
+                                                        fontSize: 18),
+                                                  ),
+                                                ),
+                                                actionsPadding: EdgeInsets.zero,
                                                 title: Container(
                                                   padding: const EdgeInsets
                                                       .symmetric(vertical: 24),
@@ -281,20 +298,20 @@ class _MainPageState extends State<MainPage> {
                                                           const BorderRadius
                                                                   .only(
                                                               topLeft: Radius
-                                                                  .circular(32),
+                                                                  .circular(15),
                                                               topRight: Radius
                                                                   .circular(
-                                                                      32)),
+                                                                      15)),
                                                       color: primaryColor),
                                                   child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
                                                     children: [
                                                       Text(
                                                         "Entry is restricted"
                                                             .tr(),
                                                         style: const TextStyle(
-                                                            fontSize: 24,
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.w600,
                                                             color:
                                                                 Colors.white),
                                                       ),
@@ -312,18 +329,43 @@ class _MainPageState extends State<MainPage> {
                                                     ],
                                                   ),
                                                 ),
-                                                content: Text(
-                                                  "Please check with the admin to obtain access permission"
-                                                      .tr(),
-                                                  style: const TextStyle(
-                                                      fontSize: 20),
-                                                ),
                                                 actions: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.pop(context);
-                                                      },
-                                                      child: Text("OK".tr()))
+                                                  Column(
+                                                    children: [
+                                                      Container(
+                                                        width: double.infinity,
+                                                        height: 1,
+                                                        color: Colors.black26,
+                                                      ),
+                                                      Row(
+                                                        children: [
+                                                          Expanded(
+                                                            child: TextButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: Text(
+                                                                'Ok',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color:
+                                                                      primaryColor,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontSize: 16,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  )
                                                 ],
                                               );
                                             });
@@ -718,7 +760,22 @@ class _MainPageState extends State<MainPage> {
                                     ),
                                   );
                                 }
-                                return SizedBox.shrink();
+                                return Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                      top: 18,
+                                      left: 18,
+                                      right: 18,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    height: 42,
+                                  ),
+                                );
                               });
                         }).toList(),
                       ),

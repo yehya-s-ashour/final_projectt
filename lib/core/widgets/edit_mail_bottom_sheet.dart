@@ -21,8 +21,10 @@ import 'package:final_projectt/models/tags_model.dart';
 import 'package:final_projectt/models/user_model.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/status_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/rendering.dart';
@@ -55,6 +57,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
   late UserModel user;
   late String category = 'Other';
   DateTime? date;
+  bool isUploading = false;
   bool isValidationShown = false;
   late StatusMod selectedStatus = StatusMod(
       id: 1,
@@ -231,13 +234,32 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                             rightChoiceColor: primaryColor,
                             leftChoiceColor: Colors.red,
                             rightOnPressed: () async {
-                              Provider.of<NewInboxProvider>(context,
+                              setState(() {
+                                isUploading = true;
+                              });
+                              isUploading
+                                  ? showCupertinoDialog(
+                                      barrierDismissible: false,
+                                      context: context,
+                                      builder: (context) {
+                                        return Center(
+                                            child: SpinKitPulse(
+                                          duration:
+                                              Duration(milliseconds: 1000),
+                                          color: Colors.white,
+                                          size: 40,
+                                        ));
+                                      },
+                                    )
+                                  : null;
+                              final isUploaded = (Provider.of<NewInboxProvider>(
+                                          context,
                                           listen: false)
                                       .imagesFiles
                                       .isNotEmpty
                                   ? await uploadImages(context, widget.mail.id!)
-                                  : null;
-                              await updateMail(
+                                  : null);
+                              final isUpdated = await updateMail(
                                 mailId: widget.mail.id,
                                 idAttachmentsForDelete:
                                     Provider.of<NewInboxProvider>(context,
@@ -263,27 +285,36 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                 tags:
                                     selectedTags.map((tag) => tag.id).toList(),
                               );
-
-                              showAlert(
-                                context,
-                                message: 'Mail Updated Successfully'.tr(),
-                                color: primaryColor.withOpacity(0.8),
-                                width: 230,
-                              );
-
-                              selectedTags = [];
-
-                              final updateData = Provider.of<StatuseProvider>(
+                              if (isUploaded! && isUpdated) {
+                                showAlert(
                                   context,
-                                  listen: false);
-                              updateData.updatestutas();
+                                  message: 'Mail Updated Successfully'.tr(),
+                                  color: primaryColor.withOpacity(0.8),
+                                  width: 230,
+                                );
 
-                              Navigator.of(context)
-                                  .pushReplacement(MaterialPageRoute(
-                                builder: (context) {
-                                  return const MainPage();
-                                },
-                              ));
+                                selectedTags = [];
+
+                                final updateData = Provider.of<StatuseProvider>(
+                                    context,
+                                    listen: false);
+                                updateData.updatestutas();
+
+                                Navigator.of(context)
+                                    .pushReplacement(MaterialPageRoute(
+                                  builder: (context) {
+                                    return const MainPage();
+                                  },
+                                ));
+                              } else {
+                                showAlert(
+                                  context,
+                                  message: 'Something went wrong'.tr(),
+                                  color: Colors.red,
+                                  width: 230,
+                                );
+                                Navigator.pop(context);
+                              }
                             },
                             leftOnPressed: () {
                               Navigator.pop(context);

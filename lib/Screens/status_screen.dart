@@ -8,7 +8,9 @@ import 'package:final_projectt/core/widgets/my_expansion_tile.dart';
 import 'package:final_projectt/models/catego_model.dart';
 
 import 'package:final_projectt/models/status_single.dart';
+import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class StatusScreen extends StatefulWidget {
@@ -126,7 +128,6 @@ class _StatusScreenState extends State<StatusScreen> {
                                                     e.id.toString())
                                                 .map((mail) {
                                               return myCustomCard(mail, () {
-
                                                 showModalBottomSheet(
                                                   clipBehavior: Clip.hardEdge,
                                                   isScrollControlled: true,

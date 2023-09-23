@@ -76,7 +76,7 @@ Future<MailModel> newInbox({
   return MailModel.fromJson(response[1]);
 }
 
-Future<void> updateMail({
+Future<bool> updateMail({
   int? mailId,
   String? statusId,
   String? decision,
@@ -87,21 +87,32 @@ Future<void> updateMail({
   List<Map<String, dynamic>>? activities,
 }) async {
   final String token = await getToken();
-  // final ApiBaseHelper helper = ApiBaseHelper();
-  final response = await http.put(Uri.parse('$baseUrl/mails/$mailId'), body: {
-    "pathAttachmentsForDelete": jsonEncode(pathAttachmentsForDelete),
-    "idAttachmentsForDelete": jsonEncode(idAttachmentsForDelete),
-    "decision": decision,
-    "status_id": statusId,
-    "final_decision": finalDecision,
-    "tags": jsonEncode(tags),
-    "activities": jsonEncode(activities),
-  }, headers: {
-    'Authorization': 'Bearer $token',
-    'Accept': 'application/json',
-  });
 
-  // return MailModel.fromJson(response[1]);
+  try {
+    final response = await http.put(Uri.parse('$baseUrl/mails/$mailId'), body: {
+      "pathAttachmentsForDelete": jsonEncode(pathAttachmentsForDelete),
+      "idAttachmentsForDelete": jsonEncode(idAttachmentsForDelete),
+      "decision": decision,
+      "status_id": statusId,
+      "final_decision": finalDecision,
+      "tags": jsonEncode(tags),
+      "activities": jsonEncode(activities),
+    }, headers: {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+    });
+
+    if (response.statusCode == 200) {
+      // Update was successful, return true
+      return true;
+    } else {
+      // Update failed, return false
+      return false;
+    }
+  } catch (error) {
+    // An error occurred, return false
+    return false;
+  }
 }
 
 Future<List<TagElement>> getAllTags() async {
@@ -135,13 +146,19 @@ Future<int> uploadImage(File file, mailId) async {
   return response.statusCode;
 }
 
-Future<void>? uploadImages(BuildContext context, int mailId) {
+Future<bool> uploadImages(BuildContext context, int mailId) async {
   final imagesProvider =
       Provider.of<NewInboxProvider>(context, listen: false).imagesFiles;
+
   for (int i = 0; i < imagesProvider.length; i++) {
-    uploadImage(File(imagesProvider[i]!.path), mailId);
+    final statusCode = await uploadImage(File(imagesProvider[i]!.path), mailId);
+
+    if (statusCode != 200) {
+      return false;
+    }
   }
-  return null;
+
+  return true;
 }
 
 Future<NewSender>? createSender({
@@ -162,6 +179,6 @@ Future<NewSender>? createSender({
     'Accept': 'application/json',
     'Authorization': 'Bearer $token'
   });
-
+  print(response.body);
   return NewSender.fromJson(json.decode(response.body));
 }

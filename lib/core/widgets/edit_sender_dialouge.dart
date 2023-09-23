@@ -175,52 +175,108 @@ class _EditSenderDialougeState extends State<EditSenderDialouge> {
         SizedBox(
           height: 10,
         ),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.end,
+        Column(
           children: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'Cancel',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 17,
+            Container(
+              width: double.infinity,
+              height: 1,
+              color: Colors.grey.shade300,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 7,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Cancel',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            TextButton(
-              onPressed: () async {
-                updateSender(
-                  categoryId: selectedCategory.id.toString(),
-                  mobile: senderMobileCont.text,
-                  name: senderNameCont.text,
-                  senderId: widget.sender.id,
-                ).then(widget.dotThen);
-              },
-              child: const Text(
-                'OK',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 17,
+                Container(
+                  width: 1,
+                  height: 50,
+                  color: Colors.grey.shade300,
                 ),
-              ),
+                Expanded(
+                  flex: 7,
+                  child: TextButton(
+                    onPressed: () async {
+                      updateSender(
+                        categoryId: selectedCategory.id.toString(),
+                        mobile: senderMobileCont.text,
+                        name: senderNameCont.text,
+                        senderId: widget.sender.id,
+                      ).then(widget.dotThen);
+                    },
+                    child: Text(
+                      'Update',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(
-              width: 10,
-            )
           ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
+        )
+        // Row(
+        //   crossAxisAlignment: CrossAxisAlignment.end,
+        //   mainAxisAlignment: MainAxisAlignment.end,
+        //   children: [
+        //     TextButton(
+        //       onPressed: () {
+        //         Navigator.pop(context);
+        //       },
+        //       child: const Text(
+        //         'Cancel',
+        //         style: TextStyle(
+        //           color: Colors.black,
+        //           fontWeight: FontWeight.w500,
+        //           fontSize: 17,
+        //         ),
+        //       ),
+        //     ),
+        //     SizedBox(
+        //       width: 10,
+        //     ),
+        //     TextButton(
+        //       onPressed: () async {
+        //         updateSender(
+        //           categoryId: selectedCategory.id.toString(),
+        //           mobile: senderMobileCont.text,
+        //           name: senderNameCont.text,
+        //           senderId: widget.sender.id,
+        //         ).then(widget.dotThen);
+        //       },
+        //       child: const Text(
+        //         'OK',
+        //         style: TextStyle(
+        //           color: Colors.black,
+        //           fontWeight: FontWeight.w500,
+        //           fontSize: 17,
+        //         ),
+        //       ),
+        //     ),
+        //     SizedBox(
+        //       width: 10,
+        //     )
+        //   ],
+        // ),
+        ,
       ],
     );
   }

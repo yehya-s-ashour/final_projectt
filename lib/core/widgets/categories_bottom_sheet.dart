@@ -106,6 +106,11 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
                                     children: [
                                       Row(
                                         children: [
+                                          context.locale.toString() == "ar"
+                                              ? SizedBox(
+                                                  width: 20,
+                                                )
+                                              : SizedBox.shrink(),
                                           Text(
                                             '${snapshot.data![index].name}',
                                             style:
@@ -148,10 +153,17 @@ class _categoriesBottomSheetState extends State<categoriesBottomSheet> {
                   return Text(snapshot.error.toString());
                 }
                 return const Center(
-                  child: SpinKitPulse(
-                    duration: Duration(milliseconds: 1000),
-                    color: Colors.grey,
-                    size: 40,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 250,
+                      ),
+                      SpinKitPulse(
+                        duration: Duration(milliseconds: 1000),
+                        color: Colors.grey,
+                        size: 40,
+                      ),
+                    ],
                   ),
                 );
               }),
