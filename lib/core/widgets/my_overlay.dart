@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:final_projectt/Screens/splash_screen.dart';
+import 'package:final_projectt/Screens/login_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';
 import 'package:flutter/material.dart';
@@ -78,20 +78,6 @@ void showOverlay(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.end,
-                    //   children: [
-                    //     TextButton(
-                    //       onPressed: () {
-                    //         hideOverlay();
-                    //       },
-                    //       child: const Icon(
-                    //         Icons.arrow_forward_ios,
-                    //         color: Colors.grey,
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
                     Container(
                       padding: const EdgeInsets.all(4),
                       margin: const EdgeInsets.only(bottom: 8, top: 24),
@@ -172,7 +158,7 @@ void showOverlay(
 
                           Navigator.pushReplacement(context, MaterialPageRoute(
                             builder: (context) {
-                              return const SplashScreen();
+                              return const LoginScreen();
                             },
                           ));
                           //  }
