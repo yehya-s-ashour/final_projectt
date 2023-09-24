@@ -101,7 +101,7 @@ Widget myCustomCard(Mail mail, VoidCallback onTap) {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                            'https://palmail.gsgtt.tech/storage/$path',
+                            'https://palmail.gsgtt.tech/storage/$path' ,
                           ),
                         ),
                         borderRadius: BorderRadius.circular(10),

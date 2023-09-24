@@ -75,33 +75,34 @@ class _SendersScreenState extends State<SendersScreen> {
                     top: 40, start: 15, end: 15),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pop(_scaffoldKey.currentContext!);
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: primaryColor,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(_scaffoldKey.currentContext!);
+                            },
+                            icon: Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: primaryColor,
+                            ),
                           ),
-                        ),
-                        Text(
-                          "Senders".tr(),
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
+                          Text(
+                            "Senders".tr(),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.arrow_back_ios_new_rounded,
+                          Icon(
+                            Icons.add,
                             color: Colors.transparent,
+                            size: 30,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Padding(
                       padding:

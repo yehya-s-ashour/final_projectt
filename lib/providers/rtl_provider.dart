@@ -5,6 +5,7 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 class RTLPro extends ChangeNotifier {
   bool rtlOpening = false;
   bool isExpanded = false;
+  
   // AdvancedDrawerController advancedDrawerController =
   //     AdvancedDrawerController();
 
