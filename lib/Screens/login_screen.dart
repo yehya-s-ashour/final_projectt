@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:final_projectt/Screens/complete_registeration.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
 import 'package:final_projectt/core/services/auth_controller.dart';
+import 'package:final_projectt/core/services/user_controller.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/models/user_model.dart';
@@ -31,6 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passController = TextEditingController();
   TextEditingController confirmPassController = TextEditingController();
   bool isAuthing = false;
+  late Future<UserModel> user;
+  late bool isImageNull;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   String? nullableValue = 'Login'.tr();
@@ -108,10 +112,14 @@ class _LoginScreenState extends State<LoginScreen> {
             'user', userToJson(UserModel.fromJson(response[1])));
         Provider.of<StatuseProvider>(context, listen: false).updatestutas();
         Provider.of<UserProvider>(context, listen: false).getUserData();
+        user = UserController().getLocalUser();
+        user.then((userData) {
+          isImageNull = userData.user.image == null;
+        });
 
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
-            return const MainPage();
+            return isImageNull ? CompleteRegisteration() : MainPage();
           },
         ));
       }).catchError((err) async {

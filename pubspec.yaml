@@ -113,6 +113,10 @@ flutter:
     - family : IphoneAr
       fonts:
         - asset: fonts/ArabicMedium.otf
+
+    - family : Arvo
+      fonts:
+        - asset: fonts/Arvo-Bold.ttf
                   
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

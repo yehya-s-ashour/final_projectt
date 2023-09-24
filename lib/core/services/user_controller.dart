@@ -1,10 +1,7 @@
 import 'dart:convert';
 
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
-import 'package:final_projectt/core/util/constants/end_points.dart';
 import 'package:final_projectt/models/user_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class UserController {
   Future<UserModel> getLocalUser() async {

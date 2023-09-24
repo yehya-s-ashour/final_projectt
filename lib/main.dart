@@ -1,3 +1,4 @@
+import 'package:final_projectt/Screens/complete_registeration.dart';
 import 'package:final_projectt/providers/all_user_provider.dart';
 import 'package:final_projectt/providers/new_inbox_provider.dart';
 import 'package:final_projectt/providers/rtl_provider.dart';

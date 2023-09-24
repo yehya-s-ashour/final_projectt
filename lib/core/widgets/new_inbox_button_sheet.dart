@@ -250,7 +250,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       ? 130
                                       : 110)
                               : (!isValidationShown
-                                  ? 225
+                                  ? 210
                                   : context.locale.toString() == "ar"
                                       ? 265
                                       : 230),

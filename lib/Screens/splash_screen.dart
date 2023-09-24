@@ -1,7 +1,10 @@
+import 'package:final_projectt/Screens/complete_registeration.dart';
 import 'package:final_projectt/Screens/home.dart';
 import 'package:final_projectt/Screens/login_screen.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
+import 'package:final_projectt/core/services/user_controller.dart';
+import 'package:final_projectt/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -12,6 +15,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late Future<UserModel> user;
+  late bool isImageNull;
   void navigateToHome() async {
     await Future.delayed(const Duration(seconds: 2));
     SharedPrefsController _prefs = SharedPrefsController();
@@ -21,7 +26,9 @@ class _SplashScreenState extends State<SplashScreen> {
       if (containsKey) {
         await Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MainPage()),
+          MaterialPageRoute(
+              builder: (context) =>
+                  isImageNull ? CompleteRegisteration() : MainPage()),
         );
       } else {
         await Navigator.push(
@@ -32,9 +39,18 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  isFirstLogin() async {
+    user = UserController().getLocalUser();
+    user.then((userData) {
+      isImageNull = userData.user.image == null;
+    });
+  }
+
   @override
   void initState() {
+    isFirstLogin();
     navigateToHome();
+
     super.initState();
   }
 
