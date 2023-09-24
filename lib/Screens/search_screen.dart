@@ -184,35 +184,31 @@ class _SearchScreenState extends State<SearchScreen> {
                                         },
                                       );
 
-
-                                    ;
-                                  });
-                                })
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
+                                      ;
+                                    });
+                                  })
+                              : Center(
+                                  child: Container(
                                       width: 200,
+                                      alignment: Alignment.center,
                                       child: Image.asset(
                                           "images/result_not_found.png")),
-                                ],
-                              );
-                      }
-                      if (snapshot.hasError) {
-                        return Center(
-                          child: Text(snapshot.error.toString()),
+                                );
+                        }
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text(snapshot.error.toString()),
+                          );
+                        }
+                        return const Center(
+                          child: SpinKitPulse(
+                            duration: Duration(milliseconds: 1000),
+                            color: Colors.grey,
+                            size: 40,
+                          ),
                         );
-                      }
-                      return const Center(
-                        child: SpinKitPulse(
-                          duration: Duration(milliseconds: 1000),
-                          color: Colors.grey,
-                          size: 40,
-                        ),
-                      );
-                    })
-                : const Center()),
+                      })
+                  : const Center()),
         ]),
       ),
     );
