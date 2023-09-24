@@ -27,6 +27,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   int initialLabelIndex = 0;
+  late bool hasCompletedRegistration;
   final _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailOrUserNameController = TextEditingController();
@@ -76,7 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
               color: Colors.grey,
               width: 300);
           _formKey.currentState!.reset();
-          Navigator.pushReplacement(context, MaterialPageRoute(
+          hasCompletedRegistration = true;
+          Navigator.push(context, MaterialPageRoute(
             builder: (context) {
               return const LoginScreen();
             },
@@ -114,9 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
         Provider.of<UserProvider>(context, listen: false).getUserData();
         user = UserController().getLocalUser();
         user.then((userData) {
-          isImageNull = userData.user.image == null;
+          isImageNull = (userData.user.image == null);
         });
-
         Navigator.pushReplacement(context, MaterialPageRoute(
           builder: (context) {
             return isImageNull ? CompleteRegisteration() : MainPage();

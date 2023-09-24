@@ -214,8 +214,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     return Text(snapshot.error.toString());
                   }
                   if (snapshot.hasData) {
-                    // print('the snapshot image : ${snapshot.data!.user.image}');
-                    // path = snapshot.data!.user.image!;
                     return Center(
                       child: Stack(
                         alignment: Alignment.bottomRight,
@@ -246,12 +244,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           backgroundColor: Colors.transparent,
                                           radius: 98,
                                           backgroundImage: pickedFile == null
-                                              ? NetworkImage(
-                                                  'https://palmail.gsgtt.tech/storage/${snapshot.data!.user.image}',
-                                                )
+                                              ? snapshot.data!.user.image !=
+                                                      null
+                                                  ? NetworkImage(
+                                                      'https://palmail.gsgtt.tech/storage/${snapshot.data!.user.image}',
+                                                    )
+                                                  : AssetImage(
+                                                      'images/profile.png',
+                                                    ) as ImageProvider<Object>
                                               : FileImage(
                                                   File(pickedFile!.path),
-                                                ) as ImageProvider<Object>,
+                                                ),
                                         ),
                                       ],
                                     ),

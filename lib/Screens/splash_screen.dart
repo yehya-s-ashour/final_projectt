@@ -1,5 +1,3 @@
-import 'package:final_projectt/Screens/complete_registeration.dart';
-import 'package:final_projectt/Screens/home.dart';
 import 'package:final_projectt/Screens/login_screen.dart';
 import 'package:final_projectt/Screens/main_screen.dart';
 import 'package:final_projectt/core/helpers/shared_prefs.dart';
@@ -26,9 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
       if (containsKey) {
         await Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  isImageNull ? CompleteRegisteration() : MainPage()),
+          MaterialPageRoute(builder: (context) => MainPage()),
         );
       } else {
         await Navigator.push(
