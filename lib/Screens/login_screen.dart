@@ -210,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   value.toString() == "تسجيل الدخول") {
                                 initialLabelIndex = 0;
                               } else if (value.toString() == 'Sign up' ||
-                                  value.toString() == "انشاء حساب") {
+                                  value.toString() == "إنشاء حساب") {
                                 initialLabelIndex = 1;
                               }
                             });

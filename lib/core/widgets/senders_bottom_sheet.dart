@@ -108,7 +108,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                       alignment: Alignment.centerLeft),
                   onPressed: () => Navigator.pop(context),
                   child: Text(
-                    'cancel'.tr(),
+                    'cancle'.tr(),
                     style: TextStyle(
                       color: primaryColor,
                       fontSize: 20,
@@ -238,7 +238,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                     start: 5,
                                   ),
                                   child: Text(
-                                    category,
+                                    category.tr(),
                                     style: const TextStyle(
                                       fontSize: 19,
                                       fontWeight: FontWeight.w600,

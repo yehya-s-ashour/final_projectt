@@ -536,7 +536,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                   ? context.locale.toString() == "ar"
                                       ? 200
                                       : 190
-                                  : 155),
+                                  : 165),
                           duration: const Duration(milliseconds: 300),
                           child: CustomWhiteBox(
                             width: 378,

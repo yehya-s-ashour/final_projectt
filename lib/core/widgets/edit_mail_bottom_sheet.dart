@@ -230,10 +230,10 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                         onTap: () async {
                           myCustomDialouge(
                             context: context,
-                            title: 'Update mail?',
-                            content: 'Do you want to update this mail?',
-                            leftChoice: 'Cancel',
-                            rightChoice: 'Update',
+                            title: 'Update mail?'.tr(),
+                            content: 'Do you want to update this mail?'.tr(),
+                            leftChoice: 'cancle'.tr(),
+                            rightChoice: 'Update'.tr(),
                             rightChoiceColor: primaryColor,
                             leftChoiceColor: Colors.red,
                             rightOnPressed: () async {
@@ -341,7 +341,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                               size: 15,
                             ),
                             Text(
-                              widget.backScreen,
+                              widget.backScreen.tr(),
                               style: TextStyle(
                                 fontSize: 17,
                                 color: primaryColor,
@@ -369,10 +369,10 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                               onDelete: () {
                                 myCustomDialouge(
                                   context: context,
-                                  title: 'Delete mail?',
-                                  content: 'Do you want to delete this mail?',
-                                  leftChoice: 'Cancel',
-                                  rightChoice: 'Delete',
+                                  title: 'Delete mail?'.tr(),
+                                  content: 'Do you want to delete this mail?'.tr(),
+                                  leftChoice: 'cancle'.tr(),
+                                  rightChoice: 'Delete'.tr(),
                                   rightOnPressed: () async {
                                     setState(() {
                                       isDeleting = true;
@@ -680,7 +680,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                       status: StatusMod(
                                         color: widget.mail.status!.color,
                                         id: this.selectedStatus.id,
-                                        name: widget.mail.status!.name,
+                                        name: widget.mail.status!.name!.tr(),
                                       ),
                                     );
                                   },
@@ -737,7 +737,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                                   BorderRadius.circular(30),
                                             ),
                                             child: Text(
-                                              '${selectedStatus.name}',
+                                              '${selectedStatus.name!.tr()}',
                                               style: const TextStyle(
                                                   fontSize: 17,
                                                   color: Colors.white),
