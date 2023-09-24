@@ -25,7 +25,6 @@ class _CustomDatePickerState extends State<CustomDatePicker>
   @override
   void initState() {
     super.initState();
-
   }
 
   @override
@@ -87,7 +86,7 @@ class _CustomDatePickerState extends State<CustomDatePicker>
                     style: const TextStyle(
                         color: Colors.black,
                         fontFamily: 'Iphone',
-                        fontSize: 19),
+                        fontSize: 18),
                   ),
                   Text(
                     context.locale.toString() == 'en'
@@ -96,7 +95,7 @@ class _CustomDatePickerState extends State<CustomDatePicker>
                     style: TextStyle(
                         color: primaryColor,
                         fontFamily: 'Iphone',
-                        fontSize: 16),
+                        fontSize: 15),
                   ),
                 ],
               ),

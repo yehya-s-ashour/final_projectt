@@ -11,6 +11,7 @@ import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:final_projectt/core/widgets/date_picker.dart';
 import 'package:final_projectt/core/widgets/my_custom_dialouge.dart';
 import 'package:final_projectt/core/widgets/edit_mail_more_sheet.dart';
+import 'package:final_projectt/core/widgets/my_expansion_tile.dart';
 import 'package:final_projectt/core/widgets/show_alert.dart';
 import 'package:final_projectt/core/widgets/status_bottom_sheet.dart';
 import 'package:final_projectt/core/widgets/tags_bottom_sheet.dart';
@@ -543,38 +544,38 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                       child: ListTileTheme(
                                         contentPadding:
                                             const EdgeInsetsDirectional.only(
-                                                start: 10),
+                                                start: 10, end: 20),
                                         dense: true,
-                                        child: ExpansionTile(
+                                        child: MYExpansionTile(
                                             onExpansionChanged: (value) {
                                               setState(() {
                                                 isExpansionOpened = value;
                                               });
                                             },
                                             textColor: const Color(0xff272727),
-                                            trailing: SizedBox(
-                                              width: 60,
-                                              child: Center(
-                                                child: Icon(
-                                                  !isExpansionOpened
-                                                      ? Icons
-                                                          .arrow_forward_ios_rounded
-                                                      : Icons
-                                                          .keyboard_arrow_up_rounded,
-                                                  size: isExpansionOpened
-                                                      ? 30
-                                                      : 20,
-                                                  color: !isExpansionOpened
-                                                      ? Colors.grey
-                                                      : primaryColor,
-                                                ),
-                                              ),
-                                            ),
+                                            // trailing: SizedBox(
+                                            //   width: 60,
+                                            //   child: Center(
+                                            //     child: Icon(
+                                            //       !isExpansionOpened
+                                            //           ? Icons
+                                            //               .arrow_forward_ios_rounded
+                                            //           : Icons
+                                            //               .keyboard_arrow_up_rounded,
+                                            //       size: isExpansionOpened
+                                            //           ? 30
+                                            //           : 20,
+                                            //       color: !isExpansionOpened
+                                            //           ? Colors.grey
+                                            //           : primaryColor,
+                                            //     ),
+                                            //   ),
+                                            // ),
                                             initiallyExpanded: false,
                                             title: Text(
                                               widget.mail.subject!,
                                               style: const TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 17,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             children: [
@@ -628,8 +629,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           height: 56,
                           child: Padding(
                             padding: const EdgeInsetsDirectional.only(
-                              start: 20.0,
-                              end: 20.0,
+                              start: 17.0,
+                              end: 25.0,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -641,19 +642,19 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                       size: 23,
                                     ),
                                     const SizedBox(
-                                      width: 10,
+                                      width: 5,
                                     ),
                                     Text(
                                       'Tags'.tr(),
                                       style: const TextStyle(
-                                          fontSize: 20, color: Colors.black),
+                                          fontSize: 18, color: Colors.black),
                                     )
                                   ],
                                 ),
                                 const Icon(
                                   Icons.arrow_forward_ios_rounded,
-                                  color: Colors.grey,
-                                  size: 22,
+                                  color: Colors.black54,
+                                  size: 15,
                                 ),
                               ],
                             ),
@@ -697,7 +698,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           child: Padding(
                             padding: const EdgeInsetsDirectional.only(
                               start: 20.0,
-                              end: 20.0,
+                              end: 25.0,
                             ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -738,7 +739,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                             child: Text(
                                               '${selectedStatus.name}',
                                               style: const TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 17,
                                                   color: Colors.white),
                                             ),
                                           );
@@ -755,8 +756,8 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                 ),
                                 const Icon(
                                   Icons.arrow_forward_ios_rounded,
-                                  color: Colors.grey,
-                                  size: 22,
+                                  color: Colors.black54,
+                                  size: 15,
                                 ),
                               ],
                             ),
@@ -778,7 +779,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                               child: Text(
                                 'Descision'.tr(),
                                 style: const TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   color: Colors.black,
                                 ),
                               ),
@@ -804,7 +805,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                   hintStyle: const TextStyle(
                                     color: Colors.grey,
                                     fontFamily: 'Iphone',
-                                    fontSize: 19,
+                                    fontSize: 17,
                                     fontWeight: FontWeight.w500,
                                   ),
                                 ),
@@ -848,7 +849,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                 padding: const EdgeInsetsDirectional.only(
                                   top: 20,
                                   start: 20.0,
-                                  end: 20.0,
+                                  end: 25.0,
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -872,14 +873,14 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                                               style: TextStyle(
                                                   color: primaryColor,
                                                   fontFamily: 'Iphone',
-                                                  fontSize: 20),
+                                                  fontSize: 18),
                                             ),
                                           ],
                                         ),
                                         const Icon(
                                           Icons.arrow_forward_ios_rounded,
-                                          color: Colors.grey,
-                                          size: 22,
+                                          color: Colors.black54,
+                                          size: 15,
                                         ),
                                       ],
                                     ),
@@ -1142,7 +1143,7 @@ class _EditMailBottomSheetState extends State<EditMailBottomSheet> {
                           ),
                         ),
                       ),
-                      ActivitesExpansionTile(),
+                      SizedBox(width: 388, child: ActivitesExpansionTile()),
                       Padding(
                         padding: const EdgeInsetsDirectional.only(
                             start: 20.0, end: 20.0, bottom: 20, top: 5),

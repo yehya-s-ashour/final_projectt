@@ -95,14 +95,14 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                 children: [
                   TextButton(
                     style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
+                        padding: EdgeInsets.only(left: 10),
                         minimumSize: const Size(50, 30),
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         alignment: Alignment.centerLeft),
                     onPressed: () => Navigator.pop(context),
                     child: Text(
                       'Cancel'.tr(),
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 19),
                     ),
                   ),
                   Text(
@@ -223,7 +223,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                       }
                     },
                     child:
-                        Text('Done'.tr(), style: const TextStyle(fontSize: 20)),
+                        Text('Done'.tr(), style: const TextStyle(fontSize: 19)),
                   ),
                 ],
               ),
@@ -250,7 +250,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       ? 130
                                       : 110)
                               : (!isValidationShown
-                                  ? 210
+                                  ? 200
                                   : context.locale.toString() == "ar"
                                       ? 265
                                       : 230),
@@ -419,7 +419,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                   style: const TextStyle(
                                                       color: Colors.black,
                                                       fontFamily: 'Iphone',
-                                                      fontSize: 20),
+                                                      fontSize: 18),
                                                 ),
                                                 Row(
                                                   mainAxisAlignment:
@@ -449,7 +449,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                                 const TextStyle(
                                                               color:
                                                                   Colors.grey,
-                                                              fontSize: 20,
+                                                              fontSize: 18,
                                                             ),
                                                           ),
                                                         ),
@@ -458,8 +458,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                         const Icon(
                                                           Icons
                                                               .arrow_forward_ios_rounded,
-                                                          color: Colors.grey,
-                                                          size: 22,
+                                                          color: Colors.black54,
+                                                          size: 15,
                                                         ),
                                                       ],
                                                     ),
@@ -509,13 +509,13 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                       decoration: InputDecoration(
                                         contentPadding:
                                             const EdgeInsets.symmetric(
-                                                vertical: 20, horizontal: 35),
+                                                vertical: 20, horizontal: 25),
                                         border: InputBorder.none,
                                         hintText: 'Description'.tr(),
                                         hintStyle: const TextStyle(
                                           color: Colors.grey,
                                           fontFamily: 'Iphone',
-                                          fontSize: 19,
+                                          fontSize: 17,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -597,7 +597,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                           hintStyle: TextStyle(
                                             color: Colors.grey.shade500,
                                             fontFamily: 'Iphone',
-                                            fontSize: 16,
+                                            fontSize: 17,
                                             fontWeight: FontWeight.w500,
                                           ),
                                           errorBorder:
@@ -645,7 +645,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             child: Padding(
                               padding: const EdgeInsetsDirectional.only(
                                 start: 20.0,
-                                end: 20.0,
+                                end: 30.0,
                               ),
                               child: Row(
                                 mainAxisAlignment:
@@ -665,14 +665,14 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                         style: const TextStyle(
                                             color: Colors.black,
                                             fontFamily: 'Iphone',
-                                            fontSize: 20),
+                                            fontSize: 18),
                                       ),
                                     ],
                                   ),
                                   const Icon(
                                     Icons.arrow_forward_ios_rounded,
-                                    color: Colors.grey,
-                                    size: 22,
+                                    color: Colors.black54,
+                                    size: 15,
                                   ),
                                 ],
                               ),
@@ -709,7 +709,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             child: Padding(
                               padding: const EdgeInsetsDirectional.only(
                                 start: 20.0,
-                                end: 20.0,
+                                end: 30.0,
                               ),
                               child: Row(
                                 mainAxisAlignment:
@@ -769,8 +769,8 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                   ),
                                   const Icon(
                                     Icons.arrow_forward_ios_rounded,
-                                    color: Colors.grey,
-                                    size: 22,
+                                    color: Colors.black54,
+                                    size: 15,
                                   ),
                                 ],
                               ),
@@ -792,7 +792,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                 child: Text(
                                   'Descision'.tr(),
                                   style: const TextStyle(
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -815,7 +815,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                     hintStyle: const TextStyle(
                                       color: Colors.grey,
                                       fontFamily: 'Iphone',
-                                      fontSize: 15,
+                                      fontSize: 17,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -852,7 +852,7 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                   padding: const EdgeInsetsDirectional.only(
                                     top: 20,
                                     start: 20.0,
-                                    end: 20.0,
+                                    end: 30.0,
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
@@ -877,14 +877,14 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                                                 style: TextStyle(
                                                     color: primaryColor,
                                                     fontFamily: 'Iphone',
-                                                    fontSize: 20),
+                                                    fontSize: 18),
                                               ),
                                             ],
                                           ),
                                           const Icon(
                                             Icons.arrow_forward_ios_rounded,
-                                            color: Colors.grey,
-                                            size: 22,
+                                            color: Colors.black54,
+                                            size: 15,
                                           ),
                                         ],
                                       ),
@@ -1026,7 +1026,10 @@ class _NewInboxBottomSheetState extends State<NewInboxBottomSheet> {
                             ),
                           ),
                         ),
-                        ActivitesExpansionTile(),
+                        SizedBox(width: 380, child: ActivitesExpansionTile()),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Padding(
                           padding: const EdgeInsetsDirectional.only(
                               start: 20.0, end: 20.0, bottom: 20),
