@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:final_projectt/core/util/constants/colors.dart';
 import 'package:final_projectt/core/widgets/custom_box.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class EditMailMoreSheet extends StatelessWidget {
                 width: 100,
                 height: 90,
                 margin: 10,
-                child: const Column(
+                child:  Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -47,7 +48,7 @@ class EditMailMoreSheet extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      'Archive',
+                      'Archive'.tr(),
                       style: TextStyle(
                           color: Colors.grey,
                           fontSize: 17,
@@ -75,7 +76,7 @@ class EditMailMoreSheet extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        'Share',
+                        'Share'.tr(),
                         style: TextStyle(
                             color: primaryColor,
                             fontSize: 17,
@@ -104,7 +105,7 @@ class EditMailMoreSheet extends StatelessWidget {
                         height: 10,
                       ),
                       Text(
-                        'Delete',
+                        'Delete'.tr(),
                         style: TextStyle(
                             color: Colors.red,
                             fontSize: 17,

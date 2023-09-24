@@ -112,7 +112,14 @@
 "Delete Mail":"Delete Mail",
 "No decision yet":"No decision yet",
 "Archive Number":"Archive Number:",
-"No Description":"No Description"
-
-  
+"No Description":"No Description",
+"Delete":"Delete" , 
+"Share" : "Share" , 
+"Archive" : "Archive",
+"cancle": "cancle",
+"Delete mail?": "Delete mail?",
+"Do you want to delete this mail?" : "Do you want to delete this mail?",
+"Update mail?":"Do you want to delete this mail?" ,
+"Do you want to update this mail?" : "Do you want to update this mail?" , 
+"Update" : "Update"  
     }

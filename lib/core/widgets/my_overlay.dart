@@ -155,7 +155,6 @@ void showOverlay(
                         onPressed: () {
                           deletShar();
                           hideOverlay();
-
                           Navigator.pushReplacement(context, MaterialPageRoute(
                             builder: (context) {
                               return const LoginScreen();

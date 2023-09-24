@@ -110,9 +110,18 @@
 "There are no emails containing this data":"لا توجد إيميلات تحتوي على هذه البيانات",
 "Home":"الرئيسية",
 "Delete Mail":"حذف الإيميل",
+"Delete":"حذف",
+"Share" : "مشاركة" , 
+"Archive" : "أرشفة",
 "No decision yet":"لا يوجد قرار حتى الان",
 "Archive Number:":"رقم الأرشيف:",
-"No Description":"لا يوجد وصف"
+"No Description":"لا يوجد وصف",
+"cancle" : "الغاء" , 
+"Delete mail?": "حذف الايميل",
+"Do you want to delete this mail?" : "هل تريد حذف الايميل؟",
+"Update mail?":"تحديث الايميل؟" ,
+"Do you want to update this mail?" : "هل تريد تحديث هذا الايميل؟" , 
+"Update" : "تحديث"
 
 
 
