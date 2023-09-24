@@ -38,7 +38,7 @@ Padding CustomTextField(
           hintStyle: TextStyle(
             color: hintTextColor,
             fontFamily: 'Iphone',
-            fontSize: 19,
+            fontSize: 17,
             fontWeight: FontWeight.w500,
           ),
           enabled: isEnabled ?? true,

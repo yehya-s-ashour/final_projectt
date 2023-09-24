@@ -85,7 +85,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                       contentPadding: const EdgeInsets.all(15),
                       hintText: "Search ...".tr(),
                       hintStyle:
-                          const TextStyle(color: Colors.grey, fontSize: 19),
+                          const TextStyle(color: Colors.grey, fontSize: 17),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: backGroundColor),
                         borderRadius: BorderRadius.circular(30),
@@ -98,7 +98,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                   ),
                 ),
                 const SizedBox(
-                  width: 20,
+                  width: 25,
                 ),
                 TextButton(
                   style: TextButton.styleFrom(
@@ -111,7 +111,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                     'cancel'.tr(),
                     style: TextStyle(
                       color: primaryColor,
-                      fontSize: 23,
+                      fontSize: 20,
                     ),
                   ),
                 )
@@ -240,7 +240,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                   child: Text(
                                     category,
                                     style: const TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 19,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),
@@ -290,7 +290,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                       children: [
                                         Text(
                                           entry.value.name!,
-                                          style: const TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 18),
                                         ),
                                         const SizedBox(
                                           height: 8,
@@ -331,7 +331,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                       children: [
                                         Text(
                                           sender.name!,
-                                          style: const TextStyle(fontSize: 20),
+                                          style: const TextStyle(fontSize: 18),
                                         ),
                                         const SizedBox(
                                           height: 8,
@@ -348,7 +348,7 @@ class _SendersBottomSheetState extends State<SendersBottomSheet> {
                                             Text(
                                               sender.mobile!,
                                               style:
-                                                  const TextStyle(fontSize: 17),
+                                                  const TextStyle(fontSize: 15),
                                             )
                                           ],
                                         )
