@@ -430,6 +430,7 @@ class _MainPageState extends State<MainPage> {
               alignment: Alignment.topCenter,
               children: [
                 SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -752,7 +753,6 @@ class _MainPageState extends State<MainPage> {
                                                           context,
                                                           listen: false)
                                                       .deletedImages = [];
-                                                      
                                                 });
                                               },
                                             );
